@@ -28,6 +28,28 @@
 #endif
 
 /* Exported types ------------------------------------------------------------*/
+
+ /**
+   * @brief  HAL Status structures definition
+   */
+ typedef enum
+ {
+   HAL_OK       = 0x00U,
+   HAL_ERROR    = 0x01U,
+   HAL_BUSY     = 0x02U,
+   HAL_TIMEOUT  = 0x03U
+ } HAL_StatusTypeDef;
+
+ /**
+   * @brief  HAL Lock structures definition
+   */
+ typedef enum
+ {
+   HAL_UNLOCKED = 0x00U,
+   HAL_LOCKED   = 0x01U
+ } HAL_LockTypeDef;
+
+
 /* Exported constants --------------------------------------------------------*/
 
 /* ########################## Module Selection ############################## */
@@ -51,7 +73,7 @@
 /* #define HAL_SRAM_MODULE_ENABLED   */
 /* #define HAL_SDRAM_MODULE_ENABLED   */
 /* #define HAL_HASH_MODULE_ENABLED   */
-#define HAL_I2C_MODULE_ENABLED
+/* #define HAL_I2C_MODULE_ENABLED   */
 /* #define HAL_I2S_MODULE_ENABLED   */
 /* #define HAL_IWDG_MODULE_ENABLED   */
 /* #define HAL_LTDC_MODULE_ENABLED   */
@@ -60,7 +82,7 @@
 /* #define HAL_SAI_MODULE_ENABLED   */
 /* #define HAL_SD_MODULE_ENABLED   */
 /* #define HAL_MMC_MODULE_ENABLED   */
-#define HAL_SPI_MODULE_ENABLED
+/* #define HAL_SPI_MODULE_ENABLED   */
 /* #define HAL_TIM_MODULE_ENABLED   */
 /* #define HAL_UART_MODULE_ENABLED   */
 /* #define HAL_USART_MODULE_ENABLED   */
@@ -68,7 +90,7 @@
 /* #define HAL_SMARTCARD_MODULE_ENABLED   */
 /* #define HAL_WWDG_MODULE_ENABLED   */
 /* #define HAL_PCD_MODULE_ENABLED   */
-#define HAL_HCD_MODULE_ENABLED
+/* #define HAL_HCD_MODULE_ENABLED   */
 /* #define HAL_DSI_MODULE_ENABLED   */
 /* #define HAL_QSPI_MODULE_ENABLED   */
 /* #define HAL_QSPI_MODULE_ENABLED   */
@@ -145,7 +167,7 @@
   * @brief This is the HAL system configuration section
   */
 #define  VDD_VALUE		      ((uint32_t)3300U) /*!< Value of VDD in mv */           
-#define  TICK_INT_PRIORITY            ((uint32_t)15U)   /*!< tick interrupt priority */            
+#define  TICK_INT_PRIORITY            ((uint32_t)0U)   /*!< tick interrupt priority */            
 #define  USE_RTOS                     0U     
 #define  PREFETCH_ENABLE              1U
 #define  INSTRUCTION_CACHE_ENABLE     1U

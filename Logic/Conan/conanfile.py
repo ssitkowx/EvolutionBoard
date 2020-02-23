@@ -2,13 +2,13 @@ from conans import ConanFile, CMake, tools
 import os, re
 
 class Conan(ConanFile):
-    name            = "AtollicTemplate"
+    name            = "EvolutionBoard"
     #version         = "1.0"
     license         = "freeware"
     repoUrl         = "https://github.com/ssitkowx"
     url             = repoUrl + '/' + name + '.git'
     downloadsPath   = "C:/Users/sitko/.conan/download"
-    description     = "Atollic project template"
+    description     = "Evolution board"
     settings        = "os", "compiler", "build_type", "arch"
     options         = {"shared": [True, False]}
     default_options = "shared=False"

@@ -1,5 +1,5 @@
-# AtollicTemplate
-Template for True Studio project
+# EvolutionBoard
+Project for testing colorful display.
 
 Configuration:
 1. GTest and GMock tooked from 
