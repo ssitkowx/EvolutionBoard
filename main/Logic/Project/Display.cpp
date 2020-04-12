@@ -22,6 +22,7 @@
 #include "driver/gpio.h"
 #include <stdbool.h>
 #include "esp_err.h"
+#include "Settings.h"
 
 #define LCD_HOST    HSPI_HOST
 #define DMA_CHAN    2
@@ -111,53 +112,6 @@ DRAM_ATTR static const lcd_init_cmd_t ili_init_cmds[]={
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-
-void resetDiplay     (void) {}
-void enableBacklight (void) {}
-
-void lcd_cmd (spi_device_handle_t spi, const uint8_t cmd)
-{
-    esp_err_t ret;
-    spi_transaction_t t;
-    memset(&t, 0, sizeof(t));       //Zero out the transaction
-    t.length=8;                     //Command is 8 bits
-    t.tx_buffer=&cmd;               //The data is the cmd itself
-    t.user=(void*)0;                //D/C needs to be set to 0
-    //gpio_set_level ((gpio_num_t)Gpio::EPinNum::eDc, 0);
-    ret = spi_device_polling_transmit (spi, &t);  //Transmit!
-    assert (ret==ESP_OK);            //Should have had no issues.
-}
-
-uint32_t lcd_get_id (spi_device_handle_t spi)
-{
-    //get_id cmd
-    lcd_cmd(spi, 0x04);
-
-    spi_transaction_t t;
-    memset(&t, 0, sizeof(t));
-    t.length=8*3;
-    t.flags = SPI_TRANS_USE_RXDATA;
-    t.user = (void*)1;
-    //gpio_set_level ((gpio_num_t)Gpio::EPinNum::eDc, 1);
-    esp_err_t ret = spi_device_polling_transmit (spi, &t);
-    assert (ret == ESP_OK );
-
-    return *(uint32_t*)t.rx_data;
-}
-
-void lcd_data (spi_device_handle_t spi, const uint8_t *data, int len)
-{
-    esp_err_t ret;
-    spi_transaction_t t;
-    if (len==0) return;             //no need to send anything
-    memset(&t, 0, sizeof(t));       //Zero out the transaction
-    t.length=len*8;                 //Len is in bytes, transaction length is in bits.
-    t.tx_buffer=data;               //Data
-    t.user=(void*)1;                //D/C needs to be set to 1
-    //gpio_set_level ((gpio_num_t)Gpio::EPinNum::eDc, 1);
-    ret=spi_device_polling_transmit(spi, &t);  //Transmit!
-    assert(ret==ESP_OK);            //Should have had no issues.
-}
 
 Display::Display (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi)
 {
@@ -320,16 +274,6 @@ void Display::sendLines (const uint16_t v_xPos, const uint16_t v_yPos, const uin
     spi.Send16Bits (v_data, v_length * v_width);
 }
 
-uint8_t Display::calculateRects (const uint16_t v_length, const uint16_t v_width)
-{
-    double  rects    = v_width / Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
-    uint8_t maxRects = (uint8_t)rects;
-
-    if ((v_width % Settings::GetInstance ().Lcd.MaxLinesPerTransfer) != 0) { maxRects++; }
-
-    return maxRects;
-}
-
 bool Display::validateRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_length, const uint16_t v_width)
 {
     if (((v_xPos + v_length) <= 0)                                  ||
@@ -341,6 +285,16 @@ bool Display::validateRect (const uint16_t v_xPos, const uint16_t v_yPos, const 
     }
 
     return true;
+}
+
+uint8_t Display::calculateRects (const uint16_t v_length, const uint16_t v_width)
+{
+    double  rects    = v_width / Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
+    uint8_t maxRects = (uint8_t)rects;
+
+    if ((v_width % Settings::GetInstance ().Lcd.MaxLinesPerTransfer) != 0) { maxRects++; }
+
+    return maxRects;
 }
 
 uint32_t Display::getId (void)

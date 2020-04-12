@@ -1,8 +1,8 @@
 set(srcs pretty_effect.c
-         spi_master_example_main.c
          Logic/Project/Display.cpp
          Logic/Project/Peripheral/Spi.cpp
          Logic/Project/Peripheral/Gpio.cpp
+         Hardware/main.c
          Hardware/MainCppHw.cpp
          Hardware/Peripheral/SpiHw.cpp
          Hardware/Peripheral/GpioHw.cpp

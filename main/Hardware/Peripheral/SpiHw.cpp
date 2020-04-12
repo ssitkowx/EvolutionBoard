@@ -4,6 +4,7 @@
 
 #include <memory.h>
 #include "SpiHw.h"
+#include "Settings.h"
 #include "driver/gpio.h"
 #include "driver/spi_master.h"
 
@@ -64,7 +65,7 @@ uint8_t * SpiHw::Send (const uint8_t * v_data, const uint16_t v_len)
     uint8_t user  = v_data [1];
 
     transaction.length = v_len * 8;
-    transaction.user   = (void *)user;
+    transaction.user   = reinterpret_cast<void *>(user);
 
     if (v_data[0] == SPI_TRANS_USE_TXDATA)
     {
@@ -82,11 +83,6 @@ uint8_t * SpiHw::Send (const uint8_t * v_data, const uint16_t v_len)
         transaction.flags     = flags;
         transaction.tx_buffer = &v_data [2];
     }
-
-    printf ("Flag: %d\n"   , transaction.flags);
-    printf ("Length: %d\n" , transaction.length);
-    printf ("User: %d\n"   , (int)transaction.user);
-    printf ("Command: %d\n", transaction.tx_data [0]);
 
     esp_err_t status = spi_device_polling_transmit (spi, &transaction);
     assert (status == ESP_OK);
