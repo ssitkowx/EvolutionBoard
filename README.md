@@ -1,16 +1,5 @@
-# EvolutionBoard
-Project for testing colorful display.
+## SPI master example
 
-Configuration:
-1. GTest and GMock tooked from 
-   https://bintray.com/bincrafters/public-conan/gtest%3Abincrafters/1.8.1%3Astable#
+This code displays some simple graphics with varying pixel colors on the 320x240 LCD on an ESP-WROVER-KIT board.
 
-2. You need update your remotes.
-   conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-
-Builidng:
-1. Go to Conan folder,
-2. Open console,
-3. Type conan source .
-4. Type conan install .
-5. Type conan build .
+If you want to adapt this example to another type of display or pinout, check [main/spi_master_example_main.c] for comments with some implementation details.

@@ -1,0 +1,37 @@
+[settings]
+    arch=x86
+    build_type=Debug
+    compiler=Visual Studio
+    compiler.runtime=MDd
+    compiler.version=16
+    os=Windows
+
+[requires]
+    gtest/1.Y.Z
+
+[options]
+    shared=False
+
+[full_settings]
+    arch=x86
+    build_type=Debug
+    compiler=Visual Studio
+    compiler.runtime=MDd
+    compiler.version=16
+    os=Windows
+
+[full_requires]
+    gtest/1.8.1@bincrafters/stable:275f628401e63adfd3453881bf70f54a367d96e1
+
+[full_options]
+    shared=False
+    gtest:build_gmock=True
+    gtest:debug_postfix=d
+    gtest:no_main=False
+    gtest:shared=False
+
+[recipe_hash]
+
+
+[env]
+
