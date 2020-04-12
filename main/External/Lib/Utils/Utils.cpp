@@ -1,32 +1,29 @@
-#pragma once
-
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Spi.h"
 #include "Utils.h"
-#include "driver/spi_master.h"
+#include <string.h>
 
 ///////////////////////////////////////////////////////////////////////////////
-/////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
+//////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class SpiHw final: public Spi
+uint8_t CharToint (const char v_char)
 {
-    static constexpr char * MODULE = (char *)"SpiHw";
+    if (v_char >= '0' && v_char <= '9')
+        return v_char - '0';
+    if (v_char >= 'A' && v_char <= 'F')
+        return v_char - 'A' + 10;
+    if (v_char >= 'a' && v_char <= 'f')
+        return v_char - 'a' + 10;
+    return -1;
+}
 
-    public:
-        SpiHw ();
-
-        void      Send16Bits (const uint16_t * v_data, const uint16_t v_len) override;
-        uint8_t * Send       (const uint8_t  * v_data, const uint16_t v_len) override;
-
-    private:
-        static spi_device_handle_t spi;
-        const  spi_host_device_t   lcdHost = HSPI_HOST;
-        const  int                 dmaChan = TWO;
-};
+uint8_t HexToInt (const char v_char [TWO])
+{
+    return (CharToint (v_char [FIRST_BYTE]) << FOUR_BITS) + CharToint (v_char [SECOND_BYTE]);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// END OF FILE ///////////////////////////////////

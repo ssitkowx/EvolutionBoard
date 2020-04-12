@@ -2,8 +2,10 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <memory.h>
+#include "Gpio.h"
 #include "SpiHw.h"
+#include <memory.h>
+#include "LoggerHw.h"
 #include "Settings.h"
 #include "driver/gpio.h"
 #include "driver/spi_master.h"
@@ -26,7 +28,7 @@ static void beforeTransfer (spi_transaction_t * v_transaction)
 
 SpiHw::SpiHw ()
 {
-    printf ("SpiHw init.\n");
+    LOG (MODULE, "Init");
 
     static spi_bus_config_t busCfg;
     busCfg.miso_io_num     = static_cast<int> (Gpio::EPinNum::eMiso);
@@ -34,14 +36,14 @@ SpiHw::SpiHw ()
     busCfg.sclk_io_num     = static_cast<int> (Gpio::EPinNum::eClk);
     busCfg.quadwp_io_num   = -1;
     busCfg.quadhd_io_num   = -1;
-    busCfg.max_transfer_sz = Settings::GetInstance ().Lcd.MaxLinesPerTransfer * Settings::GetInstance ().Lcd.Length * 2 + 8;
+    busCfg.max_transfer_sz = Settings::GetInstance ().Lcd.MaxLinesPerTransfer * Settings::GetInstance ().Lcd.Length * TWO + ONE_BYTE;
 
     static spi_device_interface_config_t devCfg;
     //.clock_speed_hz=26*1000*1000,                 // Clock out at 26 MHz
     devCfg.clock_speed_hz  = 10*1000*1000;          // Clock out at 10 MHz
     devCfg.mode            = 0;
     devCfg.spics_io_num    = static_cast<int> (Gpio::EPinNum::eCs);
-    devCfg.queue_size      = 7;
+    devCfg.queue_size      = 7;// is this nescessary when I dont use spi queue
     devCfg.pre_cb          = beforeTransfer;
 
     esp_err_t status       = spi_bus_initialize (lcdHost, &busCfg, dmaChan);
@@ -53,35 +55,35 @@ SpiHw::SpiHw ()
 
 uint8_t * SpiHw::Send (const uint8_t * v_data, const uint16_t v_len)
 {
-    if (v_len == 0)
+    if (v_len == ZERO)
     {
-        assert (v_len == 0);
+        assert (v_len == ZERO);
         return NULL;
     }
 
     static spi_transaction_t transaction;
-    memset (&transaction, 0, sizeof (transaction));
-    uint8_t flags = v_data [0];
-    uint8_t user  = v_data [1];
+    memset (&transaction, ZERO, sizeof (transaction));
+    uint8_t flags = v_data [FIRST_BYTE];
+    uint8_t user  = v_data [SECOND_BYTE];
 
-    transaction.length = v_len * 8;
+    transaction.length = v_len * EIGHT_BITS;
     transaction.user   = reinterpret_cast<void *>(user);
 
-    if (v_data[0] == SPI_TRANS_USE_TXDATA)
+    if (v_data [FIRST_BYTE] == SPI_TRANS_USE_TXDATA)
     {
-        transaction.flags       = flags;
-        transaction.tx_data [0] = v_data [2];
+        transaction.flags                = flags;
+        transaction.tx_data [FIRST_BYTE] = v_data [THIRD_BYTE];
         if (user == 1)
         {
-            transaction.tx_data [1] = v_data [3];
-            transaction.tx_data [2] = v_data [4];
-            transaction.tx_data [3] = v_data [5];
+            transaction.tx_data [SECOND_BYTE] = v_data [FOURTH_BYTE];
+            transaction.tx_data [THIRD_BYTE]  = v_data [FIFTH_BYTE];
+            transaction.tx_data [FOURTH_BYTE] = v_data [SIXTH_BYTE];
         }
     }
     else
     {
         transaction.flags     = flags;
-        transaction.tx_buffer = &v_data [2];
+        transaction.tx_buffer = &v_data [THIRD_BYTE];
     }
 
     esp_err_t status = spi_device_polling_transmit (spi, &transaction);
@@ -92,18 +94,18 @@ uint8_t * SpiHw::Send (const uint8_t * v_data, const uint16_t v_len)
 
 void SpiHw::Send16Bits (const uint16_t * v_data, const uint16_t v_len)
 {
-    if (v_len == 0)
+    if (v_len == ZERO)
     {
-        assert (v_len == 0);
+        assert (v_len == ZERO);
         return;
     }
 
     spi_transaction_t transaction;
-    memset (&transaction, 0, sizeof (transaction));
+    memset (&transaction, ZERO, sizeof (transaction));
 
     transaction.flags     = 0;
-    transaction.length    = v_len * 8 * 2;
-    transaction.user      = (void *)1;
+    transaction.length    = v_len * EIGHT_BITS * TWO;
+    transaction.user      = (void *)true;
     transaction.tx_buffer = v_data;
 
     esp_err_t status = spi_device_polling_transmit (spi, &transaction);

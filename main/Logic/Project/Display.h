@@ -17,17 +17,17 @@ class Display
     public:
         Display (Gpio & v_gpio, Spi & v_spi);
 
-        void    Init           (void);
-        void    DrawRect       (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_length, const uint16_t v_width, const uint16_t v_color);
+        void     Init           (void);
+        void     DrawRect       (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_length, const uint16_t v_width, const uint16_t v_color);
 
     private:
         Gpio & gpio;
         Spi  & spi;
 
-        void      sendLines      (const uint16_t v_xPos   , const uint16_t v_yPos, const uint16_t v_length, const uint16_t v_width, const uint16_t * v_data);
-        bool      validateRect   (const uint16_t v_xPos   , const uint16_t v_yPos, const uint16_t v_length, const uint16_t v_width);
-        uint8_t   calculateRects (const uint16_t v_length , const uint16_t v_width);
-        uint32_t  getId          (void);
+        void     sendLines      (const uint16_t v_xPos  , const uint16_t v_yPos, const uint16_t v_length, const uint16_t v_width, const uint16_t * v_data);
+        bool     validateRect   (const uint16_t v_xPos  , const uint16_t v_yPos, const uint16_t v_length, const uint16_t v_width);
+        uint8_t  calculateRects (const uint16_t v_length, const uint16_t v_width);
+        uint32_t getId          (void);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -14,6 +14,8 @@
 
 class GpioHw final: public Gpio
 {
+    static constexpr char * MODULE = (char *)"RtosHw";
+
     public:
         void        SetPinLevel     (const EPinNum v_ePinNum, const bool v_state)        override;
         void        SetPinDirection (const EPinNum v_ePinNum, const EPinMode v_ePinMode) override;
