@@ -22,7 +22,7 @@ class SpiHw final: public Spi
         uint8_t * Send       (const uint8_t  * v_data, const uint16_t v_len) override;
 
     private:
-        //static spi_device_handle_t spi;
+        static spi_device_handle_t spi;
         const  spi_host_device_t   lcdHost = HSPI_HOST;
         const  int                 dmaChan = 2;
 };

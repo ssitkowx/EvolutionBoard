@@ -200,37 +200,28 @@ Display::Display (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi)
     //Send all the commands
     while (lcd_init_cmds [cmd].databytes != 0xff)
     {
-        lcd_cmd  (spi.spi, lcd_init_cmds [cmd].cmd);
-        lcd_data (spi.spi, lcd_init_cmds [cmd].data, lcd_init_cmds [cmd].databytes & 0x1F);
+
+        // command
+        uint8_t data [] = { 0,
+                            0,
+                            lcd_init_cmds [cmd].cmd
+                          };
+
+        spi.Send (&data [0], 1);
+
+        // data
+        data [0] = 0;
+        data [1] = 1;
+        memcpy   (&data [2], lcd_init_cmds [cmd].data, lcd_init_cmds [cmd].databytes & 0x1F);
+        spi.Send (&data [0], lcd_init_cmds [cmd].databytes & 0x1F);
+
         if (lcd_init_cmds [cmd].databytes & 0x80) {
             vTaskDelay(100 / portTICK_RATE_MS);
         }
 
         cmd++;
     }
-/*
-    //Send all the commands
-    while (lcd_init_cmds[cmd].databytes!=0xff)
-    {
-        // command
-        uint8_t data [18] = {0, 0};
-        data [0] = 0;
-        data [1] = 0;
-        data [3] = lcd_init_cmds [cmd].cmd;
-        spi.Send (&data [0], 1);
 
-        // data
-        data [0] = 0;
-        data [1] = 1;
-        memcpy (&data[2], lcd_init_cmds [cmd].data, lcd_init_cmds [cmd].databytes & 0x1F);
-        spi.Send (&data [0], lcd_init_cmds [cmd].databytes & 0x1F);
-        if (lcd_init_cmds[cmd].databytes & 0x80)
-        {
-            vTaskDelay(100 / portTICK_RATE_MS);
-        }
-        cmd++;
-    }
-*/
     ///Enable backlight
     gpio.SetPinLevel (Gpio::EPinNum::eBclk, false);
 }
@@ -282,7 +273,7 @@ static uint8_t getFlag (Spi::EFlag v_flag)
     return (1 << static_cast<uint8_t> (v_flag));
 }
 */
-#include "driver/spi_master.h"
+
 void Display::sendLines (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_length, const uint16_t v_width, const uint16_t * v_data)
 {
     uint8_t data [] = { SPI_TRANS_USE_TXDATA,

@@ -11,7 +11,7 @@
 //////////////////////////////// VARIABLES ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-//spi_device_handle_t SpiHw::spi;
+spi_device_handle_t SpiHw::spi;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -64,9 +64,9 @@ uint8_t * SpiHw::Send (const uint8_t * v_data, const uint16_t v_len)
     uint8_t user  = v_data [1];
 
     transaction.length = v_len * 8;
-    transaction.user   = (void *)&user;
+    transaction.user   = (void *)user;
 
-    if (v_data[0] == (uint8_t)EFlag::eTxData)
+    if (v_data[0] == SPI_TRANS_USE_TXDATA)
     {
         transaction.flags       = flags;
         transaction.tx_data [0] = v_data [2];
@@ -79,9 +79,14 @@ uint8_t * SpiHw::Send (const uint8_t * v_data, const uint16_t v_len)
     }
     else
     {
-        transaction.flags     = 0;
-        transaction.tx_buffer = v_data;
+        transaction.flags     = flags;
+        transaction.tx_buffer = &v_data [2];
     }
+
+    printf ("Flag: %d\n"   , transaction.flags);
+    printf ("Length: %d\n" , transaction.length);
+    printf ("User: %d\n"   , (int)transaction.user);
+    printf ("Command: %d\n", transaction.tx_data [0]);
 
     esp_err_t status = spi_device_polling_transmit (spi, &transaction);
     assert (status == ESP_OK);

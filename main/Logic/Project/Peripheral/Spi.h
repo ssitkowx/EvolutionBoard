@@ -13,7 +13,6 @@
 class Spi
 {
     public:
-        static spi_device_handle_t spi;
         enum class EFlag : uint8_t
         {
             eDio        = 0,
