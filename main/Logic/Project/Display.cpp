@@ -198,6 +198,18 @@ Display::Display (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi)
     lcd_init_cmds = ili_init_cmds;
 
     //Send all the commands
+    while (lcd_init_cmds [cmd].databytes != 0xff)
+    {
+        lcd_cmd  (spi.spi, lcd_init_cmds [cmd].cmd);
+        lcd_data (spi.spi, lcd_init_cmds [cmd].data, lcd_init_cmds [cmd].databytes & 0x1F);
+        if (lcd_init_cmds [cmd].databytes & 0x80) {
+            vTaskDelay(100 / portTICK_RATE_MS);
+        }
+
+        cmd++;
+    }
+/*
+    //Send all the commands
     while (lcd_init_cmds[cmd].databytes!=0xff)
     {
         // command
@@ -218,7 +230,7 @@ Display::Display (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi)
         }
         cmd++;
     }
-
+*/
     ///Enable backlight
     gpio.SetPinLevel (Gpio::EPinNum::eBclk, false);
 }
@@ -263,101 +275,58 @@ void Display::DrawRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint
         }
     }
 }
-
+/*
+static uint8_t getFlag (Spi::EFlag v_flag)
+{
+    if (v_flag == Spi::EFlag::eDummy) { return 0; }
+    return (1 << static_cast<uint8_t> (v_flag));
+}
+*/
 #include "driver/spi_master.h"
 void Display::sendLines (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_length, const uint16_t v_width, const uint16_t * v_data)
-{/*
-        static spi_transaction_t trans[6];
-        for (uint8_t pos = 0; pos < 6; pos++)
-        {
-            memset (&trans[pos], 0, sizeof(trans [pos]));
-        }
+{
+    uint8_t data [] = { SPI_TRANS_USE_TXDATA,
+                        0,
+                        0x2A
+                      };
 
-        trans[0].tx_data[0] = 0x2A;                           // Column Address Set
-        spi.SendInQueue (&trans[0].tx_data[0], 1, 0, Spi::EFlag::eTxData);
+    spi.Send (data, 1);
 
-        trans[1].tx_data[0] = v_xPos >> 8;                    // Start Col High
-        trans[1].tx_data[1] = v_xPos & 0xFF;                  // Start Col Low
-        trans[1].tx_data[2] = (v_xPos + v_length) >> 8;       // End Col High
-        trans[1].tx_data[3] = (v_xPos + v_length) & 0xFF;     // End Col Low
-        spi.SendInQueue (&trans[1].tx_data[0], 4, 1, Spi::EFlag::eTxData);
+    uint8_t data1 [] = { SPI_TRANS_USE_TXDATA,
+                         1,
+                         static_cast<uint8_t>(v_xPos >> 8),
+                         static_cast<uint8_t>(v_xPos & 0xFF),
+                         static_cast<uint8_t>((v_xPos + v_length) >> 8),
+                         static_cast<uint8_t>((v_xPos + v_length) & 0xFF)
+                       };
 
-        trans[2].tx_data[0] = 0x2B;                           // Page address set
-        spi.SendInQueue (&trans[2].tx_data[0], 1, 0, Spi::EFlag::eTxData);
+    spi.Send (data1, 4);
 
-        trans[3].tx_data[0] = v_yPos >> 8;                    // Start page high
-        trans[3].tx_data[1] = v_yPos & 0xFF;                  // start page low
-        trans[3].tx_data[2] = (v_yPos + v_width) >> 8;          // End page high
-        trans[3].tx_data[3] = (v_yPos + v_width) & 0xFF;        // End page low
-        spi.SendInQueue (&trans[3].tx_data[3], 4, 1, Spi::EFlag::eTxData);
+    uint8_t data2 [] = { SPI_TRANS_USE_TXDATA,
+                         0,
+                         0x2B
+                       };
 
-        trans[4].tx_data[0] = 0x2C;                           // Memory write
-        spi.SendInQueue (&trans[4].tx_data[0], 1, 0, Spi::EFlag::eTxData);
+    spi.Send (data2, 1);
 
-        //trans[5].tx_buffer  = v_data;                         // Finally send the line data
-        //trans[5].length     = v_length * v_width * 2 * 8;     // Data length, in bits
-        //trans[5].flags      = 0;                              // Undo SPI_TRANS_USE_TXDATA flag
-        spi.SendRawInQueue (v_data, v_length * v_width, 1);
-*/
+    uint8_t data3 [] = { SPI_TRANS_USE_TXDATA,
+                         1,
+                         static_cast<uint8_t>(v_yPos >> 8),
+                         static_cast<uint8_t>(v_yPos & 0xFF),
+                         static_cast<uint8_t>((v_yPos + v_width) >> 8),
+                         static_cast<uint8_t>((v_yPos + v_width) & 0xFF)
+                       };
 
-    esp_err_t ret;
-    int x;
-    //Transaction descriptors. Declared static so they're not allocated on the stack; we need this memory even when this
-    //function is finished because the SPI driver needs access to it even while we're already calculating the next line.
-    static spi_transaction_t trans[6];
+    spi.Send (data3, 4);
 
-    //In theory, it's better to initialize trans and data only once and hang on to the initialized
-    //variables. We allocate them on the stack, so we need to re-init them each call.
-    for (x=0; x<6; x++) {
-        memset(&trans[x], 0, sizeof(spi_transaction_t));
-       /* if ((x&1)==0) {
-            //Even transfers are commands
-            trans[x].length=8;
-            trans[x].user=(void*)0;
-        } else {
-            //Odd transfers are data
-            trans[x].length=8*4;
-            trans[x].user=(void*)1;
-        }
-        trans[x].flags=SPI_TRANS_USE_TXDATA;*/
-    }
+    uint8_t data4 [] = { SPI_TRANS_USE_TXDATA,
+                         0,
+                         0x2C
+                       };
 
+    spi.Send (data4, 1);
 
-    trans [0].tx_data [0] = SPI_TRANS_USE_TXDATA;
-    trans [0].tx_data [1] = 0;
-    trans [0].tx_data [2] = 0x2A;                           // Column Address Set
-    spi.Send (&trans [0].tx_data[0], 1);
-
-    trans [1].tx_data [0] = SPI_TRANS_USE_TXDATA;
-    trans [1].tx_data [1] = 1;
-    trans [1].tx_data [2] = v_xPos >> 8;                    // Start Col High
-    trans [1].tx_data [3] = v_xPos & 0xFF;                  // Start Col Low
-    trans [1].tx_data [4] = (v_xPos + v_length) >> 8;       // End Col High
-    trans [1].tx_data [5] = (v_xPos + v_length) & 0xFF;     // End Col Low
-    spi.Send (&trans [1].tx_data[0], 4);
-
-    trans [2].tx_data [0] = SPI_TRANS_USE_TXDATA;
-    trans [2].tx_data [1] = 0;
-    trans [2].tx_data [2] = 0x2B;                           // Page address set
-    spi.Send (&trans[2].tx_data[0], 1);
-
-    trans [3].tx_data [0] = SPI_TRANS_USE_TXDATA;
-    trans [3].tx_data [1] = 1;
-    trans [3].tx_data [2] = v_yPos >> 8;                    // Start page high
-    trans [3].tx_data [3] = v_yPos & 0xFF;                  // start page low
-    trans [3].tx_data [4] = (v_yPos + v_width) >> 8;          // End page high
-    trans [3].tx_data [5] = (v_yPos + v_width) & 0xFF;        // End page low
-    spi.Send (&trans [3].tx_data[0], 4);
-
-    trans [4].tx_data [0] = SPI_TRANS_USE_TXDATA;
-    trans [4].tx_data [1] = 0;
-    trans [4].tx_data [2] = 0x2C;                           // Memory write
-    spi.Send (&trans [4].tx_data[0], 1);
-
-    trans [5].tx_buffer   = v_data;                         // Finally send the line data
-    trans [5].length      = v_length * v_width * 2 * 8;     // Data length, in bits
-    trans [5].flags       = 0;                              // Undo SPI_TRANS_USE_TXDATA flag
-    spi.Send (&trans [5].tx_data[0], 4);
+    spi.Send16Bits (v_data, v_length * v_width);
 }
 
 uint8_t Display::calculateRects (const uint16_t v_length, const uint16_t v_width)
@@ -372,8 +341,8 @@ uint8_t Display::calculateRects (const uint16_t v_length, const uint16_t v_width
 
 bool Display::validateRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_length, const uint16_t v_width)
 {
-    if (((v_xPos + v_length) <= 0)                 ||
-        ((v_yPos + v_width)  <= 0)                 ||
+    if (((v_xPos + v_length) <= 0)                                  ||
+        ((v_yPos + v_width)  <= 0)                                  ||
         ((v_xPos + v_length) > Settings::GetInstance ().Lcd.Length) ||
         ((v_yPos + v_width)  > Settings::GetInstance ().Lcd.Width))
     {

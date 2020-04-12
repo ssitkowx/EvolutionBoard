@@ -11,7 +11,7 @@
 //////////////////////////////// VARIABLES ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-spi_device_handle_t SpiHw::spi;
+//spi_device_handle_t SpiHw::spi;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -79,7 +79,7 @@ uint8_t * SpiHw::Send (const uint8_t * v_data, const uint16_t v_len)
     }
     else
     {
-        transaction.flags     = flags;
+        transaction.flags     = 0;
         transaction.tx_buffer = v_data;
     }
 
@@ -101,7 +101,7 @@ void SpiHw::Send16Bits (const uint16_t * v_data, const uint16_t v_len)
     memset (&transaction, 0, sizeof (transaction));
 
     transaction.flags     = 0;
-    transaction.length    = v_len * 8;
+    transaction.length    = v_len * 8 * 2;
     transaction.user      = (void *)1;
     transaction.tx_buffer = v_data;
 
