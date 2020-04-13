@@ -2,17 +2,19 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <stdbool.h>
-#include <stdio.h>
+
+#include "Gpio.h"
+#include "SpiHw.h"
 #include <memory.h>
+#include <stdbool.h>
 #include "Display.h"
+#include "LoggerHw.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "assert.h"
 
 ///
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "freertos/FreeRTOS.h"
@@ -115,7 +117,7 @@ DRAM_ATTR static const lcd_init_cmd_t ili_init_cmds[]={
 
 Display::Display (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi)
 {
-    printf ("Display init.\n");
+    LOG (MODULE, "Init /n");
 
     int cmd=0;
     const lcd_init_cmd_t* lcd_init_cmds;
@@ -131,24 +133,16 @@ Display::Display (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi)
     gpio.SetPinLevel (Gpio::EPinNum::eRst, true);
     vTaskDelay(100 / portTICK_RATE_MS);
 
-    //detect LCD type
-    printf("Get id\n");
-    //uint32_t lcd_id = lcd_get_id(spi.spi);
     uint32_t lcd_id = getId ();
-    int lcd_detected_type;
 
-    printf("LCD ID: %08X\n", lcd_id);
+    LOG (MODULE, "LCD ID: %08X\n", lcd_id);
     if ( lcd_id == 0 ) {
-        //zero, ili
-        lcd_detected_type = LCD_TYPE_ILI;
-        printf("ILI9341 detected.\n");
+        LOGV (MODULE, "ILI9341 detected /n");
     } else {
-        // none-zero, ST
-        lcd_detected_type = LCD_TYPE_ST;
-        printf("ST7789V detected.\n");
+        LOGE (MODULE, "ST7789V detected /n");
     }
 
-    printf("LCD ILI9341 initialization.\n");
+    printf("LCD ILI9341 initialization /n");
     lcd_init_cmds = ili_init_cmds;
 
     //Send all the commands
@@ -156,7 +150,7 @@ Display::Display (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi)
     {
 
         // command
-        uint8_t data [] = { 0,
+        uint8_t data [] = { static_cast<uint8_t>(SpiHw::EFlag::eDummy),
                             0,
                             lcd_init_cmds [cmd].cmd
                           };
@@ -164,7 +158,7 @@ Display::Display (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi)
         spi.Send (&data [0], 1);
 
         // data
-        data [0] = 0;
+        data [0] = static_cast<uint8_t>(SpiHw::EFlag::eDummy);
         data [1] = 1;
         memcpy   (&data [2], lcd_init_cmds [cmd].data, lcd_init_cmds [cmd].databytes & 0x1F);
         spi.Send (&data [0], lcd_init_cmds [cmd].databytes & 0x1F);
@@ -184,7 +178,7 @@ void Display::DrawRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint
 {
     if (validateRect (v_xPos, v_yPos, v_length, v_width) == false)
     {
-        printf("Rect outside display \n");
+        LOGE (MODULE, "Rect outside display /n");
         return;
     }
 
@@ -195,7 +189,7 @@ void Display::DrawRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint
     uint8_t maxRects = calculateRects (v_length, v_width);
     if (maxRects == 1)
     {
-        printf("v_xPos: %u, v_yPos: %u, v_length: %u, v_width: %u end \n", v_xPos, v_yPos, v_length, v_width);
+        LOGV (MODULE, "v_xPos: %u, v_yPos: %u, v_length: %u, v_width: %u end /n", v_xPos, v_yPos, v_length, v_width);
         sendLines (v_xPos, v_yPos, v_length, v_width, (uint16_t *)rect);
     }
     else
@@ -206,38 +200,31 @@ void Display::DrawRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint
         {
             if (rectNum == maxRects)
             {
-                printf("Last rect \n");
+                LOGV (MODULE, "Last rect");
                 width = v_width + v_yPos - yPos;
 
-                printf("v_xPos: %u, yPos: %u, v_length: %u, width: %u end \n", v_xPos, yPos, v_length, width);
+                LOGV (MODULE, "v_xPos: %u, yPos: %u, v_length: %u, width: %u end /n", v_xPos, yPos, v_length, width);
                 sendLines (v_xPos, yPos, v_length, width, (uint16_t *)rect);
                 break;
             }
 
-            printf("v_xPos: %u, yPos: %u, v_length: %u, width: %u end \n", v_xPos, yPos, v_length, Settings::GetInstance().Lcd.MaxLinesPerTransfer);
+            LOGV (MODULE, "v_xPos: %u, yPos: %u, v_length: %u, width: %u end /n", v_xPos, yPos, v_length, Settings::GetInstance().Lcd.MaxLinesPerTransfer);
             sendLines (v_xPos, yPos, v_length, Settings::GetInstance().Lcd.MaxLinesPerTransfer, (uint16_t *)rect);
             yPos = yPos + Settings::GetInstance().Lcd.MaxLinesPerTransfer;
         }
     }
 }
-/*
-static uint8_t getFlag (Spi::EFlag v_flag)
-{
-    if (v_flag == Spi::EFlag::eDummy) { return 0; }
-    return (1 << static_cast<uint8_t> (v_flag));
-}
-*/
 
 void Display::sendLines (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_length, const uint16_t v_width, const uint16_t * v_data)
 {
-    uint8_t data [] = { SPI_TRANS_USE_TXDATA,
+    uint8_t data [] = { static_cast<uint8_t>(SpiHw::EFlag::eTxData),
                         0,
                         0x2A
                       };
 
     spi.Send (data, 1);
 
-    uint8_t data1 [] = { SPI_TRANS_USE_TXDATA,
+    uint8_t data1 [] = { static_cast<uint8_t>(SpiHw::EFlag::eTxData),
                          1,
                          static_cast<uint8_t>(v_xPos >> 8),
                          static_cast<uint8_t>(v_xPos & 0xFF),
@@ -254,7 +241,7 @@ void Display::sendLines (const uint16_t v_xPos, const uint16_t v_yPos, const uin
 
     spi.Send (data2, 1);
 
-    uint8_t data3 [] = { SPI_TRANS_USE_TXDATA,
+    uint8_t data3 [] = { static_cast<uint8_t>(SpiHw::EFlag::eTxData),
                          1,
                          static_cast<uint8_t>(v_yPos >> 8),
                          static_cast<uint8_t>(v_yPos & 0xFF),
@@ -264,7 +251,7 @@ void Display::sendLines (const uint16_t v_xPos, const uint16_t v_yPos, const uin
 
     spi.Send (data3, 4);
 
-    uint8_t data4 [] = { SPI_TRANS_USE_TXDATA,
+    uint8_t data4 [] = { static_cast<uint8_t>(SpiHw::EFlag::eTxData),
                          0,
                          0x2C
                        };
@@ -300,12 +287,12 @@ uint8_t Display::calculateRects (const uint16_t v_length, const uint16_t v_width
 uint32_t Display::getId (void)
 {
     uint8_t data [3] = {};
-    data [0] = 0;
+    data [0] = static_cast<uint8_t>(SpiHw::EFlag::eDummy);
     data [1] = 0;
     data [2] = 0x04;
     spi.Send (&data[0], 1);
 
-    data [0] = SPI_TRANS_USE_RXDATA;
+    data [0] = static_cast<uint8_t>(SpiHw::EFlag::eRxData);
     data [1] = 1;
     return *(uint32_t*)spi.Send (&data[0], 3);
 }

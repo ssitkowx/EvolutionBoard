@@ -14,6 +14,8 @@
 
 class Display
 {
+    static constexpr char * MODULE = (char *)"Display";
+
     public:
         Display (Gpio & v_gpio, Spi & v_spi);
 

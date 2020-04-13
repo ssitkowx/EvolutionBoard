@@ -28,7 +28,7 @@ static void beforeTransfer (spi_transaction_t * v_transaction)
 
 SpiHw::SpiHw ()
 {
-    LOG (MODULE, "Init");
+    LOG (MODULE, "Init /n");
 
     static spi_bus_config_t busCfg;
     busCfg.miso_io_num     = static_cast<int> (Gpio::EPinNum::eMiso);
@@ -53,6 +53,14 @@ SpiHw::SpiHw ()
     ESP_ERROR_CHECK (status);
 }
 
+
+static uint8_t getFlag (SpiHw::EFlag v_flag)
+{
+    if (v_flag == SpiHw::EFlag::eDummy) { return 0; }
+    return (1 << static_cast<uint8_t> (v_flag));
+}
+
+
 uint8_t * SpiHw::Send (const uint8_t * v_data, const uint16_t v_len)
 {
     if (v_len == ZERO)
@@ -63,13 +71,13 @@ uint8_t * SpiHw::Send (const uint8_t * v_data, const uint16_t v_len)
 
     static spi_transaction_t transaction;
     memset (&transaction, ZERO, sizeof (transaction));
-    uint8_t flags = v_data [FIRST_BYTE];
+    uint8_t flags = getFlag (static_cast<SpiHw::EFlag>(v_data [FIRST_BYTE]));
     uint8_t user  = v_data [SECOND_BYTE];
 
     transaction.length = v_len * EIGHT_BITS;
     transaction.user   = reinterpret_cast<void *>(user);
 
-    if (v_data [FIRST_BYTE] == SPI_TRANS_USE_TXDATA)
+    if (flags == SPI_TRANS_USE_TXDATA)
     {
         transaction.flags                = flags;
         transaction.tx_data [FIRST_BYTE] = v_data [THIRD_BYTE];

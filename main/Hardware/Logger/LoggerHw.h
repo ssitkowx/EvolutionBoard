@@ -77,7 +77,10 @@ class LoggerHw : public Logger
                                        getFontColor  (v_eLogLevel).data (),
                                        v_module.data (), v_msg.data ());
             */
-            std::string line = "Time disabled";
+            std::string line = Format ("%s \033[1;%sm%s: %s\n",
+                                       "Time",
+                                       getFontColor  (v_eLogLevel).data (),
+                                       v_module.data (), v_msg.data ());
             esp_log_write (static_cast <esp_log_level_t> (v_eLogLevel), v_module.data (), line.c_str (), std::forward <ARGS>(v_args)...);
         }
 };
