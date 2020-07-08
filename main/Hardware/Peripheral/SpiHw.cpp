@@ -57,17 +57,13 @@ SpiHw::SpiHw ()
 static uint8_t getFlag (SpiHw::EFlag v_flag)
 {
     if (v_flag == SpiHw::EFlag::eDummy) { return 0; }
-    return (1 << static_cast<uint8_t> (v_flag));
+    return (ONE << static_cast<uint8_t> (v_flag));
 }
 
 
 uint8_t * SpiHw::Send (const uint8_t * v_data, const uint16_t v_len)
 {
-    if (v_len == ZERO)
-    {
-        assert (v_len == ZERO);
-        return NULL;
-    }
+    if (v_len == ZERO) { assert (v_len == ZERO); return NULL; }
 
     static spi_transaction_t transaction;
     memset (&transaction, ZERO, sizeof (transaction));

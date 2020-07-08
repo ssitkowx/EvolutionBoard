@@ -30,6 +30,12 @@ class SpiHw final: public Spi
             eCd         = 7
         };
 
+        enum class EMode : uint8_t
+        {
+            eCmd  = 0,
+            eData = 1
+        };
+
         SpiHw ();
 
         void      Send16Bits (const uint16_t * v_data, const uint16_t v_len) override;

@@ -34,34 +34,13 @@ class LoggerHw : public Logger
         {
             switch (v_eLogLevel)
             {
-                case ELogLevel::eLogNone:
-                {
-                    return LOG_COLOR_BLACK;
-                }
-                case ELogLevel::eLogError:
-                {
-                    return LOG_COLOR_RED;
-                }
-                case ELogLevel::eLogWarning:
-                {
-                    return LOG_COLOR_PURPLE;
-                }
-                case ELogLevel::eLogInfo:
-                {
-                    return LOG_COLOR_BLUE;
-                }
-                case ELogLevel::eLogDebug:
-                {
-                    return LOG_COLOR_BROWN;     // This is Yellow :)
-                }
-                case ELogLevel::eLogVerbose:
-                {
-                    return LOG_COLOR_GREEN;
-                }
-                default:
-                {
-                    break;
-                }
+                case ELogLevel::eLogNone:    { return LOG_COLOR_BLACK;  }
+                case ELogLevel::eLogError:   { return LOG_COLOR_RED;    }
+                case ELogLevel::eLogWarning: { return LOG_COLOR_PURPLE; }
+                case ELogLevel::eLogInfo:    { return LOG_COLOR_BLUE;   }
+                case ELogLevel::eLogDebug:   { return LOG_COLOR_BROWN;  }     // This is Yellow :)
+                case ELogLevel::eLogVerbose: { return LOG_COLOR_GREEN;  }
+                default:                     { break;                   }
             };
 
             return LOG_COLOR_BLACK;

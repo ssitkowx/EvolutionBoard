@@ -27,33 +27,13 @@ gpio_mode_t GpioHw::getPinMode (const Gpio::EPinMode v_ePinMode)
 {
     switch (v_ePinMode)
     {
-        case EPinMode::eDisable:
-        {
-            return GPIO_MODE_DISABLE;
-        }
-        case EPinMode::eInput:
-        {
-            return GPIO_MODE_INPUT;
-        }
-        case EPinMode::eOutput:
-        {
-            return GPIO_MODE_OUTPUT;
-        }
-        case EPinMode::eOutputOd:
-        {
-            return GPIO_MODE_OUTPUT_OD;
-        }
-        case EPinMode::eInputOutputOd:
-        {
-            return GPIO_MODE_INPUT_OUTPUT_OD;
-        }
-        case EPinMode::eInputOutput:
-        {
-            return GPIO_MODE_INPUT_OUTPUT;
-        }
-        default:
-        {
-        }
+        case EPinMode::eDisable:       { return GPIO_MODE_DISABLE;         }
+        case EPinMode::eInput:         { return GPIO_MODE_INPUT;           }
+        case EPinMode::eOutput:        { return GPIO_MODE_OUTPUT;          }
+        case EPinMode::eOutputOd:      { return GPIO_MODE_OUTPUT_OD;       }
+        case EPinMode::eInputOutputOd: { return GPIO_MODE_INPUT_OUTPUT_OD; }
+        case EPinMode::eInputOutput:   { return GPIO_MODE_INPUT_OUTPUT;    }
+        default: { }
     }
 
     // error

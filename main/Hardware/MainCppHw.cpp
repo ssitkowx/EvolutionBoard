@@ -2,12 +2,13 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <stdint.h>
 #include "SpiHw.h"
+#include "RtosHw.h"
+#include <stdint.h>
 #include "GpioHw.h"
 #include "Logger.h"
-#include "Display.h"
 #include "LoggerHw.h"
+#include "DisplayHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -15,22 +16,25 @@
 
 extern "C" void MainCppHw (void)
 {
-    uint16_t xPos   = 100;
-    uint16_t yPos   = 50;
-    uint16_t length = 220;
-    uint16_t width  = 100;
+    uint16_t xPos   = 10;
+    uint16_t yPos   = 0;
+    uint16_t length = 100;
+    uint16_t width  = 200;
 
     //printf("Free heap size: %d\n", esp_get_free_heap_size ());
     static LoggerHw loggerHw;
     SET_LOGGER_INST(&loggerHw);
 
-    GpioHw  gpioHw;
-    SpiHw   spiHw;
-    Display display (gpioHw, spiHw);
+    static RtosHw RtosHw;
+    SET_RTOS_INST(&RtosHw);
+
+    GpioHw    gpioHw;
+    SpiHw     spiHw;
+    DisplayHw display (gpioHw, spiHw);
 
     while (1)
     {
-       display.DrawRect (xPos, yPos, length, width, 0x0FF0);
+       display.DrawRect (xPos, yPos, length, width, 0xF800);
       // DrawRect (spi, xPos + 10, yPos + 10, length - 20, width - 20, 0x3333);
     }
 }

@@ -77,13 +77,17 @@
 #define THIRTY_BYTES                THIRTY
 #define THIRTY_SECOND_BYTE          THIRTY_ONE
 
+#define ZERO_BYTES                  ZERO
 #define ONE_BYTE                    ONE
 #define TWO_BYTES                   TWO
 #define THREE_BYTES                 THREE
 #define FOUR_BYTES                  FOUR
 #define FIVE_BYTES                  FIVE
-#define EIGHT_BYTES                 EIGHT
 #define SIX_BYTES                   SIX
+#define SEVEN_BYTES                 SEVEN
+#define EIGHT_BYTES                 EIGHT
+#define FIFTEEN_BYTES               FIFTEEN
+#define EIGHTEEN_BYTES              EIGHTEEN
 #define TWENTY_BYTES                TWENTY
 #define THIRTY_TWO_BYTES            THIRTY_TWO
 #define FIFTY_BYTES                 FIFTY
