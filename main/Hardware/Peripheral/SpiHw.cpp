@@ -36,13 +36,13 @@ SpiHw::SpiHw ()
     busCfg.sclk_io_num     = static_cast<int> (GpioHw::EPinNum::eClk);
     busCfg.quadwp_io_num   = -1;
     busCfg.quadhd_io_num   = -1;
-    busCfg.max_transfer_sz = Settings::GetInstance ().Lcd.MaxLinesPerTransfer * Settings::GetInstance ().Lcd.Width;
+    busCfg.max_transfer_sz = Settings::GetInstance ().Lcd.MaxLinesPerTransfer * Settings::GetInstance ().Lcd.Width * TWO + EIGHT_BYTES;
 
     static spi_device_interface_config_t devCfg;
     //.clock_speed_hz=26*1000*1000,                 // Clock out at 26 MHz
     devCfg.clock_speed_hz  = 10*1000*1000;          // Clock out at 10 MHz
-    devCfg.mode            = ZERO;
-    devCfg.spics_io_num    = static_cast<int> (GpioHw::EPinNum::eCs);
+    devCfg.mode            = static_cast <uint8_t> (EMode::eCmd);
+    devCfg.spics_io_num    = static_cast <int>     (GpioHw::EPinNum::eCs);
     devCfg.queue_size      = SEVEN;
     devCfg.pre_cb          = beforeTransfer;
 
@@ -55,7 +55,7 @@ SpiHw::SpiHw ()
 
 static uint8_t getFlag (SpiHw::EFlag v_flag)
 {
-    if (v_flag == SpiHw::EFlag::eDummy) { return 0; }
+    if (v_flag == SpiHw::EFlag::eDummy) { return ZERO; }
     return (ONE << static_cast<uint8_t> (v_flag));
 }
 
@@ -101,8 +101,9 @@ void SpiHw::Send (const uint16_t * const v_data, const uint16_t v_len)
     spi_transaction_t transaction;
     memset (&transaction, ZERO, sizeof (transaction));
 
-    transaction.flags     = 0;
-    transaction.length    = v_len * EIGHT_BITS * TWO;
+    transaction.flags     = static_cast <uint8_t> (EFlag::eDio);
+    uint8_t restLen       = Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
+    transaction.length    = (v_len + restLen) * EIGHT_BITS * sizeof (uint16_t);
     transaction.user      = (void *)true;
     transaction.tx_buffer = v_data;
 
@@ -115,7 +116,7 @@ uint16_t SpiHw::Receive (uint8_t * v_data, const uint16_t v_len)
     spi_transaction_t transaction;
     memset (&transaction, ZERO, sizeof (transaction));
 
-    transaction.flags     = ZERO;
+    transaction.flags     = static_cast <uint8_t> (EFlag::eDio);
     transaction.length    = v_len * EIGHT_BITS;
     transaction.user      = (void *)true;
     transaction.tx_buffer = v_data;

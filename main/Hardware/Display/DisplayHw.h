@@ -21,7 +21,7 @@ class DisplayHw final : public Display
     public:
         DisplayHw (Gpio & v_gpio, Spi & v_spi);
 
-        void     DrawRect       (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length, const uint16_t v_color) override;
+        void     DrawRect       (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length, const uint32_t v_color) override;
         void     DrawText       (const uint16_t v_xPos, const uint16_t v_yPos, const uint8_t & data  , const uint16_t v_len)                            override;
         void     DrawPicture    (const uint16_t v_xPos, const uint16_t v_yPos, const uint8_t & data  , const uint16_t v_len)                            override;
 

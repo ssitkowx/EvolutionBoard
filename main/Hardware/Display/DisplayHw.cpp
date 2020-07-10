@@ -52,11 +52,13 @@ DisplayHw::DisplayHw (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi), 
     gpio.SetPinLevel (static_cast<uint16_t> (GpioHw::EPinNum::eBclk), false);
 }
 
-void DisplayHw::DrawRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length, const uint16_t v_color)
+void DisplayHw::DrawRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length, const uint32_t v_color)
 {
     if (validateRect (v_xPos, v_yPos, v_width, v_length) == false) { LOGE (MODULE, "Rect outside display./n"); return; }
 
-    uint16_t rect [Settings::GetInstance ().Lcd.Width * Settings::GetInstance ().Lcd.MaxLinesPerTransfer] = { };
+    const uint16_t rectLen  = Settings::GetInstance ().Lcd.Width * Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
+    uint16_t rect [rectLen] = { };
+    memset (rect, v_color, rectLen * sizeof (uint16_t));
     uint8_t  maxRects = calculateRects (v_length);
 
     if (maxRects == ONE)
@@ -119,9 +121,7 @@ uint8_t DisplayHw::calculateRects (const uint16_t v_length)
     double  rects    = v_length / Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
     uint8_t maxRects = static_cast <uint8_t> (rects);
 
-    if ((v_length % Settings::GetInstance ().Lcd.MaxLinesPerTransfer) != ZERO) { maxRects++; }
-
-    return maxRects;
+    return ((v_length % Settings::GetInstance ().Lcd.MaxLinesPerTransfer) != ZERO) ? ++maxRects : maxRects;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
