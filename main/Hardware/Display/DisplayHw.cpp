@@ -2,18 +2,13 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include "Spi.h"
 #include "Rtos.h"
+#include "SpiHw.h"
+#include "GpioHw.h"
 #include "LoggerHw.h"
 #include "Settings.h"
 #include "DisplayHw.h"
-
-///////////////////////////////////////////////////////////////////////////////
-//////////////////////////////// VARIABLES ////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////
-/////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -21,77 +16,79 @@
 
 DisplayHw::DisplayHw (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi), ili9341 (spi)
 {
-    LOG (MODULE, "Init /n");
+    LOG (MODULE, "Init./n");
 
     //Initialize non-SPI GPIOs
-    gpio.SetPinDirection (Gpio::EPinNum::eDc  , Gpio::EPinMode::eOutput);
-    gpio.SetPinDirection (Gpio::EPinNum::eRst , Gpio::EPinMode::eOutput);
-    gpio.SetPinDirection (Gpio::EPinNum::eBclk, Gpio::EPinMode::eOutput);
+    gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::EPinNum::eDc)  , static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
+    gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::EPinNum::eRst) , static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
+    gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::EPinNum::eBclk), static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
 
     //Reset the display
-    gpio.SetPinLevel (Gpio::EPinNum::eRst, false);
+    gpio.SetPinLevel  (static_cast<uint16_t> (GpioHw::EPinNum::eRst), false);
     Rtos::GetInstance ()->Delay (ONE_HUNDRED);
-    gpio.SetPinLevel (Gpio::EPinNum::eRst, true);
+    gpio.SetPinLevel  (static_cast<uint16_t> (GpioHw::EPinNum::eRst), true);
     Rtos::GetInstance ()->Delay (ONE_HUNDRED);
 
-    ili9341.SoftwareReset           ();
-    ili9341.DisplayOff              ();
-    ili9341.PowerControl1           ();
-    ili9341.PowerControl2           ();
-    ili9341.VCOMControl1            ();
-    ili9341.VCOMControl2            ();
-    ili9341.MemoryAccessControl     ();
-    ili9341.PixelFormatSet          ();
-    ili9341.FrameRateControl        ();
-    ili9341.GammaSet                ();
-    ili9341.PositiveGammaCorrection ();
-    ili9341.NegativeGammaCorrection ();
-    ili9341.ColumnAddressSet        ();
-    ili9341.PageAddressSet          ();
-    ili9341.MemoryWrite             ();
-    ili9341.EntryModeSet            ();
-    ili9341.DisplayFunctionControl  ();
-    ili9341.SleepOut                ();
-    ili9341.DisplayOn               ();
+    ili9341.SendSoftwareReset           ();
+    ili9341.SendDisplayOff              ();
+    ili9341.SendPowerControl1           ();
+    ili9341.SendPowerControl2           ();
+    ili9341.SendVCOMControl1            ();
+    ili9341.SendVCOMControl2            ();
+    ili9341.SendMemoryAccessControl     ();
+    ili9341.SendPixelFormatSet          ();
+    ili9341.SendFrameRateControl        ();
+    ili9341.SendGammaSet                ();
+    ili9341.SendPositiveGammaCorrection ();
+    ili9341.SendNegativeGammaCorrection ();
+    ili9341.SendColumnAddressSet        (SpiHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Width  >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Width  & 0xFF);
+    ili9341.SendPageAddressSet          (SpiHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Length >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Length & 0xFF);
+    ili9341.SendMemoryWrite             (SpiHw::EFlag::eDummy);
+    ili9341.SendEntryModeSet            ();
+    ili9341.SendDisplayFunctionControl  ();
+    ili9341.SendSleepOut                ();
+    ili9341.SendDisplayOn               ();
 
-    gpio.SetPinLevel (Gpio::EPinNum::eBclk, false);
+    gpio.SetPinLevel (static_cast<uint16_t> (GpioHw::EPinNum::eBclk), false);
 }
 
-void DisplayHw::DrawRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_length, const uint16_t v_width, const uint16_t v_color)
+void DisplayHw::DrawRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length, const uint16_t v_color)
 {
-    if (validateRect (v_xPos, v_yPos, v_length, v_width) == false) { LOGE (MODULE, "Rect outside display /n"); return; }
+    if (validateRect (v_xPos, v_yPos, v_width, v_length) == false) { LOGE (MODULE, "Rect outside display./n"); return; }
 
-    const uint16_t rectMaxLen = Settings::GetInstance ().Lcd.Length * Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
-    uint16_t rect [rectMaxLen];
-    memset (rect, v_color, rectMaxLen * TWO);
+    uint16_t rect [Settings::GetInstance ().Lcd.Width * Settings::GetInstance ().Lcd.MaxLinesPerTransfer] = { };
+    uint8_t  maxRects = calculateRects (v_length);
 
-    uint8_t maxRects = calculateRects (v_length, v_width);
-    if (maxRects == 1)
+    if (maxRects == ONE)
     {
-        LOGV      (MODULE, "v_xPos: %u, v_yPos: %u, v_length: %u, v_width: %u end /n", v_xPos, v_yPos, v_length, v_width);
-        sendLines (v_xPos, v_yPos, v_length, v_width, (uint16_t *)rect);
+        //LOGD      (MODULE, "One rect: v_xPos: %u, v_yPos: %u, v_width: %u, v_length: %u end./n", v_xPos, v_yPos, v_width, v_length);
+        sendLines (v_xPos, v_yPos, v_width, v_length, static_cast <uint16_t *> (rect));
     }
     else
     {
         uint16_t yPos  = v_yPos;
-        uint16_t width = ZERO;
-        for (uint8_t rectNum = 1; rectNum < (maxRects + 1); rectNum++)
+        uint16_t length = ZERO;
+        for (uint8_t rectNum = ONE; rectNum <= maxRects; rectNum++)
         {
             if (rectNum == maxRects)
             {
-                LOGV (MODULE, "Last rect");
-                width = v_width + v_yPos - yPos;
-
-                LOGV      (MODULE, "v_xPos: %u, yPos: %u, v_length: %u, width: %u end /n", v_xPos, yPos, v_length, width);
-                sendLines (v_xPos, yPos, v_length, width, (uint16_t *)rect);
-                break;
+                //LOGD      (MODULE, "Last rect: v_xPos: %u, yPos: %u, v_width: %u, length: %u end./n", v_xPos, yPos, v_width, length);
+                length = v_length + v_yPos - yPos;
+                sendLines (v_xPos, yPos, v_width, length, static_cast <uint16_t *> (rect));
             }
-
-            LOGV      (MODULE, "v_xPos: %u, yPos: %u, v_length: %u, width: %u end /n", v_xPos, yPos, v_length, Settings::GetInstance().Lcd.MaxLinesPerTransfer);
-            sendLines (v_xPos, yPos, v_length, Settings::GetInstance().Lcd.MaxLinesPerTransfer, (uint16_t *)rect);
-            yPos = yPos + Settings::GetInstance().Lcd.MaxLinesPerTransfer;
+            else
+            {
+                //LOGD      (MODULE, "Rect: v_xPos: %u, yPos: %u, v_width: %u, length: %u end /n", v_xPos, yPos, v_width, Settings::GetInstance().Lcd.MaxLinesPerTransfer);
+                sendLines (v_xPos, yPos, v_width, Settings::GetInstance().Lcd.MaxLinesPerTransfer, static_cast <uint16_t *> (rect));
+                yPos = yPos + Settings::GetInstance().Lcd.MaxLinesPerTransfer;
+            }
         }
     }
+}
+
+void DisplayHw::DrawText (const uint16_t v_xPos, const uint16_t v_yPos, const uint8_t & data, const uint16_t v_len)
+{
+
 }
 
 void DisplayHw::DrawPicture (const uint16_t v_xPos, const uint16_t v_yPos, const uint8_t & data, const uint16_t v_len)
@@ -99,71 +96,30 @@ void DisplayHw::DrawPicture (const uint16_t v_xPos, const uint16_t v_yPos, const
 
 }
 
-void DisplayHw::sendLines (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_length, const uint16_t v_width, const uint16_t * v_data)
+void DisplayHw::sendLines (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length, const uint16_t * const v_data)
 {
-    uint8_t data [] = { static_cast<uint8_t>(SpiHw::EFlag::eTxData),
-                       (uint8_t)SpiHw::EMode::eCmd,
-                        0x2A
-                      };
+    ili9341.SendColumnAddressSet (SpiHw::EFlag::eTxData, static_cast<uint8_t> (v_xPos              >> EIGHT_BITS), static_cast<uint8_t> (v_xPos & 0xFF),
+                                                         static_cast<uint8_t> ((v_xPos + v_width)  >> EIGHT_BITS), static_cast<uint8_t> ((v_xPos + v_width) & 0xFF));
 
-    spi.Send (data, ONE);
+    ili9341.SendPageAddressSet   (SpiHw::EFlag::eTxData, static_cast<uint8_t> (v_yPos              >> EIGHT_BITS), static_cast<uint8_t> (v_yPos & 0xFF),
+                                                         static_cast<uint8_t> ((v_yPos + v_length) >> EIGHT_BITS), static_cast<uint8_t> ((v_yPos + v_length) & 0xFF));
 
-    uint8_t data1 [] = { static_cast<uint8_t>(SpiHw::EFlag::eTxData),
-                         (uint8_t)SpiHw::EMode::eData,
-                         static_cast<uint8_t>(v_xPos >> 8),
-                         static_cast<uint8_t>(v_xPos & 0xFF),
-                         static_cast<uint8_t>((v_xPos + v_length) >> 8),
-                         static_cast<uint8_t>((v_xPos + v_length) & 0xFF)
-                       };
-
-    spi.Send (data1, FOUR);
-
-    uint8_t data2 [] = { SPI_TRANS_USE_TXDATA,
-                         (uint8_t)SpiHw::EMode::eCmd,
-                         0x2B
-                       };
-
-    spi.Send (data2, ONE);
-
-    uint8_t data3 [] = { static_cast<uint8_t>(SpiHw::EFlag::eTxData),
-                         (uint8_t)SpiHw::EMode::eData,
-                         static_cast<uint8_t>(v_yPos >> 8),
-                         static_cast<uint8_t>(v_yPos & 0xFF),
-                         static_cast<uint8_t>((v_yPos + v_width) >> 8),
-                         static_cast<uint8_t>((v_yPos + v_width) & 0xFF)
-                       };
-
-    spi.Send (data3, FOUR);
-
-    uint8_t data4 [] = { static_cast<uint8_t>(SpiHw::EFlag::eTxData),
-                         (uint8_t)SpiHw::EMode::eCmd,
-                         0x2C
-                       };
-
-    spi.Send (data4, ONE);
-
-    spi.Send16Bits (v_data, v_length * v_width);
+    ili9341.SendMemoryWrite      (SpiHw::EFlag::eTxData);
+    spi.Send                     (v_data, v_width * v_length);
 }
 
-bool DisplayHw::validateRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_length, const uint16_t v_width)
+bool DisplayHw::validateRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length)
 {
-    if (((v_xPos + v_length) <= ZERO)                                  ||
-        ((v_yPos + v_width)  <= ZERO)                                  ||
-        ((v_xPos + v_length) > Settings::GetInstance ().Lcd.Length) ||
-        ((v_yPos + v_width)  > Settings::GetInstance ().Lcd.Width))
-    {
-        return false;
-    }
-
-    return true;
+    return (((v_xPos  + v_width)  > Settings::GetInstance ().Lcd.Width)  ||
+            ((v_yPos  + v_length) > Settings::GetInstance ().Lcd.Length)) ? false : true;
 }
 
-uint8_t DisplayHw::calculateRects (const uint16_t v_length, const uint16_t v_width)
+uint8_t DisplayHw::calculateRects (const uint16_t v_length)
 {
-    double  rects    = v_width / Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
-    uint8_t maxRects = (uint8_t)rects;
+    double  rects    = v_length / Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
+    uint8_t maxRects = static_cast <uint8_t> (rects);
 
-    if ((v_width % Settings::GetInstance ().Lcd.MaxLinesPerTransfer) != ZERO) { maxRects++; }
+    if ((v_length % Settings::GetInstance ().Lcd.MaxLinesPerTransfer) != ZERO) { maxRects++; }
 
     return maxRects;
 }

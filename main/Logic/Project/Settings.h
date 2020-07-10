@@ -4,6 +4,7 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include "Utils.h"
 #include <stdint.h>
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -15,19 +16,13 @@ class Settings
     public:
         struct Lcd
         {
-            uint8_t  RectsNumber;
-            uint16_t Length;
-            uint16_t Width;
-            uint16_t MaxLinesPerTransfer;
+            static constexpr uint16_t Length              = TWO_HUNDRED_FORTY;
+            static constexpr uint16_t Width               = THREE_HUNDRED_TWENTY;
+            static constexpr uint16_t MaxLinesPerTransfer = TWELVE;
+            static constexpr uint8_t  RectsNumber         = FIFTEEN;
         } Lcd;
 
-        Settings ()
-        {
-            Lcd.Length              = 320;
-            Lcd.Width               = 240;
-            Lcd.MaxLinesPerTransfer = 16;     // Limits transfer and heap use
-            Lcd.RectsNumber         = 15;     // Divides image into rects = .Width / .MaxLinesInOneTransfer.
-        }
+        Settings () = default;
 
         static Settings & GetInstance (void)
         {

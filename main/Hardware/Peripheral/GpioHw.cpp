@@ -8,24 +8,24 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-void GpioHw::SetPinLevel (const EPinNum v_ePinNum, const bool v_state)
+void GpioHw::SetPinLevel (const uint16_t v_num, const bool v_state)
 {
-    gpio_set_level (static_cast<gpio_num_t>(v_ePinNum), v_state);
+    gpio_set_level (static_cast<gpio_num_t>(v_num), v_state);
 }
 
-void GpioHw::SetPinDirection (const EPinNum v_ePinNum, const EPinMode v_ePinMode)
+void GpioHw::SetPinDirection (const uint16_t v_num, const uint16_t v_mode)
 {
-    gpio_set_direction (static_cast <gpio_num_t> (v_ePinNum), getPinMode (v_ePinMode));
+    gpio_set_direction (static_cast <gpio_num_t> (v_num), getPinMode (static_cast <EPinMode> (v_mode)));
 }
 
-bool GpioHw::ReadPinLevel (const EPinNum v_ePinNum)
+bool GpioHw::ReadPinLevel (const uint16_t v_num)
 {
-    return gpio_get_level (static_cast<gpio_num_t>(v_ePinNum));
+    return gpio_get_level (static_cast<gpio_num_t>(v_num));
 }
 
-gpio_mode_t GpioHw::getPinMode (const Gpio::EPinMode v_ePinMode)
+gpio_mode_t GpioHw::getPinMode (const EPinMode v_eMode)
 {
-    switch (v_ePinMode)
+    switch (v_eMode)
     {
         case EPinMode::eDisable:       { return GPIO_MODE_DISABLE;         }
         case EPinMode::eInput:         { return GPIO_MODE_INPUT;           }

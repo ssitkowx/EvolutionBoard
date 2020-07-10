@@ -36,9 +36,9 @@ class LoggerHw : public Logger
             {
                 case ELogLevel::eLogNone:    { return LOG_COLOR_BLACK;  }
                 case ELogLevel::eLogError:   { return LOG_COLOR_RED;    }
-                case ELogLevel::eLogWarning: { return LOG_COLOR_PURPLE; }
+                case ELogLevel::eLogWarning: { return LOG_COLOR_BROWN;  }   // This is Yellow :)
                 case ELogLevel::eLogInfo:    { return LOG_COLOR_BLUE;   }
-                case ELogLevel::eLogDebug:   { return LOG_COLOR_BROWN;  }     // This is Yellow :)
+                case ELogLevel::eLogDebug:   { return LOG_COLOR_PURPLE; }
                 case ELogLevel::eLogVerbose: { return LOG_COLOR_GREEN;  }
                 default:                     { break;                   }
             };

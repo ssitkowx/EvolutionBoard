@@ -17,9 +17,9 @@
 extern "C" void MainCppHw (void)
 {
     uint16_t xPos   = 10;
-    uint16_t yPos   = 0;
-    uint16_t length = 100;
-    uint16_t width  = 200;
+    uint16_t yPos   = 50;
+    uint16_t width  = 100;
+    uint16_t length = 150;
 
     //printf("Free heap size: %d\n", esp_get_free_heap_size ());
     static LoggerHw loggerHw;
@@ -34,7 +34,7 @@ extern "C" void MainCppHw (void)
 
     while (1)
     {
-       display.DrawRect (xPos, yPos, length, width, 0xF800);
+       display.DrawRect (xPos, yPos, width, length, 0x01f0);
       // DrawRect (spi, xPos + 10, yPos + 10, length - 20, width - 20, 0x3333);
     }
 }

@@ -17,12 +17,34 @@ class GpioHw final: public Gpio
     static constexpr char * MODULE = (char *)"RtosHw";
 
     public:
-        void        SetPinLevel     (const EPinNum v_ePinNum, const bool v_state)        override;
-        void        SetPinDirection (const EPinNum v_ePinNum, const EPinMode v_ePinMode) override;
-        bool        ReadPinLevel    (const EPinNum v_ePinNum)                            override;
+
+        enum class EPinNum : uint8_t
+        {
+            eMiso = 25,
+            eMosi = 23,
+            eClk  = 19,
+            eCs   = 22,
+            eDc   = 21,
+            eRst  = 18,
+            eBclk = 5
+        };
+
+        enum class EPinMode
+        {
+            eDisable,
+            eInput,
+            eOutput,
+            eOutputOd,
+            eInputOutputOd,
+            eInputOutput
+        };
+
+        void        SetPinLevel     (const uint16_t v_num, const bool v_state)    override;
+        void        SetPinDirection (const uint16_t v_num, const uint16_t v_mode) override;
+        bool        ReadPinLevel    (const uint16_t v_num)                        override;
 
     private:
-        gpio_mode_t getPinMode      (const EPinMode v_ePinMode);
+        gpio_mode_t getPinMode      (const EPinMode v_eMode);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

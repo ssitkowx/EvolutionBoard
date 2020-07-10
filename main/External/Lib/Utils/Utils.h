@@ -46,8 +46,12 @@
 #define ONE_HUNDRED                 100
 #define TWO_HUNDREDS                200
 #define ONE_HUNDRED_TWENTY_EIGHT    128
+#define TWO_HUNDRED_THIRTY_NINE     239
+#define TWO_HUNDRED_FORTY           240
 #define TWO_HUNDREDS_TWENTY_FIVE    255
 #define THREE_HUNDRED               300
+#define THREE_HUNDRED_NINETEEN      319
+#define THREE_HUNDRED_TWENTY        320
 #define THREE_THOUSAND              3000
 #define THREE_THOUSAND_SIX_HUNDRED  3600
 #define THREE_THOUSAND_NEUN_HUNDRED 3900

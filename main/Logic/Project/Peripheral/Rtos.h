@@ -28,6 +28,7 @@ class Rtos
         static void      SetInstance          (Rtos * v_instance) { instance = v_instance; }
         static Rtos *    GetInstance          (void) { return instance; }
 
+        Rtos          () = default;
         virtual ~Rtos () = default;
 
         virtual void     Delay                (const uint32_t v_ms)              = 0;

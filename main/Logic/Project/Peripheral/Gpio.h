@@ -14,33 +14,12 @@
 class Gpio
 {
     public:
-        enum class EPinNum : uint8_t
-        {
-            eMiso = 25,
-            eMosi = 23,
-            eClk  = 19,
-            eCs   = 22,
-            eDc   = 21,
-            eRst  = 18,
-            eBclk = 5
-        };
-
-        enum class EPinMode
-        {
-            eDisable,
-            eInput,
-            eOutput,
-            eOutputOd,
-            eInputOutputOd,
-            eInputOutput
-        };
-
         Gpio          () = default;
         virtual ~Gpio () = default;
 
-        virtual void SetPinLevel     (const EPinNum v_ePinNum, const bool v_state)        = 0;
-        virtual void SetPinDirection (const EPinNum v_ePinNum, const EPinMode v_ePinMode) = 0;
-        virtual bool ReadPinLevel    (const EPinNum v_ePinNum)                            = 0;
+        virtual void SetPinLevel     (const uint16_t v_num, const bool v_state)    = 0;
+        virtual void SetPinDirection (const uint16_t v_num, const uint16_t v_mode) = 0;
+        virtual bool ReadPinLevel    (const uint16_t v_num)                        = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

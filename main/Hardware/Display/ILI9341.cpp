@@ -19,7 +19,7 @@ void ILI9341::sendCommand (SpiHw::EFlag v_flag, SpiHw::EMode v_mode, uint8_t v_c
     spi.Send (&cmd [FIRST_BYTE], ONE);
 }
 
-void ILI9341::SoftwareReset (void)
+void ILI9341::SendSoftwareReset (void)
 {
     Msg <ZERO_BYTES> msg;
     msg.Cmd = 0x01;
@@ -27,14 +27,14 @@ void ILI9341::SoftwareReset (void)
     Rtos::GetInstance ()->Delay (ONE_HUNDRED);
 }
 
-void ILI9341::DisplayOff (void)
+void ILI9341::SendDisplayOff (void)
 {
     Msg <ZERO_BYTES> msg;
     msg.Cmd = 0x28;
     sendCommand (SpiHw::EFlag::eDummy, SpiHw::EMode::eCmd, msg.Cmd);
 }
 
-void ILI9341::PowerControl1 (void)
+void ILI9341::SendPowerControl1 (void)
 {
     Msg <ONE_BYTE> msg;
     msg.Cmd               = 0xC0;
@@ -45,7 +45,7 @@ void ILI9341::PowerControl1 (void)
     sendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::PowerControl2 (void)
+void ILI9341::SendPowerControl2 (void)
 {
     Msg <ONE_BYTE> msg;
     msg.Cmd               = 0xC1;
@@ -55,7 +55,7 @@ void ILI9341::PowerControl2 (void)
     sendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::VCOMControl1 (void)
+void ILI9341::SendVCOMControl1 (void)
 {
     Msg <TWO_BYTES> msg;
     msg.Cmd                = 0xC5;
@@ -67,7 +67,7 @@ void ILI9341::VCOMControl1 (void)
     sendData <TWO_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::VCOMControl2 (void)
+void ILI9341::SendVCOMControl2 (void)
 {
     Msg <ONE_BYTE> msg;
     msg.Cmd                = 0xC7;
@@ -78,7 +78,7 @@ void ILI9341::VCOMControl2 (void)
     sendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::MemoryAccessControl (void)
+void ILI9341::SendMemoryAccessControl (void)
 {
     Msg <ONE_BYTE> msg;
     msg.Cmd                = 0x36;
@@ -95,7 +95,7 @@ void ILI9341::MemoryAccessControl (void)
     sendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::PixelFormatSet (void)
+void ILI9341::SendPixelFormatSet (void)
 {
     Msg <ONE_BYTE> msg;
     msg.Cmd                = 0x3A;
@@ -106,7 +106,7 @@ void ILI9341::PixelFormatSet (void)
     sendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::FrameRateControl (void)
+void ILI9341::SendFrameRateControl (void)
 {
     Msg <TWO_BYTES> msg;
     msg.Cmd                = 0xB1;
@@ -118,7 +118,7 @@ void ILI9341::FrameRateControl (void)
     sendData <TWO_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::GammaSet (void)
+void ILI9341::SendGammaSet (void)
 {
     Msg <ONE_BYTE> msg;
     msg.Cmd                = 0x26;
@@ -128,7 +128,7 @@ void ILI9341::GammaSet (void)
     sendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::PositiveGammaCorrection (void)
+void ILI9341::SendPositiveGammaCorrection (void)
 {
     Msg <FIFTEEN_BYTES> msg;
     msg.Cmd                    = 0xE0;
@@ -152,7 +152,7 @@ void ILI9341::PositiveGammaCorrection (void)
     sendData <FIFTEEN_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::NegativeGammaCorrection (void)
+void ILI9341::SendNegativeGammaCorrection (void)
 {
     Msg <FIFTEEN_BYTES> msg;
     msg.Cmd                    = 0xE1;
@@ -176,40 +176,7 @@ void ILI9341::NegativeGammaCorrection (void)
     sendData <FIFTEEN_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::ColumnAddressSet (void)
-{
-    Msg <FOUR_BYTES> msg;
-    msg.Cmd                = 0x2A;
-    msg.Data [FIRST_BYTE]  = 0x00;    // SC15 - SC8
-    msg.Data [SECOND_BYTE] = 0x00;    // SC7  - SC0
-    msg.Data [THIRD_BYTE]  = 0x00;    // EC15 - EC8
-    msg.Data [FOURTH_BYTE] = 0xEF;    // EC7  - EC0
-
-    sendCommand           (SpiHw::EFlag::eDummy, SpiHw::EMode::eCmd , msg.Cmd);
-    sendData <FOUR_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
-}
-
-void ILI9341::PageAddressSet (void)
-{
-    Msg <FOUR_BYTES> msg;
-    msg.Cmd                = 0x2B;
-    msg.Data [FIRST_BYTE]  = 0x00;    // SP15 - SP8
-    msg.Data [SECOND_BYTE] = 0x00;    // SP7  - SP0
-    msg.Data [THIRD_BYTE]  = 0x01;    // EP15 - EP8
-    msg.Data [FOURTH_BYTE] = 0x3F;    // EP7  - EP0
-
-    sendCommand           (SpiHw::EFlag::eDummy, SpiHw::EMode::eCmd , msg.Cmd);
-    sendData <FOUR_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
-}
-
-void ILI9341::MemoryWrite (void)
-{
-    Msg <ZERO_BYTES> msg;
-    msg.Cmd = 0x2C;
-    sendCommand (SpiHw::EFlag::eDummy, SpiHw::EMode::eCmd , msg.Cmd);
-}
-
-void ILI9341::EntryModeSet (void)
+void ILI9341::SendEntryModeSet (void)
 {
     Msg <ONE_BYTE> msg;
     msg.Cmd                = 0xB7;
@@ -224,7 +191,7 @@ void ILI9341::EntryModeSet (void)
     sendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::DisplayFunctionControl (void)
+void ILI9341::SendDisplayFunctionControl (void)
 {
     Msg <FOUR_BYTES> msg;
     msg.Cmd                = 0xB6;
@@ -241,7 +208,7 @@ void ILI9341::DisplayFunctionControl (void)
     sendData <FOUR_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::SleepOut (void)
+void ILI9341::SendSleepOut (void)
 {
     Msg <ZERO_BYTES> msg;
     msg.Cmd = 0x11;
@@ -249,7 +216,7 @@ void ILI9341::SleepOut (void)
     Rtos::GetInstance ()->Delay (ONE_HUNDRED);
 }
 
-void ILI9341::DisplayOn (void)
+void ILI9341::SendDisplayOn (void)
 {
     Msg <ZERO_BYTES> msg;
     msg.Cmd = 0x29;
@@ -257,13 +224,47 @@ void ILI9341::DisplayOn (void)
     Rtos::GetInstance ()->Delay (ONE_HUNDRED);
 }
 
-uint32_t ILI9341::GetId (void)
+uint32_t ILI9341::ReceiveGetId (void)
 {
     Msg <FOUR_BYTES> msg;
     msg.Cmd = 0x04;
-    memset      (msg.Data, 0, FOUR_BYTES);
-    sendCommand (SpiHw::EFlag::eDummy, SpiHw::EMode::eCmd, msg.Cmd);
-    return *(uint32_t*)sendData <FOUR_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
+    memset                (msg.Data, 0, FOUR_BYTES);
+    sendCommand           (SpiHw::EFlag::eDummy, SpiHw::EMode::eCmd, msg.Cmd);
+    sendData <FOUR_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
+    return *(uint32_t*)msg.Data;
+}
+
+void ILI9341::SendMemoryWrite (const SpiHw::EFlag v_eFlag)
+{
+    Msg <ZERO_BYTES> msg;
+    msg.Cmd = 0x2C;
+    sendCommand (v_eFlag, SpiHw::EMode::eCmd , msg.Cmd);
+}
+
+void ILI9341::SendColumnAddressSet (const SpiHw::EFlag v_eFlag, const uint8_t v_scH, const uint8_t v_scL, const uint8_t v_ecH, const uint8_t v_ecL)
+{
+    Msg <FOUR_BYTES> msg;
+    msg.Cmd                = 0x2A;
+    msg.Data [FIRST_BYTE]  = v_scH;    // SC15 - SC8
+    msg.Data [SECOND_BYTE] = v_scL;    // SC7  - SC0
+    msg.Data [THIRD_BYTE]  = v_ecH;    // EC15 - EC8
+    msg.Data [FOURTH_BYTE] = v_ecL;    // EC7  - EC0
+
+    sendCommand           (v_eFlag, SpiHw::EMode::eCmd , msg.Cmd);
+    sendData <FOUR_BYTES> (v_eFlag, SpiHw::EMode::eData, msg.Data);
+}
+
+void ILI9341::SendPageAddressSet (const SpiHw::EFlag v_eFlag, const uint8_t v_spH, const uint8_t v_spL, const uint8_t v_epH, const uint8_t v_epL)
+{
+    Msg <FOUR_BYTES> msg;
+    msg.Cmd                = 0x2B;
+    msg.Data [FIRST_BYTE]  = v_spH;    // SP15 - SP8
+    msg.Data [SECOND_BYTE] = v_spL;    // SP7  - SP0
+    msg.Data [THIRD_BYTE]  = v_epH;    // EP15 - EP8
+    msg.Data [FOURTH_BYTE] = v_epL;    // EP7  - EP0
+
+    sendCommand           (v_eFlag, SpiHw::EMode::eCmd , msg.Cmd);
+    sendData <FOUR_BYTES> (v_eFlag, SpiHw::EMode::eData, msg.Data);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
