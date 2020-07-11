@@ -16,10 +16,10 @@
 
 extern "C" void MainCppHw (void)
 {
-    uint16_t xPos   = 0;
-    uint16_t yPos   = 0;
-    uint16_t width  = 20;
-    uint16_t length = 20;
+    uint16_t xPos   = 50;
+    uint16_t yPos   = 50;
+    uint16_t width  = 100;
+    uint16_t length = 100;
 
     //printf("Free heap size: %d\n", esp_get_free_heap_size ());
     static LoggerHw loggerHw;
@@ -32,34 +32,14 @@ extern "C" void MainCppHw (void)
     SpiHw     spiHw;
     DisplayHw display (gpioHw, spiHw);
 
+
+    display.DrawRect (xPos, yPos, width, length, Display::EColors::ePurple);
+    display.DrawRect (xPos + width, yPos, width, length, Display::EColors::eMagneta);
+
     while (1)
     {
-       xPos = 0;
-       yPos = 0;
-       display.DrawRect (xPos, yPos, width, length, 0x80);
-       xPos+=20;
-       yPos+=20;
-       display.DrawRect (xPos, yPos, width, length, 0x40);
-       xPos+=20;
-       yPos+=20;
-       display.DrawRect (xPos, yPos, width, length, 0x20);
-       xPos+=20;
-       yPos+=20;
-       display.DrawRect (xPos, yPos, width, length, 0x10);
 
-       xPos+=20;
-       yPos+=20;
-       display.DrawRect (xPos, yPos, width, length, 0x08);
-       xPos+=20;
-       yPos+=20;
-       display.DrawRect (xPos, yPos, width, length, 0x04);
-       xPos+=20;
-       yPos+=20;
-       display.DrawRect (xPos, yPos, width, length, 0x02);
-       xPos+=20;
-       yPos+=20;
-       display.DrawRect (xPos, yPos, width, length, 0x01);
-      // DrawRect (spi, xPos + 10, yPos + 10, length - 20, width - 20, 0x3333);
+
     }
 }
 
