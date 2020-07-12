@@ -23,7 +23,7 @@ spi_device_handle_t SpiHw::spi;
 static void beforeTransfer (spi_transaction_t * v_transaction)
 {
     int dcPin = (int)v_transaction->user;
-    gpio_set_level (static_cast <gpio_num_t>(GpioHw::EPinNum::eDc), dcPin);
+    gpio_set_level (static_cast<gpio_num_t>(GpioHw::EPinNum::eDc), dcPin);
 }
 
 SpiHw::SpiHw ()
@@ -41,8 +41,8 @@ SpiHw::SpiHw ()
     static spi_device_interface_config_t devCfg;
     //.clock_speed_hz=26*1000*1000,                 // Clock out at 26 MHz
     devCfg.clock_speed_hz  = 10*1000*1000;          // Clock out at 10 MHz
-    devCfg.mode            = static_cast <uint8_t> (EMode::eCmd);
-    devCfg.spics_io_num    = static_cast <int>     (GpioHw::EPinNum::eCs);
+    devCfg.mode            = static_cast<uint8_t>(EMode::eCmd);
+    devCfg.spics_io_num    = static_cast<int>    (GpioHw::EPinNum::eCs);
     devCfg.queue_size      = SEVEN;
     devCfg.pre_cb          = beforeTransfer;
 
@@ -95,16 +95,15 @@ void SpiHw::Send (const uint8_t * const v_data, const uint16_t v_len)
 
 void SpiHw::Send (const uint16_t * const v_data, const uint16_t v_len)
 {
-
     if (v_len == ZERO) { LOGE (MODULE, "Data length is empty.\n"); return; }
 
     spi_transaction_t transaction;
     memset (&transaction, ZERO, sizeof (transaction));
 
-    transaction.flags     = static_cast <uint8_t> (EFlag::eDio);
+    transaction.flags     = static_cast <uint8_t>(EFlag::eDio);
     uint8_t restLen       = Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
     transaction.length    = (v_len + restLen) * EIGHT_BITS * sizeof (uint16_t);
-    transaction.user      = (void *)true;
+    transaction.user      = reinterpret_cast<void *>(true);
     transaction.tx_buffer = v_data;
 
     esp_err_t status = spi_device_polling_transmit (spi, &transaction);
@@ -116,9 +115,9 @@ uint16_t SpiHw::Receive (uint8_t * v_data, const uint16_t v_len)
     spi_transaction_t transaction;
     memset (&transaction, ZERO, sizeof (transaction));
 
-    transaction.flags     = static_cast <uint8_t> (EFlag::eDio);
+    transaction.flags     = static_cast<uint8_t>(EFlag::eDio);
     transaction.length    = v_len * EIGHT_BITS;
-    transaction.user      = (void *)true;
+    transaction.user      = reinterpret_cast<void *>(true);
     transaction.tx_buffer = v_data;
 
     esp_err_t status = spi_device_polling_transmit (spi, &transaction);
