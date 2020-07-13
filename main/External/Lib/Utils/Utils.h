@@ -55,6 +55,7 @@
 #define THREE_THOUSAND              3000
 #define THREE_THOUSAND_SIX_HUNDRED  3600
 #define THREE_THOUSAND_NEUN_HUNDRED 3900
+#define FIVE_THOUSAND               5000
 
 #define FIRST_BYTE                  ZERO
 #define SECOND_BYTE                 ONE
