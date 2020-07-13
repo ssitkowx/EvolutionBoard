@@ -62,17 +62,17 @@ static uint8_t getFlag (SpiHw::EFlag v_flag)
 
 void SpiHw::Send (const uint8_t * const v_data, const uint16_t v_len)
 {
-    if (v_len == ZERO) { assert (v_len == ZERO); }
+    if (v_len == ZERO) { LOGE (MODULE, "Data length is empty.\n"); return; }
 
-    static spi_transaction_t transaction;
+    spi_transaction_t transaction;
     memset (&transaction, ZERO, sizeof (transaction));
 
     uint8_t flags = getFlag (static_cast<SpiHw::EFlag>(v_data [FIRST_BYTE]));
     uint8_t user  = v_data [SECOND_BYTE];
 
-    transaction.length = v_len * EIGHT_BITS;
-    transaction.user   = reinterpret_cast<void *>(user);
     transaction.flags  = flags;
+    transaction.user   = reinterpret_cast<void *>(user);
+    transaction.length = v_len * EIGHT_BITS;
 
     if (flags == SPI_TRANS_USE_TXDATA)
     {
@@ -100,31 +100,29 @@ void SpiHw::Send (const uint16_t * const v_data, const uint16_t v_len)
     spi_transaction_t transaction;
     memset (&transaction, ZERO, sizeof (transaction));
 
-    transaction.flags     = static_cast <uint8_t>(EFlag::eDio);
-    uint8_t restLen       = Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
-    transaction.length    = (v_len + restLen) * EIGHT_BITS * sizeof (uint16_t);
-    transaction.user      = reinterpret_cast<void *>(true);
+    transaction.flags     = getFlag (static_cast<SpiHw::EFlag>(v_data [FIRST_BYTE]));
+    transaction.user      = reinterpret_cast<void *>(v_data [SECOND_BYTE]);
+    transaction.length    = (v_len + Settings::GetInstance ().Lcd.MaxLinesPerTransfer) * EIGHT_BITS * sizeof (uint16_t);
     transaction.tx_buffer = v_data;
 
     esp_err_t status = spi_device_polling_transmit (spi, &transaction);
     assert (status == ESP_OK);
 }
 
-uint16_t SpiHw::Receive (uint8_t * v_data, const uint16_t v_len)
+uint16_t SpiHw::Receive (uint8_t * v_data)
 {
-    spi_transaction_t transaction;
+    static spi_transaction_t transaction;
     memset (&transaction, ZERO, sizeof (transaction));
 
-    transaction.flags     = static_cast<uint8_t>(EFlag::eDio);
-    transaction.length    = v_len * EIGHT_BITS;
-    transaction.user      = reinterpret_cast<void *>(true);
-    transaction.tx_buffer = v_data;
+    transaction.flags  = getFlag (static_cast<SpiHw::EFlag>(v_data [FIRST_BYTE]));
+    transaction.user   = reinterpret_cast<void *>(v_data [SECOND_BYTE]);
+    transaction.length = v_data [THIRD_BYTE] * EIGHT_BITS;
 
     esp_err_t status = spi_device_polling_transmit (spi, &transaction);
     assert (status == ESP_OK);
 
-    v_data = transaction.rx_data;
-    return ZERO;
+    v_data [FOURTH_BYTE] = transaction.rx_data [FIRST_BYTE];
+    return transaction.length;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

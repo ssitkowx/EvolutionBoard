@@ -18,7 +18,7 @@ DisplayHw::DisplayHw (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi), 
 {
     LOG (MODULE, "Init./n");
 
-    //Initialize non-SPI GPIOs
+    // Initialize non-SPI GPIOs
     gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::EPinNum::eDc)  , static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
     gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::EPinNum::eRst) , static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
     gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::EPinNum::eBclk), static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
@@ -59,27 +59,18 @@ void DisplayHw::DrawRect (const uint16_t v_xPos, const uint16_t v_yPos, const ui
     const uint16_t rectLen  = Settings::GetInstance ().Lcd.Width * Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
     uint16_t rect [rectLen] = { };
     memset (rect, getColor (eColor), rectLen * sizeof (uint16_t));
-    uint8_t  maxRects = calculateRects (v_length);
+    uint8_t maxRects = calculateRects (v_length);
 
-    if (maxRects == ONE)
-    {
-        //LOGD      (MODULE, "One rect: v_xPos: %u, v_yPos: %u, v_width: %u, v_length: %u end./n", v_xPos, v_yPos, v_width, v_length);
-        sendLines (v_xPos, v_yPos, v_width, v_length, static_cast <uint16_t *> (rect));
-    }
+    if (maxRects == ONE) { sendLines (v_xPos, v_yPos, v_width, v_length, static_cast <uint16_t *> (rect)); }
     else
     {
         uint16_t yPos   = v_yPos;
         uint16_t length = ZERO;
         for (uint8_t rectNum = ONE; rectNum <= maxRects; rectNum++)
         {
-            if (rectNum == maxRects)
-            {
-                //LOGD      (MODULE, "Last rect: v_xPos: %u, yPos: %u, v_width: %u, length: %u end./n", v_xPos, yPos, v_width, length);
-                length = v_length + v_yPos - yPos;
-            }
+            if (rectNum == maxRects) { length = v_length + v_yPos - yPos; }
             else
             {
-                //LOGD      (MODULE, "Rect: v_xPos: %u, yPos: %u, v_width: %u, length: %u end /n", v_xPos, yPos, v_width, Settings::GetInstance().Lcd.MaxLinesPerTransfer);
                 length = Settings::GetInstance().Lcd.MaxLinesPerTransfer;
                 yPos   = yPos + length;
             }

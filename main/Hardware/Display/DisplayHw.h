@@ -32,7 +32,7 @@ class DisplayHw final : public Display
 
         void     sendLines      (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length, const uint16_t * const v_data);
         bool     validateRect   (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length);
-        uint8_t  getColor       (const EColors  eColor);
+        uint8_t  getColor       (const Display::EColors  eColor);
         uint8_t  calculateRects (const uint16_t v_length);
 };
 

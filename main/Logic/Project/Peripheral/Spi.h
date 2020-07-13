@@ -18,7 +18,7 @@ class Spi
 
         virtual void     Send    (const uint8_t *  const v_data, const uint16_t v_len) = 0;
         virtual void     Send    (const uint16_t * const v_data, const uint16_t v_len) = 0;
-        virtual uint16_t Receive (uint8_t *              v_data, const uint16_t v_len) = 0;
+        virtual uint16_t Receive (uint8_t *              v_data)                       = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

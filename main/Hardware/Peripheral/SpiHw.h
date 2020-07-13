@@ -40,7 +40,7 @@ class SpiHw final: public Spi
 
         void     Send    (const uint8_t *  const v_data, const uint16_t v_len) override;
         void     Send    (const uint16_t * const v_data, const uint16_t v_len) override;
-        uint16_t Receive (uint8_t *              v_data, const uint16_t v_len) override;
+        uint16_t Receive (uint8_t *              v_data)                       override;
 
     private:
         static spi_device_handle_t spi;

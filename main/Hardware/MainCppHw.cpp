@@ -10,12 +10,17 @@
 #include "LoggerHw.h"
 #include "DisplayHw.h"
 
+
+#include "ILI9341.h"
+
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 extern "C" void MainCppHw (void)
 {
+    static constexpr char * MODULE = (char *)"MainCppHw";
+
     uint16_t xPos   = 50;
     uint16_t yPos   = 50;
     uint16_t width  = 100;
@@ -32,13 +37,11 @@ extern "C" void MainCppHw (void)
     SpiHw     spiHw;
     DisplayHw display (gpioHw, spiHw);
 
-
     display.DrawRect (xPos, yPos, width, length, Display::EColors::ePurple);
     display.DrawRect (xPos + width, yPos, width, length, Display::EColors::eMagneta);
 
     while (1)
     {
-
 
     }
 }

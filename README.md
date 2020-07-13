@@ -24,6 +24,14 @@ Logic:
 - Add files, folders and libraries to the 'eclipse' project.
 
 # V. Builidng:
+Logic:
+- Go to 'Conan' folder and open git bash console,
+- Type 'conan install .',
+- Type 'conan source .',
+- Type 'conan build .',
+
+Hardware:
+- Add to the project files from external libraries located in the ".conan\download",
 - Open a project gui and build a project.
 
 # VI. Tips:

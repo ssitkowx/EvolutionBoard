@@ -34,25 +34,27 @@ class ILI9341
                                                     static_cast<uint8_t> (v_mode)
                                                   };
 
-            memcpy (&data [THIRD_BYTE], v_data, DATA_LEN);
+            memcpy   (&data [THIRD_BYTE], v_data, DATA_LEN);
             spi.Send (&data [FIRST_BYTE], DATA_LEN);
         }
 
         template <uint8_t DATA_LEN>
         void receiveData (SpiHw::EFlag v_flag, SpiHw::EMode v_mode, uint8_t v_data [])
         {
-            uint8_t data [TWO_BYTES + DATA_LEN] = { static_cast<uint8_t> (v_flag),
-                                                    static_cast<uint8_t> (v_mode)
-                                                  };
+            uint8_t data [THREE_BYTES + DATA_LEN] = { static_cast<uint8_t> (v_flag),
+                                                      static_cast<uint8_t> (v_mode),
+                                                      DATA_LEN
+                                                    };
 
-            memcpy (&data [THIRD_BYTE], v_data, DATA_LEN);
-            spi.Receive (&data [FIRST_BYTE], DATA_LEN);
+            spi.Receive (&data [FIRST_BYTE]);
+            memcpy      (v_data, &data [FOURTH_BYTE], DATA_LEN);
         }
 
     public:
         ILI9341 (Spi & v_spi): spi (v_spi) { }
 
         void     SendSoftwareReset             (void);
+        uint8_t  ReceiveDisplayPixelFormat     (void);
         void     SendDisplayOff                (void);
         void     SendPowerControl1             (void);
         void     SendPowerControl2             (void);
