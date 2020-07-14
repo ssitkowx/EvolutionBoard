@@ -25,9 +25,9 @@ class Settings
 
         struct
         {
-            const uint32_t DisplayAndTouch   = 5000;
+            const uint32_t DisplayAndTouch   = 30000;
             const uint32_t InterntConnection = 5000;
-        } Stack;
+        } StackDepth;
 
         struct
         {

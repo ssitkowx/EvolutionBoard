@@ -8,17 +8,12 @@
 #include <string.h>
 #include <stdint.h>
 #include "WiFiHw.h"
+#include "esp_err.h"
 #include "LoggerHw.h"
 #include "Settings.h"
 #include "SystemTime.h"
 #include "esp_system.h"
 #include "esp_event_loop.h"
-
-///////////////////////////////////////////////////////////////////////////////
-//////////////////////////////// VARIABLES ////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-//using namespace std::chrono_literals;   // ns, us, ms, s, h, etc.
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -39,7 +34,7 @@ WiFiHw::~WiFiHw ()
 
 void WiFiHw::Reconnect (void)
 {
-    LOGI (MODULE, "Try reconnect./n")
+    LOGI (MODULE, "Try reconnect.")
 
     if (getModes ().StaConnected == true)
     {
@@ -62,13 +57,13 @@ void WiFiHw::Reconnect (void)
 
 esp_err_t WiFiHw::onWiFiEvent (void * v_ctx, system_event_t * v_event)
 {
-    LOGI (MODULE, "WiFi management event: %u./n", v_event->event_id);
+    LOGI (MODULE, "WiFi management event: %u.", v_event->event_id);
 
     EEvents EEvent = EEvents::eDisconnected;
     if (v_event->event_id == SYSTEM_EVENT_STA_START)
     {
         EEvent = EEvents::eStart;
-        LOGI             (MODULE, "Station start./n");
+        LOGI             (MODULE, "Station start.");
         esp_wifi_connect ();
     }
     if (v_event->event_id == SYSTEM_EVENT_STA_STOP)
@@ -80,12 +75,12 @@ esp_err_t WiFiHw::onWiFiEvent (void * v_ctx, system_event_t * v_event)
     {
         EEvent = EEvents::eConnected;
         displayMac ();
-        LOGI       (MODULE, "Station connected./n");
+        LOGI       (MODULE, "Station connected.");
     }
     else if (v_event->event_id == SYSTEM_EVENT_STA_DISCONNECTED)
     {
         EEvent = EEvents::eDisconnected;
-        LOGI (MODULE, "Station disconnected./n");
+        LOGI (MODULE, "Station disconnected.");
     }
     else if (v_event->event_id == SYSTEM_EVENT_STA_GOT_IP)
     {
@@ -96,7 +91,7 @@ esp_err_t WiFiHw::onWiFiEvent (void * v_ctx, system_event_t * v_event)
     else if (v_event->event_id == SYSTEM_EVENT_STA_LOST_IP)
     {
         EEvent = EEvents::eLostIp;
-        LOGI (MODULE, "Ip lost./n");
+        LOGI (MODULE, "Ip lost.");
     }
 
     onEvent (EEvent);
@@ -116,21 +111,21 @@ void WiFiHw::displayMac (void)
     std::array <uint8_t, MAC_LEN> macAddr;
     getMac (EMode::eStation, macAddr);
 
-    LOGI (MODULE, "Mac Address %02x:%02x:%02x:%02x:%02x:%02x./n", macAddr [FIRST_BYTE],
-                                                                  macAddr [SECOND_BYTE],
-                                                                  macAddr [THIRD_BYTE],
-                                                                  macAddr [FOURTH_BYTE],
-                                                                  macAddr [FIFTH_BYTE],
-                                                                  macAddr [SIXTH_BYTE]);
+    LOGI (MODULE, "Mac Address %02x:%02x:%02x:%02x:%02x:%02x.", macAddr [FIRST_BYTE],
+                                                                macAddr [SECOND_BYTE],
+                                                                macAddr [THIRD_BYTE],
+                                                                macAddr [FOURTH_BYTE],
+                                                                macAddr [FIFTH_BYTE],
+                                                                macAddr [SIXTH_BYTE]);
 }
 
 void WiFiHw::displayNetworkParams (void)
 {
     WiFi::Config::NetworkParams networkParams = getNetworkParams ();
-    LOGI (MODULE, "Got Ip: %s, Mask: %s, Gateway: %s, IPv6: %s./n", networkParams.Ipv4.c_str    (),
-                                                                    networkParams.Mask.c_str    (),
-                                                                    networkParams.Gateway.c_str (),
-                                                                    networkParams.Ipv6.c_str    ());
+    LOGI (MODULE, "Got Ip: %s, Mask: %s, Gateway: %s, IPv6: %s.", networkParams.Ipv4.c_str    (),
+                                                                  networkParams.Mask.c_str    (),
+                                                                  networkParams.Gateway.c_str (),
+                                                                  networkParams.Ipv6.c_str    ());
 }
 
 void WiFiHw::getMac (EMode v_mode, std::array <uint8_t, SIX_BYTES> & v_mac)
@@ -160,7 +155,7 @@ WiFi::Config::NetworkParams WiFiHw::getNetworkParams (void)
     if (getModes ().StaConnected == false) { LOGE (MODULE, "Station disconnected./n"); }
 
     tcpip_adapter_ip_info_t networkInfo = { };
-    if (tcpip_adapter_get_ip_info (TCPIP_ADAPTER_IF_STA, &networkInfo) != ESP_OK) { LOGE (MODULE, "Can't get Ipv4 info./n"); }
+    if (tcpip_adapter_get_ip_info (TCPIP_ADAPTER_IF_STA, &networkInfo) != ESP_OK) { LOGE (MODULE, "Can't get Ipv4 info."); }
 
     struct IPv4Address
     {
@@ -178,7 +173,7 @@ WiFi::Config::NetworkParams WiFiHw::getNetworkParams (void)
     const IPv4Address gw   (networkInfo.gw.addr);
 
     ip6_addr_t ipv6 = { };
-    if (tcpip_adapter_get_ip6_linklocal (TCPIP_ADAPTER_IF_STA, &ipv6) != ESP_OK) { LOGW (MODULE, "Can't get Ipv6 info./n"); }
+    if (tcpip_adapter_get_ip6_linklocal (TCPIP_ADAPTER_IF_STA, &ipv6) != ESP_OK) { LOGW (MODULE, "Can't get Ipv6 info."); }
 
     char ipv6Buff [THIRTY_BYTES] = { };
     ip6addr_ntoa_r (&ipv6, ipv6Buff, sizeof (ipv6Buff));
@@ -197,13 +192,13 @@ WiFi::Modes WiFiHw::getModes (void)
     if (Mode.Started == false)
     {
         wifiMode = WIFI_MODE_NULL;
-        LOGE (MODULE, "Not started./n");
+        LOGE (MODULE, "Not started.");
     }
 
     if (esp_wifi_get_mode (&wifiMode) == ESP_ERR_WIFI_NOT_INIT)
     {
         wifiMode = WIFI_MODE_NULL;
-        LOGE (MODULE, "Can't read mode./n");
+        LOGE (MODULE, "Can't read mode.");
     }
 
     WiFi::Modes modes;
@@ -215,7 +210,7 @@ WiFi::Modes WiFiHw::getModes (void)
 
 void WiFiHw::initStation (void)
 {
-    LOG                (MODULE, "Init station with Ssid = %s and Password = %s./n", settings.Station.Ssid,
+    LOG                (MODULE, "Init station with Ssid = %s and Password = %s.", settings.Station.Ssid,
                                                                                     settings.Station.Password);
 
     tcpip_adapter_init ();
@@ -238,20 +233,20 @@ void WiFiHw::initStation (void)
 void WiFiHw::deinit (void)
 {
     ESP_ERROR_CHECK (esp_wifi_deinit ());
-    LOG             (MODULE, "Deinit./n")
+    LOG             (MODULE, "Deinit.")
 }
 
 void WiFiHw::start (void)
 {
     Mode.Started = true;
 
-    LOG             (MODULE, "Start./n");
+    LOG             (MODULE, "Start.");
     ESP_ERROR_CHECK (esp_wifi_start ());
 }
 
 void WiFiHw::stop (void)
 {
-    LOG             (MODULE, "Stop./n")
+    LOG             (MODULE, "Stop.")
     ESP_ERROR_CHECK (esp_wifi_stop ());
 }
 

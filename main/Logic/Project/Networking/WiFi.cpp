@@ -43,11 +43,6 @@ void WiFi::switchMode (EMode v_eMode)
             startStation ();
             break;
         }
-        case EMode::eAp:
-        {
-            startSoftAp ();
-            break;
-        }
         default:
         {
             break;
@@ -76,32 +71,9 @@ void WiFi::onEvent (EEvents v_event)
         Mode.StaConnected = false;
     }
     else if (v_event == EEvents::eConnected) { }
-    if (v_event == EEvents::eGotIp)
+    else if (v_event == EEvents::eGotIp)
     {
         Mode.StaConnected = true;
-    }
-    else if (v_event == EEvents::eApConnected)
-    {
-        Mode.SoftApConnected = true;
-    }
-    else if (v_event == EEvents::eApDisconnected)
-    {
-        Mode.SoftApConnected = false;
-    }
-    else if (v_event == EEvents::eApEnabled)
-    {
-        /*
-        webServer.Start();
-        captivePortal.reset(new CaptiveDNS());
-        captivePortal.get()->Start();
-        */
-    }
-    else if (v_event == EEvents::eApDisabled)
-    {
-        /*
-        captivePortal = nullptr;
-        webServer.Stop();
-        */
     }
 }
 

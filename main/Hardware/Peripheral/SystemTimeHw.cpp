@@ -2,8 +2,9 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include "Rtos.h"
 #include "Settings.h"
-//#include "esp_sntp.h"
+#include "esp_sntp.h"
 #include "LoggerHw.h"
 #include "SystemTimeHw.h"
 
@@ -13,10 +14,10 @@
 
 void SystemTimeHw::init (void)
 {
-    LOG                   (MODULE, "Init./n");
-    //sntp_setoperatingmode (SNTP_OPMODE_POLL);
-    //sntp_setservername    (ZERO, (char *)Settings::GetInstance ().Sntp.Endpoint.c_str ());
-    //sntp_init             ();
+    LOG                   (MODULE, "Init.");
+    sntp_setoperatingmode (SNTP_OPMODE_POLL);
+    sntp_setservername    (ZERO, (char *)Settings::GetInstance ().Sntp.Endpoint.c_str ());
+    sntp_init             ();
 }
 
 std::string SystemTimeHw::getCurrentStringTime (void)
@@ -45,18 +46,18 @@ void SystemTimeHw::Update (void)
     const int retryMax           = TEN;
 
     while ((isTimeSynchronized == false) && (++retry < retryMax))
-    {/*
+    {
         sntp_sync_status_t syncStatus = sntp_get_sync_status ();
         if (syncStatus == SNTP_SYNC_STATUS_RESET)
         {
-            LOGW       (MODULE, "Try synchronize time with SNTP server. Attempt: (%d/%d)", retry, retryMax);
-            vTaskDelay (2000 / portTICK_PERIOD_MS);
+            LOGW (MODULE, "Try synchronize time with SNTP server. Attempt: (%d/%d).", retry, retryMax);
+            Rtos::GetInstance()->Delay (TWO_THOUSAND);
         }
         else
         {
             isTimeSynchronized = true;
-            LOGI (MODULE, "SNTP server time synchronization succeeded");
-        }*/
+            LOGI (MODULE, "SNTP server time synchronization succeeded.");
+        }
     }
 }
 
@@ -82,9 +83,9 @@ std::string SystemTimeHw::ToString (const char * v_format) const
 {
     if (v_format == nullptr || strlen (v_format) == ZERO) return ToStringUTC ();
 
-    std::chrono::system_clock::time_point hourFiveMinutes;                                                         // Corrects displayed time
+    std::chrono::system_clock::time_point hourFiveMinutes;    // Corrects displayed time
     hourFiveMinutes = std::chrono::system_clock::from_time_t (THREE_THOUSAND_SIX_HUNDRED);
-    
+
     std::time_t now    = std::chrono::system_clock::to_time_t (timePoint) + std::chrono::system_clock::to_time_t (hourFiveMinutes);
     std::tm     now_tm = { };
     localtime_r (&now, &now_tm);

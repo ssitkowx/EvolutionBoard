@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Rtos.h"
+#include "esp_err.h"
 #include "TimerHw.h"
 #include "Settings.h"
 #include "LoggerHw.h"

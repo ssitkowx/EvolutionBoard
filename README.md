@@ -13,15 +13,13 @@ Hardware:
 - This is where the environment-specific code is kept.
 
 Logic:
-- This is where external libraries are stored,
+- This is where external common libraries are stored,
 - This is where environment-specific and hardware-independent code is stored.
 
 # IV. Configuration:
 - Eclipse IDE for C/C++ Developers. Version: 2019-12(4.14.0),
-- ESP-IDF Eclipse plugin configured according https://github.com/espressif/idf-eclipse-plugin/blob/master/README.md
+- ESP-IDF Branch_v4.0. Eclipse plugin configured according https://github.com/espressif/idf-eclipse-plugin/blob/master/README.md
 - Generate hal libraries from CubeMx version 5.3.0,
-- To enable C++ settings add <nature>org.eclipse.cdt.core.ccnature</nature> to .project,
-- Add files, folders and libraries to the 'eclipse' project.
 
 # V. Builidng:
 Logic:
@@ -36,3 +34,4 @@ Hardware:
 
 # VI. Tips:
 - Exclude 'main' from the build logic project.
+- To enable C++ settings add <nature>org.eclipse.cdt.core.ccnature</nature> to .project,

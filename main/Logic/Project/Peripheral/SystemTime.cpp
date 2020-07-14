@@ -3,7 +3,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Settings.h"
-#include "LoggerHw.h"
 #include "SystemTime.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -24,7 +23,7 @@ SystemTime * SystemTime::GetInstance (void)
     time_t currentTime;
     time (&currentTime);
     timePoint = std::chrono::system_clock::from_time_t (currentTime);
-    
+
     return instance;
 }
 

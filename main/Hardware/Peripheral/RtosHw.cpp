@@ -11,7 +11,7 @@
 //////////////////////////////// VARIABLES ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-SemaphoreHandle_t AzureDataUpdateSemaphoreHandle;
+//SemaphoreHandle_t AzureDataUpdateSemaphoreHandle;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -19,15 +19,15 @@ SemaphoreHandle_t AzureDataUpdateSemaphoreHandle;
 
 RtosHw::RtosHw (void)
 {
-    LOG (MODULE, "Init");
+    LOG (MODULE, "Init.");
 
-    AzureDataUpdateSemaphoreHandle = xSemaphoreCreateBinary ();
-    if (AzureDataUpdateSemaphoreHandle == NULL) { LOGE (MODULE, "Could't allocate ReqAzureDataUpdateeSemaphoreHandle"); }
+    //AzureDataUpdateSemaphoreHandle = xSemaphoreCreateBinary ();
+    //if (AzureDataUpdateSemaphoreHandle == NULL) { LOGE (MODULE, "Could't allocate ReqAzureDataUpdateeSemaphoreHandle./n"); }
 }
 
 RtosHw::~RtosHw ()
 {
-    LOG (MODULE, "Deinit");
+    LOG (MODULE, "Deinit.");
 }
 /*
 bool RtosHw::GiveAzureDataUpdateSemaphoreFromISR (void)
@@ -45,14 +45,14 @@ bool RtosHw::TakeAzureDataUpdateSemaphore (void)
 
 
 uint32_t RtosHw::GetCurrentStackSize (const char * v_taskName)
-{/*
-    extern TaskHandle_t MicorTigWelderTaskHandle;
-    extern TaskHandle_t MicorTigAzureTaskHandle;
+{
+    extern TaskHandle_t DisplayAndTouchTaskHandle;
+    extern TaskHandle_t InternetConnectionTaskHandle;
     
-    if (strcmp (v_taskName, "MicorTigWelderComm")) { return uxTaskGetStackHighWaterMark (MicorTigWelderTaskHandle); }
-    if (strcmp (v_taskName, "MicorTigAzureComm"))  { return uxTaskGetStackHighWaterMark (MicorTigAzureTaskHandle);  }
+    if (strcmp (v_taskName, "DisplayAndTouch"))    { return uxTaskGetStackHighWaterMark (DisplayAndTouchTaskHandle);    }
+    if (strcmp (v_taskName, "InternetConnection")) { return uxTaskGetStackHighWaterMark (InternetConnectionTaskHandle); }
     
-    LOGE (MODULE, "Couldn't find task");*/
+    LOGE (MODULE, "Couldn't find task.");
     return 0;
 }
 

@@ -6,6 +6,7 @@ set(srcs pretty_effect.c
          Logic/Project/Peripheral/Gpio.cpp
          Logic/Project/Peripheral/Rtos.cpp
          Logic/Project/Peripheral/Timer.cpp
+         Logic/Project/Peripheral/Flash.cpp
          Logic/Project/Peripheral/SystemTime.cpp
          Logic/Project/Networking/WiFi.cpp
          Hardware/main.c
@@ -15,6 +16,7 @@ set(srcs pretty_effect.c
          Hardware/Peripheral/SpiHw.cpp
          Hardware/Peripheral/RtosHw.cpp
          Hardware/Peripheral/GpioHw.cpp
+         Hardware/Peripheral/FlashHw.cpp
          Hardware/Peripheral/SystemTimeHw.cpp
          Hardware/Networking/WiFiHw.cpp
 )

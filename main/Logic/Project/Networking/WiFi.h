@@ -91,7 +91,6 @@ class WiFi
         } settings;
 
         virtual void startStation (void) = 0;
-        virtual void startSoftAp  (void) = 0;
 
         void         switchMode   (EMode v_eMode);
         static  void onEvent      (EEvents v_event);

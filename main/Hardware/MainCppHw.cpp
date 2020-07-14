@@ -6,7 +6,8 @@
 #include "RtosHw.h"
 #include <stdint.h>
 #include "GpioHw.h"
-//#include "Logger.h"
+#include "WiFiHw.h"
+#include "FLashHw.h"
 #include "Settings.h"
 #include "LoggerHw.h"
 #include "DisplayHw.h"
@@ -24,7 +25,7 @@ TaskHandle_t InternetConnectionTaskHandle;
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-
+#include "nvs_flash.h"
 extern "C"
 {
     void DisplayAndTouchProcess    (void * v_params);
@@ -35,23 +36,25 @@ extern "C"
         static LoggerHw loggerHw;
         SET_LOGGER_INST(&loggerHw);
 
-        static RtosHw RtosHw;
-        SET_RTOS_INST(&RtosHw);
+        static RtosHw rtosHw;
+        SET_RTOS_INST(&rtosHw);
 
         static SystemTimeHw systemTimeHw;
         SET_SYSTEM_TIME_INST(&systemTimeHw);
 
-        ESP_ERROR_CHECK (Rtos::GetInstance()->TaskCreate (&DisplayAndTouchProcess,
-                                                          "DisplayAndTouch",
-                                                          Settings::GetInstance ().Stack.DisplayAndTouch,
-                                                          (uint32_t)RtosHw::EThreadPriority::eNormal,
-                                                          DisplayAndTouchTaskHandle));
+        FlashHw flashHw;
 
-        ESP_ERROR_CHECK (Rtos::GetInstance()->TaskCreate (&InternetConnectionProcess,
-                                                          "InternetConnection",
-                                                          Settings::GetInstance ().Stack.InterntConnection,
-                                                          (uint32_t)RtosHw::EThreadPriority::eAboveNormal,
-                                                          InternetConnectionTaskHandle));
+        Rtos::GetInstance()->TaskCreate (DisplayAndTouchProcess,
+                                         "DisplayAndTouch",
+                                         Settings::GetInstance ().StackDepth.DisplayAndTouch,
+                                         static_cast <uint32_t> (RtosHw::EThreadPriority::eNormal),
+                                         DisplayAndTouchTaskHandle);
+
+        Rtos::GetInstance()->TaskCreate (&InternetConnectionProcess,
+                                         "InternetConnection",
+                                         Settings::GetInstance ().StackDepth.InterntConnection,
+                                         static_cast <uint32_t> (RtosHw::EThreadPriority::eAboveNormal),
+                                         InternetConnectionTaskHandle);
     }
 
     void DisplayAndTouchProcess (void * v_params)
@@ -71,14 +74,23 @@ extern "C"
         while (true)
         {
             //displayAndTouch.Process ();
+
+            LOGI (MODULE, "DisplayAndTouchProcess. Stack left: %u", Rtos::GetInstance ()->GetCurrentStackSize ("DisplayAndTouch"));
         }
 
         vTaskDelete (NULL);
-        LOGE        (MODULE, "DisplayAndTouchProcess() Deleted");
+        LOGE        (MODULE, "DisplayAndTouchProcess() Deleted.");
     }
 
     void InternetConnectionProcess (void * v_params)
     {
+        WiFiHw wifiHw;
+
+        while (true)
+        {
+            LOGV (MODULE, "InternetConnectionProcess. Stack left: %u", Rtos::GetInstance ()->GetCurrentStackSize ("InternetConnectionProcess"));
+        }
+
         /*
         HttpClientHw      httpClientHw;
         MicorTigAzureComm micorTigAzureComm (httpClientHw);
@@ -90,10 +102,10 @@ extern "C"
                 internetConnection.Process ();
             }
         }
-
+*/
         vTaskDelete (NULL);
-        LOGE        (MODULE, "InternetConnectionProcess() Deleted");
-        */
+        LOGE        (MODULE, "InternetConnectionProcess() Deleted./n");
+
     }
 }
 

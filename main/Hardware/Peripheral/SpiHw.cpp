@@ -28,7 +28,7 @@ static void beforeTransfer (spi_transaction_t * v_transaction)
 
 SpiHw::SpiHw ()
 {
-    LOG (MODULE, "Init /n");
+    LOG (MODULE, "Init.");
 
     static spi_bus_config_t busCfg;
     busCfg.miso_io_num     = static_cast<int> (GpioHw::EPinNum::eMiso);
@@ -62,7 +62,7 @@ static uint8_t getFlag (SpiHw::EFlag v_flag)
 
 void SpiHw::Send (const uint8_t * const v_data, const uint16_t v_len)
 {
-    if (v_len == ZERO) { LOGE (MODULE, "Data length is empty.\n"); return; }
+    if (v_len == ZERO) { LOGE (MODULE, "Data length is empty."); return; }
 
     spi_transaction_t transaction;
     memset (&transaction, ZERO, sizeof (transaction));
@@ -95,7 +95,7 @@ void SpiHw::Send (const uint8_t * const v_data, const uint16_t v_len)
 
 void SpiHw::Send (const uint16_t * const v_data, const uint16_t v_len)
 {
-    if (v_len == ZERO) { LOGE (MODULE, "Data length is empty.\n"); return; }
+    if (v_len == ZERO) { LOGE (MODULE, "Data length is empty."); return; }
 
     spi_transaction_t transaction;
     memset (&transaction, ZERO, sizeof (transaction));

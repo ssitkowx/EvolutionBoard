@@ -36,8 +36,8 @@ class SystemTime
         virtual std::string ToStringUTC   (void)                            const = 0;
         virtual std::string ToString      (const char * v_format = nullptr) const = 0;
 
-        std::time_t         InSeconds     (void)                            const;
-        int64_t             InMiliseconds (void);
+        inline std::time_t  InSeconds     (void)                            const;
+        inline int64_t      InMiliseconds (void);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

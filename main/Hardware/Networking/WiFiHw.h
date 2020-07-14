@@ -7,7 +7,6 @@
 #include "WiFi.h"
 #include <string>
 #include "Utils.h"
-#include "WiFiHw.h"
 #include "TimerHw.h"
 #include "esp_wifi.h"
 

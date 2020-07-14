@@ -36,7 +36,7 @@ class LoggerHw : public Logger
             {
                 case ELogLevel::eLogNone:    { return LOG_COLOR_BLACK;  }
                 case ELogLevel::eLogError:   { return LOG_COLOR_RED;    }
-                case ELogLevel::eLogWarning: { return LOG_COLOR_BROWN;  }   // This is Yellow :)
+                case ELogLevel::eLogWarning: { return LOG_COLOR_CYAN;  }   // This is Yellow :)
                 case ELogLevel::eLogInfo:    { return LOG_COLOR_BLUE;   }
                 case ELogLevel::eLogDebug:   { return LOG_COLOR_PURPLE; }
                 case ELogLevel::eLogVerbose: { return LOG_COLOR_GREEN;  }
@@ -50,16 +50,11 @@ class LoggerHw : public Logger
         template<typename... ARGS>
         void Log (const ELogLevel v_eLogLevel, const std::string && v_module, const std::string && v_msg, ARGS &&... v_args)
         {
-            /*
-            std::string line = Format ("\033[1;37m%s \033[1;%sm%s: %s\n",
-                                       SystemTime::GetInstance ()->ToString ("%F %T").c_str (),
+            std::string line = Format ("\033[1;37m%s \033[1;%sm%s: %s.\n",
+                                       "fAKE TIME",//SystemTime::GetInstance ()->ToString ("%F %T").c_str (),    // this make restart, dont know why
                                        getFontColor  (v_eLogLevel).data (),
                                        v_module.data (), v_msg.data ());
-            */
-            std::string line = Format ("%s \033[1;%sm%s: %s\n",
-                                       "Time",
-                                       getFontColor  (v_eLogLevel).data (),
-                                       v_module.data (), v_msg.data ());
+
             esp_log_write (static_cast <esp_log_level_t> (v_eLogLevel), v_module.data (), line.c_str (), std::forward <ARGS>(v_args)...);
         }
 };
