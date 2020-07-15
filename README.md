@@ -1,6 +1,7 @@
 # EvolutionBoard
+
 # I. Description:
-Project for testing a eight bits color display based on ESP32 and LCD 2.8 with ARDUINO touch keyboard.
+Project for testing a color display based on ESP32 and LCD 2.8 with ARDUINO touch keyboard.
 
 # II. Assumptions:
 - The code depends on the environment in which it works,
