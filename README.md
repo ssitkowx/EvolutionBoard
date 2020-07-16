@@ -1,7 +1,12 @@
 # EvolutionBoard
 
 # I. Description:
-Project for testing a color display based on ESP32 and LCD 2.8 with ARDUINO touch keyboard.
+Project is using:
+- ESP32,
+- LCD 2.8 in SPI 8bit configuration based on ILI9341 driver,
+- Arduino touch.
+
+Project has WiFi connection and is using Rtos.
 
 # II. Assumptions:
 The code stored here is environment-specific, which means:
@@ -42,4 +47,7 @@ Hardware:
 - After generating the equipment using CubeMx, transfer the .cproject, .project, .mxproject files from the Atollic folder to the folder with the project name (AtollicTemplate). 
   - In the C/C++ Build->Settings->Settings->Tool Settings->C++ Linker->General settings we provide the path to the linker script,
   - In C/C++ Build-> Target Settings we choose the type of processor,
-  - In C/C++ General->Paths and Symbols->Include, we provide the hardware paths updates.
+  - In C/C++ General->Paths and Symbols->Include, we provide the hardware paths updates,
+- Remove '--no-site-packages' from idf_tool.py
+  from: subprocess.check_call([sys.executable, '-m', 'virtualenv', '--no-site-packages', idf_python_env_path],
+  to:   subprocess.check_call([sys.executable, '-m', 'virtualenv', idf_python_env_path],

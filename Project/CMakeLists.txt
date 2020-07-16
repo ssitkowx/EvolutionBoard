@@ -1,5 +1,5 @@
-set(srcs pretty_effect.c
-         External/Lib/Utils/Utils.cpp
+
+set(srcs External/Lib/Utils/Utils.cpp
          External/Lib/Logger/Logger.cpp
          Logic/Project/Peripheral/Spi.cpp
          Logic/Project/Display/Display.cpp
@@ -23,11 +23,11 @@ set(srcs pretty_effect.c
 
 # Only ESP32 has enough memory to do jpeg decoding
 if(IDF_TARGET STREQUAL "esp32")
-    list(APPEND srcs "decode_image.c")
+    #list(APPEND srcs "decode_image.c")
 endif()
 
 idf_component_register(SRCS ${srcs}
-                       INCLUDE_DIRS 
+                       INCLUDE_DIRS
                        .
                        External/Lib/Utils
                        External/Lib/Logger
@@ -40,5 +40,5 @@ idf_component_register(SRCS ${srcs}
                        Hardware/Display
                        Hardware/Peripheral
                        Hardware/Networking
-                       EMBED_FILES image.jpg)
-
+                       EMBED_FILES ../Doc/Bitmaps/tiger.jpg
+                       REQUIRES "nvs_flash")

@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := spi_master
+PROJECT_NAME := EvolutionBoard
 
 include $(IDF_PATH)/make/project.mk
 
