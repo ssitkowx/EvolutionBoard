@@ -48,6 +48,6 @@ Hardware:
   - In the C/C++ Build->Settings->Settings->Tool Settings->C++ Linker->General settings we provide the path to the linker script,
   - In C/C++ Build-> Target Settings we choose the type of processor,
   - In C/C++ General->Paths and Symbols->Include, we provide the hardware paths updates,
-- Remove '--no-site-packages' from idf_tool.py
-  from: subprocess.check_call([sys.executable, '-m', 'virtualenv', '--no-site-packages', idf_python_env_path],
-  to:   subprocess.check_call([sys.executable, '-m', 'virtualenv', idf_python_env_path],
+- Remove '--no-site-packages' from idf_tool.py:
+  - from: subprocess.check_call([sys.executable, '-m', 'virtualenv', '--no-site-packages', idf_python_env_path],
+  - to:   subprocess.check_call([sys.executable, '-m', 'virtualenv', idf_python_env_path],
