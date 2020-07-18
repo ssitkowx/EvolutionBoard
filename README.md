@@ -22,10 +22,10 @@ External:
 
 Project:
 
-  Logic:
+- Logic:
   - This is where environment-specific but hardware-independent code is stored.
 
-  Hardware:
+- Hardware:
   - This is where the environment-specific code is stored.
 
 Tests:
