@@ -20,11 +20,16 @@ External:
 - This is where external generic libraries are stored,
 - This is where documents and resources are stored.
 
-Logic:
-- This is where environment-specific but hardware-independent code is stored.
+Project:
 
-Hardware:
-- This is where the environment-specific code is stored.
+  Logic:
+  - This is where environment-specific but hardware-independent code is stored.
+
+  Hardware:
+  - This is where the environment-specific code is stored.
+
+Tests:
+- which uses gtest and/or gmock libraries.
 
 # IV. Configuration:
 
