@@ -30,7 +30,7 @@ Hardware:
 
 - Eclipse IDE for C/C++ Developers. Version: 2020-06(4.16.0),
 - ESP-IDF Branch_v4.0. Eclipse plugin configured according https://github.com/espressif/idf-eclipse-plugin/blob/master/README.md
-- Generate hal libraries from CubeMx version 5.3.0,
+- CubeMx version 5.3.0.
 
 # V. Builidng:
 
