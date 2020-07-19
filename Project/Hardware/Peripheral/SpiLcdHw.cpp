@@ -2,11 +2,11 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SpiHw.h"
 #include <memory.h>
 #include "GpioHw.h"
 #include "LoggerHw.h"
 #include "Settings.h"
+#include "SpiLcdHw.h"
 #include "driver/gpio.h"
 #include "driver/spi_master.h"
 
@@ -14,7 +14,7 @@
 //////////////////////////////// VARIABLES ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-spi_device_handle_t SpiHw::spi;
+spi_device_handle_t SpiLcdHw::spi;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -26,7 +26,7 @@ static void beforeTransfer (spi_transaction_t * v_transaction)
     gpio_set_level (static_cast<gpio_num_t>(GpioHw::ELcd::eDc), dcPin);
 }
 
-SpiHw::SpiHw ()
+SpiLcdHw::SpiLcdHw ()
 {
     LOG (MODULE, "Init.");
 
@@ -53,21 +53,21 @@ SpiHw::SpiHw ()
     ESP_ERROR_CHECK (status);
 }
 
-static uint8_t getFlag (SpiHw::EFlag v_flag)
+static uint8_t getFlag (SpiLcdHw::EFlag v_flag)
 {
-    if (v_flag == SpiHw::EFlag::eDummy) { return ZERO; }
+    if (v_flag == SpiLcdHw::EFlag::eDummy) { return ZERO; }
     return (ONE << static_cast<uint8_t> (v_flag));
 }
 
 
-void SpiHw::Send (const uint8_t * const v_data, const uint16_t v_len)
+void SpiLcdHw::Send (const uint8_t * const v_data, const uint16_t v_len)
 {
     if (v_len == ZERO) { LOGE (MODULE, "Data length is empty."); return; }
 
     spi_transaction_t transaction;
     memset (&transaction, ZERO, sizeof (transaction));
 
-    uint8_t flags = getFlag (static_cast<SpiHw::EFlag>(v_data [FIRST_BYTE]));
+    uint8_t flags = getFlag (static_cast<SpiLcdHw::EFlag>(v_data [FIRST_BYTE]));
     uint8_t user  = v_data [SECOND_BYTE];
 
     transaction.flags  = flags;
@@ -93,14 +93,14 @@ void SpiHw::Send (const uint8_t * const v_data, const uint16_t v_len)
     assert (status == ESP_OK);
 }
 
-void SpiHw::Send (const uint16_t * const v_data, const uint16_t v_len)
+void SpiLcdHw::Send (const uint16_t * const v_data, const uint16_t v_len)
 {
     if (v_len == ZERO) { LOGE (MODULE, "Data length is empty."); return; }
 
     spi_transaction_t transaction;
     memset (&transaction, ZERO, sizeof (transaction));
 
-    transaction.flags     = getFlag (static_cast<SpiHw::EFlag>(v_data [FIRST_BYTE]));
+    transaction.flags     = getFlag (static_cast<SpiLcdHw::EFlag>(v_data [FIRST_BYTE]));
     transaction.user      = reinterpret_cast<void *>(v_data [SECOND_BYTE]);
     transaction.length    = (v_len + Settings::GetInstance ().Lcd.MaxLinesPerTransfer) * EIGHT_BITS * sizeof (uint16_t);
     transaction.tx_buffer = v_data;
@@ -109,12 +109,12 @@ void SpiHw::Send (const uint16_t * const v_data, const uint16_t v_len)
     assert (status == ESP_OK);
 }
 
-uint16_t SpiHw::Receive (uint8_t * v_data)
+uint16_t SpiLcdHw::Receive (uint8_t * v_data)
 {
     static spi_transaction_t transaction;
     memset (&transaction, ZERO, sizeof (transaction));
 
-    transaction.flags  = getFlag (static_cast<SpiHw::EFlag>(v_data [FIRST_BYTE]));
+    transaction.flags  = getFlag (static_cast<SpiLcdHw::EFlag>(v_data [FIRST_BYTE]));
     transaction.user   = reinterpret_cast<void *>(v_data [SECOND_BYTE]);
     transaction.length = v_data [THIRD_BYTE] * EIGHT_BITS;
 

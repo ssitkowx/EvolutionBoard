@@ -4,10 +4,10 @@
 
 #include "Spi.h"
 #include "Rtos.h"
-#include "SpiHw.h"
 #include "GpioHw.h"
 #include "LoggerHw.h"
 #include "Settings.h"
+#include "SpiLcdHw.h"
 #include "DisplayHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -40,9 +40,9 @@ DisplayHw::DisplayHw (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi), 
     ili9341.SendGammaSet                ();
     ili9341.SendPositiveGammaCorrection ();
     ili9341.SendNegativeGammaCorrection ();
-    ili9341.SendColumnAddressSet        (SpiHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Width  >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Width  & 0xFF);
-    ili9341.SendPageAddressSet          (SpiHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Length >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Length & 0xFF);
-    ili9341.SendMemoryWrite             (SpiHw::EFlag::eDummy);
+    ili9341.SendColumnAddressSet        (SpiLcdHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Width  >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Width  & 0xFF);
+    ili9341.SendPageAddressSet          (SpiLcdHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Length >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Length & 0xFF);
+    ili9341.SendMemoryWrite             (SpiLcdHw::EFlag::eDummy);
     ili9341.SendEntryModeSet            ();
     ili9341.SendDisplayFunctionControl  ();
     ili9341.SendSleepOut                ();
@@ -89,13 +89,13 @@ void DisplayHw::DrawPicture (const uint16_t v_xPos, const uint16_t v_yPos, const
 
 void DisplayHw::sendLines (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length, const uint16_t * const v_data)
 {
-    ili9341.SendColumnAddressSet (SpiHw::EFlag::eTxData, static_cast<uint8_t> (v_xPos              >> EIGHT_BITS), static_cast<uint8_t> (v_xPos & 0xFF),
-                                                         static_cast<uint8_t> ((v_xPos + v_width)  >> EIGHT_BITS), static_cast<uint8_t> ((v_xPos + v_width) & 0xFF));
+    ili9341.SendColumnAddressSet (SpiLcdHw::EFlag::eTxData, static_cast<uint8_t> (v_xPos              >> EIGHT_BITS), static_cast<uint8_t> (v_xPos & 0xFF),
+                                                            static_cast<uint8_t> ((v_xPos + v_width)  >> EIGHT_BITS), static_cast<uint8_t> ((v_xPos + v_width) & 0xFF));
 
-    ili9341.SendPageAddressSet   (SpiHw::EFlag::eTxData, static_cast<uint8_t> (v_yPos              >> EIGHT_BITS), static_cast<uint8_t> (v_yPos & 0xFF),
-                                                         static_cast<uint8_t> ((v_yPos + v_length) >> EIGHT_BITS), static_cast<uint8_t> ((v_yPos + v_length) & 0xFF));
+    ili9341.SendPageAddressSet   (SpiLcdHw::EFlag::eTxData, static_cast<uint8_t> (v_yPos              >> EIGHT_BITS), static_cast<uint8_t> (v_yPos & 0xFF),
+                                                            static_cast<uint8_t> ((v_yPos + v_length) >> EIGHT_BITS), static_cast<uint8_t> ((v_yPos + v_length) & 0xFF));
 
-    ili9341.SendMemoryWrite      (SpiHw::EFlag::eTxData);
+    ili9341.SendMemoryWrite      (SpiLcdHw::EFlag::eTxData);
     spi.Send                     (v_data, v_width * v_length);
 }
 

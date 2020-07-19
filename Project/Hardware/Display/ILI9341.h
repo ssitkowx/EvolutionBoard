@@ -4,10 +4,10 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SpiHw.h"
 #include "Utils.h"
 #include <stdint.h>
 #include <string.h>
+#include "SpiLcdHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
@@ -25,10 +25,10 @@ class ILI9341
             uint8_t Data [DATA_LEN];
         };
 
-        void sendCommand (SpiHw::EFlag v_flag, SpiHw::EMode v_mode, uint8_t v_cmd);
+        void sendCommand (SpiLcdHw::EFlag v_flag, SpiLcdHw::EMode v_mode, uint8_t v_cmd);
 
         template <uint8_t DATA_LEN>
-        void sendData (SpiHw::EFlag v_flag, SpiHw::EMode v_mode, uint8_t v_data [])
+        void sendData (SpiLcdHw::EFlag v_flag, SpiLcdHw::EMode v_mode, uint8_t v_data [])
         {
             uint8_t data [TWO_BYTES + DATA_LEN] = { static_cast<uint8_t> (v_flag),
                                                     static_cast<uint8_t> (v_mode)
@@ -39,7 +39,7 @@ class ILI9341
         }
 
         template <uint8_t DATA_LEN>
-        void receiveData (SpiHw::EFlag v_flag, SpiHw::EMode v_mode, uint8_t v_data [])
+        void receiveData (SpiLcdHw::EFlag v_flag, SpiLcdHw::EMode v_mode, uint8_t v_data [])
         {
             uint8_t data [THREE_BYTES + DATA_LEN] = { static_cast<uint8_t> (v_flag),
                                                       static_cast<uint8_t> (v_mode),
@@ -70,11 +70,11 @@ class ILI9341
         void     SendDisplayFunctionControl    (void);
         void     SendSleepOut                  (void);
         void     SendDisplayOn                 (void);
-        void     SendMemoryWrite               (const SpiHw::EFlag v_eFlag);
-        void     SendColumnAddressSet          (const SpiHw::EFlag v_eFlag, const uint8_t v_scH, const uint8_t v_scL,
-                                                                            const uint8_t v_ecH, const uint8_t v_ecL);
-        void     SendPageAddressSet            (const SpiHw::EFlag v_eFlag, const uint8_t v_spH, const uint8_t v_spL,
-                                                                            const uint8_t v_epH, const uint8_t v_epL);
+        void     SendMemoryWrite               (const SpiLcdHw::EFlag v_eFlag);
+        void     SendColumnAddressSet          (const SpiLcdHw::EFlag v_eFlag, const uint8_t v_scH, const uint8_t v_scL,
+                                                                               const uint8_t v_ecH, const uint8_t v_ecL);
+        void     SendPageAddressSet            (const SpiLcdHw::EFlag v_eFlag, const uint8_t v_spH, const uint8_t v_spL,
+                                                                               const uint8_t v_epH, const uint8_t v_epL);
         uint32_t ReceiveGetId                  (void);
 };
 

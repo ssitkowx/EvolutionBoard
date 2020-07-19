@@ -2,13 +2,13 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SpiHw.h"
 #include "RtosHw.h"
 #include <stdint.h>
 #include "GpioHw.h"
 #include "WiFiHw.h"
 #include "FLashHw.h"
 #include "Settings.h"
+#include "SpiLcdHw.h"
 #include "LoggerHw.h"
 #include "DisplayHw.h"
 #include "SystemTimeHw.h"
@@ -60,8 +60,8 @@ extern "C"
     void DisplayAndTouchProcess (void * v_params)
     {
         GpioHw    gpioHw;
-        SpiHw     spiHw;
-        DisplayHw display (gpioHw, spiHw);
+        SpiLcdHw  spiLcdHw;
+        DisplayHw display (gpioHw, spiLcdHw);
 
         uint16_t xPos   = 50;
         uint16_t yPos   = 50;

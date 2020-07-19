@@ -12,9 +12,9 @@
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class SpiHw final: public Spi
+class SpiLcdHw final: public Spi
 {
-    static constexpr char * MODULE = (char *)"SpiHw";
+    static constexpr char * MODULE = (char *)"SpiLcdHw";
 
     public:
         enum class EFlag : uint8_t
@@ -36,7 +36,7 @@ class SpiHw final: public Spi
             eData = ONE
         };
 
-        SpiHw ();
+        SpiLcdHw ();
 
         void     Send    (const uint8_t *  const v_data, const uint16_t v_len) override;
         void     Send    (const uint16_t * const v_data, const uint16_t v_len) override;

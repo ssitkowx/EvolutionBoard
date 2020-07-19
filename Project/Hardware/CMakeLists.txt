@@ -3,10 +3,11 @@ SET (PackageSourcePaths main.c
                         MainCppHw.cpp
                         Display/ILI9341.cpp
                         Display/DisplayHw.cpp
-                        Peripheral/SpiHw.cpp
                         Peripheral/RtosHw.cpp
                         Peripheral/GpioHw.cpp
                         Peripheral/FlashHw.cpp
+                        Peripheral/SpiLcdHw.cpp
+                        Peripheral/SpiTouchHw.cpp
                         Peripheral/SystemTimeHw.cpp
                         Networking/WiFiHw.cpp
                         ../Logic/Settings.cpp
