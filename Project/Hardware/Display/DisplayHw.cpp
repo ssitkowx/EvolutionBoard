@@ -19,14 +19,13 @@ DisplayHw::DisplayHw (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi), 
     LOG (MODULE, "Init./n");
 
     // Initialize non-SPI GPIOs
-    gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::EPinNum::eDc)  , static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
-    gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::EPinNum::eRst) , static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
-    gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::EPinNum::eBclk), static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
+    gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::ELcd::eDc)  , static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
+    gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::ELcd::eRst) , static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
 
     //Reset the display
-    gpio.SetPinLevel  (static_cast<uint16_t> (GpioHw::EPinNum::eRst), false);
+    gpio.SetPinLevel  (static_cast<uint16_t> (GpioHw::ELcd::eRst), false);
     Rtos::GetInstance ()->Delay (ONE_HUNDRED);
-    gpio.SetPinLevel  (static_cast<uint16_t> (GpioHw::EPinNum::eRst), true);
+    gpio.SetPinLevel  (static_cast<uint16_t> (GpioHw::ELcd::eRst), true);
     Rtos::GetInstance ()->Delay (ONE_HUNDRED);
 
     ili9341.SendSoftwareReset           ();
@@ -48,8 +47,6 @@ DisplayHw::DisplayHw (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi), 
     ili9341.SendDisplayFunctionControl  ();
     ili9341.SendSleepOut                ();
     ili9341.SendDisplayOn               ();
-
-    gpio.SetPinLevel (static_cast<uint16_t> (GpioHw::EPinNum::eBclk), false);
 }
 
 void DisplayHw::DrawRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length, const Display::EColors eColor)

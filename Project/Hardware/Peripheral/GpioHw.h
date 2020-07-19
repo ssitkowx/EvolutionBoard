@@ -17,16 +17,22 @@ class GpioHw final: public Gpio
     static constexpr char * MODULE = (char *)"RtosHw";
 
     public:
-
-        enum class EPinNum : uint8_t
+        enum class ELcd : uint8_t
         {
-            eMiso = 25,
-            eMosi = 23,
-            eClk  = 19,
-            eCs   = 22,
-            eDc   = 21,
-            eRst  = 18,
-            eBclk = 5
+            eSdi = 19,
+            eSdo = 23,
+            eSck = 18,
+            eCs  = 5,
+            eDc  = 22,
+            eRst = 21
+        };
+        enum class ETouch : uint8_t
+        {
+            eDin = 12,
+            eDo  = 13,
+            eClk = 14,
+            eCs  = 15,
+            eIrq = 27
         };
 
         enum class EPinMode

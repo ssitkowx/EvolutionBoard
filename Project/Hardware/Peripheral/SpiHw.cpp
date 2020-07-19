@@ -23,7 +23,7 @@ spi_device_handle_t SpiHw::spi;
 static void beforeTransfer (spi_transaction_t * v_transaction)
 {
     int dcPin = (int)v_transaction->user;
-    gpio_set_level (static_cast<gpio_num_t>(GpioHw::EPinNum::eDc), dcPin);
+    gpio_set_level (static_cast<gpio_num_t>(GpioHw::ELcd::eDc), dcPin);
 }
 
 SpiHw::SpiHw ()
@@ -31,9 +31,9 @@ SpiHw::SpiHw ()
     LOG (MODULE, "Init.");
 
     static spi_bus_config_t busCfg;
-    busCfg.miso_io_num     = static_cast<int> (GpioHw::EPinNum::eMiso);
-    busCfg.mosi_io_num     = static_cast<int> (GpioHw::EPinNum::eMosi);
-    busCfg.sclk_io_num     = static_cast<int> (GpioHw::EPinNum::eClk);
+    busCfg.miso_io_num     = static_cast<int> (GpioHw::ELcd::eSdi);
+    busCfg.mosi_io_num     = static_cast<int> (GpioHw::ELcd::eSdo);
+    busCfg.sclk_io_num     = static_cast<int> (GpioHw::ELcd::eSck);
     busCfg.quadwp_io_num   = -1;
     busCfg.quadhd_io_num   = -1;
     busCfg.max_transfer_sz = Settings::GetInstance ().Lcd.MaxLinesPerTransfer * Settings::GetInstance ().Lcd.Width * TWO + EIGHT_BYTES;
@@ -42,7 +42,7 @@ SpiHw::SpiHw ()
     //.clock_speed_hz=26*1000*1000,                 // Clock out at 26 MHz
     devCfg.clock_speed_hz  = 10*1000*1000;          // Clock out at 10 MHz
     devCfg.mode            = static_cast<uint8_t>(EMode::eCmd);
-    devCfg.spics_io_num    = static_cast<int>    (GpioHw::EPinNum::eCs);
+    devCfg.spics_io_num    = static_cast<int>    (GpioHw::ELcd::eCs);
     devCfg.queue_size      = SEVEN;
     devCfg.pre_cb          = beforeTransfer;
 
