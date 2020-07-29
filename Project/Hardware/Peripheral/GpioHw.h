@@ -14,7 +14,7 @@
 
 class GpioHw final: public Gpio
 {
-    static constexpr char * MODULE = (char *)"RtosHw";
+    static constexpr char * MODULE = (char *)"GpioHw";
 
     public:
         enum class ELcd : uint8_t
@@ -26,6 +26,7 @@ class GpioHw final: public Gpio
             eDc  = 22,
             eRst = 21
         };
+
         enum class ETouch : uint8_t
         {
             eDin = 12,
@@ -35,15 +36,28 @@ class GpioHw final: public Gpio
             eIrq = 27
         };
 
-        enum class EPinMode
+        enum class EPinMode : uint32_t
         {
             eDisable,
-            eInput,
-            eOutput,
+            eInput  = GPIO_MODE_INPUT,
+            eOutput = GPIO_MODE_OUTPUT,
             eOutputOd,
             eInputOutputOd,
             eInputOutput
         };
+
+        enum class EInterrupt : uint8_t
+        {
+            eDisable          = GPIO_INTR_DISABLE,
+            eRising           = GPIO_INTR_POSEDGE,
+            eFalling          = GPIO_INTR_NEGEDGE,
+            eRisingAndFalling = GPIO_INTR_ANYEDGE,
+            eLow              = GPIO_INTR_LOW_LEVEL,
+            eHigh             = GPIO_INTR_HIGH_LEVEL
+        };
+
+        GpioHw  ();
+        ~GpioHw ();
 
         void        SetPinLevel     (const uint16_t v_num, const bool v_state)    override;
         void        SetPinDirection (const uint16_t v_num, const uint16_t v_mode) override;

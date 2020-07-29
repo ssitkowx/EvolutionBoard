@@ -14,7 +14,7 @@
 
 class SpiTouchHw final: public Spi
 {
-    static constexpr char * MODULE = (char *)"SpiHw";
+    static constexpr char * MODULE = (char *)"SpiTouchHw";
 
     public:
         enum class EFlag : uint8_t
@@ -39,13 +39,13 @@ class SpiTouchHw final: public Spi
         SpiTouchHw ();
 
         void     Send    (const uint8_t *  const v_data, const uint16_t v_len) override;
-        void     Send    (const uint16_t * const v_data, const uint16_t v_len) override;
+        void     Send    (const uint16_t * const v_data, const uint16_t v_len) override { }
         uint16_t Receive (uint8_t *              v_data)                       override;
 
     private:
         static spi_device_handle_t spi;
-        const  spi_host_device_t   lcdHost = HSPI_HOST;
-        const  int                 dmaChan = TWO;
+        const  spi_host_device_t   touchHost = HSPI_HOST;
+        const  int                 dmaChan   = ONE;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

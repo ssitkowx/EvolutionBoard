@@ -20,36 +20,29 @@ spi_device_handle_t SpiTouchHw::spi;
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-static void beforeTransfer (spi_transaction_t * v_transaction)
-{
-    int dcPin = (int)v_transaction->user;
-    gpio_set_level (static_cast<gpio_num_t>(GpioHw::ELcd::eDc), dcPin);
-}
-
 SpiTouchHw::SpiTouchHw ()
 {
     LOG (MODULE, "Init.");
 
     static spi_bus_config_t busCfg;
-    busCfg.miso_io_num     = static_cast<int> (GpioHw::ELcd::eSdi);
-    busCfg.mosi_io_num     = static_cast<int> (GpioHw::ELcd::eSdo);
-    busCfg.sclk_io_num     = static_cast<int> (GpioHw::ELcd::eSck);
+    busCfg.miso_io_num     = static_cast<int> (GpioHw::ETouch::eDin);
+    busCfg.mosi_io_num     = static_cast<int> (GpioHw::ETouch::eDo);
+    busCfg.sclk_io_num     = static_cast<int> (GpioHw::ETouch::eClk);
     busCfg.quadwp_io_num   = -1;
     busCfg.quadhd_io_num   = -1;
-    busCfg.max_transfer_sz = Settings::GetInstance ().Lcd.MaxLinesPerTransfer * Settings::GetInstance ().Lcd.Width * TWO + EIGHT_BYTES;
+    busCfg.max_transfer_sz = FIFTY_BYTES;
 
     static spi_device_interface_config_t devCfg;
     //.clock_speed_hz=26*1000*1000,                 // Clock out at 26 MHz
-    devCfg.clock_speed_hz  = 10*1000*1000;          // Clock out at 10 MHz
+    devCfg.clock_speed_hz  = ONE_HUNDRED_TWENTY_FIVE * 1000;      // Clock out at 125 kHz
     devCfg.mode            = static_cast<uint8_t>(EMode::eCmd);
-    devCfg.spics_io_num    = static_cast<int>    (GpioHw::ELcd::eCs);
-    devCfg.queue_size      = SEVEN;
-    devCfg.pre_cb          = beforeTransfer;
+    devCfg.spics_io_num    = static_cast<int>    (GpioHw::ETouch::eCs);
+    devCfg.queue_size      = FIVE;
 
-    esp_err_t status       = spi_bus_initialize (lcdHost, &busCfg, dmaChan);
+    esp_err_t status       = spi_bus_initialize (touchHost, &busCfg, dmaChan);
     ESP_ERROR_CHECK (status);
 
-    status                 = spi_bus_add_device (lcdHost, &devCfg, &spi);
+    status                 = spi_bus_add_device (touchHost, &devCfg, &spi);
     ESP_ERROR_CHECK (status);
 }
 
@@ -88,22 +81,6 @@ void SpiTouchHw::Send (const uint8_t * const v_data, const uint16_t v_len)
     {
         transaction.tx_buffer = &v_data [THIRD_BYTE];
     }
-
-    esp_err_t status = spi_device_polling_transmit (spi, &transaction);
-    assert (status == ESP_OK);
-}
-
-void SpiTouchHw::Send (const uint16_t * const v_data, const uint16_t v_len)
-{
-    if (v_len == ZERO) { LOGE (MODULE, "Data length is empty."); return; }
-
-    spi_transaction_t transaction;
-    memset (&transaction, ZERO, sizeof (transaction));
-
-    transaction.flags     = getFlag (static_cast<SpiTouchHw::EFlag>(v_data [FIRST_BYTE]));
-    transaction.user      = reinterpret_cast<void *>(v_data [SECOND_BYTE]);
-    transaction.length    = (v_len + Settings::GetInstance ().Lcd.MaxLinesPerTransfer) * EIGHT_BITS * sizeof (uint16_t);
-    transaction.tx_buffer = v_data;
 
     esp_err_t status = spi_device_polling_transmit (spi, &transaction);
     assert (status == ESP_OK);

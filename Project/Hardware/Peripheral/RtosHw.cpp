@@ -11,46 +11,57 @@
 //////////////////////////////// VARIABLES ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-//SemaphoreHandle_t AzureDataUpdateSemaphoreHandle;
+SemaphoreHandle_t TouchUpdateSemaphoreHandle;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-RtosHw::RtosHw (void)
+RtosHw::RtosHw ()
 {
     LOG (MODULE, "Init.");
 
-    //AzureDataUpdateSemaphoreHandle = xSemaphoreCreateBinary ();
-    //if (AzureDataUpdateSemaphoreHandle == NULL) { LOGE (MODULE, "Could't allocate ReqAzureDataUpdateeSemaphoreHandle./n"); }
+    TouchUpdateSemaphoreHandle = xSemaphoreCreateBinary ();
+    if (TouchUpdateSemaphoreHandle == NULL) { LOGE (MODULE, "Could't allocate ReqAzureDataUpdateeSemaphoreHandle./n"); }
 }
 
 RtosHw::~RtosHw ()
 {
     LOG (MODULE, "Deinit.");
 }
-/*
-bool RtosHw::GiveAzureDataUpdateSemaphoreFromISR (void)
+
+bool RtosHw::GiveSemaphoreFromISR (const std::string & v_name)
+{
+    if (strcmp ("GiveTouchUpdateSemaphoreFromISR", v_name.data ()) == ZERO) { return GiveTouchUpdateSemaphoreFromISR (); }
+
+    return false;
+}
+
+bool RtosHw::TakeSemaphore (const std::string & v_name)
+{
+    if (strcmp ("TakeTouchUpdateSemaphore", v_name.data ()) == ZERO) { return TakeTouchUpdateSemaphore (); }
+
+    return false;
+}
+
+bool RtosHw::GiveTouchUpdateSemaphoreFromISR (void)
 {
     static BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-    return (xSemaphoreGiveFromISR(AzureDataUpdateSemaphoreHandle, &xHigherPriorityTaskWoken) == pdTRUE) ? true : false;
+    return (xSemaphoreGiveFromISR (TouchUpdateSemaphoreHandle, &xHigherPriorityTaskWoken) == pdTRUE) ? true : false;
 }
 
-bool RtosHw::TakeAzureDataUpdateSemaphore (void)
+bool RtosHw::TakeTouchUpdateSemaphore (void)
 {
-    return (xSemaphoreTake (AzureDataUpdateSemaphoreHandle, (TickType_t)ETick::ePortMaxDelay) == pdTRUE) ? true : false;
+    return (xSemaphoreTake (TouchUpdateSemaphoreHandle, (TickType_t)ETick::ePortMaxDelay) == pdTRUE) ? true : false;
 }
-*/
 
-
-
-uint32_t RtosHw::GetCurrentStackSize (const char * v_taskName)
+uint32_t RtosHw::GetCurrentStackSize (const std::string & v_name)
 {
     extern TaskHandle_t DisplayAndTouchTaskHandle;
-    extern TaskHandle_t InternetConnectionTaskHandle;
+    extern TaskHandle_t NetworkConnectionTaskHandle;
     
-    if (strcmp (v_taskName, "DisplayAndTouch"))    { return uxTaskGetStackHighWaterMark (DisplayAndTouchTaskHandle);    }
-    if (strcmp (v_taskName, "InternetConnection")) { return uxTaskGetStackHighWaterMark (InternetConnectionTaskHandle); }
+    if (strcmp (v_name.data (), "DisplayAndTouch"))    { return uxTaskGetStackHighWaterMark (DisplayAndTouchTaskHandle);    }
+    if (strcmp (v_name.data (), "InternetConnection")) { return uxTaskGetStackHighWaterMark (NetworkConnectionTaskHandle); }
     
     LOGE (MODULE, "Couldn't find task.");
     return 0;

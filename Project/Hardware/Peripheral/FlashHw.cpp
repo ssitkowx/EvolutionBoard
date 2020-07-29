@@ -15,17 +15,16 @@ FlashHw::FlashHw ()
 {
     LOG (MODULE, "Init.");
     
-    esp_err_t flashInitErr = nvs_flash_init ();
-    if (flashInitErr == ESP_ERR_NVS_NO_FREE_PAGES)
+    esp_err_t err = nvs_flash_init ();
+    if (err == ESP_ERR_NVS_NO_FREE_PAGES)
     {
         ESP_ERROR_CHECK (nvs_flash_erase ());
-        flashInitErr = nvs_flash_init();
+        err = nvs_flash_init();
     }
     
-    ESP_ERROR_CHECK (flashInitErr);
+    ESP_ERROR_CHECK (err);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// END OF FILE ///////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-

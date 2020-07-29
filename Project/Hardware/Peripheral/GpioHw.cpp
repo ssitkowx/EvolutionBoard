@@ -2,11 +2,52 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include "Rtos.h"
 #include "GpioHw.h"
+#include "LoggerHw.h"
+
+///////////////////////////////////////////////////////////////////////////////
+/////////////////////////// MACROS/DEFINITIONS ////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/queue.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
+
+static void IRAM_ATTR TouchIsr (void * v_arg)    // need be in Touch class or should be called static touch function inside
+{
+    //uint32_t gpio_num = (uint32_t) v_arg;
+    Rtos::GetInstance ()->GiveSemaphoreFromISR ("GiveTouchUpdateSemaphoreFromISR");
+}
+
+GpioHw::GpioHw ()
+{
+    LOG (MODULE, "Init.");
+
+    gpio_config_t config;
+    config.intr_type    = static_cast<gpio_int_type_t>(EInterrupt::eRising);
+    config.mode         = static_cast<gpio_mode_t>    (EPinMode::eInput);
+    config.pin_bit_mask = static_cast<gpio_num_t>     (1ULL << (uint8_t)ETouch::eIrq);
+    config.pull_down_en = static_cast<gpio_pulldown_t>(GPIO_PULLDOWN_DISABLE);
+    config.pull_up_en   = static_cast<gpio_pullup_t>  (GPIO_PULLUP_ENABLE);
+
+    ESP_ERROR_CHECK          (gpio_config (&config));
+    gpio_set_intr_type       (static_cast<gpio_num_t>(ETouch::eIrq), static_cast<gpio_int_type_t>(EInterrupt::eRising));
+    gpio_install_isr_service (ESP_INTR_FLAG_EDGE);
+    gpio_isr_handler_add     (static_cast<gpio_num_t>(ETouch::eIrq), TouchIsr, (void *)ETouch::eIrq);
+}
+
+GpioHw::~GpioHw ()
+{
+    LOG (MODULE, "Deinit.");
+}
 
 void GpioHw::SetPinLevel (const uint16_t v_num, const bool v_state)
 {
@@ -36,7 +77,6 @@ gpio_mode_t GpioHw::getPinMode (const EPinMode v_eMode)
         default: { }
     }
 
-    // error
     return GPIO_MODE_DISABLE;
 }
 

@@ -22,8 +22,8 @@ class RtosHw final : public Rtos
     public:
         enum class ECpuCore : uint32_t
         {
-            e0 = 0,
-            e1 = 1
+            e0 = ZERO,
+            e1 = ONE
         };
 
         enum class EThreadPriority : uint32_t
@@ -42,25 +42,26 @@ class RtosHw final : public Rtos
             eMax           = ESP_TASK_PRIO_MAX,
         };
 
-        RtosHw (void);
-        ~RtosHw (void);
+        RtosHw ();
+        ~RtosHw ();
 
-        //bool     GiveAzureDataUpdateSemaphoreFromISR (void)                             override;
-        //bool     TakeAzureDataUpdateSemaphore        (void)                             override;
+        bool     GiveSemaphoreFromISR            (const std::string & v_name)          override;
+        bool     TakeSemaphore                   (const std::string & v_name)          override;
+        bool     GiveTouchUpdateSemaphoreFromISR (void);
+        bool     TakeTouchUpdateSemaphore        (void);
 
-        void     Delay               (const uint32_t     v_ms)          override { vTaskDelay (v_ms / portTICK_RATE_MS); }
-        uint32_t GetCurrentHeapSize  (void)                             override { return esp_get_free_heap_size ();     }
-        uint32_t GetCurrentStackSize (const char *       v_taskName)    override;
-        uint32_t TaskCreate          (TaskFunctionType   v_taskFuncion,
-                                      const char * const v_taskName,
-                                      const uint32_t     v_stackDepth,
-                                      const uint32_t     v_priority,
-                                      TaskHandle         v_taskHandle)  override { return xTaskCreate (v_taskFuncion, v_taskName, v_stackDepth, NULL, v_priority, NULL); }
-
+        void     Delay                           (const uint32_t v_ms)                 override { vTaskDelay (v_ms / portTICK_RATE_MS); }
+        uint32_t GetCurrentHeapSize              (void)                                override { return esp_get_free_heap_size ();     }
+        uint32_t GetCurrentStackSize             (const std::string & v_name)          override;
+        uint32_t TaskCreate                      (TaskFunctionType    v_taskFuncion,
+                                                  const std::string & v_taskName,
+                                                  const uint32_t      v_stackDepth,
+                                                  const uint32_t      v_priority,
+                                                  TaskHandle          v_taskHandle)    override { return xTaskCreate (v_taskFuncion, v_taskName.c_str (), v_stackDepth, NULL, v_priority, NULL); }
     private:
         enum class ETick : uint32_t
         {
-            ePortMinDelay = 0,
+            ePortMinDelay = ZERO,
             ePortMaxDelay = portMAX_DELAY
         };
 };

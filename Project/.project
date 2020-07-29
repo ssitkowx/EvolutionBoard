@@ -68,5 +68,25 @@
 			<type>2</type>
 			<location>C:/Users/sitko/.conan/download/WiFi/Project</location>
 		</link>
+		<link>
+			<name>Logic/Gpio/Gpio.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Gpio/Project/Gpio.cpp</locationURI>
+		</link>
+		<link>
+			<name>Logic/Gpio/Gpio.h</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Gpio/Project/Gpio.h</locationURI>
+		</link>
+		<link>
+			<name>Logic/Utils/Utils.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Utils/Project/Utils.cpp</locationURI>
+		</link>
+		<link>
+			<name>Logic/Utils/Utils.h</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Utils/Project/Utils.h</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>

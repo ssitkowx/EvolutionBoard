@@ -44,7 +44,7 @@ class SpiLcdHw final: public Spi
 
     private:
         static spi_device_handle_t spi;
-        const  spi_host_device_t   lcdHost = HSPI_HOST;
+        const  spi_host_device_t   lcdHost = VSPI_HOST;
         const  int                 dmaChan = TWO;
 };
 

@@ -40,7 +40,7 @@ class LoggerHw : public Logger
                 case ELogLevel::eInfo:    { return LOG_COLOR_BLUE;   }
                 case ELogLevel::eDebug:   { return LOG_COLOR_PURPLE; }
                 case ELogLevel::eVerbose: { return LOG_COLOR_GREEN;  }
-                default:                     { break;                   }
+                default:                  { break;                   }
             };
 
             return LOG_COLOR_BLACK;
