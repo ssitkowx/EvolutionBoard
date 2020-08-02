@@ -60,7 +60,7 @@ uint32_t RtosHw::GetCurrentStackSize (const std::string & v_name)
     extern TaskHandle_t DisplayAndTouchTaskHandle;
     extern TaskHandle_t NetworkConnectionTaskHandle;
     
-    if (strcmp (v_name.data (), "DisplayAndTouch"))    { return uxTaskGetStackHighWaterMark (DisplayAndTouchTaskHandle);    }
+    if (strcmp (v_name.data (), "DisplayAndTouch"))    { return uxTaskGetStackHighWaterMark (DisplayAndTouchTaskHandle);   }
     if (strcmp (v_name.data (), "InternetConnection")) { return uxTaskGetStackHighWaterMark (NetworkConnectionTaskHandle); }
     
     LOGE (MODULE, "Couldn't find task.");

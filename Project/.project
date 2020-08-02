@@ -59,6 +59,11 @@
 			<location>C:/Users/sitko/.conan/download/Timer/Project</location>
 		</link>
 		<link>
+			<name>Logic/Touch</name>
+			<type>2</type>
+			<location>C:/Users/sitko/Desktop/Projekty/GIT/EvolutionBoard/Project/Logic/Touch</location>
+		</link>
+		<link>
 			<name>Logic/Utils</name>
 			<type>2</type>
 			<location>C:/Users/sitko/.conan/download/Utils</location>

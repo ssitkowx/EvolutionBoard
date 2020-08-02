@@ -1,6 +1,7 @@
 SET (PackageIncludePaths "C:/Users/sitko/.conan/download")
 SET (PackageSourcePaths main.c
                         MainCppHw.cpp
+                        Touch/TouchHw.cpp
                         Display/ILI9341.cpp
                         Display/DisplayHw.cpp
                         Peripheral/RtosHw.cpp
@@ -11,6 +12,7 @@ SET (PackageSourcePaths main.c
                         Peripheral/SystemTimeHw.cpp
                         Networking/WiFiHw.cpp
                         ../Logic/Settings.cpp
+                        ../Logic/Touch/Touch.cpp
                         ${PackageIncludePaths}/Spi/Project/Spi.cpp
                         ${PackageIncludePaths}/WiFi/Project/WiFi.cpp
                         ${PackageIncludePaths}/Gpio/Project/Gpio.cpp
@@ -28,9 +30,11 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              .
                              Logger
                              Display
+                             Touch
                              Peripheral
                              Networking
                              ../Logic
+                             ../Logic/Touch
                              ${PackageIncludePaths}/Spi/Project
                              ${PackageIncludePaths}/WiFi/Project
                              ${PackageIncludePaths}/Gpio/Project

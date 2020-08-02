@@ -30,11 +30,11 @@ SpiTouchHw::SpiTouchHw ()
     busCfg.sclk_io_num     = static_cast<int> (GpioHw::ETouch::eClk);
     busCfg.quadwp_io_num   = -1;
     busCfg.quadhd_io_num   = -1;
-    busCfg.max_transfer_sz = FIFTY_BYTES;
+    busCfg.max_transfer_sz = THIRTY_TWO_BYTES;
 
     static spi_device_interface_config_t devCfg;
     //.clock_speed_hz=26*1000*1000,                 // Clock out at 26 MHz
-    devCfg.clock_speed_hz  = ONE_HUNDRED_TWENTY_FIVE * 1000;      // Clock out at 125 kHz
+    devCfg.clock_speed_hz  = ONE_HUNDRED_TWENTY_FIVE * 100;      // Clock out at 125 kHz
     devCfg.mode            = static_cast<uint8_t>(EMode::eCmd);
     devCfg.spics_io_num    = static_cast<int>    (GpioHw::ETouch::eCs);
     devCfg.queue_size      = FIVE;

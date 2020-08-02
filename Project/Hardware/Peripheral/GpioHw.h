@@ -38,12 +38,12 @@ class GpioHw final: public Gpio
 
         enum class EPinMode : uint32_t
         {
-            eDisable,
-            eInput  = GPIO_MODE_INPUT,
-            eOutput = GPIO_MODE_OUTPUT,
-            eOutputOd,
-            eInputOutputOd,
-            eInputOutput
+            eDisable       = GPIO_MODE_DISABLE,
+            eInput         = GPIO_MODE_INPUT,
+            eOutput        = GPIO_MODE_OUTPUT,
+            eOutputOd      = GPIO_MODE_OUTPUT_OD,
+            eInputOutputOd = GPIO_MODE_INPUT_OUTPUT_OD,
+            eInputOutput   = GPIO_MODE_INPUT_OUTPUT
         };
 
         enum class EInterrupt : uint8_t

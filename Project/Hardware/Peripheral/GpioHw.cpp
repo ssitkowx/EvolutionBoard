@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "TouchHw.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
@@ -21,11 +22,7 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-static void IRAM_ATTR TouchIsr (void * v_arg)    // need be in Touch class or should be called static touch function inside
-{
-    //uint32_t gpio_num = (uint32_t) v_arg;
-    Rtos::GetInstance ()->GiveSemaphoreFromISR ("GiveTouchUpdateSemaphoreFromISR");
-}
+static void IRAM_ATTR WaitForTouchIsr (void * v_arg) { TouchHw::WaitForTouch (); }
 
 GpioHw::GpioHw ()
 {
@@ -41,28 +38,14 @@ GpioHw::GpioHw ()
     ESP_ERROR_CHECK          (gpio_config (&config));
     gpio_set_intr_type       (static_cast<gpio_num_t>(ETouch::eIrq), static_cast<gpio_int_type_t>(EInterrupt::eRising));
     gpio_install_isr_service (ESP_INTR_FLAG_EDGE);
-    gpio_isr_handler_add     (static_cast<gpio_num_t>(ETouch::eIrq), TouchIsr, (void *)ETouch::eIrq);
+    gpio_isr_handler_add     (static_cast<gpio_num_t>(ETouch::eIrq), WaitForTouchIsr, (void *)ETouch::eIrq);
 }
 
-GpioHw::~GpioHw ()
-{
-    LOG (MODULE, "Deinit.");
-}
+GpioHw::~GpioHw () { LOG (MODULE, "Deinit."); }
 
-void GpioHw::SetPinLevel (const uint16_t v_num, const bool v_state)
-{
-    gpio_set_level (static_cast<gpio_num_t>(v_num), v_state);
-}
-
-void GpioHw::SetPinDirection (const uint16_t v_num, const uint16_t v_mode)
-{
-    gpio_set_direction (static_cast <gpio_num_t> (v_num), getPinMode (static_cast <EPinMode> (v_mode)));
-}
-
-bool GpioHw::ReadPinLevel (const uint16_t v_num)
-{
-    return gpio_get_level (static_cast<gpio_num_t>(v_num));
-}
+void GpioHw::SetPinLevel     (const uint16_t v_num, const bool v_state)    { gpio_set_level        (static_cast<gpio_num_t> (v_num), v_state);                                      }
+void GpioHw::SetPinDirection (const uint16_t v_num, const uint16_t v_mode) { gpio_set_direction    (static_cast<gpio_num_t> (v_num), getPinMode (static_cast <EPinMode> (v_mode))); }
+bool GpioHw::ReadPinLevel    (const uint16_t v_num)                        { return gpio_get_level (static_cast<gpio_num_t> (v_num));                                               }
 
 gpio_mode_t GpioHw::getPinMode (const EPinMode v_eMode)
 {
@@ -74,7 +57,7 @@ gpio_mode_t GpioHw::getPinMode (const EPinMode v_eMode)
         case EPinMode::eOutputOd:      { return GPIO_MODE_OUTPUT_OD;       }
         case EPinMode::eInputOutputOd: { return GPIO_MODE_INPUT_OUTPUT_OD; }
         case EPinMode::eInputOutput:   { return GPIO_MODE_INPUT_OUTPUT;    }
-        default: { }
+        default:                       { }
     }
 
     return GPIO_MODE_DISABLE;
