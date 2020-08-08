@@ -4,7 +4,6 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Spi.h"
 #include "Touch.h"
 #include <stdint.h>
 #include "SpiTouchHw.h"
@@ -34,7 +33,6 @@ class TouchHw final : public Touch
         ~TouchHw () = default;
 
         static void        WaitForTouch   (void);
-
         void               Process        (void)          override;
         bool               IsTouched      (void)          override;
         Touch::Coordinates GetCoordinates (void)          override;
@@ -43,7 +41,8 @@ class TouchHw final : public Touch
         uint16_t           getPos         (EAxis v_eAxis) override;
 
     private:
-        SpiTouchHw spiTouchHw;
+        static constexpr uint8_t coefficient = ONE_HUNDRED_TWENTY_SEVEN;
+        SpiTouchHw               spiTouchHw;
 
         uint8_t createXPosCommand (void);
         uint8_t createYPosCommand (void);

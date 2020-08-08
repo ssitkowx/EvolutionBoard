@@ -18,13 +18,20 @@ void TouchHw::WaitForTouch (void)
 
 void TouchHw::Process (void)
 {
-    if (IsTouched () == true)
-    {
+    //if (IsTouched () == true)
+    //{
         Touch::Coordinates coordinates = GetCoordinates ();
         LOGD (MODULE, "X  position %u", coordinates.X);
         LOGI (MODULE, "Y  position %u", coordinates.Y);
+
+        //if ((coordinates.X > 150) && (coordinates.X < 200))
+        //{
+        //    LOGV (MODULE, "Screen touched");
+        //}
+
+
         Rtos::GetInstance ()->Delay (1000);
-    }
+    //}
 }
 
 bool               TouchHw::IsTouched      (void) { return Rtos::GetInstance ()->TakeSemaphore ("TakeTouchUpdateSemaphore"); }
@@ -32,17 +39,17 @@ Touch::Coordinates TouchHw::GetCoordinates (void) { return { getPos (EAxis::eX),
 
 uint16_t TouchHw::getPos (EAxis v_eAxis)
 {
-    SpiTouchHw::Msg <ONE_BYTE> msg;
+    SpiHw::Msg <ONE_BYTE> msg;
 
     if      (v_eAxis == EAxis::eX) { msg.Cmd = createXPosCommand (); }
     else if (v_eAxis == EAxis::eY) { msg.Cmd = createYPosCommand (); }
     else                           { LOGE (MODULE, "Unknown axis: %u", static_cast<uint8_t> (v_eAxis)); }
 
-    memset                            (msg.Data, ZERO, ONE_BYTE);
-    spiTouchHw.sendCommand            (SpiTouchHw::EFlag::eDummy , SpiTouchHw::EMode::eCmd , msg.Cmd);
-    spiTouchHw.receiveData <ONE_BYTE> (SpiTouchHw::EFlag::eRxData, SpiTouchHw::EMode::eData, msg.Data);
+    memset                           (msg.Data, ZERO, ONE_BYTE);
+    spiTouchHw.SendCommand           (SpiHw::EFlag::eDummy , SpiHw::EMode::eCmd , msg.Cmd);
+    spiTouchHw.ReceiveData<ONE_BYTE> (SpiHw::EFlag::eRxData, SpiHw::EMode::eData, msg.Data);
 
-    return msg.Data [FIRST_BYTE];
+    return msg.Data [FIRST_BYTE] - coefficient;
 }
 
 uint8_t TouchHw::createXPosCommand (void)

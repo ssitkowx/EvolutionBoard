@@ -3,6 +3,7 @@ SET (PackageSourcePaths main.c
                         MainCppHw.cpp
                         Touch/TouchHw.cpp
                         Display/ILI9341.cpp
+                        Peripheral/SpiHw.cpp
                         Display/DisplayHw.cpp
                         Peripheral/RtosHw.cpp
                         Peripheral/GpioHw.cpp

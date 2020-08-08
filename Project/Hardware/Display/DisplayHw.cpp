@@ -2,25 +2,23 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Spi.h"
 #include "Rtos.h"
 #include "GpioHw.h"
 #include "LoggerHw.h"
 #include "Settings.h"
-#include "SpiLcdHw.h"
 #include "DisplayHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-DisplayHw::DisplayHw (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi), ili9341 (spi)
+DisplayHw::DisplayHw (Gpio & v_gpio) : gpio (v_gpio), ili9341 (spiLcdHw)
 {
     LOG (MODULE, "Init./n");
 
     // Initialize non-SPI GPIOs
-    gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::ELcd::eDc)  , static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
-    gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::ELcd::eRst) , static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
+    gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::ELcd::eDc) , static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
+    gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::ELcd::eRst), static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
 
     //Reset the display
     gpio.SetPinLevel  (static_cast<uint16_t> (GpioHw::ELcd::eRst), false);
@@ -40,9 +38,9 @@ DisplayHw::DisplayHw (Gpio & v_gpio, Spi & v_spi) : gpio (v_gpio), spi (v_spi), 
     ili9341.SendGammaSet                ();
     ili9341.SendPositiveGammaCorrection ();
     ili9341.SendNegativeGammaCorrection ();
-    ili9341.SendColumnAddressSet        (SpiLcdHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Width  >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Width  & 0xFF);
-    ili9341.SendPageAddressSet          (SpiLcdHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Length >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Length & 0xFF);
-    ili9341.SendMemoryWrite             (SpiLcdHw::EFlag::eDummy);
+    ili9341.SendColumnAddressSet        (SpiHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Width  >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Width  & 0xFF);
+    ili9341.SendPageAddressSet          (SpiHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Length >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Length & 0xFF);
+    ili9341.SendMemoryWrite             (SpiHw::EFlag::eDummy);
     ili9341.SendEntryModeSet            ();
     ili9341.SendDisplayFunctionControl  ();
     ili9341.SendSleepOut                ();
@@ -96,13 +94,13 @@ void DisplayHw::sendLines (const uint16_t v_xPos, const uint16_t v_yPos, const u
                                                             static_cast<uint8_t> ((v_yPos + v_length) >> EIGHT_BITS), static_cast<uint8_t> ((v_yPos + v_length) & 0xFF));
 
     ili9341.SendMemoryWrite      (SpiLcdHw::EFlag::eTxData);
-    spi.Send                     (v_data, v_width * v_length);
+    spiLcdHw.Send                (v_data, v_width * v_length);
 }
 
 bool DisplayHw::validateRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length)
 {
-    return (((v_xPos  + v_width)  > Settings::GetInstance ().Lcd.Width)  ||
-            ((v_yPos  + v_length) > Settings::GetInstance ().Lcd.Length)) ? false : true;
+    return (((v_xPos + v_width)  > Settings::GetInstance ().Lcd.Width)  ||
+            ((v_yPos + v_length) > Settings::GetInstance ().Lcd.Length)) ? false : true;
 }
 
 uint8_t DisplayHw::getColor (const EColors v_eColor)

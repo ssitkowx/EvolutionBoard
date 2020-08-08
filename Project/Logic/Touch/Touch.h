@@ -26,7 +26,7 @@ class Touch
         };
 
         Touch () = default;
-        ~Touch () = default;
+        virtual ~Touch () = default;
 
         virtual void        Process        (void)          = 0;
         virtual bool        IsTouched      (void)          = 0;

@@ -10,7 +10,6 @@
 #include "FLashHw.h"
 #include "TouchHw.h"
 #include "Settings.h"
-#include "SpiLcdHw.h"
 #include "LoggerHw.h"
 #include "DisplayHw.h"
 #include "SystemTimeHw.h"
@@ -55,24 +54,14 @@ extern "C"
                                          Settings::GetInstance ().StackDepth.InterntConnection,
                                          static_cast <uint32_t> (RtosHw::EThreadPriority::eAboveNormal),
                                          NetworkConnectionTaskHandle);
-        */
+*/
     }
-
-    enum class ECoordinates : uint8_t
-    {
-        eX  = 0xD1,
-        eY  = 0x91,
-        eZ1 = 0xB1,
-        eZ2 = 0xC1
-    };
 
     void DisplayAndTouchProcess (void * v_params)
     {
-
-        GpioHw     gpioHw;
-        SpiLcdHw   spiLcdHw;
-        TouchHw    touchHw;
-        DisplayHw  display (gpioHw, spiLcdHw);
+        GpioHw    gpioHw;
+        TouchHw   touchHw;
+        DisplayHw display (gpioHw);
 
         uint16_t xPos   = 50;
         uint16_t yPos   = 50;
