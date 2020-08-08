@@ -3,14 +3,14 @@ SET (PackageSourcePaths main.c
                         MainCppHw.cpp
                         Touch/TouchHw.cpp
                         Display/ILI9341.cpp
-                        Peripheral/SpiHw.cpp
                         Display/DisplayHw.cpp
                         Peripheral/RtosHw.cpp
                         Peripheral/GpioHw.cpp
                         Peripheral/FlashHw.cpp
-                        Peripheral/SpiLcdHw.cpp
-                        Peripheral/SpiTouchHw.cpp
+                        Peripheral/SpiHw/SpiHw.cpp
                         Peripheral/SystemTimeHw.cpp
+                        Peripheral/SpiHw/SpiLcdHw.cpp
+                        Peripheral/SpiHw/SpiTouchHw.cpp
                         Networking/WiFiHw.cpp
                         ../Logic/Settings.cpp
                         ../Logic/Touch/Touch.cpp
@@ -34,6 +34,7 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              Touch
                              Peripheral
                              Networking
+                             Peripheral/SpiHw
                              ../Logic
                              ../Logic/Touch
                              ${PackageIncludePaths}/Spi/Project

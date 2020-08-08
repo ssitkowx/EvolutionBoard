@@ -12,7 +12,9 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-DisplayHw::DisplayHw (Gpio & v_gpio) : gpio (v_gpio), ili9341 (spiLcdHw)
+DisplayHw::DisplayHw (Gpio & v_gpio, const Display::Configuration v_config) : Display (v_config),
+                                                                              gpio    (v_gpio),
+                                                                              ili9341 (spiLcdHw)
 {
     LOG (MODULE, "Init./n");
 
@@ -47,42 +49,14 @@ DisplayHw::DisplayHw (Gpio & v_gpio) : gpio (v_gpio), ili9341 (spiLcdHw)
     ili9341.SendDisplayOn               ();
 }
 
-void DisplayHw::DrawRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length, const Display::EColors eColor)
+bool DisplayHw::DrawText (const uint16_t v_xPos, const uint16_t v_yPos, const uint8_t & data, const uint16_t v_len, const Display::EColors eColor)
 {
-    if (validateRect (v_xPos, v_yPos, v_width, v_length) == false) { LOGE (MODULE, "Rect outside display./n"); return; }
-
-    const uint16_t rectLen  = Settings::GetInstance ().Lcd.Width * Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
-    uint16_t rect [rectLen] = { };
-    memset (rect, getColor (eColor), rectLen * sizeof (uint16_t));
-    uint8_t maxRects = calculateRects (v_length);
-
-    if (maxRects == ONE) { sendLines (v_xPos, v_yPos, v_width, v_length, static_cast <uint16_t *> (rect)); }
-    else
-    {
-        uint16_t yPos   = v_yPos;
-        uint16_t length = ZERO;
-        for (uint8_t rectNum = ONE; rectNum <= maxRects; rectNum++)
-        {
-            if (rectNum == maxRects) { length = v_length + v_yPos - yPos; }
-            else
-            {
-                length = Settings::GetInstance().Lcd.MaxLinesPerTransfer;
-                yPos   = yPos + length;
-            }
-
-            sendLines (v_xPos, yPos, v_width, length, static_cast <uint16_t *> (rect));
-        }
-    }
+    return false;
 }
 
-void DisplayHw::DrawText (const uint16_t v_xPos, const uint16_t v_yPos, const uint8_t & data, const uint16_t v_len, const Display::EColors eColor)
+bool DisplayHw::DrawPicture (const uint16_t v_xPos, const uint16_t v_yPos, const uint8_t & data, const uint16_t v_len)
 {
-
-}
-
-void DisplayHw::DrawPicture (const uint16_t v_xPos, const uint16_t v_yPos, const uint8_t & data, const uint16_t v_len)
-{
-
+    return false;
 }
 
 void DisplayHw::sendLines (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length, const uint16_t * const v_data)
@@ -97,11 +71,7 @@ void DisplayHw::sendLines (const uint16_t v_xPos, const uint16_t v_yPos, const u
     spiLcdHw.Send                (v_data, v_width * v_length);
 }
 
-bool DisplayHw::validateRect (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length)
-{
-    return (((v_xPos + v_width)  > Settings::GetInstance ().Lcd.Width)  ||
-            ((v_yPos + v_length) > Settings::GetInstance ().Lcd.Length)) ? false : true;
-}
+
 
 uint8_t DisplayHw::getColor (const EColors v_eColor)
 {
@@ -129,14 +99,6 @@ uint8_t DisplayHw::getColor (const EColors v_eColor)
         case EColors::eNavy   : { return 0x80; }
         default               : { return 0xFF; }
     };
-}
-
-uint8_t DisplayHw::calculateRects (const uint16_t v_length)
-{
-    double  rects    = v_length / Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
-    uint8_t maxRects = static_cast <uint8_t> (rects);
-
-    return ((v_length % Settings::GetInstance ().Lcd.MaxLinesPerTransfer) != ZERO) ? ++maxRects : maxRects;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

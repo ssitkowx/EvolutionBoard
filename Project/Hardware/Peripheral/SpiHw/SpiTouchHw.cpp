@@ -22,7 +22,7 @@ SpiTouchHw::SpiTouchHw () : SpiHw (&handle)
 {
     LOG (MODULE, "Init.");
 
-    spi_bus_config_t busConfig;
+    static spi_bus_config_t busConfig;
     busConfig.miso_io_num       = static_cast<int> (GpioHw::ETouch::eDin);
     busConfig.mosi_io_num       = static_cast<int> (GpioHw::ETouch::eDo);
     busConfig.sclk_io_num       = static_cast<int> (GpioHw::ETouch::eClk);

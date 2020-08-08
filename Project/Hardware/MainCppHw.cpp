@@ -59,9 +59,15 @@ extern "C"
 
     void DisplayAndTouchProcess (void * v_params)
     {
-        GpioHw    gpioHw;
-        TouchHw   touchHw;
-        DisplayHw display (gpioHw);
+        GpioHw                 gpioHw;
+
+        Display::Configuration config;
+        config.Length              = Settings::GetInstance ().Lcd.Length;
+        config.Width               = Settings::GetInstance ().Lcd.Width;
+        config.MaxLinesPerTransfer = Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
+        config.RectsNumber         = Settings::GetInstance ().Lcd.RectsNumber;;
+
+        DisplayHw display (gpioHw, config);
 
         uint16_t xPos   = 50;
         uint16_t yPos   = 50;
@@ -70,7 +76,7 @@ extern "C"
 
         display.DrawRect (xPos        , yPos, width, length, Display::EColors::ePurple);
         display.DrawRect (xPos + width, yPos, width, length, Display::EColors::eMagneta);
-
+        TouchHw                touchHw;
         //////////////////////// Touch ////////////////////
 
         while (true)

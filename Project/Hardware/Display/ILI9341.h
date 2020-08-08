@@ -4,7 +4,7 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SpiHw.h"
+#include "SpiLcdHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
@@ -13,10 +13,10 @@
 class ILI9341
 {
     private:
-        SpiHw & spiHw;
+        SpiLcdHw & spiLcdHw;
 
     public:
-        ILI9341 (SpiHw & v_spiHw) : spiHw (v_spiHw) { }
+        ILI9341 (SpiLcdHw & v_spiLcdHw) : spiLcdHw (v_spiLcdHw) { }
 
         void     SendSoftwareReset           (void);
         uint8_t  ReceiveDisplayPixelFormat   (void);
