@@ -7,6 +7,7 @@ SET (PackageSourcePaths main.c
                         Peripheral/RtosHw.cpp
                         Peripheral/GpioHw.cpp
                         Peripheral/FlashHw.cpp
+                        Peripheral/TimerHw.cpp
                         Peripheral/SpiHw/SpiHw.cpp
                         Peripheral/SystemTimeHw.cpp
                         Peripheral/SpiHw/SpiLcdHw.cpp

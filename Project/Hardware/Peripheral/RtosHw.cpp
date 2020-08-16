@@ -11,7 +11,7 @@
 //////////////////////////////// VARIABLES ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-SemaphoreHandle_t TouchUpdateSemaphoreHandle;
+SemaphoreHandle_t TouchSemaphoreHandle;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -21,8 +21,8 @@ RtosHw::RtosHw ()
 {
     LOG (MODULE, "Init.");
 
-    TouchUpdateSemaphoreHandle = xSemaphoreCreateBinary ();
-    if (TouchUpdateSemaphoreHandle == NULL) { LOGE (MODULE, "Could't allocate ReqAzureDataUpdateeSemaphoreHandle./n"); }
+    TouchSemaphoreHandle = xSemaphoreCreateBinary ();
+    if (TouchSemaphoreHandle == NULL) { LOGE (MODULE, "Could't allocate ReqAzureDataUpdateeSemaphoreHandle./n"); }
 }
 
 RtosHw::~RtosHw ()
@@ -32,27 +32,27 @@ RtosHw::~RtosHw ()
 
 bool RtosHw::GiveSemaphoreFromISR (const std::string & v_name)
 {
-    if (strcmp ("GiveTouchUpdateSemaphoreFromISR", v_name.data ()) == ZERO) { return GiveTouchUpdateSemaphoreFromISR (); }
+    if (strcmp ("GiveTouchSemaphoreFromISR", v_name.data ()) == ZERO) { return GiveTouchSemaphoreFromISR (); }
 
     return false;
 }
 
 bool RtosHw::TakeSemaphore (const std::string & v_name)
 {
-    if (strcmp ("TakeTouchUpdateSemaphore", v_name.data ()) == ZERO) { return TakeTouchUpdateSemaphore (); }
+    if (strcmp ("TakeTouchSemaphore", v_name.data ()) == ZERO) { return TakeTouchSemaphore (); }
 
     return false;
 }
 
-bool RtosHw::GiveTouchUpdateSemaphoreFromISR (void)
+bool RtosHw::GiveTouchSemaphoreFromISR (void)
 {
     static BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-    return (xSemaphoreGiveFromISR (TouchUpdateSemaphoreHandle, &xHigherPriorityTaskWoken) == pdTRUE) ? true : false;
+    return (xSemaphoreGiveFromISR (TouchSemaphoreHandle, &xHigherPriorityTaskWoken) == pdTRUE) ? true : false;
 }
 
-bool RtosHw::TakeTouchUpdateSemaphore (void)
+bool RtosHw::TakeTouchSemaphore (void)
 {
-    return (xSemaphoreTake (TouchUpdateSemaphoreHandle, (TickType_t)ETick::ePortMaxDelay) == pdTRUE) ? true : false;
+    return (xSemaphoreTake (TouchSemaphoreHandle, (TickType_t)ETick::ePortMaxDelay) == pdTRUE) ? true : false;
 }
 
 uint32_t RtosHw::GetCurrentStackSize (const std::string & v_name)

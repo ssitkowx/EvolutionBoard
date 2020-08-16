@@ -27,7 +27,6 @@ TaskHandle_t NetworkConnectionTaskHandle;
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-
 extern "C"
 {
     void DisplayAndTouchProcess    (void * v_params);
@@ -45,13 +44,13 @@ extern "C"
 
         Rtos::GetInstance()->TaskCreate (DisplayAndTouchProcess,
                                          "DisplayAndTouch",
-                                         Settings::GetInstance ().StackDepth.DisplayAndTouch,
+                                         THIRTY_THOUSAND_BYTES,
                                          static_cast <uint32_t> (RtosHw::EThreadPriority::eNormal),
                                          DisplayAndTouchTaskHandle);
 /*
         Rtos::GetInstance()->TaskCreate (&InternetConnectionProcess,
                                          "InternetConnection",
-                                         Settings::GetInstance ().StackDepth.InterntConnection,
+                                         FIVE_THOUSAND_BYTES,
                                          static_cast <uint32_t> (RtosHw::EThreadPriority::eAboveNormal),
                                          NetworkConnectionTaskHandle);
 */
@@ -60,23 +59,30 @@ extern "C"
     void DisplayAndTouchProcess (void * v_params)
     {
         GpioHw                 gpioHw;
+        Display::Configuration displayConfig;
+        displayConfig.Length              = Settings::GetInstance ().Lcd.Length;
+        displayConfig.Width               = Settings::GetInstance ().Lcd.Width;
+        displayConfig.MaxLinesPerTransfer = Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
+        displayConfig.RectNumbers         = Settings::GetInstance ().Lcd.RectNumbers;
+        DisplayHw              displayHw (gpioHw, displayConfig);
 
-        Display::Configuration config;
-        config.Length              = Settings::GetInstance ().Lcd.Length;
-        config.Width               = Settings::GetInstance ().Lcd.Width;
-        config.MaxLinesPerTransfer = Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
-        config.RectsNumber         = Settings::GetInstance ().Lcd.RectsNumber;;
+        Touch::Configuration touchConfig;
+        touchConfig.Histeresis       = TWO;
+        touchConfig.Time.PressedMax  = FOUR;    // InterruptInSeconds * PressedMax
+        touchConfig.Time.ReleasedMax = EIGHT;
 
-        DisplayHw display (gpioHw, config);
+        TouchHw::Coefficients touchCoefficient;
+        touchCoefficient.Constant = ONE_HUNDRED_TWENTY_EIGHT;
+        touchCoefficient.Width    = TWO;
+        touchCoefficient.Length   = 2.67;
 
-        uint16_t xPos   = 50;
-        uint16_t yPos   = 50;
-        uint16_t width  = 100;
-        uint16_t length = 100;
+        TimerHw::Configuration timerConfig;
+        timerConfig.eTimer         = Timer::ETimer::e0;
+        timerConfig.Divider        = SIXTEEN;
+        timerConfig.InterruptInSec = 0.02;
 
-        display.DrawRect (xPos        , yPos, width, length, Display::EColors::ePurple);
-        display.DrawRect (xPos + width, yPos, width, length, Display::EColors::eMagneta);
-        TouchHw                touchHw;
+        TouchHw touchHw (timerConfig, touchCoefficient, touchConfig, displayHw);
+
         //////////////////////// Touch ////////////////////
 
         while (true)

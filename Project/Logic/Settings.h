@@ -20,14 +20,8 @@ class Settings
             const uint16_t Length              = TWO_HUNDRED_FORTY;
             const uint16_t Width               = THREE_HUNDRED_TWENTY;
             const uint16_t MaxLinesPerTransfer = TWELVE;
-            const uint8_t  RectsNumber         = FIFTEEN;
+            const uint8_t  RectNumbers         = FIFTEEN;
         } Lcd;
-
-        struct
-        {
-            const uint32_t DisplayAndTouch   = 30000;
-            const uint32_t InterntConnection = 5000;
-        } StackDepth;
 
         struct
         {
@@ -49,13 +43,7 @@ class Settings
                 const std::string Password;
             } SoftAp;
         } WiFi;
-/*
-        struct
-        {
-            const uint32_t TimerDivider;
-            const uint32_t TimerInteruptInSeconds;
-        } Timer;
-*/
+
         Settings () = default;
 
         static Settings & GetInstance (void)

@@ -22,23 +22,21 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-static void IRAM_ATTR WaitForTouchIsr (void * v_arg) { TouchHw::WaitForTouch (); }
-
 GpioHw::GpioHw ()
 {
     LOG (MODULE, "Init.");
-
+/*
     gpio_config_t config;
-    config.intr_type    = static_cast<gpio_int_type_t>(EInterrupt::eRising);
+    config.intr_type    = static_cast<gpio_int_type_t>(EInterrupt::eFalling);
     config.mode         = static_cast<gpio_mode_t>    (EPinMode::eInput);
     config.pin_bit_mask = static_cast<gpio_num_t>     (1ULL << (uint8_t)ETouch::eIrq);
     config.pull_down_en = static_cast<gpio_pulldown_t>(GPIO_PULLDOWN_DISABLE);
     config.pull_up_en   = static_cast<gpio_pullup_t>  (GPIO_PULLUP_DISABLE);
 
     ESP_ERROR_CHECK          (gpio_config (&config));
-    gpio_set_intr_type       (static_cast<gpio_num_t>(ETouch::eIrq), static_cast<gpio_int_type_t>(EInterrupt::eRising));
     gpio_install_isr_service (ESP_INTR_FLAG_EDGE);
     gpio_isr_handler_add     (static_cast<gpio_num_t>(ETouch::eIrq), WaitForTouchIsr, (void *)ETouch::eIrq);
+    */
 }
 
 GpioHw::~GpioHw () { LOG (MODULE, "Deinit."); }
