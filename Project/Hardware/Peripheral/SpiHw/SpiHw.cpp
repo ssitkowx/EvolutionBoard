@@ -7,6 +7,7 @@
 #include "Settings.h"
 #include "driver/gpio.h"
 
+#include "Rtos.h"
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -21,7 +22,7 @@ void SpiHw::Send (const uint8_t * const v_data, const uint16_t v_len)
 {
     if (v_len == ZERO) { LOGE (MODULE, "Data length is empty."); return; }
 
-    spi_transaction_t transaction;
+    spi_transaction_t transaction = { };
     memset (&transaction, ZERO, sizeof (transaction));
 
     uint8_t flags = getFlag (static_cast<SpiHw::EFlag>(v_data [FIRST_BYTE]));
@@ -41,10 +42,7 @@ void SpiHw::Send (const uint8_t * const v_data, const uint16_t v_len)
             transaction.tx_data [FOURTH_BYTE] = v_data [SIXTH_BYTE];
         }
     }
-    else
-    {
-        transaction.tx_buffer = &v_data [THIRD_BYTE];
-    }
+    else { transaction.tx_buffer = &v_data [THIRD_BYTE]; }
 
     esp_err_t status = spi_device_polling_transmit (*handle, &transaction);
     assert (status == ESP_OK);
@@ -54,13 +52,13 @@ void SpiHw::Send (const uint16_t * const v_data, const uint16_t v_len)
 {
     if (v_len == ZERO) { LOGE (MODULE, "Data length is empty."); return; }
 
-    spi_transaction_t transaction;
+    spi_transaction_t transaction = { };
     memset (&transaction, ZERO, sizeof (transaction));
 
-    transaction.flags     = getFlag (static_cast<SpiHw::EFlag>(v_data [FIRST_BYTE]));
-    transaction.user      = reinterpret_cast<void *>(v_data [SECOND_BYTE]);
-    transaction.length    = (v_len + Settings::GetInstance ().Lcd.MaxLinesPerTransfer) * EIGHT_BITS * sizeof (uint16_t);
-    transaction.tx_buffer = v_data;
+    transaction.flags     = ZERO;
+    transaction.user      = (void *)SpiHw::EMode::eData;
+    transaction.length    = v_len * EIGHT_BITS;
+    transaction.tx_buffer = &v_data [ZERO];
 
     esp_err_t status = spi_device_polling_transmit (*handle, &transaction);
     assert (status == ESP_OK);
@@ -68,7 +66,7 @@ void SpiHw::Send (const uint16_t * const v_data, const uint16_t v_len)
 
 uint16_t SpiHw::Receive (uint8_t * v_data)
 {
-    static spi_transaction_t transaction;
+    static spi_transaction_t transaction = { };
     memset (&transaction, ZERO, sizeof (transaction));
 
     transaction.flags  = getFlag (static_cast<SpiHw::EFlag>(v_data [FIRST_BYTE]));

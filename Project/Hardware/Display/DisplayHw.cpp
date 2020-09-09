@@ -41,7 +41,7 @@ DisplayHw::DisplayHw (Gpio & v_gpio, const Display::Configuration v_config) : Di
     ili9341.SendPositiveGammaCorrection ();
     ili9341.SendNegativeGammaCorrection ();
     ili9341.SendColumnAddressSet        (SpiHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Width  >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Width  & 0xFF);
-    ili9341.SendPageAddressSet          (SpiHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Length >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Length & 0xFF);
+    ili9341.SendPageAddressSet          (SpiHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Height >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Height & 0xFF);
     ili9341.SendMemoryWrite             (SpiHw::EFlag::eDummy);
     ili9341.SendEntryModeSet            ();
     ili9341.SendDisplayFunctionControl  ();
@@ -49,54 +49,74 @@ DisplayHw::DisplayHw (Gpio & v_gpio, const Display::Configuration v_config) : Di
     ili9341.SendDisplayOn               ();
 }
 
-bool DisplayHw::DrawText (const uint16_t v_xPos, const uint16_t v_yPos, const uint8_t & data, const uint16_t v_len, const Display::EColors eColor)
+bool DisplayHw::DrawBitmap (const Rect v_rect)
 {
-    return false;
+    if (validateRect (v_rect) == false) { return false; }
+
+    uint8_t maxRects = calculateRects (v_rect.Dimension.Height);
+    if (maxRects == ONE) { sendLines (v_rect); }
+    else
+    {
+        uint16_t yPos     = ZERO;
+        uint16_t height   = ZERO;
+        uint16_t pixelPos = ZERO;
+        for (uint8_t rectNum = ONE; rectNum <= maxRects; rectNum++)
+        {
+            if (rectNum == maxRects) { height = v_rect.Dimension.Height - yPos; }
+            else                     { height = Config.LinesPerTransfer; }
+
+            Rect rect = { };
+            rect.Coordinate.X     = v_rect.Coordinate.X;
+            rect.Coordinate.Y     = yPos + v_rect.Coordinate.Y;
+            rect.Dimension.Width  = v_rect.Dimension.Width;
+            rect.Dimension.Height = height;
+            rect.Data             = &v_rect.Data [pixelPos];
+
+            sendLines (rect);
+            yPos     = yPos + height;
+            pixelPos = yPos * v_rect.Dimension.Width - ONE;
+        }
+    }
+
+    return true;
 }
 
-bool DisplayHw::DrawPicture (const uint16_t v_xPos, const uint16_t v_yPos, const uint8_t & data, const uint16_t v_len)
+void DisplayHw::sendLines (const Rect v_rect)
 {
-    return false;
-}
+    ili9341.SendColumnAddressSet (SpiLcdHw::EFlag::eTxData, static_cast<uint8_t> (v_rect.Coordinate.X                                  >> EIGHT_BITS), static_cast<uint8_t> (v_rect.Coordinate.X & 0xFF),
+                                                            static_cast<uint8_t> ((v_rect.Coordinate.X + v_rect.Dimension.Width - ONE) >> EIGHT_BITS), static_cast<uint8_t> ((v_rect.Coordinate.X + v_rect.Dimension.Width - ONE) & 0xFF));
 
-void DisplayHw::sendLines (const uint16_t v_xPos, const uint16_t v_yPos, const uint16_t v_width, const uint16_t v_length, const uint16_t * const v_data)
-{
-    ili9341.SendColumnAddressSet (SpiLcdHw::EFlag::eTxData, static_cast<uint8_t> (v_xPos              >> EIGHT_BITS), static_cast<uint8_t> (v_xPos & 0xFF),
-                                                            static_cast<uint8_t> ((v_xPos + v_width)  >> EIGHT_BITS), static_cast<uint8_t> ((v_xPos + v_width) & 0xFF));
-
-    ili9341.SendPageAddressSet   (SpiLcdHw::EFlag::eTxData, static_cast<uint8_t> (v_yPos              >> EIGHT_BITS), static_cast<uint8_t> (v_yPos & 0xFF),
-                                                            static_cast<uint8_t> ((v_yPos + v_length) >> EIGHT_BITS), static_cast<uint8_t> ((v_yPos + v_length) & 0xFF));
+    ili9341.SendPageAddressSet   (SpiLcdHw::EFlag::eTxData, static_cast<uint8_t> (v_rect.Coordinate.Y                                  >> EIGHT_BITS), static_cast<uint8_t> (v_rect.Coordinate.Y & 0xFF),
+                                                            static_cast<uint8_t> ((v_rect.Coordinate.Y + v_rect.Dimension.Height)      >> EIGHT_BITS), static_cast<uint8_t> ((v_rect.Coordinate.Y + v_rect.Dimension.Height) & 0xFF));
 
     ili9341.SendMemoryWrite      (SpiLcdHw::EFlag::eTxData);
-    spiLcdHw.Send                (v_data, v_width * v_length);
+    spiLcdHw.Send                (v_rect.Data, v_rect.Dimension.Width * v_rect.Dimension.Height * sizeof (uint16_t));
+
 }
 
-
-
+// https://www.rapidtables.com/web/color/RGB_Color.html
 uint8_t DisplayHw::getColor (const EColors v_eColor)
 {
-    // B [7:5],
-    // R [4:3],
+    // R [7:5],
+    // B [4:3],
     // G [2:0].
 
     switch (v_eColor)
     {
         case EColors::eBlack  : { return 0x00; }
         case EColors::eWhite  : { return 0xFF; }
-        case EColors::eRed    : { return 0x18; }
-        case EColors::eLime   : { return 0x07; }
-        case EColors::eBlue   : { return 0xE0; }
-        case EColors::eYellow : { return 0x1F; }
-        case EColors::eCyan   : { return 0xE7; }
+        case EColors::eRed    : { return 0xE0; }
+        case EColors::eBlue   : { return 0x18; }
+        case EColors::eGreen  : { return 0x07; }
+        case EColors::eYellow : { return 0xE7; }
+        case EColors::eCyan   : { return 0x1F; }
         case EColors::eMagneta: { return 0xF8; }
-        case EColors::eSilver : { return 0xD6; }
         case EColors::eGray   : { return 0x94; }
-        case EColors::eMaroon : { return 0x10; }
-        case EColors::eOlive  : { return 0x14; }
-        case EColors::eGreen  : { return 0x04; }
+        case EColors::eMaroon : { return 0x80; }
+        case EColors::eOlive  : { return 0x84; }
         case EColors::ePurple : { return 0x90; }
-        case EColors::eTeal   : { return 0x84; }
-        case EColors::eNavy   : { return 0x80; }
+        case EColors::eTeal   : { return 0x14; }
+        case EColors::eNavy   : { return 0x10; }
         default               : { return 0xFF; }
     };
 }

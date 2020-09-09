@@ -17,10 +17,9 @@ class Settings
     public:
         struct
         {
-            const uint16_t Length              = TWO_HUNDRED_FORTY;
-            const uint16_t Width               = THREE_HUNDRED_TWENTY;
-            const uint16_t MaxLinesPerTransfer = TWELVE;
-            const uint8_t  RectNumbers         = FIFTEEN;
+            const uint16_t Width            = THREE_HUNDRED_TWENTY;
+            const uint16_t Height           = TWO_HUNDRED_FORTY;
+            const uint16_t LinesPerTransfer = SIXTEEN;
         } Lcd;
 
         struct

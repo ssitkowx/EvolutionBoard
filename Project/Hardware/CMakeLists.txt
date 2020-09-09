@@ -38,6 +38,7 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              Peripheral/SpiHw
                              ../Logic
                              ../Logic/Touch
+                             ../Logic/Resources/Bitmaps
                              ${PackageIncludePaths}/Spi/Project
                              ${PackageIncludePaths}/WiFi/Project
                              ${PackageIncludePaths}/Gpio/Project

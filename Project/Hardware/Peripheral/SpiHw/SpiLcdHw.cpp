@@ -36,7 +36,7 @@ SpiLcdHw::SpiLcdHw () : SpiHw (&handle)
     busConfig.sclk_io_num       = static_cast<int> (GpioHw::ELcd::eSck);
     busConfig.quadwp_io_num     = -1;
     busConfig.quadhd_io_num     = -1;
-    busConfig.max_transfer_sz   = Settings::GetInstance ().Lcd.MaxLinesPerTransfer * Settings::GetInstance ().Lcd.Width * TWO + EIGHT_BYTES;
+    busConfig.max_transfer_sz   = Settings::GetInstance ().Lcd.LinesPerTransfer * Settings::GetInstance ().Lcd.Width * TWO + EIGHT_BYTES;
 
     static spi_device_interface_config_t deviceConfig;
     //.clock_speed_hz=26*1000*1000,                 // Clock out at 26 MHz

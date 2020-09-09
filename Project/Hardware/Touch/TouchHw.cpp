@@ -5,6 +5,7 @@
 #include "Rtos.h"
 #include "Timer.h"
 #include "Utils.h"
+#include "Bitmaps.h"
 #include "TouchHw.h"
 #include "LoggerHw.h"
 #include "Settings.h"
@@ -15,6 +16,7 @@
 
 void TouchHw::Process (void)
 {
+    /*
     if (IsPressed () == true)
     {
         uint16_t xPos   = 50;
@@ -34,6 +36,46 @@ void TouchHw::Process (void)
         display.DrawRect (xPos        , yPos, width, length, rectA);
         display.DrawRect (xPos + width, yPos, width, length, rectB);
     }
+    */
+
+    /*
+        BitmapConfig bitmapConfig;
+        bitmapConfig.Pos.X       = 10;
+        bitmapConfig.Pos.Y       = 10;
+        bitmapConfig.Size.Width  = 250;
+        bitmapConfig.Size.Height = 202;
+        bitmapConfig.Data        = image;
+    */
+    /*
+        BitmapConfig bitmapConfig;
+        bitmapConfig.Pos.X       = 100;
+        bitmapConfig.Pos.Y       = 50;
+        bitmapConfig.Size.Width  = 80;
+        bitmapConfig.Size.Height = 48;
+        bitmapConfig.Data        = image;
+    */
+
+
+    Display::Rect rect = { };
+    rect.Coordinate.X     = 100;
+    rect.Coordinate.Y     = 50;
+    rect.Dimension.Width  = 80;
+    rect.Dimension.Height = 48;
+    rect.Data             = image;
+    display.DrawBitmap (rect);
+
+    Display::Rect rect2 = { };
+    rect2.Coordinate.X     = 0;
+    rect2.Coordinate.Y     = 0;
+    rect2.Dimension.Width  = 50;
+    rect2.Dimension.Height = 50;
+    display.DrawRect (rect2, Display::EColors::eTeal);
+
+    rect2.Coordinate.X     = 50;
+    rect2.Coordinate.Y     = 50;
+    rect2.Dimension.Width  = 50;
+    rect2.Dimension.Height = 50;
+    display.DrawRect (rect2, Display::EColors::eNavy);
 }
 
 Touch::Coordinates TouchHw::getCoordinates (void)

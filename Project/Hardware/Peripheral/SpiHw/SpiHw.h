@@ -20,15 +20,15 @@ class SpiHw : public Spi
     public:
         enum class EFlag : uint8_t
         {
-            eDio        = ZERO,
-            eQio        = ONE,
-            eRxData     = TWO,
-            eTxData     = THREE,
-            eDioQioAddr = FOUR,
-            eCmd        = FIVE,
-            eAddr       = SIX,
-            eDummy      = SEVEN,
-            eCd         = SEVEN
+            eDio        = ONE << ZERO,
+            eQio        = ONE << ONE,
+            eRxData     = ONE << TWO,
+            eTxData     = ONE << THREE,
+            eDioQioAddr = ONE << FOUR,
+            eCmd        = ONE << FIVE,
+            eAddr       = ONE << SIX,
+            eDummy      = ONE << SEVEN,
+            eCd         = ONE << SEVEN
         };
 
         enum class EMode : uint8_t
@@ -44,12 +44,12 @@ class SpiHw : public Spi
             uint8_t Data [DATA_LEN];
         };
 
-        SpiHw (spi_device_handle_t * v_handle) : handle (v_handle) { }
+        explicit SpiHw (spi_device_handle_t * v_handle) : handle (v_handle) { }
 
-        void     Send        (const uint8_t  * const v_data, const uint16_t v_len) override;
-        void     Send        (const uint16_t * const v_data, const uint16_t v_len) override;
-        uint16_t Receive     (uint8_t        *       v_data)                       override;
-        void     SendCommand (const SpiHw::EFlag     v_flag, const SpiHw::EMode v_mode, const uint8_t v_cmd);
+        void     Send          (const uint8_t  * const v_data, const uint16_t v_len                          ) override;
+        void     Send          (const uint16_t * const v_data, const uint16_t v_len                          ) override;
+        uint16_t Receive       (uint8_t        *       v_data                                                ) override;
+        void     SendCommand   (const SpiHw::EFlag     v_flag, const SpiHw::EMode v_mode, const uint8_t v_cmd);
 
         template <uint8_t DATA_LEN>
         void ReceiveData (const SpiHw::EFlag v_flag, const SpiHw::EMode v_mode, uint8_t v_data [])

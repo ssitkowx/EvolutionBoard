@@ -60,10 +60,9 @@ extern "C"
     {
         GpioHw                 gpioHw;
         Display::Configuration displayConfig;
-        displayConfig.Length              = Settings::GetInstance ().Lcd.Length;
-        displayConfig.Width               = Settings::GetInstance ().Lcd.Width;
-        displayConfig.MaxLinesPerTransfer = Settings::GetInstance ().Lcd.MaxLinesPerTransfer;
-        displayConfig.RectNumbers         = Settings::GetInstance ().Lcd.RectNumbers;
+        displayConfig.Dimension.Width  = Settings::GetInstance ().Lcd.Width;
+        displayConfig.Dimension.Height = Settings::GetInstance ().Lcd.Height;
+        displayConfig.LinesPerTransfer = Settings::GetInstance ().Lcd.LinesPerTransfer;
         DisplayHw              displayHw (gpioHw, displayConfig);
 
         Touch::Configuration touchConfig;

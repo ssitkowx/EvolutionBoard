@@ -84,6 +84,11 @@
 			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Gpio/Project/Gpio.h</locationURI>
 		</link>
 		<link>
+			<name>Logic/Resources/Resources</name>
+			<type>2</type>
+			<location>C:/Users/sitko/Desktop/Projekty/GIT/EvolutionBoard/Project/Logic/Resources</location>
+		</link>
+		<link>
 			<name>Logic/Utils/Utils.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Utils/Project/Utils.cpp</locationURI>

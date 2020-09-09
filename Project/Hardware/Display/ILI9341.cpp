@@ -45,7 +45,6 @@ void ILI9341::SendPowerControl1 (void)
     SpiHw::Msg <ONE_BYTE> msg;
     msg.Cmd               = 0xC0;
     msg.Data [FIRST_BYTE] = 0x26;    // VRH [5:0],
-                                     // GVDD = 5V.
 
     spiLcdHw.SendCommand         (SpiHw::EFlag::eDummy, SpiHw::EMode::eCmd , msg.Cmd);
     spiLcdHw.SendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
@@ -65,9 +64,8 @@ void ILI9341::SendVCOMControl1 (void)
 {
     SpiHw::Msg <TWO_BYTES> msg;
     msg.Cmd                = 0xC5;
-    msg.Data [FIRST_BYTE]  = 0x5C;    // VMH [6:0],
-    msg.Data [SECOND_BYTE] = 0x4C;    // VML [6:0],
-                                      // VCOML = 5V, VCOMH = -0.6V.
+    msg.Data [FIRST_BYTE]  = 0x35;    // VMH [6:0],
+    msg.Data [SECOND_BYTE] = 0x3E;    // VML [6:0],
 
     spiLcdHw.SendCommand          (SpiHw::EFlag::eDummy, SpiHw::EMode::eCmd , msg.Cmd);
     spiLcdHw.SendData <TWO_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
@@ -77,8 +75,7 @@ void ILI9341::SendVCOMControl2 (void)
 {
     SpiHw::Msg <ONE_BYTE> msg;
     msg.Cmd               = 0xC7;
-    msg.Data [FIRST_BYTE] = 0x94;    // nVM [7], VMF [6:0]
-                                     // VMH - 44, VML - 44.
+    msg.Data [FIRST_BYTE] = 0xBE;    // nVM [7], VMF [6:0]
 
     spiLcdHw.SendCommand         (SpiHw::EFlag::eDummy, SpiHw::EMode::eCmd , msg.Cmd);
     spiLcdHw.SendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
@@ -88,11 +85,11 @@ void ILI9341::SendMemoryAccessControl (void)
 {
     SpiHw::Msg <ONE_BYTE> msg;
     msg.Cmd               = 0x36;
-    msg.Data [FIRST_BYTE] = 0x20;    // MY  [7] = 0,
+    msg.Data [FIRST_BYTE] = 0x28;    // MY  [7] = 0,
                                      // MX  [6] = 0,
                                      // MV  [5] = 1,
                                      // ML  [4] = 0,
-                                     // BGR [3] = 0,
+                                     // BGR [3] = 1,
                                      // MH  [2] = 0,
                                      //     [1]   0,
                                      //     [0]   0.

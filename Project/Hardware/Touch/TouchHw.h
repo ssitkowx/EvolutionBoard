@@ -26,10 +26,11 @@ class TouchHw final : public Touch
             double  Length;
         };
 
-        TouchHw (TimerHw::Configuration v_timerConfig, Coefficients v_coefficient, Touch::Configuration v_touchConfig, Display & v_display) : Touch       (v_touchConfig),
-                                                                                            coefficient (v_coefficient),
-                                                                                            timerHw     (v_timerConfig),
-                                                                                            display     (v_display)
+        explicit TouchHw (TimerHw::Configuration v_timerConfig, Coefficients v_coefficient,
+                          Touch::Configuration   v_touchConfig, Display    & v_display) : Touch       (v_touchConfig),
+                                                                                          coefficient (v_coefficient),
+                                                                                          timerHw     (v_timerConfig),
+                                                                                          display     (v_display)
         { }
 
         ~TouchHw () = default;
