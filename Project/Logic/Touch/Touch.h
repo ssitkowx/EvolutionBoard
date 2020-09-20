@@ -23,7 +23,7 @@ class Touch
             } Time;
         };
 
-        Touch (Configuration v_config) : config (v_config) { }
+        explicit Touch (Configuration v_config) : config (v_config) { }
         virtual ~Touch () = default;
 
         virtual void Process    (void) = 0;

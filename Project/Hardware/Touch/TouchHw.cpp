@@ -57,8 +57,8 @@ void TouchHw::Process (void)
 
 
     Display::Rect rect = { };
-    rect.Coordinate.X     = 100;
-    rect.Coordinate.Y     = 50;
+    rect.Coordinate.X     = 200;
+    rect.Coordinate.Y     = 100;
     rect.Dimension.Width  = 80;
     rect.Dimension.Height = 48;
     rect.Data             = image;

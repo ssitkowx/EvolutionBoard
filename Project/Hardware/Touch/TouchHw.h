@@ -27,7 +27,7 @@ class TouchHw final : public Touch
         };
 
         explicit TouchHw (TimerHw::Configuration v_timerConfig, Coefficients v_coefficient,
-                          Touch::Configuration   v_touchConfig, Display    & v_display) : Touch       (v_touchConfig),
+                          Touch::Configuration   v_touchConfig, Display &    v_display) : Touch       (v_touchConfig),
                                                                                           coefficient (v_coefficient),
                                                                                           timerHw     (v_timerConfig),
                                                                                           display     (v_display)
