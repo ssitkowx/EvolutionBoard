@@ -14,11 +14,11 @@ SET (PackageSourcePaths main.c
                         Peripheral/SpiHw/SpiTouchHw.cpp
                         Networking/WiFiHw.cpp
                         ../Logic/Settings.cpp
-                        ../Logic/Touch/Touch.cpp
                         ${PackageIncludePaths}/Spi/Project/Spi.cpp
                         ${PackageIncludePaths}/WiFi/Project/WiFi.cpp
                         ${PackageIncludePaths}/Gpio/Project/Gpio.cpp
                         ${PackageIncludePaths}/Rtos/Project/Rtos.cpp
+                        ${PackageIncludePaths}/Touch/Project/Touch.cpp
                         ${PackageIncludePaths}/Timer/Project/Timer.cpp
                         ${PackageIncludePaths}/Flash/Project/Flash.cpp
                         ${PackageIncludePaths}/Utils/Project/Utils.cpp
@@ -37,12 +37,12 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              Networking
                              Peripheral/SpiHw
                              ../Logic
-                             ../Logic/Touch
-                             ../Logic/Resources/Bitmaps
+                             ../Logic/BitmapConverter/Images
                              ${PackageIncludePaths}/Spi/Project
                              ${PackageIncludePaths}/WiFi/Project
                              ${PackageIncludePaths}/Gpio/Project
                              ${PackageIncludePaths}/Rtos/Project
+                             ${PackageIncludePaths}/Touch/Project
                              ${PackageIncludePaths}/Timer/Project
                              ${PackageIncludePaths}/Flash/Project
                              ${PackageIncludePaths}/Utils/Project

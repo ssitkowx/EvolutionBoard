@@ -5,7 +5,7 @@
 #include "Rtos.h"
 #include "Timer.h"
 #include "Utils.h"
-#include "Bitmaps.h"
+#include "image.h"    // Shpuld be one file with all
 #include "TouchHw.h"
 #include "LoggerHw.h"
 #include "Settings.h"
@@ -59,9 +59,9 @@ void TouchHw::Process (void)
     Display::Rect rect = { };
     rect.Coordinate.X     = 200;
     rect.Coordinate.Y     = 100;
-    rect.Dimension.Width  = 80;
-    rect.Dimension.Height = 48;
-    rect.Data             = image;
+    rect.Dimension.Width  = image  [0];
+    rect.Dimension.Height = image  [1];
+    rect.Data             = &image [2];
     display.DrawBitmap (rect);
 
     Display::Rect rect2 = { };

@@ -39,6 +39,11 @@
 			<location>C:/Users/sitko/.conan/download/Logger/Project</location>
 		</link>
 		<link>
+			<name>Logic/Project</name>
+			<type>2</type>
+			<location>C:/Users/sitko/.conan/download/Utils/Project</location>
+		</link>
+		<link>
 			<name>Logic/Rtos</name>
 			<type>2</type>
 			<location>C:/Users/sitko/.conan/download/Rtos/Project</location>
@@ -61,12 +66,12 @@
 		<link>
 			<name>Logic/Touch</name>
 			<type>2</type>
-			<location>C:/Users/sitko/Desktop/Projekty/GIT/EvolutionBoard/Project/Logic/Touch</location>
+			<location>C:/Users/sitko/.conan/download/Touch/Project</location>
 		</link>
 		<link>
 			<name>Logic/Utils</name>
 			<type>2</type>
-			<location>C:/Users/sitko/.conan/download/Utils</location>
+			<location>C:/Users/sitko/.conan/download/Utils/Project</location>
 		</link>
 		<link>
 			<name>Logic/WiFi</name>
@@ -82,21 +87,6 @@
 			<name>Logic/Gpio/Gpio.h</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Gpio/Project/Gpio.h</locationURI>
-		</link>
-		<link>
-			<name>Logic/Resources/Resources</name>
-			<type>2</type>
-			<location>C:/Users/sitko/Desktop/Projekty/GIT/EvolutionBoard/Project/Logic/Resources</location>
-		</link>
-		<link>
-			<name>Logic/Utils/Utils.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Utils/Project/Utils.cpp</locationURI>
-		</link>
-		<link>
-			<name>Logic/Utils/Utils.h</name>
-			<type>1</type>
-			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Utils/Project/Utils.h</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
