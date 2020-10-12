@@ -31,7 +31,10 @@ class Conan(ConanFile):
                        "Display/1.0@ssitkowx/stable",
                        "Utils/1.0@ssitkowx/stable",
                        "Touch/1.0@ssitkowx/stable",
-                       "Logger/1.0@ssitkowx/stable"
+                       "Logger/1.0@ssitkowx/stable",
+                       "Rectangle/1.0@ssitkowx/stable",
+                       "Bitmap/1.0@ssitkowx/stable",
+                       "Keyboard/1.0@ssitkowx/stable"
                       ]
 
     def source (self):   

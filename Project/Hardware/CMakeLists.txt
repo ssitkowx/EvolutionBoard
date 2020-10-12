@@ -2,6 +2,7 @@ SET (PackageIncludePaths "C:/Users/sitko/.conan/download")
 SET (PackageSourcePaths main.c
                         MainCppHw.cpp
                         Touch/TouchHw.cpp
+                        Bitmap/BitmapHw.cpp
                         Display/ILI9341.cpp
                         Display/DisplayHw.cpp
                         Peripheral/RtosHw.cpp
@@ -14,6 +15,7 @@ SET (PackageSourcePaths main.c
                         Peripheral/SpiHw/SpiTouchHw.cpp
                         Networking/WiFiHw.cpp
                         ../Logic/Settings.cpp
+                        ../Logic/NumericKeyboard/NumericKeyboard.cpp
                         ${PackageIncludePaths}/Spi/Project/Spi.cpp
                         ${PackageIncludePaths}/WiFi/Project/WiFi.cpp
                         ${PackageIncludePaths}/Gpio/Project/Gpio.cpp
@@ -22,22 +24,28 @@ SET (PackageSourcePaths main.c
                         ${PackageIncludePaths}/Timer/Project/Timer.cpp
                         ${PackageIncludePaths}/Flash/Project/Flash.cpp
                         ${PackageIncludePaths}/Utils/Project/Utils.cpp
+                        ${PackageIncludePaths}/Bitmap/Project/Bitmap.cpp
                         ${PackageIncludePaths}/Logger/Project/Logger.cpp
                         ${PackageIncludePaths}/Display/Project/Display.cpp
+                        ${PackageIncludePaths}/Keyboard/Project/Keyboard.cpp
+                        ${PackageIncludePaths}/Rectangle/Project/Rectangle.cpp
                         ${PackageIncludePaths}/SystemTime/Project/SystemTime.cpp
     )
 
 IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              INCLUDE_DIRS
                              .
-                             Logger
-                             Display
                              Touch
+                             Logger
+                             Bitmap
+                             Display
                              Peripheral
                              Networking
                              Peripheral/SpiHw
                              ../Logic
+                             ../Logic/NumericKeyboard
                              ../Logic/BitmapConverter/Images
+                             ../Logic/BitmapConverter/Images/KeyboardImages
                              ${PackageIncludePaths}/Spi/Project
                              ${PackageIncludePaths}/WiFi/Project
                              ${PackageIncludePaths}/Gpio/Project
@@ -46,9 +54,11 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              ${PackageIncludePaths}/Timer/Project
                              ${PackageIncludePaths}/Flash/Project
                              ${PackageIncludePaths}/Utils/Project
+                             ${PackageIncludePaths}/Bitmap/Project
                              ${PackageIncludePaths}/Logger/Project
                              ${PackageIncludePaths}/Display/Project
+                             ${PackageIncludePaths}/Keyboard/Project
+                             ${PackageIncludePaths}/Rectangle/Project
                              ${PackageIncludePaths}/SystemTime/Project
-                             EMBED_FILES ../../External/Doc/Bitmaps/tiger.jpg
                              REQUIRES "nvs_flash"
                         )

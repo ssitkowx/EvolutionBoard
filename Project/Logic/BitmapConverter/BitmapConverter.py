@@ -40,7 +40,7 @@ class BitmapConverter:
         pixels      = v_this.__getImageContent (v_bitmapPathWithName)
         imageHandle = open (v_imagePathWithName, 'w')
         imageHandle.write (v_this.fileHead )
-        imageHandle.write ('\n\nstatic uint16_t ' + v_bitmapName + ' [] = \n{ \n    ')
+        imageHandle.write ('\n\nstatic const uint16_t ' + v_bitmapName + ' [] = \n{ \n    ')
         imageHandle.write ('0x{:04x}'.format (v_this.bitmapWidth) + ', ')
         imageHandle.write ('0x{:04x}'.format (v_this.bitmapHeight) + ', ')
         imageHandle.write ('\n    ')

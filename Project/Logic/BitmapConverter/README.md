@@ -5,8 +5,9 @@ Script is used to convert bitmaps to images. Script works with such file formats
 
 # II. Assumptions:
 The code stored in BitmapConverter.py is adapted to ILI9341 settings in EvolutionBoard project:
-- sixteen bits pixels in big endian format,
-- format of the converted .h files.
+- eight bits pixels packed in sixteen bits data,
+- sixteen bits data in big endian format,
+- bitmaps converted to images wrapped in .h files.
 
 # III. Structure:
 - BitmapConverter

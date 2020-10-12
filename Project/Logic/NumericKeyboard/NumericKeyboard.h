@@ -1,37 +1,26 @@
-#pragma once
+#pragma once 
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Gpio.h"
-#include <stdint.h>
-#include "Display.h"
-#include "ILI9341.h"
-#include "SpiLcdHw.h"
+#include "Keyboard.h"
+#include "DisplayHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class DisplayHw final : public Display
+class NumericKeyboard : public Keyboard
 {
-    static constexpr char * MODULE = (char *)"DisplayHw";
+    private:
+        Display & display;
 
     public:
-        explicit DisplayHw (Gpio & v_gpio, const Display::Configuration v_config);
-        ~DisplayHw () = default;
+        static constexpr char * MODULE = (char *)"NumericKeyboard";
 
-        bool     DrawBitmap (const Rectangle & v_rect     ) override;
-
-    protected:
-        void     sendLines  (const Rectangle & v_rect     ) override;
-        uint8_t  getColor   (const Display::EColors eColor) override;
-
-    private:
-        Gpio &   gpio;
-        ILI9341  ili9341;
-        SpiLcdHw spiLcdHw;
+        NumericKeyboard (Display & v_display);
+        ~NumericKeyboard ();
 };
 
 ///////////////////////////////////////////////////////////////////////////////

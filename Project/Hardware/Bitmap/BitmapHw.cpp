@@ -1,38 +1,26 @@
-#pragma once
-
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Gpio.h"
-#include <stdint.h>
-#include "Display.h"
-#include "ILI9341.h"
-#include "SpiLcdHw.h"
+#include "LoggerHw.h"
+#include "BitmapHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class DisplayHw final : public Display
+void BitmapHw::Redraw (const uint8_t v_id, const Rectangle & v_rect)
 {
-    static constexpr char * MODULE = (char *)"DisplayHw";
-
-    public:
-        explicit DisplayHw (Gpio & v_gpio, const Display::Configuration v_config);
-        ~DisplayHw () = default;
-
-        bool     DrawBitmap (const Rectangle & v_rect     ) override;
-
-    protected:
-        void     sendLines  (const Rectangle & v_rect     ) override;
-        uint8_t  getColor   (const Display::EColors eColor) override;
-
-    private:
-        Gpio &   gpio;
-        ILI9341  ili9341;
-        SpiLcdHw spiLcdHw;
-};
+    if ( (Id                                         == v_id)                &&
+         (Rect.Coordinate.X                          <= v_rect.Coordinate.X) &&
+        ((Rect.Coordinate.X + Rect.Dimension.Width)  >= v_rect.Coordinate.X) &&
+         (Rect.Coordinate.Y                          <= v_rect.Coordinate.Y) &&
+        ((Rect.Coordinate.Y + Rect.Dimension.Height) >= v_rect.Coordinate.Y)
+       )
+    {
+        display.DrawBitmap (Rect);
+    }
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// END OF FILE ///////////////////////////////////

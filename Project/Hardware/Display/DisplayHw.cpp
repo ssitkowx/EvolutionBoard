@@ -49,7 +49,7 @@ DisplayHw::DisplayHw (Gpio & v_gpio, const Display::Configuration v_config) : Di
     ili9341.SendDisplayOn               ();
 }
 
-bool DisplayHw::DrawBitmap (const Rect v_rect)
+bool DisplayHw::DrawBitmap (const Rectangle & v_rect)
 {
     if (validateRect (v_rect) == false) { return false; }
 
@@ -65,7 +65,7 @@ bool DisplayHw::DrawBitmap (const Rect v_rect)
             if (rectNum == maxRects) { height = v_rect.Dimension.Height - yPos; }
             else                     { height = Config.LinesPerTransfer; }
 
-            Rect rect = { };
+            Rectangle rect = { };
             rect.Coordinate.X     = v_rect.Coordinate.X;
             rect.Coordinate.Y     = yPos + v_rect.Coordinate.Y;
             rect.Dimension.Width  = v_rect.Dimension.Width;
@@ -81,7 +81,7 @@ bool DisplayHw::DrawBitmap (const Rect v_rect)
     return true;
 }
 
-void DisplayHw::sendLines (const Rect v_rect)
+void DisplayHw::sendLines (const Rectangle & v_rect)
 {
     ili9341.SendColumnAddressSet (SpiLcdHw::EFlag::eTxData, static_cast<uint8_t> (v_rect.Coordinate.X                                  >> EIGHT_BITS), static_cast<uint8_t> (v_rect.Coordinate.X & 0xFF),
                                                             static_cast<uint8_t> ((v_rect.Coordinate.X + v_rect.Dimension.Width - ONE) >> EIGHT_BITS), static_cast<uint8_t> ((v_rect.Coordinate.X + v_rect.Dimension.Width - ONE) & 0xFF));

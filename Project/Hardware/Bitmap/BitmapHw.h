@@ -1,37 +1,32 @@
-#pragma once
+#pragma once 
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Gpio.h"
-#include <stdint.h>
+#include "Utils.h"
+#include "Bitmap.h"
 #include "Display.h"
-#include "ILI9341.h"
-#include "SpiLcdHw.h"
+#include "Rectangle.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class DisplayHw final : public Display
+class BitmapHw final : public Bitmap
 {
-    static constexpr char * MODULE = (char *)"DisplayHw";
-
     public:
-        explicit DisplayHw (Gpio & v_gpio, const Display::Configuration v_config);
-        ~DisplayHw () = default;
+        enum class EId : uint8_t
+        {
+            eKeyNum1Up,
+            eKeyNum1Down
+        };
 
-        bool     DrawBitmap (const Rectangle & v_rect     ) override;
-
-    protected:
-        void     sendLines  (const Rectangle & v_rect     ) override;
-        uint8_t  getColor   (const Display::EColors eColor) override;
+        BitmapHw (Display & v_display) : display (v_display) { }
+        void Redraw (const uint8_t v_id, const Rectangle & v_rect) override;
 
     private:
-        Gpio &   gpio;
-        ILI9341  ili9341;
-        SpiLcdHw spiLcdHw;
+        Display & display;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -44,7 +44,7 @@ class SpiHw : public Spi
             uint8_t Data [DATA_LEN];
         };
 
-        explicit SpiHw (spi_device_handle_t * v_handle) : handle (v_handle) { }
+        explicit SpiHw         (spi_device_handle_t * v_handle) : handle (v_handle) { }
 
         void     Send          (const uint8_t  * const v_data, const uint16_t v_len                          ) override;
         void     Send          (const uint16_t * const v_data, const uint16_t v_len                          ) override;

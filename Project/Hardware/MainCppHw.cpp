@@ -103,8 +103,6 @@ extern "C"
         }
 
         /*
-        HttpClientHw      httpClientHw;
-        MicorTigAzureComm micorTigAzureComm (httpClientHw);
 
         while (true)
         {
