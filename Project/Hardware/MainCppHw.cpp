@@ -11,6 +11,7 @@
 #include "TouchHw.h"
 #include "Settings.h"
 #include "LoggerHw.h"
+#include "BitmapHw.h"
 #include "DisplayHw.h"
 #include "SystemTimeHw.h"
 
@@ -66,19 +67,27 @@ extern "C"
         DisplayHw              displayHw (gpioHw, displayConfig);
 
         Touch::Configuration touchConfig;
-        touchConfig.Histeresis       = TWO;
-        touchConfig.Time.PressedMax  = FOUR;    // InterruptInSeconds * PressedMax
-        touchConfig.Time.ReleasedMax = EIGHT;
+        touchConfig.Histeresis         = TWO;
+        touchConfig.Time.PressedMax    = FOUR;    // InterruptInSeconds * PressedMax
+        touchConfig.Time.ReleasedMax   = EIGHT;
 
         TouchHw::Coefficients touchCoefficient;
-        touchCoefficient.Constant = ONE_HUNDRED_TWENTY_EIGHT;
-        touchCoefficient.Width    = TWO;
-        touchCoefficient.Length   = 2.67;
+        touchCoefficient.Constant      = ONE_HUNDRED_TWENTY_EIGHT;
+        touchCoefficient.Width         = TWO;
+        touchCoefficient.Length        = 2.67;
+
+        NumericKeyboard::Configuration config;
+        config.KeyboardStart.X         = EIGHTY;
+        config.KeyboardStart.Y         = FIFTY;
+        config.BitmapSpacing.X         = FIVE;
+        config.BitmapSpacing.Y         = FIVE;
+
+        NumericKeyboard numericKeyboard (config, displayHw);
 
         TimerHw::Configuration timerConfig;
-        timerConfig.eTimer         = Timer::ETimer::e0;
-        timerConfig.Divider        = SIXTEEN;
-        timerConfig.InterruptInSec = 0.02;
+        timerConfig.eTimer             = Timer::ETimer::e0;
+        timerConfig.Divider            = SIXTEEN;
+        timerConfig.InterruptInSec     = 0.02;
 
         TouchHw touchHw (timerConfig, touchCoefficient, touchConfig, displayHw);
 
@@ -86,7 +95,41 @@ extern "C"
 
         while (true)
         {
-            touchHw.Process ();
+            bool state = touchHw.IsPressed ();
+            Rectangle rect = { };
+
+            //simulation because touch issue
+            rect.Coordinate.X = 150;
+            rect.Coordinate.Y = 100;
+            state = true;
+            //end
+
+            if (state == true)
+            {
+                //LOGD (MODULE, "pressed");
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum0Down), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum1Down), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum2Down), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum3Down), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum4Down), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum5Down), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum6Down), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum7Down), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum8Down), rect);
+            }
+            else
+            {
+                //LOGD (MODULE, "pressed not");
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum0Up), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum1Up), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum2Up), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum3Up), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum4Up), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum5Up), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum6Up), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum7Up), rect);
+                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum8Up), rect);
+            }
         }
 
         vTaskDelete (NULL);
@@ -103,8 +146,6 @@ extern "C"
         }
 
         /*
-        HttpClientHw      httpClientHw;
-        MicorTigAzureComm micorTigAzureComm (httpClientHw);
 
         while (true)
         {

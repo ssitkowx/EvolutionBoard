@@ -8,7 +8,9 @@
 #include <stdint.h>
 #include "TimerHw.h"
 #include "Display.h"
+#include "Rectangle.h"
 #include "SpiTouchHw.h"
+#include "NumericKeyboard.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
@@ -31,17 +33,16 @@ class TouchHw final : public Touch
                                                                                           coefficient (v_coefficient),
                                                                                           timerHw     (v_timerConfig),
                                                                                           display     (v_display)
-        { }
+
+        {  }
 
         ~TouchHw () = default;
 
-        void  Process (void) override;
-
     protected:
-        Touch::Coordinates getCoordinates (void)          override;
-        uint16_t           getPos         (uint8_t v_cmd) override;
+        Rectangle::Coordinates getCoordinates (void)          override;
+        uint16_t               getPos         (uint8_t v_cmd) override;
 
-        virtual bool       isTouched      (void)          override { return Rtos::GetInstance ()->TakeSemaphore ("TakeTouchSemaphore"); }
+        virtual bool           isTouched      (void)          override { return Rtos::GetInstance ()->TakeSemaphore ("TakeTouchSemaphore"); }
 
     private:
         enum class EControl : uint8_t
@@ -59,7 +60,7 @@ class TouchHw final : public Touch
         const Coefficients coefficient;
         TimerHw            timerHw;
         SpiTouchHw         spiTouchHw;
-        Display &          display;
+        Display          & display;
 
         uint8_t createXPosCmd (void);
         uint8_t createYPosCmd (void);

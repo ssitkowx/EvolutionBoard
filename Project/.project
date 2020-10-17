@@ -19,6 +19,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>Logic/Bitmap</name>
+			<type>2</type>
+			<location>C:/Users/sitko/.conan/download/Bitmap/Project</location>
+		</link>
+		<link>
 			<name>Logic/Display</name>
 			<type>2</type>
 			<location>C:/Users/sitko/.conan/download/Display/Project</location>
@@ -34,14 +39,14 @@
 			<location>C:/Users/sitko/.conan/download/Gpio</location>
 		</link>
 		<link>
+			<name>Logic/Keyboard</name>
+			<type>2</type>
+			<location>C:/Users/sitko/.conan/download/Keyboard/Project</location>
+		</link>
+		<link>
 			<name>Logic/Logger</name>
 			<type>2</type>
 			<location>C:/Users/sitko/.conan/download/Logger/Project</location>
-		</link>
-		<link>
-			<name>Logic/Project</name>
-			<type>2</type>
-			<location>C:/Users/sitko/.conan/download/Utils/Project</location>
 		</link>
 		<link>
 			<name>Logic/Rtos</name>

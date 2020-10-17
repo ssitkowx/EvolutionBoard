@@ -5,4 +5,4 @@
 
 
 #Compile image file into the resulting firmware binary
-COMPONENT_EMBED_FILES := ../Dos/Bitmaps/tiger.jpg
+#COMPONENT_EMBED_FILES := ../Dos/Bitmaps/tiger.jpg

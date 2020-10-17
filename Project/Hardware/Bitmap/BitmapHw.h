@@ -1,0 +1,54 @@
+#pragma once 
+
+///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////// INCLUDES /////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+#include "Utils.h"
+#include "Bitmap.h"
+#include "Display.h"
+#include "Rectangle.h"
+
+///////////////////////////////////////////////////////////////////////////////
+/////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+class BitmapHw final : public Bitmap
+{
+    public:
+        enum class EId : uint8_t
+        {
+            eKeyNum0Up,
+            eKeyNum0Down,
+            eKeyNum1Up,
+            eKeyNum1Down,
+            eKeyNum2Up,
+            eKeyNum2Down,
+            eKeyNum3Up,
+            eKeyNum3Down,
+            eKeyNum4Up,
+            eKeyNum4Down,
+            eKeyNum5Up,
+            eKeyNum5Down,
+            eKeyNum6Up,
+            eKeyNum6Down,
+            eKeyNum7Up,
+            eKeyNum7Down,
+            eKeyNum8Up,
+            eKeyNum8Down,
+            eKeyNum9Up,
+            eKeyNum9Down
+        };
+
+        uint8_t Id;
+
+        BitmapHw (Display & v_display) : display (v_display) { }
+        void Redraw (const uint8_t v_id, const Rectangle & v_rect) override;
+
+    private:
+        Display & display;
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// END OF FILE ///////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////

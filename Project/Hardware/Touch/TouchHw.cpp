@@ -5,80 +5,16 @@
 #include "Rtos.h"
 #include "Timer.h"
 #include "Utils.h"
-#include "image.h"    // Shpuld be one file with all
 #include "TouchHw.h"
 #include "LoggerHw.h"
 #include "Settings.h"
+#include "Rectangle.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-void TouchHw::Process (void)
-{
-    /*
-    if (IsPressed () == true)
-    {
-        uint16_t xPos   = 50;
-        uint16_t yPos   = 50;
-        uint16_t width  = 100;
-        uint16_t length = 100;
-
-        Display::EColors rectA = Display::EColors::eWhite;
-        Display::EColors rectB = Display::EColors::eRed;
-
-        if (((coordinates.X >= xPos) && (coordinates.X <= (xPos + width))) && ((coordinates.Y >= yPos) && (coordinates.Y <= (yPos + length))))
-        {
-            rectA = Display::EColors::ePurple;
-            rectB = Display::EColors::eMagneta;
-        }
-
-        display.DrawRect (xPos        , yPos, width, length, rectA);
-        display.DrawRect (xPos + width, yPos, width, length, rectB);
-    }
-    */
-
-    /*
-        BitmapConfig bitmapConfig;
-        bitmapConfig.Pos.X       = 10;
-        bitmapConfig.Pos.Y       = 10;
-        bitmapConfig.Size.Width  = 250;
-        bitmapConfig.Size.Height = 202;
-        bitmapConfig.Data        = image;
-    */
-    /*
-        BitmapConfig bitmapConfig;
-        bitmapConfig.Pos.X       = 100;
-        bitmapConfig.Pos.Y       = 50;
-        bitmapConfig.Size.Width  = 80;
-        bitmapConfig.Size.Height = 48;
-        bitmapConfig.Data        = image;
-    */
-
-
-    Display::Rect rect = { };
-    rect.Coordinate.X     = 200;
-    rect.Coordinate.Y     = 100;
-    rect.Dimension.Width  = image  [0];
-    rect.Dimension.Height = image  [1];
-    rect.Data             = &image [2];
-    display.DrawBitmap (rect);
-
-    Display::Rect rect2 = { };
-    rect2.Coordinate.X     = 0;
-    rect2.Coordinate.Y     = 0;
-    rect2.Dimension.Width  = 50;
-    rect2.Dimension.Height = 50;
-    display.DrawRect (rect2, Display::EColors::eTeal);
-
-    rect2.Coordinate.X     = 50;
-    rect2.Coordinate.Y     = 50;
-    rect2.Dimension.Width  = 50;
-    rect2.Dimension.Height = 50;
-    display.DrawRect (rect2, Display::EColors::eNavy);
-}
-
-Touch::Coordinates TouchHw::getCoordinates (void)
+Rectangle::Coordinates TouchHw::getCoordinates (void)
 {
     uint8_t  xPos = (getPos (createXPosCmd ()) - coefficient.Constant) * coefficient.Width;
     uint16_t yPos = (getPos (createYPosCmd ()) - coefficient.Constant) * coefficient.Length;
