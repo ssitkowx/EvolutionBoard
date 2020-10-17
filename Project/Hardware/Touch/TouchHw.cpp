@@ -7,51 +7,12 @@
 #include "Utils.h"
 #include "TouchHw.h"
 #include "LoggerHw.h"
-#include "BitmapHw.h"
 #include "Settings.h"
 #include "Rectangle.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-
-void TouchHw::Process (void)
-{
-
-    bool state = IsPressed ();
-    Rectangle rect = { };
-    rect.Coordinate.X = coordinates.X;
-    rect.Coordinate.Y = coordinates.Y;
-
-    if (state == true)
-    {
-        LOGD (MODULE, "pressed");
-        numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum1Down), rect);
-    }
-    else
-    {
-        LOGD (MODULE, "pressed not");
-        numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum1Up), rect);
-    }
-
-
-
-/*
-    Rectangle rect2 = { };
-    rect2.Coordinate.X     = 0;
-    rect2.Coordinate.Y     = 0;
-    rect2.Dimension.Width  = 50;
-    rect2.Dimension.Height = 50;
-    display.DrawRect (rect2, Display::EColors::eTeal);
-
-    rect2.Coordinate.X     = 50;
-    rect2.Coordinate.Y     = 50;
-    rect2.Dimension.Width  = 50;
-    rect2.Dimension.Height = 50;
-    display.DrawRect (rect2, Display::EColors::eNavy);
-*/
-
-}
 
 Rectangle::Coordinates TouchHw::getCoordinates (void)
 {

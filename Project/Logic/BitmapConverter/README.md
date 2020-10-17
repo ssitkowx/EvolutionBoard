@@ -28,10 +28,10 @@ Before executing the script, you should:
 - be in the same folder with the BitmapConverter.py script
 
 for example:
-1. Open windows command interpreter,
-2. type cd C:\Users\sitko\Desktop\Projekty\GIT\EvolutionBoard\Project\Logic\Resources\BitmapConverter,
-3. execute C:\Users\sitko\AppData\Local\Programs\Python\Python38-32\python.exe C:\Users\sitko\Desktop\Projekty\GIT\EvolutionBoard\Project\Logic\Resources\BitmapConverter.py,
-4. go to the image location to check the generated files. 
+1. go to folder BitmapConverter,
+2. open git bash console,
+3. execute C:\Users\sitko\AppData\Local\Programs\Python\Python38-32\python.exe BitmapConverter.py,
+4. go to the image location to check the generated files.
 
 The script also displays the found bitmaps and the converted files.
 

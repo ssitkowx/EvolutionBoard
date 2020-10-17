@@ -29,16 +29,14 @@ class TouchHw final : public Touch
         };
 
         explicit TouchHw (TimerHw::Configuration v_timerConfig, Coefficients v_coefficient,
-                          Touch::Configuration   v_touchConfig, Display &    v_display) : Touch           (v_touchConfig),
-                                                                                          coefficient     (v_coefficient),
-                                                                                          timerHw         (v_timerConfig),
-                                                                                          display         (v_display),
-                                                                                          numericKeyboard (display)
-        { }
+                          Touch::Configuration   v_touchConfig, Display &    v_display) : Touch       (v_touchConfig),
+                                                                                          coefficient (v_coefficient),
+                                                                                          timerHw     (v_timerConfig),
+                                                                                          display     (v_display)
+
+        {  }
 
         ~TouchHw () = default;
-
-        void Process (void) override;
 
     protected:
         Rectangle::Coordinates getCoordinates (void)          override;
@@ -62,8 +60,7 @@ class TouchHw final : public Touch
         const Coefficients coefficient;
         TimerHw            timerHw;
         SpiTouchHw         spiTouchHw;
-        Display &          display;
-        NumericKeyboard    numericKeyboard;
+        Display          & display;
 
         uint8_t createXPosCmd (void);
         uint8_t createYPosCmd (void);
