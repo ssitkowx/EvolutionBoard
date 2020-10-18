@@ -34,13 +34,12 @@ class NumericKeyboard : public Keyboard
         template <const BitmapHw::EId ID>
         BitmapHw & Create (const uint16_t * v_data, const uint16_t v_xPos, const uint16_t v_yPos)
         {
-            static BitmapHw bitmap (display);
+            static BitmapHw bitmap (static_cast <uint8_t> (ID), display);
             bitmap.Rect.Coordinate.X     = v_xPos;
             bitmap.Rect.Coordinate.Y     = v_yPos;
             bitmap.Rect.Dimension.Width  = v_data  [FIRST_BYTE];
             bitmap.Rect.Dimension.Height = v_data  [SECOND_BYTE];
             bitmap.Rect.Data             = &v_data [THIRD_BYTE];
-            bitmap.Id                    = static_cast <uint8_t> (ID);
             registerBitmap (&bitmap);
             return bitmap;
         }

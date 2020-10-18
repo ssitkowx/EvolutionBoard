@@ -13,6 +13,7 @@
 #include "LoggerHw.h"
 #include "BitmapHw.h"
 #include "DisplayHw.h"
+#include "BaseWindow.h"
 #include "SystemTimeHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -76,14 +77,6 @@ extern "C"
         touchCoefficient.Width         = TWO;
         touchCoefficient.Length        = 2.67;
 
-        NumericKeyboard::Configuration config;
-        config.KeyboardStart.X         = EIGHTY;
-        config.KeyboardStart.Y         = FIFTY;
-        config.BitmapSpacing.X         = FIVE;
-        config.BitmapSpacing.Y         = FIVE;
-
-        NumericKeyboard numericKeyboard (config, displayHw);
-
         TimerHw::Configuration timerConfig;
         timerConfig.eTimer             = Timer::ETimer::e0;
         timerConfig.Divider            = SIXTEEN;
@@ -91,45 +84,20 @@ extern "C"
 
         TouchHw touchHw (timerConfig, touchCoefficient, touchConfig, displayHw);
 
+        NumericKeyboard::Configuration config;
+        config.KeyboardStart.X         = EIGHTY;
+        config.KeyboardStart.Y         = FIFTY;
+        config.BitmapSpacing.X         = FIVE;
+        config.BitmapSpacing.Y         = FIVE;
+
+        NumericKeyboard numericKeyboard (config, displayHw);
+        BaseWindow      baseWindow      (displayHw, touchHw, numericKeyboard);
+
         //////////////////////// Touch ////////////////////
 
         while (true)
         {
-            bool state = touchHw.IsPressed ();
-            Rectangle rect = { };
-
-            //simulation because touch issue
-            rect.Coordinate.X = 150;
-            rect.Coordinate.Y = 100;
-            state = true;
-            //end
-
-            if (state == true)
-            {
-                //LOGD (MODULE, "pressed");
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum0Down), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum1Down), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum2Down), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum3Down), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum4Down), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum5Down), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum6Down), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum7Down), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum8Down), rect);
-            }
-            else
-            {
-                //LOGD (MODULE, "pressed not");
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum0Up), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum1Up), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum2Up), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum3Up), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum4Up), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum5Up), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum6Up), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum7Up), rect);
-                numericKeyboard.Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum8Up), rect);
-            }
+            baseWindow.Process ();
         }
 
         vTaskDelete (NULL);

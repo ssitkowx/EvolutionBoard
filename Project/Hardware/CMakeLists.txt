@@ -15,6 +15,7 @@ SET (PackageSourcePaths main.c
                         Peripheral/SpiHw/SpiTouchHw.cpp
                         Networking/WiFiHw.cpp
                         ../Logic/Settings.cpp
+                        ../Logic/Windows/BaseWindow.cpp
                         ../Logic/NumericKeyboard/NumericKeyboard.cpp
                         ${PackageIncludePaths}/Spi/Project/Spi.cpp
                         ${PackageIncludePaths}/WiFi/Project/WiFi.cpp
@@ -43,6 +44,7 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              Networking
                              Peripheral/SpiHw
                              ../Logic
+                             ../Logic/Windows
                              ../Logic/NumericKeyboard
                              ../Logic/BitmapConverter/Images
                              ../Logic/BitmapConverter/Images/KeyboardImages

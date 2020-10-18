@@ -1,12 +1,19 @@
 # EvolutionBoard
 
 # I. Description:
-Project is using:
-- ESP32,
-- LCD 2.8 in SPI 8bit configuration based on ILI9341 driver,
-- Arduino touch.
+The project is used to show several capabilities of the ESP32 WROVER.
+An example implementation is shown:
+- time synchronization from the network (WiFi),
+- downloading weather data from the cloud (WiFi + JOSN, POSTMAN),
+- displaying weather data on the display (ILI9341, 2.8 '', SPI, 8bit 320x240) in real time,
+- button operation using the Arduino touch.
+- heap and stack busy display,
+- tests with gmock and gtest.
 
-Project has WiFi connection and is using Rtos.
+The device works under RTOS control.
+
+P.S
+Device functionalities are incomplete yet(under development).
 
 # II. Assumptions:
 The code stored here is environment-specific, which means:

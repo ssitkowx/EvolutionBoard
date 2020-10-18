@@ -1,28 +1,33 @@
+#pragma once 
+
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "LoggerHw.h"
-#include "BitmapHw.h"
+#include "Touch.h"
+#include "Display.h"
+#include "Keyboard.h"
+#include "BaseWindow.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-BitmapHw::BitmapHw (const uint8_t v_id, Display & v_display) : id (v_id), display (v_display) { }
-
-void BitmapHw::Redraw (const uint8_t v_id, const Rectangle & v_rect)
+class BaseWindow
 {
-    if ( (id                                         == v_id)                &&
-         (Rect.Coordinate.X                          <= v_rect.Coordinate.X) &&
-        ((Rect.Coordinate.X + Rect.Dimension.Width)  >= v_rect.Coordinate.X) &&
-         (Rect.Coordinate.Y                          <= v_rect.Coordinate.Y) &&
-        ((Rect.Coordinate.Y + Rect.Dimension.Height) >= v_rect.Coordinate.Y)
-       )
-    {
-        display.DrawBitmap (Rect);
-    }
-}
+    public:
+        static constexpr char * MODULE = (char *)"BaseWindow";
+ 
+        BaseWindow (Display & v_display, Touch & v_touch, Keyboard & v_keyboard) : display (v_display), touch (v_touch), keyboard (v_keyboard) {}
+        ~BaseWindow () = default;
+		
+		void Process (void);
+
+    private:
+        Display  & display;
+        Touch    & touch;
+        Keyboard & keyboard;
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// END OF FILE ///////////////////////////////////

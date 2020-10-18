@@ -40,12 +40,11 @@ class BitmapHw final : public Bitmap
             eKeyNum9Down
         };
 
-        uint8_t Id;
-
-        BitmapHw (Display & v_display) : display (v_display) { }
+        BitmapHw (const uint8_t v_id, Display & v_display);
         void Redraw (const uint8_t v_id, const Rectangle & v_rect) override;
 
     private:
+        uint8_t id;
         Display & display;
 };
 
