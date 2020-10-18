@@ -64,7 +64,7 @@ NumericKeyboard::NumericKeyboard (Configuration v_config, Display & v_display) :
     background.Dimension.Width  = xPos;
     background.Dimension.Height = yPos;
     display.DrawRect (background, Display::EColors::eNavy);
-
+/*
     // draw first row
     display.DrawBitmap (keyNum0UpBitmap.Rect);
     display.DrawBitmap (keyNum1UpBitmap.Rect);
@@ -78,7 +78,7 @@ NumericKeyboard::NumericKeyboard (Configuration v_config, Display & v_display) :
     //draw third row
     display.DrawBitmap (keyNum6UpBitmap.Rect);
     display.DrawBitmap (keyNum7UpBitmap.Rect);
-    display.DrawBitmap (keyNum8UpBitmap.Rect);
+    display.DrawBitmap (keyNum8UpBitmap.Rect);*/
 }
 
 NumericKeyboard::~NumericKeyboard () { unregisterBitmaps (); }

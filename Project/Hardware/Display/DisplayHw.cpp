@@ -53,7 +53,8 @@ bool DisplayHw::DrawBitmap (const Rectangle & v_rect)
 {
     if (validateRect (v_rect) == false) { return false; }
 
-    uint8_t maxRects = calculateRects (v_rect.Dimension.Height);
+    Rectangle::Dimensions dimensions = { v_rect.Dimension.Width, v_rect.Dimension.Height };
+    uint8_t maxRects = calculateRects (dimensions);
     if (maxRects == ONE) { sendLines (v_rect); }
     else
     {
@@ -63,7 +64,7 @@ bool DisplayHw::DrawBitmap (const Rectangle & v_rect)
         for (uint8_t rectNum = ONE; rectNum <= maxRects; rectNum++)
         {
             if (rectNum == maxRects) { height = v_rect.Dimension.Height - yPos; }
-            else                     { height = Config.LinesPerTransfer; }
+            else                     { height = Config.Dimension.Width * Config.LinesPerTransfer / dimensions.Width; }
 
             Rectangle rect = { };
             rect.Coordinate.X     = v_rect.Coordinate.X;

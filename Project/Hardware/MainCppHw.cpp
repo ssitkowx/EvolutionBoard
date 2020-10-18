@@ -24,6 +24,7 @@ static constexpr char * MODULE = (char *)"MainCppHw";
 
 TaskHandle_t DisplayAndTouchTaskHandle;
 TaskHandle_t NetworkConnectionTaskHandle;
+TaskHandle_t MemoryStatisticsTaskHandle;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -33,6 +34,7 @@ extern "C"
 {
     void DisplayAndTouchProcess    (void * v_params);
     void InternetConnectionProcess (void * v_params);
+    void MemoryStatisticsProcess   (void * v_params);
 
     void MainCppHw (void)
     {
@@ -44,45 +46,52 @@ extern "C"
         static SystemTimeHw systemTimeHw;
         SET_SYSTEM_TIME_INST(&systemTimeHw);
 
-        Rtos::GetInstance()->TaskCreate (DisplayAndTouchProcess,
-                                         "DisplayAndTouch",
-                                         THIRTY_THOUSAND_BYTES,
-                                         static_cast <uint32_t> (RtosHw::EThreadPriority::eNormal),
-                                         DisplayAndTouchTaskHandle);
-/*
-        Rtos::GetInstance()->TaskCreate (&InternetConnectionProcess,
-                                         "InternetConnection",
-                                         FIVE_THOUSAND_BYTES,
-                                         static_cast <uint32_t> (RtosHw::EThreadPriority::eAboveNormal),
-                                         NetworkConnectionTaskHandle);
-*/
+        Rtos::GetInstance ()->TaskCreate (DisplayAndTouchProcess,
+                                          "DisplayAndTouch",
+                                          THIRTY_THOUSAND_BYTES,
+                                          static_cast <uint32_t> (RtosHw::EThreadPriority::eNormal),
+                                          DisplayAndTouchTaskHandle);
+
+        Rtos::GetInstance ()->TaskCreate (InternetConnectionProcess,
+                                          "InternetConnection",
+                                          FIVE_THOUSAND_BYTES,
+                                          static_cast <uint32_t> (RtosHw::EThreadPriority::eAboveNormal),
+                                          NetworkConnectionTaskHandle);
+
+
+        Rtos::GetInstance ()->TaskCreate (MemoryStatisticsProcess,
+                                          "MemoryStatistics",
+                                          THIRTY_THOUSAND_BYTES,
+                                          static_cast <uint32_t> (RtosHw::EThreadPriority::eLow),
+                                          MemoryStatisticsTaskHandle);
+
     }
 
     void DisplayAndTouchProcess (void * v_params)
     {
-        GpioHw                 gpioHw;
+        GpioHw gpioHw;
         Display::Configuration displayConfig;
-        displayConfig.Dimension.Width  = Settings::GetInstance ().Lcd.Width;
-        displayConfig.Dimension.Height = Settings::GetInstance ().Lcd.Height;
-        displayConfig.LinesPerTransfer = Settings::GetInstance ().Lcd.LinesPerTransfer;
-        DisplayHw              displayHw (gpioHw, displayConfig);
+        displayConfig.Dimension.Width   = Settings::GetInstance ().Lcd.Width;
+        displayConfig.Dimension.Height  = Settings::GetInstance ().Lcd.Height;
+        displayConfig.LinesPerTransfer  = Settings::GetInstance ().Lcd.LinesPerTransfer;
+        DisplayHw displayHw (gpioHw, displayConfig);
 
         Touch::Configuration touchConfig;
-        touchConfig.Histeresis         = TWO;
-        touchConfig.Time.PressedMax    = FOUR;    // InterruptInSeconds * PressedMax
-        touchConfig.Time.ReleasedMax   = EIGHT;
+        touchConfig.Histeresis          = TWO;
+        touchConfig.Time.PressedMax     = FOUR;    // InterruptInSeconds * PressedMax
+        touchConfig.Time.ReleasedMax    = EIGHT;
 
         TouchHw::Coefficients touchCoefficient;
-        touchCoefficient.Constant      = ONE_HUNDRED_TWENTY_EIGHT;
-        touchCoefficient.Width         = TWO;
-        touchCoefficient.Length        = 2.67;
+        touchCoefficient.Constant       = ONE_HUNDRED_TWENTY_EIGHT;
+        touchCoefficient.Width          = TWO;
+        touchCoefficient.Length         = 2.67;
 
-        TimerHw::Configuration timerConfig;
-        timerConfig.eTimer             = Timer::ETimer::e0;
-        timerConfig.Divider            = SIXTEEN;
-        timerConfig.InterruptInSec     = 0.02;
+        TimerHw::Configuration timerTouchConfig;
+        timerTouchConfig.eTimer         = Timer::ETimer::e0;
+        timerTouchConfig.Divider        = SIXTEEN;
+        timerTouchConfig.InterruptInSec = 0.02;
 
-        TouchHw touchHw (timerConfig, touchCoefficient, touchConfig, displayHw);
+        TouchHw touchHw (timerTouchConfig, touchCoefficient, touchConfig, displayHw);
 
         NumericKeyboard::Configuration config;
         config.KeyboardStart.X         = EIGHTY;
@@ -110,22 +119,36 @@ extern "C"
 
         while (true)
         {
-            //LOGV (MODULE, "InternetConnectionProcess. Stack left: %u", Rtos::GetInstance ()->GetCurrentStackSize ("InternetConnectionProcess"));
+            Rtos::GetInstance ()->Delay (FIVE_HUNDRED);
         }
 
-        /*
+        vTaskDelete (NULL);
+        LOGE        (MODULE, "InternetConnectionProcess() Deleted.");
+
+    }
+
+    void MemoryStatisticsProcess (void * v_params)
+    {
+        TimerHw::Configuration timerMemoryStatisticConfig;
+        timerMemoryStatisticConfig.eTimer         = Timer::ETimer::e1;
+        timerMemoryStatisticConfig.Divider        = SIXTEEN;
+        timerMemoryStatisticConfig.InterruptInSec = TEN;
+
+        TimerHw timerMemoryStatisticHw (timerMemoryStatisticConfig);
 
         while (true)
         {
-            if (Rtos::GetInstance ()->TakeAzureDataUpdateSemaphore () == true)
+            if (Rtos::GetInstance ()->TakeSemaphore ("TakeMemoryStatisticsSemaphore") == true)
             {
-                internetConnection.Process ();
+                LOGI (MODULE, "Heap left                    : %d", Rtos::GetInstance ()->GetCurrentHeapSize ());
+                LOGI (MODULE, "DisplayAndTouch    stack left: %d", Rtos::GetInstance ()->GetCurrentStackSize ("DisplayAndTouch"));
+                LOGI (MODULE, "InternetConnection stack left: %d", Rtos::GetInstance ()->GetCurrentStackSize ("InternetConnection"));
+                LOGI (MODULE, "MemoryStatistics   stack left: %d", Rtos::GetInstance ()->GetCurrentStackSize ("MemoryStatistics"));
             }
         }
-*/
-        vTaskDelete (NULL);
-        LOGE        (MODULE, "InternetConnectionProcess() Deleted./n");
 
+        vTaskDelete (NULL);
+        LOGE        (MODULE, "GetMemoryStatisticsProcess() Deleted.");
     }
 }
 
