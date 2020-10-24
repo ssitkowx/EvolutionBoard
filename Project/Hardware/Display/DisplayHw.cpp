@@ -7,14 +7,15 @@
 #include "LoggerHw.h"
 #include "Settings.h"
 #include "DisplayHw.h"
+#include "Rectangle.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-DisplayHw::DisplayHw (Gpio & v_gpio, const Display::Configuration v_config) : Display (v_config),
-                                                                              gpio    (v_gpio),
-                                                                              ili9341 (spiLcdHw)
+DisplayHw::DisplayHw (const Config_t v_config, Gpio & v_gpio) : Display (v_config),
+                                                                gpio    (v_gpio),
+                                                                ili9341 (spiLcdHw)
 {
     LOG (MODULE, "Init./n");
 
@@ -49,49 +50,27 @@ DisplayHw::DisplayHw (Gpio & v_gpio, const Display::Configuration v_config) : Di
     ili9341.SendDisplayOn               ();
 }
 
-bool DisplayHw::DrawBitmap (const Rectangle & v_rect)
+bool DisplayHw::DrawBitmap (Bitmap & v_bitmap)
 {
-    if (validateRect (v_rect) == false) { return false; }
-
-    Rectangle::Dimensions dimensions = { v_rect.Dimension.Width, v_rect.Dimension.Height };
-    uint8_t maxRects = calculateRects (dimensions);
-    if (maxRects == ONE) { sendLines (v_rect); }
-    else
+    if (Display::DrawBitmap (v_bitmap) == false)
     {
-        uint16_t yPos     = ZERO;
-        uint16_t height   = ZERO;
-        uint16_t pixelPos = ZERO;
-        for (uint8_t rectNum = ONE; rectNum <= maxRects; rectNum++)
-        {
-            if (rectNum == maxRects) { height = v_rect.Dimension.Height - yPos; }
-            else                     { height = Config.Dimension.Width * Config.LinesPerTransfer / dimensions.Width; }
-
-            Rectangle rect = { };
-            rect.Coordinate.X     = v_rect.Coordinate.X;
-            rect.Coordinate.Y     = yPos + v_rect.Coordinate.Y;
-            rect.Dimension.Width  = v_rect.Dimension.Width;
-            rect.Dimension.Height = height;
-            rect.Data             = &v_rect.Data [pixelPos];
-
-            sendLines (rect);
-            yPos     = yPos + height;
-            pixelPos = yPos * v_rect.Dimension.Width - ONE;
-        }
+        LOGE (MODULE, "Rect out of display: xPos: %d, yPos: %d, Width: %d, Height: %d", v_bitmap.Coordinate.X, v_bitmap.Coordinate.Y, v_bitmap.Dimension.Width, v_bitmap.Dimension.Height);
+        return false;
     }
 
     return true;
 }
 
-void DisplayHw::sendLines (const Rectangle & v_rect)
+void DisplayHw::sendLines (const Bitmap & v_bitmap)
 {
-    ili9341.SendColumnAddressSet (SpiLcdHw::EFlag::eTxData, static_cast<uint8_t> (v_rect.Coordinate.X                                  >> EIGHT_BITS), static_cast<uint8_t> (v_rect.Coordinate.X & 0xFF),
-                                                            static_cast<uint8_t> ((v_rect.Coordinate.X + v_rect.Dimension.Width - ONE) >> EIGHT_BITS), static_cast<uint8_t> ((v_rect.Coordinate.X + v_rect.Dimension.Width - ONE) & 0xFF));
+    ili9341.SendColumnAddressSet (SpiLcdHw::EFlag::eTxData, static_cast<uint8_t> (v_bitmap.Coordinate.X                                    >> EIGHT_BITS), static_cast<uint8_t> (v_bitmap.Coordinate.X & 0xFF),
+                                                            static_cast<uint8_t> ((v_bitmap.Coordinate.X + v_bitmap.Dimension.Width - ONE) >> EIGHT_BITS), static_cast<uint8_t> ((v_bitmap.Coordinate.X + v_bitmap.Dimension.Width - ONE) & 0xFF));
 
-    ili9341.SendPageAddressSet   (SpiLcdHw::EFlag::eTxData, static_cast<uint8_t> (v_rect.Coordinate.Y                                  >> EIGHT_BITS), static_cast<uint8_t> (v_rect.Coordinate.Y & 0xFF),
-                                                            static_cast<uint8_t> ((v_rect.Coordinate.Y + v_rect.Dimension.Height)      >> EIGHT_BITS), static_cast<uint8_t> ((v_rect.Coordinate.Y + v_rect.Dimension.Height) & 0xFF));
+    ili9341.SendPageAddressSet   (SpiLcdHw::EFlag::eTxData, static_cast<uint8_t> (v_bitmap.Coordinate.Y                                    >> EIGHT_BITS), static_cast<uint8_t> (v_bitmap.Coordinate.Y & 0xFF),
+                                                            static_cast<uint8_t> ((v_bitmap.Coordinate.Y + v_bitmap.Dimension.Height)      >> EIGHT_BITS), static_cast<uint8_t> ((v_bitmap.Coordinate.Y + v_bitmap.Dimension.Height) & 0xFF));
 
     ili9341.SendMemoryWrite      (SpiLcdHw::EFlag::eTxData);
-    spiLcdHw.Send                (v_rect.Data, v_rect.Dimension.Width * v_rect.Dimension.Height * sizeof (uint16_t));
+    spiLcdHw.Send                (v_bitmap.Data, v_bitmap.Dimension.Width * v_bitmap.Dimension.Height * sizeof (uint16_t));
 
 }
 

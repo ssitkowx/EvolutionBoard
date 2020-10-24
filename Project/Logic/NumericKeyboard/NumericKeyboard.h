@@ -6,8 +6,8 @@
 
 #include "BitmapHw.h"
 #include "Keyboard.h"
-#include "Rectangle.h"
 #include "DisplayHw.h"
+#include "Rectangle.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
@@ -34,12 +34,13 @@ class NumericKeyboard : public Keyboard
         template <const BitmapHw::EId ID>
         BitmapHw & Create (const uint16_t * v_data, const uint16_t v_xPos, const uint16_t v_yPos)
         {
-            static BitmapHw bitmap (static_cast <uint8_t> (ID), display);
-            bitmap.Rect.Coordinate.X     = v_xPos;
-            bitmap.Rect.Coordinate.Y     = v_yPos;
-            bitmap.Rect.Dimension.Width  = v_data  [FIRST_BYTE];
-            bitmap.Rect.Dimension.Height = v_data  [SECOND_BYTE];
-            bitmap.Rect.Data             = &v_data [THIRD_BYTE];
+            static BitmapHw bitmap (display);
+            bitmap.Id               = static_cast <uint8_t> (ID);
+            bitmap.Coordinate.X     = v_xPos;
+            bitmap.Coordinate.Y     = v_yPos;
+            bitmap.Dimension.Width  = v_data  [FIRST_BYTE];
+            bitmap.Dimension.Height = v_data  [SECOND_BYTE];
+            bitmap.Data             = &v_data [THIRD_BYTE];
             registerBitmap (&bitmap);
             return bitmap;
         }

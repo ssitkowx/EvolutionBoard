@@ -29,7 +29,7 @@ void IRAM_ATTR timerIsr (void * v_params)
     }
 }
 
-TimerHw::TimerHw  (const Configuration v_config) : config (v_config)
+TimerHw::TimerHw  (const Config v_config) : config (v_config)
 {
     setTimerConfig (config.eTimer);
     init           ();

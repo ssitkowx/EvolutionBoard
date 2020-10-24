@@ -17,14 +17,14 @@ class TimerHw final : public Timer
     static constexpr char * MODULE = (char *)"TimerHw";
 
     public:
-        struct Configuration
+        struct Config
         {
             double Divider;
             double InterruptInSec;
             ETimer eTimer;
         };
 
-        TimerHw  (const Configuration v_config);
+        TimerHw  (const Config v_config);
         ~TimerHw ();
 
         void     Start          (void)               override;
@@ -41,9 +41,9 @@ class TimerHw final : public Timer
         void     deInit         (void)               override;
     
     private:
-        const Configuration config;
-        timer_idx_t         number;
-        timer_group_t       group;
+        const Config  config;
+        timer_idx_t   number;
+        timer_group_t group;
 
         void    setTimerConfig  (Timer::ETimer v_eTimerNum);
 };

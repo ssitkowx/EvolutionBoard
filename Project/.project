@@ -93,5 +93,15 @@
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Gpio/Project/Gpio.h</locationURI>
 		</link>
+		<link>
+			<name>Logic/Rectangle/Rectangle.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Rectangle/Project/Rectangle.cpp</locationURI>
+		</link>
+		<link>
+			<name>Logic/Rectangle/Rectangle.h</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Rectangle/Project/Rectangle.h</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>

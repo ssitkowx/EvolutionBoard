@@ -4,10 +4,8 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Utils.h"
 #include "Bitmap.h"
 #include "Display.h"
-#include "Rectangle.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
@@ -40,11 +38,10 @@ class BitmapHw final : public Bitmap
             eKeyNum9Down
         };
 
-        BitmapHw (const uint8_t v_id, Display & v_display);
+        explicit BitmapHw (Display & v_display);
         void Redraw (const uint8_t v_id, const Rectangle & v_rect) override;
 
     private:
-        uint8_t id;
         Display & display;
 };
 

@@ -22,7 +22,7 @@
 
 static constexpr char * MODULE = (char *)"MainCppHw";
 
-TaskHandle_t DisplayAndTouchTaskHandle;
+TaskHandle_t DisplayWithTouchTaskHandle;
 TaskHandle_t NetworkConnectionTaskHandle;
 TaskHandle_t MemoryStatisticsTaskHandle;
 
@@ -32,7 +32,7 @@ TaskHandle_t MemoryStatisticsTaskHandle;
 
 extern "C"
 {
-    void DisplayAndTouchProcess    (void * v_params);
+    void DisplayWithTouchProcess    (void * v_params);
     void InternetConnectionProcess (void * v_params);
     void MemoryStatisticsProcess   (void * v_params);
 
@@ -46,11 +46,11 @@ extern "C"
         static SystemTimeHw systemTimeHw;
         SET_SYSTEM_TIME_INST(&systemTimeHw);
 
-        Rtos::GetInstance ()->TaskCreate (DisplayAndTouchProcess,
-                                          "DisplayAndTouch",
+        Rtos::GetInstance ()->TaskCreate (DisplayWithTouchProcess,
+                                          "DisplayWithTouch",
                                           THIRTY_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eNormal),
-                                          DisplayAndTouchTaskHandle);
+                                          DisplayWithTouchTaskHandle);
 
         Rtos::GetInstance ()->TaskCreate (InternetConnectionProcess,
                                           "InternetConnection",
@@ -64,19 +64,18 @@ extern "C"
                                           THIRTY_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eLow),
                                           MemoryStatisticsTaskHandle);
-
     }
 
-    void DisplayAndTouchProcess (void * v_params)
+    void DisplayWithTouchProcess (void * v_params)
     {
         GpioHw gpioHw;
-        Display::Configuration displayConfig;
+        DisplayHw::Config_t displayConfig;
         displayConfig.Dimension.Width   = Settings::GetInstance ().Lcd.Width;
         displayConfig.Dimension.Height  = Settings::GetInstance ().Lcd.Height;
         displayConfig.LinesPerTransfer  = Settings::GetInstance ().Lcd.LinesPerTransfer;
-        DisplayHw displayHw (gpioHw, displayConfig);
+        DisplayHw displayHw (displayConfig, gpioHw);
 
-        Touch::Configuration touchConfig;
+        Touch::Config touchConfig;
         touchConfig.Histeresis          = TWO;
         touchConfig.Time.PressedMax     = FOUR;    // InterruptInSeconds * PressedMax
         touchConfig.Time.ReleasedMax    = EIGHT;
@@ -86,7 +85,7 @@ extern "C"
         touchCoefficient.Width          = TWO;
         touchCoefficient.Length         = 2.67;
 
-        TimerHw::Configuration timerTouchConfig;
+        TimerHw::Config timerTouchConfig;
         timerTouchConfig.eTimer         = Timer::ETimer::e0;
         timerTouchConfig.Divider        = SIXTEEN;
         timerTouchConfig.InterruptInSec = 0.02;
@@ -94,10 +93,10 @@ extern "C"
         TouchHw touchHw (timerTouchConfig, touchCoefficient, touchConfig, displayHw);
 
         NumericKeyboard::Configuration config;
-        config.KeyboardStart.X         = EIGHTY;
-        config.KeyboardStart.Y         = FIFTY;
-        config.BitmapSpacing.X         = FIVE;
-        config.BitmapSpacing.Y         = FIVE;
+        config.KeyboardStart.X          = EIGHTY;
+        config.KeyboardStart.Y          = FORTY;
+        config.BitmapSpacing.X          = FIVE;
+        config.BitmapSpacing.Y          = FIVE;
 
         NumericKeyboard numericKeyboard (config, displayHw);
         BaseWindow      baseWindow      (displayHw, touchHw, numericKeyboard);
@@ -129,7 +128,7 @@ extern "C"
 
     void MemoryStatisticsProcess (void * v_params)
     {
-        TimerHw::Configuration timerMemoryStatisticConfig;
+        TimerHw::Config timerMemoryStatisticConfig;
         timerMemoryStatisticConfig.eTimer         = Timer::ETimer::e1;
         timerMemoryStatisticConfig.Divider        = SIXTEEN;
         timerMemoryStatisticConfig.InterruptInSec = TEN;

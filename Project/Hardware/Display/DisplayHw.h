@@ -19,14 +19,15 @@ class DisplayHw final : public Display
     static constexpr char * MODULE = (char *)"DisplayHw";
 
     public:
-        explicit DisplayHw (Gpio & v_gpio, const Display::Configuration v_config);
+        explicit DisplayHw (const Config_t v_config, Gpio & v_gpio);
         ~DisplayHw () = default;
 
-        bool     DrawBitmap (const Rectangle & v_rect     ) override;
+        bool    DrawBitmap (Bitmap & v_bitmap              );
+        bool    DrawText   (std::string & v_text, Rectangle::Coordinates v_coordinate);
 
     protected:
-        void     sendLines  (const Rectangle & v_rect     ) override;
-        uint8_t  getColor   (const Display::EColors eColor) override;
+        void    sendLines  (const Bitmap & v_bitmap        ) override;
+        uint8_t getColor   (const Display::EColors v_eColor) override;
 
     private:
         Gpio &   gpio;

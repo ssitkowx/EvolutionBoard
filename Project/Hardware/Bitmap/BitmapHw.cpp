@@ -2,25 +2,25 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "LoggerHw.h"
 #include "BitmapHw.h"
+#include "Rectangle.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-BitmapHw::BitmapHw (const uint8_t v_id, Display & v_display) : id (v_id), display (v_display) { }
+BitmapHw::BitmapHw (Display & v_display) : display (v_display) { }
 
 void BitmapHw::Redraw (const uint8_t v_id, const Rectangle & v_rect)
 {
-    if ( (id                                         == v_id)                &&
-         (Rect.Coordinate.X                          <= v_rect.Coordinate.X) &&
-        ((Rect.Coordinate.X + Rect.Dimension.Width)  >= v_rect.Coordinate.X) &&
-         (Rect.Coordinate.Y                          <= v_rect.Coordinate.Y) &&
-        ((Rect.Coordinate.Y + Rect.Dimension.Height) >= v_rect.Coordinate.Y)
+    if ( (Id                               == v_id)                &&
+         (Coordinate.X                     <= v_rect.Coordinate.X) &&
+        ((Coordinate.X + Dimension.Width)  >= v_rect.Coordinate.X) &&
+         (Coordinate.Y                     <= v_rect.Coordinate.Y) &&
+        ((Coordinate.Y + Dimension.Height) >= v_rect.Coordinate.Y)
        )
     {
-        display.DrawBitmap (Rect);
+        display.DrawBitmap (*this);
     }
 }
 
