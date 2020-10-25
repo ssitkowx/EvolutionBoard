@@ -51,7 +51,7 @@ void SystemTimeHw::Update (void)
         if (syncStatus == SNTP_SYNC_STATUS_RESET)
         {
             LOGW (MODULE, "Try synchronize time with SNTP server. Attempt: (%d/%d).", retry, retryMax);
-            Rtos::GetInstance()->Delay (TWO_THOUSAND);
+            Rtos::GetInstance()->DelayInMs (TWO_THOUSAND);
         }
         else
         {

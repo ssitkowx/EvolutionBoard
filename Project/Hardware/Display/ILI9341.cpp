@@ -15,7 +15,7 @@ void ILI9341::SendSoftwareReset (void)
     SpiHw::Msg <ZERO_BYTES> msg;
     msg.Cmd = 0x01;
     spiLcdHw.SendCommand (SpiHw::EFlag::eDummy, SpiHw::EMode::eCmd, msg.Cmd);
-    Rtos::GetInstance    ()->Delay (ONE_HUNDRED);
+    Rtos::GetInstance    ()->DelayInMs (ONE_HUNDRED);
 }
 
 uint8_t ILI9341::ReceiveDisplayPixelFormat (void)
@@ -217,7 +217,7 @@ void ILI9341::SendSleepOut (void)
     SpiHw::Msg <ZERO_BYTES> msg;
     msg.Cmd = 0x11;
     spiLcdHw.SendCommand (SpiHw::EFlag::eDummy, SpiHw::EMode::eCmd, msg.Cmd);
-    Rtos::GetInstance    ()->Delay (ONE_HUNDRED);
+    Rtos::GetInstance    ()->DelayInMs (ONE_HUNDRED);
 }
 
 void ILI9341::SendDisplayOn (void)
@@ -225,7 +225,7 @@ void ILI9341::SendDisplayOn (void)
     SpiHw::Msg <ZERO_BYTES> msg;
     msg.Cmd = 0x29;
     spiLcdHw.SendCommand (SpiHw::EFlag::eDummy, SpiHw::EMode::eCmd, msg.Cmd);
-    Rtos::GetInstance    ()->Delay (ONE_HUNDRED);
+    Rtos::GetInstance    ()->DelayInMs (ONE_HUNDRED);
 }
 
 uint32_t ILI9341::ReceiveGetId (void)

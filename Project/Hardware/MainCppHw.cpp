@@ -38,13 +38,13 @@ extern "C"
 
     void MainCppHw (void)
     {
-        FlashHw flashHw;
+        static SystemTimeHw systemTimeHw;
+        SET_SYSTEM_TIME_INST(&systemTimeHw);
 
         static RtosHw rtosHw;
         SET_RTOS_INST(&rtosHw);
 
-        static SystemTimeHw systemTimeHw;
-        SET_SYSTEM_TIME_INST(&systemTimeHw);
+        FlashHw flashHw;
 
         Rtos::GetInstance ()->TaskCreate (DisplayWithTouchProcess,
                                           "DisplayWithTouch",
@@ -118,7 +118,7 @@ extern "C"
 
         while (true)
         {
-            Rtos::GetInstance ()->Delay (FIVE_HUNDRED);
+            Rtos::GetInstance ()->DelayInMs (FIVE_HUNDRED);
         }
 
         vTaskDelete (NULL);

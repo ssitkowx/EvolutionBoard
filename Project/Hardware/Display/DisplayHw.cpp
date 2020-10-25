@@ -25,9 +25,9 @@ DisplayHw::DisplayHw (const Config_t v_config, Gpio & v_gpio) : Display (v_confi
 
     //Reset the display
     gpio.SetPinLevel  (static_cast<uint16_t> (GpioHw::ELcd::eRst), false);
-    Rtos::GetInstance ()->Delay (ONE_HUNDRED);
+    Rtos::GetInstance ()->DelayInMs (ONE_HUNDRED);
     gpio.SetPinLevel  (static_cast<uint16_t> (GpioHw::ELcd::eRst), true);
-    Rtos::GetInstance ()->Delay (ONE_HUNDRED);
+    Rtos::GetInstance ()->DelayInMs (ONE_HUNDRED);
 
     ili9341.SendSoftwareReset           ();
     ili9341.SendDisplayOff              ();

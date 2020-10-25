@@ -51,7 +51,7 @@ void WiFiHw::Reconnect (void)
         //}
     }
     
-    Rtos::GetInstance()->Delay(FIVE_THOUSAND);
+    Rtos::GetInstance()->DelayInMs (FIVE_THOUSAND);
     //std::this_thread::sleep_for (5s);
 }
 

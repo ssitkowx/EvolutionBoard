@@ -50,8 +50,8 @@ class LoggerHw : public Logger
         template<typename... ARGS>
         void Log (const ELogLevel v_eLogLevel, const std::string && v_module, const std::string && v_msg, ARGS &&... v_args)
         {
-            std::string line = Format ("\033[1;37m%s \033[1;%sm%s: %s\n",
-                                       "FAKE TIME",//SystemTime::GetInstance ()->ToString ("%F %T").c_str (),    // this make restart, don't know why
+            std::string line = Format ("\e[1;30m%s \e[1;%sm%s: %s\n",
+                                       SystemTime::GetInstance ()->ToString ("%F %T").c_str (),
                                        getFontColor  (v_eLogLevel).data (),
                                        v_module.data (), v_msg.data ());
 

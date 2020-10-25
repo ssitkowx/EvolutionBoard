@@ -52,7 +52,7 @@ class RtosHw final : public Rtos
         bool     TakeTouchSemaphore                   (void);
         bool     TakeMemoryStatisticsSemaphore        (void);
 
-        void     Delay                                (const uint32_t v_ms)               override { vTaskDelay (v_ms / portTICK_RATE_MS); }
+        void     DelayInMs                            (const uint32_t v_ms)               override { vTaskDelay (v_ms / portTICK_RATE_MS); }
         uint32_t GetCurrentHeapSize                   (void)                              override { return esp_get_free_heap_size ();     }
         uint32_t GetCurrentStackSize                  (const std::string & v_name)        override;
         uint32_t TaskCreate                           (TaskFunctionType    v_taskFuncion,

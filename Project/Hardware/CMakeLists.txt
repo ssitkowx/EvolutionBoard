@@ -63,4 +63,4 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              ${PackageIncludePaths}/Rectangle/Project
                              ${PackageIncludePaths}/SystemTime/Project
                              REQUIRES "nvs_flash"
-                        )
+                       )
