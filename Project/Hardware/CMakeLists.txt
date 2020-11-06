@@ -4,6 +4,7 @@ SET (PackageSourcePaths main.c
                         Touch/TouchHw.cpp
                         Bitmap/BitmapHw.cpp
                         Display/ILI9341.cpp
+                        Networking/WiFiHw.cpp
                         Display/DisplayHw.cpp
                         Peripheral/RtosHw.cpp
                         Peripheral/GpioHw.cpp
@@ -13,10 +14,15 @@ SET (PackageSourcePaths main.c
                         Peripheral/SystemTimeHw.cpp
                         Peripheral/SpiHw/SpiLcdHw.cpp
                         Peripheral/SpiHw/SpiTouchHw.cpp
-                        Networking/WiFiHw.cpp
+                        Protocols/HttpClient/HttpClientHw.cpp
                         ../Logic/Settings.cpp
                         ../Logic/Windows/BaseWindow.cpp
+                        ../Logic/Communication/Json/Json.cpp
+                        ../Logic/Protocols/HttpClient/HttpClient.cpp
                         ../Logic/NumericKeyboard/NumericKeyboard.cpp
+                        ../Logic/Communication/WeatherMeasureComm.cpp
+                        ../Logic/Communication/WeatherMeasureParser/WeatherMeasureParser.cpp
+                        ../Logic/Communication/WeatherMeasureMsgType/WeatherMeasureMsgType.cpp
                         ${PackageIncludePaths}/Spi/Project/Spi.cpp
                         ${PackageIncludePaths}/WiFi/Project/WiFi.cpp
                         ${PackageIncludePaths}/Gpio/Project/Gpio.cpp
@@ -31,6 +37,7 @@ SET (PackageSourcePaths main.c
                         ${PackageIncludePaths}/Keyboard/Project/Keyboard.cpp
                         ${PackageIncludePaths}/Rectangle/Project/Rectangle.cpp
                         ${PackageIncludePaths}/SystemTime/Project/SystemTime.cpp
+                        ${PackageIncludePaths}/Communication/Project/Communication.cpp
     )
 
 IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
@@ -43,10 +50,16 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              Peripheral
                              Networking
                              Peripheral/SpiHw
+                             Protocols/HttpClient
                              ../Logic
                              ../Logic/Windows
+                             ../Logic/Communication
                              ../Logic/NumericKeyboard
+                             ../Logic/Communication/Json
+                             ../Logic/Protocols/HttpClient
                              ../Logic/BitmapConverter/Images
+                             ../Logic/Communication/WeatherMeasureParser
+                             ../Logic/Communication/WeatherMeasureMsgType
                              ../Logic/BitmapConverter/Images/KeyboardImages
                              ${PackageIncludePaths}/Spi/Project
                              ${PackageIncludePaths}/WiFi/Project
@@ -62,5 +75,6 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              ${PackageIncludePaths}/Keyboard/Project
                              ${PackageIncludePaths}/Rectangle/Project
                              ${PackageIncludePaths}/SystemTime/Project
-                             REQUIRES "nvs_flash"
+                             ${PackageIncludePaths}/Communication/Project
+                             REQUIRES "nvs_flash" "esp_http_client" "json"
                        )

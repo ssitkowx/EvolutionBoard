@@ -34,7 +34,9 @@ class Conan(ConanFile):
                        "Logger/1.0@ssitkowx/stable",
                        "Rectangle/1.0@ssitkowx/stable",
                        "Bitmap/1.0@ssitkowx/stable",
-                       "Keyboard/1.0@ssitkowx/stable"
+                       "Keyboard/1.0@ssitkowx/stable",
+                       "Communication/1.0@ssitkowx/stable",
+                       "LoggerMock/1.0@ssitkowx/stable"
                       ]
 
     def source (self):   

@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Communication">
+      <UniqueIdentifier>{53a3c3dd-6906-4dae-8b91-ee9431b589e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Communication\WeatherMeasureMsgType">
+      <UniqueIdentifier>{d72f6a40-0f50-4405-bd16-7bc5199b9303}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Communication\WeatherMeasureParser">
+      <UniqueIdentifier>{d3db9c81-fc0a-4e78-9a74-ceb046608e99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{d34b03fb-aeaf-466f-b1c1-65a469f56782}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\Logger">
+      <UniqueIdentifier>{4e306ffd-932f-40ce-93dd-fb348f6a8980}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WeatherMeasureParserFixture">
+      <UniqueIdentifier>{d86e8536-7028-4ae7-8901-fcd032f97646}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\Utils">
+      <UniqueIdentifier>{256e249d-ed2f-49f3-8a52-49e773a5c33c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\Json">
+      <UniqueIdentifier>{4233a883-97e5-47ab-abee-fd8683ec6167}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Communication\Json">
+      <UniqueIdentifier>{0ba4cc7a-1bc5-4bf0-b8e3-2539dd4076de}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Project\Logic\Communication\WeatherMeasureParser\WeatherMeasureParser.cpp">
+      <Filter>Communication\WeatherMeasureParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Project\Logic\Communication\WeatherMeasureMsgType\WeatherMeasureMsgType.cpp">
+      <Filter>Communication\WeatherMeasureMsgType</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\.conan\download\LoggerMock\Project\LoggerMock.cpp">
+      <Filter>External\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\.conan\download\Logger\Project\Logger.cpp">
+      <Filter>External\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="WeatherMeasureParserFixture\WeatherMeasureParserFixture.cpp">
+      <Filter>WeatherMeasureParserFixture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\.conan\download\Utils\Project\Utils.cpp">
+      <Filter>External\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggerHw\LoggerHw.cpp">
+      <Filter>External\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\..\ESP_IDF\4.0\esp-idf\components\json\cJSON\cJSON.c">
+      <Filter>External\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Project\Logic\Communication\Json\Json.cpp">
+      <Filter>Communication\Json</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Project\Logic\Communication\WeatherMeasureParser\WeatherMeasureParser.h">
+      <Filter>Communication\WeatherMeasureParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Project\Logic\Communication\WeatherMeasureMsgType\WeatherMeasureMsgType.h">
+      <Filter>Communication\WeatherMeasureMsgType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\.conan\download\LoggerMock\Project\LoggerMock.h">
+      <Filter>External\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\.conan\download\Logger\Project\Logger.h">
+      <Filter>External\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="WeatherMeasureParserFixture\WeatherMeasureParserFixture.h">
+      <Filter>WeatherMeasureParserFixture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\.conan\download\Utils\Project\Utils.h">
+      <Filter>External\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="LoggerHw\LoggerHw.h">
+      <Filter>External\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\ESP_IDF\4.0\esp-idf\components\json\cJSON\cJSON.h">
+      <Filter>External\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Project\Logic\Communication\Json\Json.h">
+      <Filter>Communication\Json</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

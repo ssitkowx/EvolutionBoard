@@ -12,7 +12,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 SemaphoreHandle_t TouchSemaphoreHandle;
-SemaphoreHandle_t MemoryStatisticsSemaphoreHandle;
+SemaphoreHandle_t WeatherMeasureSemaphoreHandle;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -25,8 +25,8 @@ RtosHw::RtosHw ()
     TouchSemaphoreHandle = xSemaphoreCreateBinary ();
     if (TouchSemaphoreHandle            == NULL) { LOGE (MODULE, "Could't allocate TouchSemaphoreHandle."); }
 
-    MemoryStatisticsSemaphoreHandle = xSemaphoreCreateBinary ();
-    if (MemoryStatisticsSemaphoreHandle == NULL) { LOGE (MODULE, "Could't allocate MemoryStatisticsSemaphoreHandle."); }
+    WeatherMeasureSemaphoreHandle = xSemaphoreCreateBinary ();
+    if (WeatherMeasureSemaphoreHandle == NULL) { LOGE (MODULE, "Could't allocate WeatherMeasureSemaphoreHandle."); }
 }
 
 RtosHw::~RtosHw ()
@@ -37,14 +37,14 @@ RtosHw::~RtosHw ()
 bool RtosHw::GiveSemaphoreFromISR (const std::string & v_name)
 {
     if (strcmp ("GiveTouchSemaphoreFromISR"           , v_name.data ()) == ZERO) { return GiveTouchSemaphoreFromISR (); }
-    if (strcmp ("GiveMemoryStatisticsSemaphoreFromISR", v_name.data ()) == ZERO) { return GiveMemoryStatisticsSemaphoreFromISR (); }
+    if (strcmp ("GiveWeatherMeasureSemaphoreFromISR"  , v_name.data ()) == ZERO) { return GiveWeatherMeasureSemaphoreFromISR (); }
     return false;
 }
 
 bool RtosHw::TakeSemaphore (const std::string & v_name)
 {
     if (strcmp ("TakeTouchSemaphore"           , v_name.data ()) == ZERO) { return TakeTouchSemaphore (); }
-    if (strcmp ("TakeMemoryStatisticsSemaphore", v_name.data ()) == ZERO) { return TakeMemoryStatisticsSemaphore (); }
+    if (strcmp ("TakeWeatherMeasureSemaphore"  , v_name.data ()) == ZERO) { return TakeWeatherMeasureSemaphore (); }
     return false;
 }
 
@@ -54,10 +54,10 @@ bool RtosHw::GiveTouchSemaphoreFromISR (void)
     return (xSemaphoreGiveFromISR (TouchSemaphoreHandle, &xHigherPriorityTaskWoken) == pdTRUE) ? true : false;
 }
 
-bool RtosHw::GiveMemoryStatisticsSemaphoreFromISR (void)
+bool RtosHw::GiveWeatherMeasureSemaphoreFromISR   (void)
 {
     static BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-    return (xSemaphoreGiveFromISR (MemoryStatisticsSemaphoreHandle, &xHigherPriorityTaskWoken) == pdTRUE) ? true : false;
+    return (xSemaphoreGiveFromISR (WeatherMeasureSemaphoreHandle, &xHigherPriorityTaskWoken) == pdTRUE) ? true : false;
 }
 
 bool RtosHw::TakeTouchSemaphore (void)
@@ -65,20 +65,18 @@ bool RtosHw::TakeTouchSemaphore (void)
     return (xSemaphoreTake (TouchSemaphoreHandle, (TickType_t)ETick::ePortMaxDelay) == pdTRUE) ? true : false;
 }
 
-bool RtosHw::TakeMemoryStatisticsSemaphore (void)
+bool RtosHw::TakeWeatherMeasureSemaphore (void)
 {
-    return (xSemaphoreTake (MemoryStatisticsSemaphoreHandle, (TickType_t)ETick::ePortMaxDelay) == pdTRUE) ? true : false;
+    return (xSemaphoreTake (WeatherMeasureSemaphoreHandle, (TickType_t)ETick::ePortMaxDelay) == pdTRUE) ? true : false;
 }
 
 uint32_t RtosHw::GetCurrentStackSize (const std::string & v_name)
 {
+    extern TaskHandle_t WeatherMeasureTaskHandle;
     extern TaskHandle_t DisplayWithTouchTaskHandle;
-    extern TaskHandle_t NetworkConnectionTaskHandle;
-    extern TaskHandle_t MemoryStatisticsTaskHandle;
     
-    if (strcmp (v_name.data (), "DisplayWithTouch"))   { return uxTaskGetStackHighWaterMark (DisplayWithTouchTaskHandle);   }
-    if (strcmp (v_name.data (), "InternetConnection")) { return uxTaskGetStackHighWaterMark (NetworkConnectionTaskHandle); }
-    if (strcmp (v_name.data (), "MemoryStatistics"))   { return uxTaskGetStackHighWaterMark (MemoryStatisticsTaskHandle);  }
+    if (strcmp (v_name.data (), "DisplayWithTouchProcess")) { return uxTaskGetStackHighWaterMark (DisplayWithTouchTaskHandle); }
+    if (strcmp (v_name.data (), "WeatherMeasureProcess"  )) { return uxTaskGetStackHighWaterMark (WeatherMeasureTaskHandle);   }
     
     LOGE (MODULE, "Couldn't find task.");
     return 0;

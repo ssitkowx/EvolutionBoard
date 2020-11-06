@@ -25,7 +25,7 @@ void IRAM_ATTR timerIsr (void * v_params)
     {
         TIMERG0.int_clr_timers.t1                  = ONE;
         TIMERG0.hw_timer [TIMER_1].config.alarm_en = ONE;
-        Rtos::GetInstance()->GiveSemaphoreFromISR ("GiveMemoryStatisticsSemaphoreFromISR");
+        Rtos::GetInstance()->GiveSemaphoreFromISR ("GiveWeatherMeasureSemaphoreFromISR");
     }
 }
 

@@ -15,6 +15,9 @@
 #include "DisplayHw.h"
 #include "BaseWindow.h"
 #include "SystemTimeHw.h"
+#include "HttpClientHw.h"
+#include "WeatherMeasureComm.h"
+#include "WeatherMeasureParser.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// VARIABLES ////////////////////////////////////
@@ -22,9 +25,8 @@
 
 static constexpr char * MODULE = (char *)"MainCppHw";
 
+TaskHandle_t WeatherMeasureTaskHandle;
 TaskHandle_t DisplayWithTouchTaskHandle;
-TaskHandle_t NetworkConnectionTaskHandle;
-TaskHandle_t MemoryStatisticsTaskHandle;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -32,9 +34,8 @@ TaskHandle_t MemoryStatisticsTaskHandle;
 
 extern "C"
 {
-    void DisplayWithTouchProcess    (void * v_params);
-    void InternetConnectionProcess (void * v_params);
-    void MemoryStatisticsProcess   (void * v_params);
+    void WeatherMeasureProcess   (void * v_params);
+    void DisplayWithTouchProcess (void * v_params);
 
     void MainCppHw (void)
     {
@@ -46,24 +47,45 @@ extern "C"
 
         FlashHw flashHw;
 
+        Rtos::GetInstance ()->TaskCreate (WeatherMeasureProcess,
+                                          "WeatherMeasureProcess",
+                                          EIGHT_THOUSAND_BYTES,
+                                          static_cast <uint32_t> (RtosHw::EThreadPriority::eAboveNormal),
+                                          WeatherMeasureTaskHandle);
+
         Rtos::GetInstance ()->TaskCreate (DisplayWithTouchProcess,
-                                          "DisplayWithTouch",
+                                          "DisplayWithTouchProcess",
                                           THIRTY_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eNormal),
                                           DisplayWithTouchTaskHandle);
+    }
 
-        Rtos::GetInstance ()->TaskCreate (InternetConnectionProcess,
-                                          "InternetConnection",
-                                          FIVE_THOUSAND_BYTES,
-                                          static_cast <uint32_t> (RtosHw::EThreadPriority::eAboveNormal),
-                                          NetworkConnectionTaskHandle);
+    void WeatherMeasureProcess (void * v_params)
+    {
+        WiFiHw wifiHw;
+        HttpClientHw       httpClientHw;
 
 
-        Rtos::GetInstance ()->TaskCreate (MemoryStatisticsProcess,
-                                          "MemoryStatistics",
-                                          THIRTY_THOUSAND_BYTES,
-                                          static_cast <uint32_t> (RtosHw::EThreadPriority::eLow),
-                                          MemoryStatisticsTaskHandle);
+        WeatherMeasureParser weatherMeasureParser;
+        WeatherMeasureComm   weatherMeasureComm (httpClientHw, weatherMeasureParser);
+        TimerHw::Config      timerWeatherMeasureConfig;
+        timerWeatherMeasureConfig.eTimer         = Timer::ETimer::e1;
+        timerWeatherMeasureConfig.Divider        = SIXTEEN;
+        timerWeatherMeasureConfig.InterruptInSec = TEN;
+
+        TimerHw timerWeatherMeasureHw (timerWeatherMeasureConfig);
+
+        while (true)
+        {
+            if (Rtos::GetInstance ()->TakeSemaphore ("TakeWeatherMeasureSemaphore") == true)
+            {
+                weatherMeasureComm.Process ();
+            }
+        }
+
+        vTaskDelete (NULL);
+        LOGE        (MODULE, "WeatherMeasureProcess() Deleted.");
+
     }
 
     void DisplayWithTouchProcess (void * v_params)
@@ -105,49 +127,12 @@ extern "C"
 
         while (true)
         {
-            baseWindow.Process ();
+            //baseWindow.Process ();
+            //LOGD (MODULE, "Temperature: %d", Settings::GetInstance ().WeatherMeasureMsgType.Current.Temperature)
         }
 
         vTaskDelete (NULL);
-        LOGE        (MODULE, "DisplayAndTouchProcess() Deleted.");
-    }
-
-    void InternetConnectionProcess (void * v_params)
-    {
-        WiFiHw wifiHw;
-
-        while (true)
-        {
-            Rtos::GetInstance ()->DelayInMs (FIVE_HUNDRED);
-        }
-
-        vTaskDelete (NULL);
-        LOGE        (MODULE, "InternetConnectionProcess() Deleted.");
-
-    }
-
-    void MemoryStatisticsProcess (void * v_params)
-    {
-        TimerHw::Config timerMemoryStatisticConfig;
-        timerMemoryStatisticConfig.eTimer         = Timer::ETimer::e1;
-        timerMemoryStatisticConfig.Divider        = SIXTEEN;
-        timerMemoryStatisticConfig.InterruptInSec = TEN;
-
-        TimerHw timerMemoryStatisticHw (timerMemoryStatisticConfig);
-
-        while (true)
-        {
-            if (Rtos::GetInstance ()->TakeSemaphore ("TakeMemoryStatisticsSemaphore") == true)
-            {
-                LOGI (MODULE, "Heap left                    : %d", Rtos::GetInstance ()->GetCurrentHeapSize ());
-                LOGI (MODULE, "DisplayAndTouch    stack left: %d", Rtos::GetInstance ()->GetCurrentStackSize ("DisplayAndTouch"));
-                LOGI (MODULE, "InternetConnection stack left: %d", Rtos::GetInstance ()->GetCurrentStackSize ("InternetConnection"));
-                LOGI (MODULE, "MemoryStatistics   stack left: %d", Rtos::GetInstance ()->GetCurrentStackSize ("MemoryStatistics"));
-            }
-        }
-
-        vTaskDelete (NULL);
-        LOGE        (MODULE, "GetMemoryStatisticsProcess() Deleted.");
+        LOGE        (MODULE, "DisplayWithTouchProcess() Deleted.");
     }
 }
 
