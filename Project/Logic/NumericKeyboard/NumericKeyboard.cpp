@@ -11,7 +11,7 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-NumericKeyboard::NumericKeyboard (Configuration v_config, Display & v_display) : config (v_config), display (v_display)
+NumericKeyboard::NumericKeyboard (Configuration v_config, Display<DisplayHw> & v_display) : config (v_config), display (v_display)
 {
     // register first row
     uint16_t xPos = config.KeyboardStart.X;

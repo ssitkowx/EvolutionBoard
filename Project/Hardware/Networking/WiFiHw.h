@@ -14,7 +14,7 @@
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class WiFiHw final : public WiFi
+class WiFiHw final : public WiFi<WiFiHw>
 {
     static constexpr char * MODULE = (char *)"WiFiHw";
 
@@ -26,14 +26,14 @@ class WiFiHw final : public WiFi
 
     protected:
         static esp_err_t             onWiFiEvent          (void * v_ctx, system_event_t * v_event);
-        void                         startStation         (void) override;
+        void                         startStation         (void);
     
     private:
         static void                  displayMac           (void);
         static void                  displayNetworkParams (void);
         static void                  getMac               (EMode v_mode, std::array <uint8_t, SIX_BYTES> & v_mac);
         static Config::NetworkParams getNetworkParams     (void);
-        static WiFi::Modes           getModes             (void);
+        static WiFi<WiFiHw>::Modes   getModes             (void);
 
         void                         initStation          (void);
         void                         deinit               (void);

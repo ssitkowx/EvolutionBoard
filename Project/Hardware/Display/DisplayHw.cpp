@@ -13,9 +13,9 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-DisplayHw::DisplayHw (const Config_t v_config, Gpio & v_gpio) : Display (v_config),
-                                                                gpio    (v_gpio),
-                                                                ili9341 (spiLcdHw)
+DisplayHw::DisplayHw (const Config_t v_config, Gpio<GpioHw> & v_gpio) : Display (v_config),
+                                                                        gpio    (v_gpio),
+                                                                        ili9341 (spiLcdHw)
 {
     LOG (MODULE, "Init./n");
 
@@ -52,7 +52,7 @@ DisplayHw::DisplayHw (const Config_t v_config, Gpio & v_gpio) : Display (v_confi
 
 bool DisplayHw::DrawBitmap (Bitmap & v_bitmap)
 {
-    if (Display::DrawBitmap (v_bitmap) == false)
+    if (Display<DisplayHw>::DrawBitmap (v_bitmap) == false)
     {
         LOGE (MODULE, "Rect out of display: xPos: %d, yPos: %d, Width: %d, Height: %d", v_bitmap.Coordinate.X, v_bitmap.Coordinate.Y, v_bitmap.Dimension.Width, v_bitmap.Dimension.Height);
         return false;

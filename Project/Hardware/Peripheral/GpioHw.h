@@ -12,7 +12,7 @@
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class GpioHw final: public Gpio
+class GpioHw final: public Gpio<GpioHw>
 {
     static constexpr char * MODULE = (char *)"GpioHw";
 
@@ -59,9 +59,9 @@ class GpioHw final: public Gpio
         GpioHw  ();
         ~GpioHw ();
 
-        void        SetPinLevel     (const uint16_t v_num, const bool v_state)    override;
-        void        SetPinDirection (const uint16_t v_num, const uint16_t v_mode) override;
-        bool        ReadPinLevel    (const uint16_t v_num)                        override;
+        void        SetPinLevel     (const uint16_t v_num, const bool v_state);
+        void        SetPinDirection (const uint16_t v_num, const uint16_t v_mode);
+        bool        ReadPinLevel    (const uint16_t v_num);
 
     private:
         gpio_mode_t getPinMode      (const EPinMode v_eMode);

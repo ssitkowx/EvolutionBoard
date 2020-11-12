@@ -13,7 +13,7 @@
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class SpiHw : public Spi
+class SpiHw : public Spi<SpiHw>
 {
     static constexpr char * MODULE = (char *)"SpiHw";
 
@@ -46,9 +46,9 @@ class SpiHw : public Spi
 
         explicit SpiHw         (spi_device_handle_t * v_handle) : handle (v_handle) { }
 
-        void     Send          (const uint8_t  * const v_data, const uint16_t v_len                          ) override;
-        void     Send          (const uint16_t * const v_data, const uint16_t v_len                          ) override;
-        uint16_t Receive       (uint8_t        *       v_data                                                ) override;
+        void     Send          (const uint8_t  * const v_data, const uint16_t v_len);
+        void     Send          (const uint16_t * const v_data, const uint16_t v_len);
+        uint16_t Receive       (uint8_t        *       v_data);
         void     SendCommand   (const SpiHw::EFlag     v_flag, const SpiHw::EMode v_mode, const uint8_t v_cmd);
 
         template <uint8_t DATA_LEN>

@@ -78,3 +78,5 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              ${PackageIncludePaths}/Communication/Project
                              REQUIRES "nvs_flash" "esp_http_client" "json"
                        )
+                       
+COMPONENT_COMPILE_OPTIONS(-std=c++17)

@@ -14,9 +14,10 @@
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class WeatherMeasureComm : public Communication
+class WeatherMeasureComm : public Communication<WeatherMeasureComm>
 {
     static constexpr char * MODULE = (char *)"WeatherMeasureComm";
+    friend Communication<WeatherMeasureComm>;
 
     private:
         static constexpr uint16_t recvDataMaxLen = EIGHT_HUNDRED;
@@ -34,8 +35,8 @@ class WeatherMeasureComm : public Communication
                 ~Chunk ()                     { free (payload);}
         };
 
-        void send     (void) override {}
-        void receive  (void) override;
+        void send     (void) {}
+        void receive  (void);
 
         bool isOnline (void);
         void clear    (cJSON * v_root, char * v_body);

@@ -29,7 +29,7 @@ class NumericKeyboard : public Keyboard
             Rectangle::Coordinates KeyboardStart;
         } config;
 
-        explicit NumericKeyboard (Configuration v_config, Display & v_display);
+        explicit NumericKeyboard (Configuration v_config, Display<DisplayHw> & v_display);
 
         template <const BitmapHw::EId ID>
         BitmapHw & Create (const uint16_t * v_data, const uint16_t v_xPos, const uint16_t v_yPos)
@@ -48,7 +48,7 @@ class NumericKeyboard : public Keyboard
         ~NumericKeyboard ();
 
     private:
-        Display & display;
+        Display<DisplayHw> & display;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -12,7 +12,7 @@
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class TimerHw final : public Timer
+class TimerHw final : public Timer<TimerHw>
 {
     static constexpr char * MODULE = (char *)"TimerHw";
 
@@ -27,25 +27,25 @@ class TimerHw final : public Timer
         TimerHw  (const Config v_config);
         ~TimerHw ();
 
-        void     Start          (void)               override;
-        void     Stop           (void)               override;
-        void     StartIsr       (void)               override;
-        void     StopIsr        (void)               override;
-        void     Reset          (void)               override;
-        void     ResetIsr       (void)               override;
-        uint32_t GetCounter     (void)               override { return 0; }
-        void     SetCounter     (uint32_t v_counter) override {}
+        void     Start          (void);
+        void     Stop           (void);
+        void     StartIsr       (void);
+        void     StopIsr        (void);
+        void     Reset          (void);
+        void     ResetIsr       (void);
+        uint32_t GetCounter     (void)               { return 0; }
+        void     SetCounter     (uint32_t v_counter) {}
 
     protected:
-        void     init           (void)               override;
-        void     deInit         (void)               override;
+        void     init           (void);
+        void     deInit         (void);
     
     private:
         const Config  config;
         timer_idx_t   number;
         timer_group_t group;
 
-        void    setTimerConfig  (Timer::ETimer v_eTimerNum);
+        void    setTimerConfig  (Timer<TimerHw>::ETimer v_eTimerNum);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

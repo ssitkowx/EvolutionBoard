@@ -62,16 +62,14 @@ extern "C"
 
     void WeatherMeasureProcess (void * v_params)
     {
-        WiFiHw wifiHw;
-        HttpClientHw       httpClientHw;
-
-
+        WiFiHw               wifiHw;
+        HttpClientHw         httpClientHw;
         WeatherMeasureParser weatherMeasureParser;
         WeatherMeasureComm   weatherMeasureComm (httpClientHw, weatherMeasureParser);
         TimerHw::Config      timerWeatherMeasureConfig;
-        timerWeatherMeasureConfig.eTimer         = Timer::ETimer::e1;
+        timerWeatherMeasureConfig.eTimer         = Timer<TimerHw>::ETimer::e1;
         timerWeatherMeasureConfig.Divider        = SIXTEEN;
-        timerWeatherMeasureConfig.InterruptInSec = TEN;
+        timerWeatherMeasureConfig.InterruptInSec = TWENTY;
 
         TimerHw timerWeatherMeasureHw (timerWeatherMeasureConfig);
 
@@ -97,7 +95,7 @@ extern "C"
         displayConfig.LinesPerTransfer  = Settings::GetInstance ().Lcd.LinesPerTransfer;
         DisplayHw displayHw (displayConfig, gpioHw);
 
-        Touch::Config touchConfig;
+        Touch<TouchHw>::Config touchConfig;
         touchConfig.Histeresis          = TWO;
         touchConfig.Time.PressedMax     = FOUR;    // InterruptInSeconds * PressedMax
         touchConfig.Time.ReleasedMax    = EIGHT;
@@ -108,7 +106,7 @@ extern "C"
         touchCoefficient.Length         = 2.67;
 
         TimerHw::Config timerTouchConfig;
-        timerTouchConfig.eTimer         = Timer::ETimer::e0;
+        timerTouchConfig.eTimer         = Timer<TimerHw>::ETimer::e0;
         timerTouchConfig.Divider        = SIXTEEN;
         timerTouchConfig.InterruptInSec = 0.02;
 
@@ -128,7 +126,7 @@ extern "C"
         while (true)
         {
             //baseWindow.Process ();
-            //LOGD (MODULE, "Temperature: %d", Settings::GetInstance ().WeatherMeasureMsgType.Current.Temperature)
+            LOGD (MODULE, "Temperature: %d", Settings::GetInstance ().WeatherMeasureMsgType.Current.Temperature)
         }
 
         vTaskDelete (NULL);

@@ -150,7 +150,7 @@ void WiFiHw::getMac (EMode v_mode, std::array <uint8_t, SIX_BYTES> & v_mac)
     }
 }
 
-WiFi::Config::NetworkParams WiFiHw::getNetworkParams (void)
+WiFi<WiFiHw>::Config::NetworkParams WiFiHw::getNetworkParams (void)
 {
     if (getModes ().StaConnected == false) { LOGE (MODULE, "Station disconnected./n"); }
 
@@ -186,7 +186,7 @@ WiFi::Config::NetworkParams WiFiHw::getNetworkParams (void)
     return { toString (ipv4), toString (mask), toString (gw), std::string (ipv6Buff) };
 }
 
-WiFi::Modes WiFiHw::getModes (void)
+WiFi<WiFiHw>::Modes WiFiHw::getModes (void)
 {
     wifi_mode_t wifiMode;
     if (Mode.Started == false)

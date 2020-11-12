@@ -5,6 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Gpio.h"
+#include "GpioHw.h"
 #include <stdint.h>
 #include "Display.h"
 #include "ILI9341.h"
@@ -14,25 +15,26 @@
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class DisplayHw final : public Display
+class DisplayHw final : public Display<DisplayHw>
 {
     static constexpr char * MODULE = (char *)"DisplayHw";
+    friend Display<DisplayHw>;
 
     public:
-        explicit DisplayHw (const Config_t v_config, Gpio & v_gpio);
+        explicit DisplayHw (const Config_t v_config, Gpio<GpioHw> & v_gpio);
         ~DisplayHw () = default;
 
         bool    DrawBitmap (Bitmap & v_bitmap              );
         bool    DrawText   (std::string & v_text, Rectangle::Coordinates v_coordinate);
 
     protected:
-        void    sendLines  (const Bitmap & v_bitmap        ) override;
-        uint8_t getColor   (const Display::EColors v_eColor) override;
+        void    sendLines  (const Bitmap & v_bitmap);
+        uint8_t getColor   (const Display<DisplayHw>::EColors v_eColor);
 
     private:
-        Gpio &   gpio;
-        ILI9341  ili9341;
-        SpiLcdHw spiLcdHw;
+        Gpio<GpioHw> & gpio;
+        ILI9341        ili9341;
+        SpiLcdHw       spiLcdHw;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

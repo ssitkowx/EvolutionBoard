@@ -112,13 +112,13 @@ void TimerHw::setTimerConfig (ETimer v_eTimer)
 {
     switch (v_eTimer)
     {
-        case Timer::ETimer::e0:
+        case Timer<TimerHw>::ETimer::e0:
         {
             number = TIMER_0;
             group  = TIMER_GROUP_0;
             break;
         }
-        case Timer::ETimer::e1:
+        case Timer<TimerHw>::ETimer::e1:
         {
             number = TIMER_1;
             group  = TIMER_GROUP_0;

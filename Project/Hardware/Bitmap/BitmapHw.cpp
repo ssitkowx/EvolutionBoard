@@ -9,7 +9,7 @@
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-BitmapHw::BitmapHw (Display & v_display) : display (v_display) { }
+BitmapHw::BitmapHw (Display<DisplayHw> & v_display) : display (v_display) { }
 
 void BitmapHw::Redraw (const uint8_t v_id, const Rectangle & v_rect)
 {

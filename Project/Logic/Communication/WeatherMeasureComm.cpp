@@ -5,6 +5,7 @@
 #include "Rtos.h"
 #include <vector>
 #include "cJSON.h"
+#include "WiFiHw.h"
 #include <stdint.h>
 #include "LoggerHw.h"
 #include "SystemTime.h"
@@ -16,7 +17,7 @@
 
 void WeatherMeasureComm::receive (void)
 {
-    if (WiFi::IsOnline () == false)
+    if (WiFi<WiFiHw>::IsOnline () == false)
     {
         LOGW (MODULE, "Offline.");
         return;
