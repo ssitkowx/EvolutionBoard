@@ -126,7 +126,7 @@ extern "C"
         while (true)
         {
             //baseWindow.Process ();
-            LOGD (MODULE, "Temperature: %d", Settings::GetInstance ().WeatherMeasureMsgType.Current.Temperature)
+            //LOGD (MODULE, "Temperature: %d", Settings::GetInstance ().WeatherMeasureMsgType.Current.Temperature)
         }
 
         vTaskDelete (NULL);

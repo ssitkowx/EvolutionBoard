@@ -93,7 +93,7 @@ void TimerHw::init (void)
     timerConfig.counter_en  = TIMER_PAUSE;
     timerConfig.alarm_en    = TIMER_ALARM_EN;
     timerConfig.intr_type   = TIMER_INTR_LEVEL;
-    timerConfig.auto_reload = ONE;
+    timerConfig.auto_reload = static_cast<timer_autoreload_t>(ONE);
 
     ESP_ERROR_CHECK (timer_init              (group, number, &timerConfig));
     ESP_ERROR_CHECK (timer_set_counter_value (group, number, 0x0000000000ULL));
