@@ -8,10 +8,7 @@
 #include "Touch.h"
 #include <stdint.h>
 #include "TimerHw.h"
-#include "Display.h"
-#include "Rectangle.h"
 #include "SpiTouchHw.h"
-#include "NumericKeyboard.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
@@ -30,11 +27,11 @@ class TouchHw final : public Touch<TouchHw>
             double  Length;
         };
 
-        explicit TouchHw (TimerHw::Config        v_timerConfig, Coefficients v_coefficient,
-                          Touch<TouchHw>::Config v_touchConfig, Display<DisplayHw> & v_display) : Touch<TouchHw> (v_touchConfig),
-                                                                                                  coefficient    (v_coefficient),
-                                                                                                  timerHw        (v_timerConfig),
-                                                                                                  display        (v_display)
+        explicit TouchHw (TimerHw::Config        v_timerConfig,
+                          Coefficients           v_coefficient,
+                          Touch<TouchHw>::Config v_touchConfig) : Touch<TouchHw> (v_touchConfig),
+                                                                  coefficient    (v_coefficient),
+                                                                  timerHw        (v_timerConfig)
         {  }
 
         ~TouchHw () = default;
@@ -60,10 +57,28 @@ class TouchHw final : public Touch<TouchHw>
         const Coefficients   coefficient;
         TimerHw              timerHw;
         SpiTouchHw           spiTouchHw;
-        Display<DisplayHw> & display;
 
-        uint8_t createXPosCmd (void);
-        uint8_t createYPosCmd (void);
+        constexpr uint8_t createXPosCmd (void)
+        {
+            uint8_t command = (static_cast<uint8_t>(EControl::eStart) +
+                               static_cast<uint8_t>(EControl::eA2)    +
+                               static_cast<uint8_t>(EControl::eA0)    +
+                               static_cast<uint8_t>(EControl::eMode)  +
+                               static_cast<uint8_t>(EControl::ePd1)   +
+                               static_cast<uint8_t>(EControl::ePd0));
+            return command;
+        }
+
+        constexpr uint8_t createYPosCmd (void)
+        {
+            uint8_t command = (static_cast<uint8_t>(EControl::eStart) +
+                               static_cast<uint8_t>(EControl::eA0)    +
+                               static_cast<uint8_t>(EControl::eMode)  +
+                               static_cast<uint8_t>(EControl::ePd1)   +
+                               static_cast<uint8_t>(EControl::ePd0));
+
+            return command;
+        }
 };
 
 ///////////////////////////////////////////////////////////////////////////////

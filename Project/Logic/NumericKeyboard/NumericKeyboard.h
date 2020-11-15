@@ -4,6 +4,7 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include "TouchHw.h"
 #include "BitmapHw.h"
 #include "Keyboard.h"
 #include "DisplayHw.h"
@@ -29,7 +30,7 @@ class NumericKeyboard : public Keyboard
             Rectangle::Coordinates KeyboardStart;
         } config;
 
-        explicit NumericKeyboard (Configuration v_config, Display<DisplayHw> & v_display);
+        explicit NumericKeyboard (Configuration v_config, Display<DisplayHw> & v_display, Touch<TouchHw> & v_touch);
 
         template <const BitmapHw::EId ID>
         BitmapHw & Create (const uint16_t * v_data, const uint16_t v_xPos, const uint16_t v_yPos)
@@ -45,10 +46,13 @@ class NumericKeyboard : public Keyboard
             return bitmap;
         }
 
+        void Process (void);
+
         ~NumericKeyboard ();
 
     private:
         Display<DisplayHw> & display;
+        Touch<TouchHw>     & touch;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

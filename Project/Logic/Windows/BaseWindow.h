@@ -4,13 +4,8 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Touch.h"
-#include "Display.h"
-#include "TouchHw.h"
-#include "Keyboard.h"
 #include "DisplayHw.h"
 #include "BaseWindow.h"
-#include "NumericKeyboard.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
@@ -21,15 +16,13 @@ class BaseWindow
     public:
         static constexpr char * MODULE = (char *)"BaseWindow";
  
-        BaseWindow (Display<DisplayHw> & v_display, Touch<TouchHw> & v_touch, Keyboard & v_keyboard) : display (v_display), touch (v_touch), keyboard (v_keyboard) {}
+        BaseWindow (Display<DisplayHw> & v_display) : display (v_display) {}
         ~BaseWindow () = default;
 		
 		void Process (void);
 
     private:
         Display<DisplayHw> & display;
-        Touch<TouchHw>     & touch;
-        Keyboard           & keyboard;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

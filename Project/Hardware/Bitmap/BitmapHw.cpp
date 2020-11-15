@@ -11,13 +11,13 @@
 
 BitmapHw::BitmapHw (Display<DisplayHw> & v_display) : display (v_display) { }
 
-void BitmapHw::Redraw (const uint8_t v_id, const Rectangle & v_rect)
+void BitmapHw::Redraw (const uint8_t v_id, const Rectangle::Coordinates & v_coordinates)
 {
-    if ( (Id                               == v_id)                &&
-         (Coordinate.X                     <= v_rect.Coordinate.X) &&
-        ((Coordinate.X + Dimension.Width)  >= v_rect.Coordinate.X) &&
-         (Coordinate.Y                     <= v_rect.Coordinate.Y) &&
-        ((Coordinate.Y + Dimension.Height) >= v_rect.Coordinate.Y)
+    if ( (Id                               == v_id)            &&
+         (Coordinate.X                     <= v_coordinates.X) &&
+        ((Coordinate.X + Dimension.Width)  >= v_coordinates.X) &&
+         (Coordinate.Y                     <= v_coordinates.Y) &&
+        ((Coordinate.Y + Dimension.Height) >= v_coordinates.Y)
        )
     {
         display.DrawBitmap (*this);

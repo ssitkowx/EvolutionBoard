@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include "GpioHw.h"
 #include "WiFiHw.h"
+#include "ILI9341.h"
 #include "FLashHw.h"
 #include "TouchHw.h"
 #include "Settings.h"
@@ -16,6 +17,7 @@
 #include "BaseWindow.h"
 #include "SystemTimeHw.h"
 #include "HttpClientHw.h"
+#include "NumericKeyboard.h"
 #include "WeatherMeasureComm.h"
 #include "WeatherMeasureParser.h"
 
@@ -25,8 +27,9 @@
 
 static constexpr char * MODULE = (char *)"MainCppHw";
 
+TaskHandle_t BluetoothTaskHandle;
 TaskHandle_t WeatherMeasureTaskHandle;
-TaskHandle_t DisplayWithTouchTaskHandle;
+TaskHandle_t DisplayAndTouchTaskHandle;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -34,8 +37,9 @@ TaskHandle_t DisplayWithTouchTaskHandle;
 
 extern "C"
 {
-    void WeatherMeasureProcess   (void * v_params);
-    void DisplayWithTouchProcess (void * v_params);
+    void BluetoothProcess       (void * v_params);
+    void DisplayAndTouchProcess (void * v_params);
+    void WeatherMeasureProcess  (void * v_params);
 
     void MainCppHw (void)
     {
@@ -47,17 +51,37 @@ extern "C"
 
         FlashHw flashHw;
 
+/*
+        Rtos::GetInstance ()->TaskCreate (BluetoothProcess,
+                                          "BluetoothProcess",
+                                          THIRTY_THOUSAND_BYTES,
+                                          static_cast <uint32_t> (RtosHw::EThreadPriority::eAboveNormal),
+                                          BluetoothTaskHandle);
+*/
+/*
         Rtos::GetInstance ()->TaskCreate (WeatherMeasureProcess,
                                           "WeatherMeasureProcess",
                                           EIGHT_THOUSAND_BYTES,
-                                          static_cast <uint32_t> (RtosHw::EThreadPriority::eAboveNormal),
+                                          static_cast <uint32_t> (RtosHw::EThreadPriority::eBelowHigh),
                                           WeatherMeasureTaskHandle);
-
-        Rtos::GetInstance ()->TaskCreate (DisplayWithTouchProcess,
-                                          "DisplayWithTouchProcess",
+*/
+        Rtos::GetInstance ()->TaskCreate (DisplayAndTouchProcess,
+                                          "DisplayAndTouchProcess",
                                           THIRTY_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eNormal),
-                                          DisplayWithTouchTaskHandle);
+                                          DisplayAndTouchTaskHandle);
+
+    }
+
+    void BluetoothProcess (void * v_params)
+    {
+        while (true)
+        {
+
+        }
+
+        vTaskDelete (NULL);
+        LOGE        (MODULE, "BluetoothProcess() Deleted.");
     }
 
     void WeatherMeasureProcess (void * v_params)
@@ -86,51 +110,54 @@ extern "C"
 
     }
 
-    void DisplayWithTouchProcess (void * v_params)
+    void DisplayAndTouchProcess (void * v_params)
     {
-        GpioHw gpioHw;
+        GpioHw   gpioHw;
+        SpiLcdHw spiLcdHw (gpioHw);
+        ILI9341  ili9341 (spiLcdHw);
+
         DisplayHw::Config_t displayConfig;
         displayConfig.Dimension.Width   = Settings::GetInstance ().Lcd.Width;
         displayConfig.Dimension.Height  = Settings::GetInstance ().Lcd.Height;
         displayConfig.LinesPerTransfer  = Settings::GetInstance ().Lcd.LinesPerTransfer;
-        DisplayHw displayHw (displayConfig, gpioHw);
+        DisplayHw displayHw (displayConfig, ili9341);
 
         Touch<TouchHw>::Config touchConfig;
         touchConfig.Histeresis          = TWO;
         touchConfig.Time.PressedMax     = FOUR;    // InterruptInSeconds * PressedMax
         touchConfig.Time.ReleasedMax    = EIGHT;
 
-        TouchHw::Coefficients touchCoefficient;
-        touchCoefficient.Constant       = ONE_HUNDRED_TWENTY_EIGHT;
-        touchCoefficient.Width          = TWO;
-        touchCoefficient.Length         = 2.67;
+        TouchHw::Coefficients touchCoefficients;
+        touchCoefficients.Constant      = ONE_HUNDRED_TWENTY_EIGHT;
+        touchCoefficients.Width         = TWO;
+        touchCoefficients.Length        = 2.67;
 
         TimerHw::Config timerTouchConfig;
         timerTouchConfig.eTimer         = Timer<TimerHw>::ETimer::e0;
         timerTouchConfig.Divider        = SIXTEEN;
         timerTouchConfig.InterruptInSec = 0.02;
 
-        TouchHw touchHw (timerTouchConfig, touchCoefficient, touchConfig, displayHw);
+        TouchHw touchHw (timerTouchConfig, touchCoefficients, touchConfig);
 
-        NumericKeyboard::Configuration config;
-        config.KeyboardStart.X          = EIGHTY;
-        config.KeyboardStart.Y          = FORTY;
-        config.BitmapSpacing.X          = FIVE;
-        config.BitmapSpacing.Y          = FIVE;
+        NumericKeyboard::Configuration keyboardConfig;
+        keyboardConfig.KeyboardStart.X  = EIGHTY;
+        keyboardConfig.KeyboardStart.Y  = FORTY;
+        keyboardConfig.BitmapSpacing.X  = FIVE;
+        keyboardConfig.BitmapSpacing.Y  = FIVE;
 
-        NumericKeyboard numericKeyboard (config, displayHw);
-        BaseWindow      baseWindow      (displayHw, touchHw, numericKeyboard);
+        NumericKeyboard numericKeyboard (keyboardConfig, displayHw, touchHw);
+        //BaseWindow      baseWindow      (displayHw);
 
         //////////////////////// Touch ////////////////////
 
         while (true)
         {
-            //baseWindow.Process ();
-            //LOGD (MODULE, "Temperature: %d", Settings::GetInstance ().WeatherMeasureMsgType.Current.Temperature)
+            numericKeyboard.Process ();
+            displayHw.Process ();
         }
 
         vTaskDelete (NULL);
-        LOGE        (MODULE, "DisplayWithTouchProcess() Deleted.");
+        LOGE        (MODULE, "DisplayAndTouchProcess() Deleted.");
     }
 }
 

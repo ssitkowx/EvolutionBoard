@@ -72,11 +72,13 @@ bool RtosHw::TakeWeatherMeasureSemaphore (void)
 
 uint32_t RtosHw::GetCurrentStackSize (const std::string & v_name)
 {
+    extern TaskHandle_t BluetoothTaskHandle;
     extern TaskHandle_t WeatherMeasureTaskHandle;
-    extern TaskHandle_t DisplayWithTouchTaskHandle;
-    
-    if (strcmp (v_name.data (), "DisplayWithTouchProcess")) { return uxTaskGetStackHighWaterMark (DisplayWithTouchTaskHandle); }
-    if (strcmp (v_name.data (), "WeatherMeasureProcess"  )) { return uxTaskGetStackHighWaterMark (WeatherMeasureTaskHandle);   }
+    extern TaskHandle_t DisplayAndTouchTaskHandle;
+
+    if (strcmp (v_name.data (), "BluetoothProcess"))       { return uxTaskGetStackHighWaterMark (BluetoothTaskHandle);       }
+    if (strcmp (v_name.data (), "WeatherMeasureProcess"))  { return uxTaskGetStackHighWaterMark (WeatherMeasureTaskHandle);  }
+    if (strcmp (v_name.data (), "DisplayAndTouchProcess")) { return uxTaskGetStackHighWaterMark (DisplayAndTouchTaskHandle); }
     
     LOGE (MODULE, "Couldn't find task.");
     return 0;

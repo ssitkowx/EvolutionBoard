@@ -2,8 +2,8 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include "Rtos.h"
 #include <memory.h>
-#include "GpioHw.h"
 #include "LoggerHw.h"
 #include "Settings.h"
 #include "SpiLcdHw.h"
@@ -26,9 +26,19 @@ static void beforeTransfer (spi_transaction_t * v_transaction)
     gpio_set_level (static_cast<gpio_num_t>(GpioHw::ELcd::eDc), dcPin);
 }
 
-SpiLcdHw::SpiLcdHw () : SpiHw (&handle)
+SpiLcdHw::SpiLcdHw (Gpio<GpioHw> & v_gpio) : SpiHw (&handle), gpio (v_gpio)
 {
     LOG (MODULE, "Init.");
+
+    // Initialize non-SPI GPIOs
+    gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::ELcd::eDc) , static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
+    gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::ELcd::eRst), static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
+
+    //Reset the display
+    gpio.SetPinLevel  (static_cast<uint16_t> (GpioHw::ELcd::eRst), false);
+    Rtos::GetInstance ()->DelayInMs (ONE_HUNDRED);
+    gpio.SetPinLevel  (static_cast<uint16_t> (GpioHw::ELcd::eRst), true);
+    Rtos::GetInstance ()->DelayInMs (ONE_HUNDRED);
 
     static spi_bus_config_t busConfig;
     busConfig.miso_io_num       = static_cast<int> (GpioHw::ELcd::eSdi);

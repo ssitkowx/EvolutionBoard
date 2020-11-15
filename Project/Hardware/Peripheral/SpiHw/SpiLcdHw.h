@@ -5,6 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "SpiHw.h"
+#include "GpioHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
@@ -15,12 +16,14 @@ class SpiLcdHw final: public SpiHw
     static constexpr char * MODULE = (char *)"SpiLcdHw";
 
     public:
-        SpiLcdHw ();
+        SpiLcdHw (Gpio<GpioHw> & v_gpio);
 
     private:
         static spi_device_handle_t handle;
         const  spi_host_device_t   host       = VSPI_HOST;
         const  int                 dmaChannel = TWO;
+
+        Gpio<GpioHw> & gpio;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -5,12 +5,53 @@
 #include "Rtos.h"
 #include "SpiHw.h"
 #include "ILI9341.h"
+#include "Settings.h"
+#include "LoggerHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-void ILI9341::SendSoftwareReset (void)
+ILI9341::ILI9341 (SpiLcdHw & v_spiLcdHw) : spiLcdHw (v_spiLcdHw)
+{
+    LOG (MODULE, "Init./n");
+
+    sendSoftwareReset           ();
+    sendDisplayOff              ();
+    sendPowerControl1           ();
+    sendPowerControl2           ();
+    sendVCOMControl1            ();
+    sendVCOMControl2            ();
+    sendMemoryAccessControl     ();
+    sendPixelFormatSet          ();
+    sendFrameRateControl        ();
+    sendGammaSet                ();
+    sendPositiveGammaCorrection ();
+    sendNegativeGammaCorrection ();
+    sendColumnAddressSet        (SpiHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Width  >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Width  & 0xFF);
+    sendPageAddressSet          (SpiHw::EFlag::eDummy, ZERO, ZERO, (Settings::GetInstance ().Lcd.Height >> EIGHT_BYTES) & 0xFF, Settings::GetInstance ().Lcd.Height & 0xFF);
+    sendMemoryWrite             (SpiHw::EFlag::eDummy);
+    sendEntryModeSet            ();
+    sendDisplayFunctionControl  ();
+    sendSleepOut                ();
+    sendDisplayOn               ();
+}
+
+void ILI9341::SendLines (const Bitmap & v_bitmap)
+{
+    sendColumnAddressSet (SpiLcdHw::EFlag::eTxData, static_cast<uint8_t> (v_bitmap.Coordinate.X                                    >> EIGHT_BITS), static_cast<uint8_t> (v_bitmap.Coordinate.X & 0xFF),
+                                                    static_cast<uint8_t> ((v_bitmap.Coordinate.X + v_bitmap.Dimension.Width - ONE) >> EIGHT_BITS), static_cast<uint8_t> ((v_bitmap.Coordinate.X + v_bitmap.Dimension.Width - ONE) & 0xFF));
+
+    sendPageAddressSet   (SpiLcdHw::EFlag::eTxData, static_cast<uint8_t> (v_bitmap.Coordinate.Y                                    >> EIGHT_BITS), static_cast<uint8_t> (v_bitmap.Coordinate.Y & 0xFF),
+                                                    static_cast<uint8_t> ((v_bitmap.Coordinate.Y + v_bitmap.Dimension.Height)      >> EIGHT_BITS), static_cast<uint8_t> ((v_bitmap.Coordinate.Y + v_bitmap.Dimension.Height) & 0xFF));
+
+    sendMemoryWrite      (SpiLcdHw::EFlag::eTxData);
+    spiLcdHw.Send        (v_bitmap.Data, v_bitmap.Dimension.Width * v_bitmap.Dimension.Height * sizeof (uint16_t));
+
+}
+
+
+void ILI9341::sendSoftwareReset (void)
 {
     SpiHw::Msg <ZERO_BYTES> msg;
     msg.Cmd = 0x01;
@@ -18,7 +59,7 @@ void ILI9341::SendSoftwareReset (void)
     Rtos::GetInstance    ()->DelayInMs (ONE_HUNDRED);
 }
 
-uint8_t ILI9341::ReceiveDisplayPixelFormat (void)
+uint8_t ILI9341::receiveDisplayPixelFormat (void)
 {
     SpiHw::Msg <TWO_BYTES> msg;
     msg.Cmd = 0x0C;
@@ -33,14 +74,14 @@ uint8_t ILI9341::ReceiveDisplayPixelFormat (void)
     return msg.Data [SECOND_BYTE];
 }
 
-void ILI9341::SendDisplayOff (void)
+void ILI9341::sendDisplayOff (void)
 {
     SpiHw::Msg <ZERO_BYTES> msg;
     msg.Cmd = 0x28;
     spiLcdHw.SendCommand (SpiHw::EFlag::eDummy, SpiHw::EMode::eCmd, msg.Cmd);
 }
 
-void ILI9341::SendPowerControl1 (void)
+void ILI9341::sendPowerControl1 (void)
 {
     SpiHw::Msg <ONE_BYTE> msg;
     msg.Cmd               = 0xC0;
@@ -50,7 +91,7 @@ void ILI9341::SendPowerControl1 (void)
     spiLcdHw.SendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::SendPowerControl2 (void)
+void ILI9341::sendPowerControl2 (void)
 {
     SpiHw::Msg <ONE_BYTE> msg;
     msg.Cmd               = 0xC1;
@@ -60,7 +101,7 @@ void ILI9341::SendPowerControl2 (void)
     spiLcdHw.SendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::SendVCOMControl1 (void)
+void ILI9341::sendVCOMControl1 (void)
 {
     SpiHw::Msg <TWO_BYTES> msg;
     msg.Cmd                = 0xC5;
@@ -71,7 +112,7 @@ void ILI9341::SendVCOMControl1 (void)
     spiLcdHw.SendData <TWO_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::SendVCOMControl2 (void)
+void ILI9341::sendVCOMControl2 (void)
 {
     SpiHw::Msg <ONE_BYTE> msg;
     msg.Cmd               = 0xC7;
@@ -81,7 +122,7 @@ void ILI9341::SendVCOMControl2 (void)
     spiLcdHw.SendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::SendMemoryAccessControl (void)
+void ILI9341::sendMemoryAccessControl (void)
 {
     SpiHw::Msg <ONE_BYTE> msg;
     msg.Cmd               = 0x36;
@@ -98,7 +139,7 @@ void ILI9341::SendMemoryAccessControl (void)
     spiLcdHw.SendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::SendPixelFormatSet (void)
+void ILI9341::sendPixelFormatSet (void)
 {
     SpiHw::Msg <ONE_BYTE> msg;
     msg.Cmd                = 0x3A;
@@ -109,7 +150,7 @@ void ILI9341::SendPixelFormatSet (void)
     spiLcdHw.SendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::SendFrameRateControl (void)
+void ILI9341::sendFrameRateControl (void)
 {
     SpiHw::Msg <TWO_BYTES> msg;
     msg.Cmd                = 0xB1;
@@ -121,7 +162,7 @@ void ILI9341::SendFrameRateControl (void)
     spiLcdHw.SendData <TWO_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::SendGammaSet (void)
+void ILI9341::sendGammaSet (void)
 {
     SpiHw::Msg <ONE_BYTE> msg;
     msg.Cmd               = 0x26;
@@ -131,7 +172,7 @@ void ILI9341::SendGammaSet (void)
     spiLcdHw.SendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::SendPositiveGammaCorrection (void)
+void ILI9341::sendPositiveGammaCorrection (void)
 {
     SpiHw::Msg <FIFTEEN_BYTES> msg;
     msg.Cmd                    = 0xE0;
@@ -155,7 +196,7 @@ void ILI9341::SendPositiveGammaCorrection (void)
     spiLcdHw.SendData <FIFTEEN_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::SendNegativeGammaCorrection (void)
+void ILI9341::sendNegativeGammaCorrection (void)
 {
     SpiHw::Msg <FIFTEEN_BYTES> msg;
     msg.Cmd                    = 0xE1;
@@ -179,7 +220,7 @@ void ILI9341::SendNegativeGammaCorrection (void)
     spiLcdHw.SendData <FIFTEEN_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::SendEntryModeSet (void)
+void ILI9341::sendEntryModeSet (void)
 {
     SpiHw::Msg <ONE_BYTE> msg;
     msg.Cmd               = 0xB7;
@@ -194,7 +235,7 @@ void ILI9341::SendEntryModeSet (void)
     spiLcdHw.SendData <ONE_BYTE> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::SendDisplayFunctionControl (void)
+void ILI9341::sendDisplayFunctionControl (void)
 {
     SpiHw::Msg <FOUR_BYTES> msg;
     msg.Cmd                = 0xB6;
@@ -212,7 +253,7 @@ void ILI9341::SendDisplayFunctionControl (void)
     spiLcdHw.SendData <FOUR_BYTES> (SpiHw::EFlag::eDummy, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::SendSleepOut (void)
+void ILI9341::sendSleepOut (void)
 {
     SpiHw::Msg <ZERO_BYTES> msg;
     msg.Cmd = 0x11;
@@ -220,7 +261,7 @@ void ILI9341::SendSleepOut (void)
     Rtos::GetInstance    ()->DelayInMs (ONE_HUNDRED);
 }
 
-void ILI9341::SendDisplayOn (void)
+void ILI9341::sendDisplayOn (void)
 {
     SpiHw::Msg <ZERO_BYTES> msg;
     msg.Cmd = 0x29;
@@ -228,7 +269,7 @@ void ILI9341::SendDisplayOn (void)
     Rtos::GetInstance    ()->DelayInMs (ONE_HUNDRED);
 }
 
-uint32_t ILI9341::ReceiveGetId (void)
+uint32_t ILI9341::receiveGetId (void)
 {
     SpiHw::Msg <FOUR_BYTES> msg;
     msg.Cmd = 0x04;
@@ -238,14 +279,14 @@ uint32_t ILI9341::ReceiveGetId (void)
     return *(uint32_t*)msg.Data;
 }
 
-void ILI9341::SendMemoryWrite (const SpiHw::EFlag v_eFlag)
+void ILI9341::sendMemoryWrite (const SpiHw::EFlag v_eFlag)
 {
     SpiHw::Msg <ZERO_BYTES> msg;
     msg.Cmd = 0x2C;
     spiLcdHw.SendCommand (v_eFlag, SpiHw::EMode::eCmd, msg.Cmd);
 }
 
-void ILI9341::SendColumnAddressSet (const SpiHw::EFlag v_eFlag, const uint8_t v_scH, const uint8_t v_scL, const uint8_t v_ecH, const uint8_t v_ecL)
+void ILI9341::sendColumnAddressSet (const SpiHw::EFlag v_eFlag, const uint8_t v_scH, const uint8_t v_scL, const uint8_t v_ecH, const uint8_t v_ecL)
 {
     SpiHw::Msg <FOUR_BYTES> msg;
     msg.Cmd                = 0x2A;
@@ -258,7 +299,7 @@ void ILI9341::SendColumnAddressSet (const SpiHw::EFlag v_eFlag, const uint8_t v_
     spiLcdHw.SendData <FOUR_BYTES> (v_eFlag, SpiHw::EMode::eData, msg.Data);
 }
 
-void ILI9341::SendPageAddressSet (const SpiHw::EFlag v_eFlag, const uint8_t v_spH, const uint8_t v_spL, const uint8_t v_epH, const uint8_t v_epL)
+void ILI9341::sendPageAddressSet (const SpiHw::EFlag v_eFlag, const uint8_t v_spH, const uint8_t v_spL, const uint8_t v_epH, const uint8_t v_epL)
 {
     SpiHw::Msg <FOUR_BYTES> msg;
     msg.Cmd                = 0x2B;

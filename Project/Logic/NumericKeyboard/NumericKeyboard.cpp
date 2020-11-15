@@ -4,6 +4,7 @@
 
 #include "Utils.h"
 #include "BitmapHw.h"
+#include "TouchHw.h"
 #include "KeyboardImages.h"
 #include "NumericKeyboard.h"
 
@@ -11,7 +12,9 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-NumericKeyboard::NumericKeyboard (Configuration v_config, Display<DisplayHw> & v_display) : config (v_config), display (v_display)
+NumericKeyboard::NumericKeyboard (Configuration v_config, Display<DisplayHw> & v_display, Touch<TouchHw> & v_touch) : config  (v_config),
+                                                                                                                      display (v_display),
+                                                                                                                      touch   (v_touch)
 {
     // register first row
     uint16_t xPos = config.KeyboardStart.X;
@@ -79,6 +82,39 @@ NumericKeyboard::NumericKeyboard (Configuration v_config, Display<DisplayHw> & v
     display.DrawBitmap (keyNum6UpBitmap);
     display.DrawBitmap (keyNum7UpBitmap);
     display.DrawBitmap (keyNum8UpBitmap);
+}
+
+void NumericKeyboard::Process (void)
+{
+    bool state                         = touch.IsPressed      ();
+    Rectangle::Coordinates coordinates = touch.GetCoordinates ();
+
+    if (state == true)
+    {
+        //LOGD (MODULE, "pressed");
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum0Down), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum1Down), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum2Down), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum3Down), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum4Down), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum5Down), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum6Down), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum7Down), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum8Down), coordinates);
+    }
+    else
+    {
+        //LOGD (MODULE, "pressed not");
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum0Up), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum1Up), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum2Up), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum3Up), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum4Up), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum5Up), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum6Up), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum7Up), coordinates);
+        Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum8Up), coordinates);
+    }
 }
 
 NumericKeyboard::~NumericKeyboard () { unregisterBitmaps (); }

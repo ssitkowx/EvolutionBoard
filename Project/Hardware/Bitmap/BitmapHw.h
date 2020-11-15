@@ -5,7 +5,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Bitmap.h"
-#include "Display.h"
 #include "DisplayHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -40,7 +39,7 @@ class BitmapHw final : public Bitmap
         };
 
         explicit BitmapHw (Display<DisplayHw> & v_display);
-        void Redraw (const uint8_t v_id, const Rectangle & v_rect);
+        void Redraw (const uint8_t v_id, const Rectangle::Coordinates & v_coordinates);
 
     private:
         Display<DisplayHw> & display;
