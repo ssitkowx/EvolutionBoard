@@ -34,8 +34,8 @@ class Settings
 
         struct
         {
-            const uint16_t Width            = THREE_HUNDRED_TWENTY;
-            const uint16_t Height           = TWO_HUNDRED_FORTY;
+            const uint16_t Width            = TWO_HUNDRED_FORTY;
+            const uint16_t Height           = THREE_HUNDRED_TWENTY;
             const uint16_t LinesPerTransfer = SIXTEEN;
         } Lcd;
 

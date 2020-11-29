@@ -88,16 +88,10 @@ NumericKeyboard::NumericKeyboard (Configuration v_config, Display<DisplayHw> & v
 
 void NumericKeyboard::Process (void)
 {
-    bool state                         = touch.IsPressed      ();
-    Rectangle::Coordinates coordinates = touch.GetCoordinates ();
+    if (touch.IsPressed () == true)
+    {
+        Rectangle::Coordinates coordinates = touch.GetCoordinates ();
 
-    //coordinates.X = 85;
-    //coordinates.Y = 45;
-
-    //if (touch.IsPressed () == true)
-    //{
-    //    LOGD (MODULE, "IsPressed");
-        /*
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum0Down), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum1Down), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum2Down), coordinates);
@@ -107,15 +101,9 @@ void NumericKeyboard::Process (void)
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum6Down), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum7Down), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum8Down), coordinates);
-        */
 
-        // when ids will be created by ascending way I will be able to use loop
-    //}
+        Rtos::GetInstance ()-> DelayInMs (200);
 
-    if (touch.IsReleased () == true)
-    {
-        LOGD (MODULE, "IsReleased");
-        /*
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum0Up), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum1Up), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum2Up), coordinates);
@@ -125,7 +113,6 @@ void NumericKeyboard::Process (void)
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum6Up), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum7Up), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum8Up), coordinates);
-        */
     }
 }
 

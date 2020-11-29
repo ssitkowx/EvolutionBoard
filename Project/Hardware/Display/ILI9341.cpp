@@ -126,9 +126,9 @@ void ILI9341::sendMemoryAccessControl (void)
 {
     SpiHw::Msg <ONE_BYTE> msg;
     msg.Cmd               = 0x36;
-    msg.Data [FIRST_BYTE] = 0x28;    // MY  [7] = 0,
+    msg.Data [FIRST_BYTE] = 0x88;    // MY  [7] = 1,
                                      // MX  [6] = 0,
-                                     // MV  [5] = 1,
+                                     // MV  [5] = 0,
                                      // ML  [4] = 0,
                                      // BGR [3] = 1,
                                      // MH  [2] = 0,

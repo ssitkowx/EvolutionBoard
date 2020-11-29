@@ -12,8 +12,8 @@
 
 Rectangle::Coordinates TouchHw::getCoordinates (void)
 {
-    uint8_t  xPos = (getPos (createXPosCmd ()) - coefficient.Constant) * coefficient.Width;
-    uint16_t yPos = (getPos (createYPosCmd ()) - coefficient.Constant) * coefficient.Length;
+    uint8_t  xPos =                                       (getPos (createXPosCmd ()) - coefficient.Constant) * coefficient.Width;
+    uint16_t yPos = Settings::GetInstance ().Lcd.Height - (getPos (createYPosCmd ()) - coefficient.Constant) * coefficient.Length;
     return { xPos, yPos };
 }
 

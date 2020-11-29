@@ -27,12 +27,10 @@ class TouchHw final : public Touch<TouchHw>
             double  Length;
         };
 
-        explicit TouchHw (TimerHw                & v_timerHw,
-                          Coefficients             v_coefficient,
+        explicit TouchHw (Coefficients             v_coefficient,
                           Touch<TouchHw>::Config & v_touchConfig,
                           SpiTouchHw             & v_spiTouchHw) : Touch<TouchHw> (v_touchConfig),
                                                                    coefficient    (v_coefficient),
-                                                                   timerHw        (v_timerHw),
                                                                    spiTouchHw     (v_spiTouchHw)
         {  }
 
@@ -57,7 +55,6 @@ class TouchHw final : public Touch<TouchHw>
         };
 
         const Coefficients coefficient;
-        TimerHw            & timerHw;
         SpiTouchHw         & spiTouchHw;
 
         constexpr uint8_t createXPosCmd (void)

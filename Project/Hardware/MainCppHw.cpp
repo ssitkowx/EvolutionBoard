@@ -128,22 +128,22 @@ extern "C"
         touchConfig.Time.ReleasedMax    = EIGHT;
 
         TouchHw::Coefficients touchCoefficients;
-        touchCoefficients.Constant      = ONE_HUNDRED_TWENTY_SEVEN;
+        touchCoefficients.Constant      = ONE_HUNDRED_TWENTY_EIGHT;
         touchCoefficients.Width         = TWO;
         touchCoefficients.Length        = 2.68;
 
         TimerHw::Config timerTouchConfig;
         timerTouchConfig.eTimer         = Timer<TimerHw>::ETimer::e0;
         timerTouchConfig.Divider        = SIXTEEN;
-        timerTouchConfig.InterruptInSec = 0.02;
+        timerTouchConfig.InterruptInSec = 0.01;
         TimerHw timerHw (timerTouchConfig);
 
         SpiTouchHw spiTouchHw;
-        TouchHw touchHw (timerHw, touchCoefficients, touchConfig, spiTouchHw);
+        TouchHw touchHw (touchCoefficients, touchConfig, spiTouchHw);
 
         NumericKeyboard::Configuration keyboardConfig;
-        keyboardConfig.KeyboardStart.X  = EIGHTY;
-        keyboardConfig.KeyboardStart.Y  = FORTY;
+        keyboardConfig.KeyboardStart.X  = FORTY;
+        keyboardConfig.KeyboardStart.Y  = ONE_HUNDRED_FIFTY;
         keyboardConfig.BitmapSpacing.X  = FIVE;
         keyboardConfig.BitmapSpacing.Y  = FIVE;
 
