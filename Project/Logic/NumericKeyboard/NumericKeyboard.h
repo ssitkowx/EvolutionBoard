@@ -33,10 +33,11 @@ class NumericKeyboard : public Keyboard
         explicit NumericKeyboard (Configuration v_config, Display<DisplayHw> & v_display, Touch<TouchHw> & v_touch);
 
         template <const BitmapHw::EId ID>
-        BitmapHw & Create (const uint16_t * v_data, const uint16_t v_xPos, const uint16_t v_yPos)
+        BitmapHw & Create (const uint16_t * v_data, const uint16_t v_xPos, const uint16_t v_yPos, const bool v_isButton = true)
         {
             static BitmapHw bitmap (display);
             bitmap.Id               = static_cast <uint8_t> (ID);
+            bitmap.IsButton         = v_isButton;
             bitmap.Coordinate.X     = v_xPos;
             bitmap.Coordinate.Y     = v_yPos;
             bitmap.Dimension.Width  = v_data  [FIRST_BYTE];
@@ -46,7 +47,7 @@ class NumericKeyboard : public Keyboard
             return bitmap;
         }
 
-        void Process (void);
+        void Process (void) override;
 
         ~NumericKeyboard ();
 

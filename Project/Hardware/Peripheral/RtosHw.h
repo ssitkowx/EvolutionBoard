@@ -47,12 +47,16 @@ class RtosHw final : public Rtos
 
         bool     GiveSemaphoreFromISR                 (const std::string & v_name)        override;
         bool     TakeSemaphore                        (const std::string & v_name)        override;
+        //bool     SendQueue                            (const std::string & v_name)        override;
+        //bool     ReceiveQueue                         (const std::string & v_name)        override;
         bool     GiveTouchSemaphoreFromISR            (void);
         bool     GiveMemoryStatisticsSemaphoreFromISR (void);
         bool     GiveWeatherMeasureSemaphoreFromISR   (void);
+        //bool     ReceiveWeatherMeasureInQueue         (void);
         bool     TakeTouchSemaphore                   (void);
         bool     TakeMemoryStatisticsSemaphore        (void);
         bool     TakeWeatherMeasureSemaphore          (void);
+        //bool     SendWeatherMeasureInQueue            (void);
 
         void     DelayInMs                            (const uint32_t v_ms)               override { vTaskDelay (v_ms / portTICK_RATE_MS); }
         uint32_t GetCurrentHeapSize                   (void)                              override { return esp_get_free_heap_size ();     }

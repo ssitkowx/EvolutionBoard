@@ -23,15 +23,17 @@ class TouchHw final : public Touch<TouchHw>
         struct Coefficients
         {
             uint8_t Constant;
-            uint8_t Width;
+            double  Width;
             double  Length;
         };
 
-        explicit TouchHw (TimerHw::Config        v_timerConfig,
-                          Coefficients           v_coefficient,
-                          Touch<TouchHw>::Config v_touchConfig) : Touch<TouchHw> (v_touchConfig),
-                                                                  coefficient    (v_coefficient),
-                                                                  timerHw        (v_timerConfig)
+        explicit TouchHw (TimerHw                & v_timerHw,
+                          Coefficients             v_coefficient,
+                          Touch<TouchHw>::Config & v_touchConfig,
+                          SpiTouchHw             & v_spiTouchHw) : Touch<TouchHw> (v_touchConfig),
+                                                                   coefficient    (v_coefficient),
+                                                                   timerHw        (v_timerHw),
+                                                                   spiTouchHw     (v_spiTouchHw)
         {  }
 
         ~TouchHw () = default;
@@ -54,9 +56,9 @@ class TouchHw final : public Touch<TouchHw>
             ePd0   = ONE,
         };
 
-        const Coefficients   coefficient;
-        TimerHw              timerHw;
-        SpiTouchHw           spiTouchHw;
+        const Coefficients coefficient;
+        TimerHw            & timerHw;
+        SpiTouchHw         & spiTouchHw;
 
         constexpr uint8_t createXPosCmd (void)
         {

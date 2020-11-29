@@ -17,6 +17,8 @@ SET (PackageSourcePaths main.c
                         Protocols/HttpClient/HttpClientHw.cpp
                         ../Logic/Settings.cpp
                         ../Logic/Windows/BaseWindow.cpp
+                        ../Logic/Windows/SystemEvents.cpp
+                        ../Logic/NoCopyableAndNoMovable.cpp
                         ../Logic/Communication/Json/Json.cpp
                         ../Logic/Protocols/HttpClient/HttpClient.cpp
                         ../Logic/NumericKeyboard/NumericKeyboard.cpp

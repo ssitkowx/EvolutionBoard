@@ -1,30 +1,33 @@
+#pragma once 
+
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "BitmapHw.h"
-#include "Rectangle.h"
-#include "SystemEvents.h"
+#include <queue>
+#include <stdint.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-BitmapHw::BitmapHw (Display<DisplayHw> & v_display) : display (v_display) { }
-
-void BitmapHw::Redraw (const uint8_t v_id, const Rectangle::Coordinates & v_coordinates)
+class SystemEvents final
 {
-    if ( (Id                               == v_id)            &&
-         (Coordinate.X                     <= v_coordinates.X) &&
-        ((Coordinate.X + Dimension.Width)  >= v_coordinates.X) &&
-         (Coordinate.Y                     <= v_coordinates.Y) &&
-        ((Coordinate.Y + Dimension.Height) >= v_coordinates.Y)
-       )
-    {
-        if (IsButton == true) { SystemEvents::GetInstance ().Add (v_id); }
-        display.DrawBitmap (*this);
-    }
-}
+	public:
+        void     Add     (uint16_t v_eventId);
+        bool     IsEmpty (void);
+        uint16_t Remove  (void);
+		
+		static SystemEvents & GetInstance (void)
+		{
+			static SystemEvents instance;
+			return instance;
+		}
+		
+	private:
+	    std::queue <uint16_t> queue;
+	    SystemEvents () = default;
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// END OF FILE ///////////////////////////////////

@@ -15,7 +15,7 @@
 static uint8_t getFlag (SpiHw::EFlag v_flag)
 {
     if (v_flag == SpiHw::EFlag::eDummy) { return ZERO; }
-    return (ONE << static_cast<uint8_t> (v_flag));
+    return static_cast<uint8_t> (v_flag);
 }
 
 void SpiHw::Send (const uint8_t * const v_data, const uint16_t v_len)
@@ -69,7 +69,7 @@ uint16_t SpiHw::Receive (uint8_t * v_data)
     static spi_transaction_t transaction = { };
     memset (&transaction, ZERO, sizeof (transaction));
 
-    transaction.flags  = getFlag (static_cast<SpiHw::EFlag>(v_data [FIRST_BYTE]));
+    transaction.flags  = v_data [FIRST_BYTE];
     transaction.user   = reinterpret_cast<void *>(v_data [SECOND_BYTE]);
     transaction.length = v_data [THIRD_BYTE] * EIGHT_BITS;
 

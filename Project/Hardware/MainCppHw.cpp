@@ -114,7 +114,7 @@ extern "C"
     {
         GpioHw   gpioHw;
         SpiLcdHw spiLcdHw (gpioHw);
-        ILI9341  ili9341 (spiLcdHw);
+        ILI9341  ili9341  (spiLcdHw);
 
         DisplayHw::Config_t displayConfig;
         displayConfig.Dimension.Width   = Settings::GetInstance ().Lcd.Width;
@@ -128,16 +128,18 @@ extern "C"
         touchConfig.Time.ReleasedMax    = EIGHT;
 
         TouchHw::Coefficients touchCoefficients;
-        touchCoefficients.Constant      = ONE_HUNDRED_TWENTY_EIGHT;
+        touchCoefficients.Constant      = ONE_HUNDRED_TWENTY_SEVEN;
         touchCoefficients.Width         = TWO;
-        touchCoefficients.Length        = 2.67;
+        touchCoefficients.Length        = 2.68;
 
         TimerHw::Config timerTouchConfig;
         timerTouchConfig.eTimer         = Timer<TimerHw>::ETimer::e0;
         timerTouchConfig.Divider        = SIXTEEN;
         timerTouchConfig.InterruptInSec = 0.02;
+        TimerHw timerHw (timerTouchConfig);
 
-        TouchHw touchHw (timerTouchConfig, touchCoefficients, touchConfig);
+        SpiTouchHw spiTouchHw;
+        TouchHw touchHw (timerHw, touchCoefficients, touchConfig, spiTouchHw);
 
         NumericKeyboard::Configuration keyboardConfig;
         keyboardConfig.KeyboardStart.X  = EIGHTY;
@@ -146,14 +148,11 @@ extern "C"
         keyboardConfig.BitmapSpacing.Y  = FIVE;
 
         NumericKeyboard numericKeyboard (keyboardConfig, displayHw, touchHw);
-        //BaseWindow      baseWindow      (displayHw);
-
-        //////////////////////// Touch ////////////////////
+        BaseWindow      baseWindow      (displayHw, numericKeyboard);
 
         while (true)
         {
-            numericKeyboard.Process ();
-            displayHw.Process ();
+            baseWindow.Process ();
         }
 
         vTaskDelete (NULL);

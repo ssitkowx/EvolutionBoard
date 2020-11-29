@@ -5,6 +5,7 @@
 #include "BitmapHw.h"
 #include "Rectangle.h"
 #include "BaseWindow.h"
+#include "SystemEvents.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -12,7 +13,13 @@
 
 void BaseWindow::Process (void)
 {
+    keyboard.Process ();
 
+    if (SystemEvents::GetInstance ().IsEmpty () == false)
+    {
+        uint16_t eventId = SystemEvents::GetInstance ().Remove ();
+        LOGD (MODULE, "EventId: %d", eventId);
+    }
 }
 
 

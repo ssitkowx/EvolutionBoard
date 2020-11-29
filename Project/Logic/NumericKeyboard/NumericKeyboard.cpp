@@ -16,6 +16,8 @@ NumericKeyboard::NumericKeyboard (Configuration v_config, Display<DisplayHw> & v
                                                                                                                       display (v_display),
                                                                                                                       touch   (v_touch)
 {
+    LOG (MODULE, "Init.");
+
     // register first row
     uint16_t xPos = config.KeyboardStart.X;
     uint16_t yPos = config.KeyboardStart.Y;
@@ -89,9 +91,13 @@ void NumericKeyboard::Process (void)
     bool state                         = touch.IsPressed      ();
     Rectangle::Coordinates coordinates = touch.GetCoordinates ();
 
-    if (state == true)
-    {
-        //LOGD (MODULE, "pressed");
+    //coordinates.X = 85;
+    //coordinates.Y = 45;
+
+    //if (touch.IsPressed () == true)
+    //{
+    //    LOGD (MODULE, "IsPressed");
+        /*
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum0Down), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum1Down), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum2Down), coordinates);
@@ -101,10 +107,15 @@ void NumericKeyboard::Process (void)
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum6Down), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum7Down), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum8Down), coordinates);
-    }
-    else
+        */
+
+        // when ids will be created by ascending way I will be able to use loop
+    //}
+
+    if (touch.IsReleased () == true)
     {
-        //LOGD (MODULE, "pressed not");
+        LOGD (MODULE, "IsReleased");
+        /*
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum0Up), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum1Up), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum2Up), coordinates);
@@ -114,6 +125,7 @@ void NumericKeyboard::Process (void)
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum6Up), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum7Up), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum8Up), coordinates);
+        */
     }
 }
 

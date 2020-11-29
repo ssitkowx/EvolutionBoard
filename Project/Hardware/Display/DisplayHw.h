@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include "Display.h"
 #include "ILI9341.h"
+#include "LoggerHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
@@ -18,10 +19,10 @@ class DisplayHw final : public Display<DisplayHw>
     friend Display<DisplayHw>;
 
     public:
-        explicit DisplayHw (const Config_t v_config, ILI9341 & v_ili9341);
+        explicit DisplayHw (const Config_t v_config, ILI9341 & v_ili9341) : Display (v_config),
+                                                                            ili9341 (v_ili9341) { LOG (MODULE, "Init."); }
         ~DisplayHw () = default;
 
-        void    Process    (void);
         bool    DrawBitmap (Bitmap & v_bitmap);
         bool    DrawText   (std::string & v_text, Rectangle::Coordinates v_coordinate);
 
