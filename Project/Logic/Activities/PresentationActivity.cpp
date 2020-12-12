@@ -3,7 +3,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "BitmapHw.h"
-#include "Rectangle.h"
 #include "SystemEvents.h"
 #include "PresentationActivity.h"
 

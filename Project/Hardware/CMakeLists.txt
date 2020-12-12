@@ -59,7 +59,6 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              ../Logic/Activities
                              ../Logic/SystemEvents
                              ../Logic/Communication
-                             ../Logic/NumericKeyboard
                              ../Logic/Communication/Json
                              ../Logic/Protocols/HttpClient
                              ../Logic/BitmapConverter/Images
