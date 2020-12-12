@@ -90,12 +90,10 @@ extern "C"
         HttpClientHw          httpClientHw;
         WeatherMeasureParser  weatherMeasureParser;
         WeatherMeasureComm    weatherMeasureComm (httpClientHw, weatherMeasureParser);
-        const TimerHw::Config timerWeatherMeasureConfig = { SIXTEEN, TWENTY, Timer<TimerHw>::ETimer::e1};
-                                                          /*
-                                                              Divider,
-                                                              InterruptInSec,
-                                                              eTimer
-                                                          */
+        const TimerHw::Config timerWeatherMeasureConfig = { SIXTEEN,                      // Divider
+                                                            TWENTY,                       // InterruptInSec
+                                                            Timer<TimerHw>::ETimer::e1    // eTimer,
+                                                          };
 
         TimerHw timerWeatherMeasureHw (timerWeatherMeasureConfig);
 
@@ -119,47 +117,38 @@ extern "C"
         SpiLcdHw spiLcdHw (gpioHw);
         ILI9341  ili9341  (spiLcdHw);
 
-        const DisplayHw::Config_t displayConfig = { Settings::GetInstance ().Lcd.LinesPerTransfer, Settings::GetInstance ().Lcd.Width, Settings::GetInstance ().Lcd.Height };
-                                                  /*
-                                                      Dimension.Width,
-                                                      Dimension.Height,
-                                                      LinesPerTransfer
-                                                  */
+        const DisplayHw::Config_t displayConfig       = { Settings::GetInstance ().Lcd.LinesPerTransfer,    // Dimension.Width,
+                                                          Settings::GetInstance ().Lcd.Width,               // Dimension.Height
+                                                          Settings::GetInstance ().Lcd.Height               // LinesPerTransfer
+                                                        };
 
         DisplayHw displayHw (displayConfig, ili9341);
 
-        const Touch<TouchHw>::Config touchConfig = { TWO, FOUR, EIGHT};
-                                                   /*
-                                                       Histeresis,
-                                                       Time.PressedMax, InterruptInSeconds * PressedMax,
-                                                       Time.ReleasedMax
-                                                   */
+        const Touch<TouchHw>::Config touchConfig      = { TWO,                                              // Histeresis
+                                                          FOUR,                                             // Time.PressedMax, InterruptInSeconds * PressedMax
+                                                          EIGHT                                             // Time.ReleasedMax
+                                                        };
 
-        const TouchHw::Coefficients touchCoefficients = { ONE_HUNDRED_TWENTY_EIGHT, TWO, 2.68 };
-                                                        /*
-                                                            Constant,
-                                                            Width,
-                                                            Length
-                                                        */
+        const TouchHw::Coefficients touchCoefficients = { ONE_HUNDRED_TWENTY_EIGHT,                         // Constant
+                                                          TWO,                                              // Width
+                                                          2.68                                              // Length
+                                                        };
 
-        const TimerHw::Config timerTouchConfig = { SIXTEEN, 0.01, Timer<TimerHw>::ETimer::e0 };
-                                                 /*
-                                                    Divider,
-                                                    InterruptInSec,
-                                                    eTimer
-                                                 */
+        const TimerHw::Config       timerTouchConfig  = { SIXTEEN,                                          // Divider
+                                                          0.01,                                             // InterruptInSec
+                                                          Timer<TimerHw>::ETimer::e0                        // eTimer
+                                                        };
+
         TimerHw timerHw (timerTouchConfig);
 
         SpiTouchHw spiTouchHw;
         TouchHw touchHw (touchCoefficients, touchConfig, spiTouchHw);
 
-        const NumericKeyboard::Configuration keyboardConfig = { FIVE, FIVE, FORTY, ONE_HUNDRED_FIFTY };
-                                                              /*
-                                                                 BitmapSpacing.X,
-                                                                 BitmapSpacing.Y,
-                                                                 KeyboardStart.X,
-                                                                 KeyboardStart.Y
-                                                              */
+        const NumericKeyboard::Configuration keyboardConfig = { FIVE,                                       // BitmapSpacing.X
+                                                                FIVE,                                       // BitmapSpacing.Y
+                                                                FORTY,                                      // KeyboardStart.X
+                                                                ONE_HUNDRED_FIFTY                           // KeyboardStart.Y
+                                                              };
 
         NumericKeyboard numericKeyboard (keyboardConfig, displayHw, touchHw);
         BaseWindow      baseWindow      (displayHw, numericKeyboard);

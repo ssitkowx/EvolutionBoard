@@ -29,9 +29,9 @@ class TouchHw final : public Touch<TouchHw>
 
         explicit TouchHw (const Coefficients           v_coefficient,
                           const Touch<TouchHw>::Config v_touchConfig,
-                          SpiTouchHw             & v_spiTouchHw) : Touch<TouchHw> (v_touchConfig),
-                                                                   coefficient    (v_coefficient),
-                                                                   spiTouchHw     (v_spiTouchHw)
+                          SpiTouchHw &                 v_spiTouchHw) : Touch<TouchHw> (v_touchConfig),
+                                                                       coefficient    (v_coefficient),
+                                                                       spiTouchHw     (v_spiTouchHw)
         {  }
 
         ~TouchHw () = default;

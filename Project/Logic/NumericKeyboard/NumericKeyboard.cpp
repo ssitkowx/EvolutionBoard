@@ -88,10 +88,12 @@ NumericKeyboard::NumericKeyboard (Configuration v_config, Display<DisplayHw> & v
 
 void NumericKeyboard::Process (void)
 {
-    if (touch.IsPressed () == true)
+    // need hardware fix this is working too often
+    Touch<TouchHw>::EState eState = touch.Event ();    // since now its not logic anymore. Move to hardware todo
+    static Rectangle::Coordinates coordinates;
+    if (eState == Touch<TouchHw>::EState::ePressed)
     {
-        Rectangle::Coordinates coordinates = touch.GetCoordinates ();
-
+        coordinates = touch.GetCoordinates ();
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum0Down), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum1Down), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum2Down), coordinates);
@@ -101,9 +103,10 @@ void NumericKeyboard::Process (void)
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum6Down), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum7Down), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum8Down), coordinates);
+    }
 
-        Rtos::GetInstance ()-> DelayInMs (200);
-
+    else if (eState == Touch<TouchHw>::EState::eReleased)
+    {
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum0Up), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum1Up), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum2Up), coordinates);
@@ -113,6 +116,10 @@ void NumericKeyboard::Process (void)
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum6Up), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum7Up), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum8Up), coordinates);
+    }
+    else
+    {
+
     }
 }
 
