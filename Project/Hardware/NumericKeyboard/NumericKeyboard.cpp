@@ -88,7 +88,7 @@ NumericKeyboard::NumericKeyboard (Configuration v_config, Display<DisplayHw> & v
 
 void NumericKeyboard::Process (void)
 {
-    // need hardware fix this is working too often
+    // Need hardware fix, this is working too often
     Touch<TouchHw>::EState eState = touch.Event ();    // since now its not logic anymore. Move to hardware todo
     static Rectangle::Coordinates coordinates;
     if (eState == Touch<TouchHw>::EState::ePressed)

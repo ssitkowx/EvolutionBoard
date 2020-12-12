@@ -6,19 +6,19 @@
 
 #include "Keyboard.h"
 #include "DisplayHw.h"
-#include "BaseWindow.h"
+#include "PresentationActivity.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class BaseWindow
+class PresentationActivity
 {
     public:
-        static constexpr char * MODULE = (char *)"BaseWindow";
+        static constexpr char * MODULE = (char *)"PresentationActivity";
  
-        constexpr BaseWindow (Display<DisplayHw> & v_display, Keyboard & v_keyboard) : display (v_display), keyboard (v_keyboard) {}
-        ~BaseWindow () = default;
+        constexpr PresentationActivity (Display<DisplayHw> & v_display, Keyboard & v_keyboard) : display (v_display), keyboard (v_keyboard) {}
+        ~PresentationActivity () = default;
 		
 		void Process (void);
 

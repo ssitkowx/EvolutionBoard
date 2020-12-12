@@ -14,11 +14,11 @@
 #include "LoggerHw.h"
 #include "BitmapHw.h"
 #include "DisplayHw.h"
-#include "BaseWindow.h"
 #include "SystemTimeHw.h"
 #include "HttpClientHw.h"
 #include "NumericKeyboard.h"
 #include "WeatherMeasureComm.h"
+#include "PresentationActivity.h"
 #include "WeatherMeasureParser.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -150,12 +150,12 @@ extern "C"
                                                                 ONE_HUNDRED_FIFTY                           // KeyboardStart.Y
                                                               };
 
-        NumericKeyboard numericKeyboard (keyboardConfig, displayHw, touchHw);
-        BaseWindow      baseWindow      (displayHw, numericKeyboard);
+        NumericKeyboard      numericKeyboard      (keyboardConfig, displayHw, touchHw);
+        PresentationActivity presentationActivity (displayHw, numericKeyboard);
 
         while (true)
         {
-            baseWindow.Process ();
+            presentationActivity.Process ();
             Rtos::GetInstance ()->DelayInMs (ONE);
         }
 

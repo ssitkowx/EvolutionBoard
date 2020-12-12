@@ -14,14 +14,14 @@ SET (PackageSourcePaths main.c
                         Peripheral/SystemTimeHw.cpp
                         Peripheral/SpiHw/SpiLcdHw.cpp
                         Peripheral/SpiHw/SpiTouchHw.cpp
+                        NumericKeyboard/NumericKeyboard.cpp
                         Protocols/HttpClient/HttpClientHw.cpp
-                        ../Logic/Settings.cpp
-                        ../Logic/Windows/BaseWindow.cpp
-                        ../Logic/Windows/SystemEvents.cpp
+                        ../Logic/Settings/Settings.cpp
                         ../Logic/NoCopyableAndNoMovable.cpp
                         ../Logic/Communication/Json/Json.cpp
+                        ../Logic/SystemEvents/SystemEvents.cpp
+                        ../Logic/Activities/PresentationActivity.cpp
                         ../Logic/Protocols/HttpClient/HttpClient.cpp
-                        ../Logic/NumericKeyboard/NumericKeyboard.cpp
                         ../Logic/Communication/WeatherMeasureComm.cpp
                         ../Logic/Communication/WeatherMeasureParser/WeatherMeasureParser.cpp
                         ../Logic/Communication/WeatherMeasureMsgType/WeatherMeasureMsgType.cpp
@@ -51,10 +51,13 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              Display
                              Peripheral
                              Networking
+                             NumericKeyboard
                              Peripheral/SpiHw
                              Protocols/HttpClient
                              ../Logic
-                             ../Logic/Windows
+                             ../Logic/Settings
+                             ../Logic/Activities
+                             ../Logic/SystemEvents
                              ../Logic/Communication
                              ../Logic/NumericKeyboard
                              ../Logic/Communication/Json
