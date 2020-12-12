@@ -32,13 +32,11 @@ class WeatherMeasureComm : public Communication<WeatherMeasureComm>
             private:
                 char * payload;
                 Chunk  (const uint16_t v_len) { payload = new char [v_len]; }
-                ~Chunk ()                     { free (payload);}
+                ~Chunk ()                     { delete [] payload;}
         };
 
         void send     (void) {}
         void receive  (void);
-
-        bool isOnline (void);
         void clear    (cJSON * v_root, char * v_body);
 
     public:

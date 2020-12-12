@@ -86,14 +86,16 @@ extern "C"
 
     void WeatherMeasureProcess (void * v_params)
     {
-        WiFiHw               wifiHw;
-        HttpClientHw         httpClientHw;
-        WeatherMeasureParser weatherMeasureParser;
-        WeatherMeasureComm   weatherMeasureComm (httpClientHw, weatherMeasureParser);
-        TimerHw::Config      timerWeatherMeasureConfig;
-        timerWeatherMeasureConfig.eTimer         = Timer<TimerHw>::ETimer::e1;
-        timerWeatherMeasureConfig.Divider        = SIXTEEN;
-        timerWeatherMeasureConfig.InterruptInSec = TWENTY;
+        WiFiHw                wifiHw;
+        HttpClientHw          httpClientHw;
+        WeatherMeasureParser  weatherMeasureParser;
+        WeatherMeasureComm    weatherMeasureComm (httpClientHw, weatherMeasureParser);
+        const TimerHw::Config timerWeatherMeasureConfig = { SIXTEEN, TWENTY, Timer<TimerHw>::ETimer::e1};
+                                                          /*
+                                                              Divider,
+                                                              InterruptInSec,
+                                                              eTimer
+                                                          */
 
         TimerHw timerWeatherMeasureHw (timerWeatherMeasureConfig);
 
@@ -102,6 +104,7 @@ extern "C"
             if (Rtos::GetInstance ()->TakeSemaphore ("TakeWeatherMeasureSemaphore") == true)
             {
                 weatherMeasureComm.Process ();
+                Rtos::GetInstance ()->DelayInMs (ONE_HUNDRED);
             }
         }
 
@@ -116,36 +119,47 @@ extern "C"
         SpiLcdHw spiLcdHw (gpioHw);
         ILI9341  ili9341  (spiLcdHw);
 
-        DisplayHw::Config_t displayConfig;
-        displayConfig.Dimension.Width   = Settings::GetInstance ().Lcd.Width;
-        displayConfig.Dimension.Height  = Settings::GetInstance ().Lcd.Height;
-        displayConfig.LinesPerTransfer  = Settings::GetInstance ().Lcd.LinesPerTransfer;
+        const DisplayHw::Config_t displayConfig = { Settings::GetInstance ().Lcd.LinesPerTransfer, Settings::GetInstance ().Lcd.Width, Settings::GetInstance ().Lcd.Height };
+                                                  /*
+                                                      Dimension.Width,
+                                                      Dimension.Height,
+                                                      LinesPerTransfer
+                                                  */
+
         DisplayHw displayHw (displayConfig, ili9341);
 
-        Touch<TouchHw>::Config touchConfig;
-        touchConfig.Histeresis          = TWO;
-        touchConfig.Time.PressedMax     = FOUR;    // InterruptInSeconds * PressedMax
-        touchConfig.Time.ReleasedMax    = EIGHT;
+        const Touch<TouchHw>::Config touchConfig = { TWO, FOUR, EIGHT};
+                                                   /*
+                                                       Histeresis,
+                                                       Time.PressedMax, InterruptInSeconds * PressedMax,
+                                                       Time.ReleasedMax
+                                                   */
 
-        TouchHw::Coefficients touchCoefficients;
-        touchCoefficients.Constant      = ONE_HUNDRED_TWENTY_EIGHT;
-        touchCoefficients.Width         = TWO;
-        touchCoefficients.Length        = 2.68;
+        const TouchHw::Coefficients touchCoefficients = { ONE_HUNDRED_TWENTY_EIGHT, TWO, 2.68 };
+                                                        /*
+                                                            Constant,
+                                                            Width,
+                                                            Length
+                                                        */
 
-        TimerHw::Config timerTouchConfig;
-        timerTouchConfig.eTimer         = Timer<TimerHw>::ETimer::e0;
-        timerTouchConfig.Divider        = SIXTEEN;
-        timerTouchConfig.InterruptInSec = 0.01;
+        const TimerHw::Config timerTouchConfig = { SIXTEEN, 0.01, Timer<TimerHw>::ETimer::e0 };
+                                                 /*
+                                                    Divider,
+                                                    InterruptInSec,
+                                                    eTimer
+                                                 */
         TimerHw timerHw (timerTouchConfig);
 
         SpiTouchHw spiTouchHw;
         TouchHw touchHw (touchCoefficients, touchConfig, spiTouchHw);
 
-        NumericKeyboard::Configuration keyboardConfig;
-        keyboardConfig.KeyboardStart.X  = FORTY;
-        keyboardConfig.KeyboardStart.Y  = ONE_HUNDRED_FIFTY;
-        keyboardConfig.BitmapSpacing.X  = FIVE;
-        keyboardConfig.BitmapSpacing.Y  = FIVE;
+        const NumericKeyboard::Configuration keyboardConfig = { FIVE, FIVE, FORTY, ONE_HUNDRED_FIFTY };
+                                                              /*
+                                                                 BitmapSpacing.X,
+                                                                 BitmapSpacing.Y,
+                                                                 KeyboardStart.X,
+                                                                 KeyboardStart.Y
+                                                              */
 
         NumericKeyboard numericKeyboard (keyboardConfig, displayHw, touchHw);
         BaseWindow      baseWindow      (displayHw, numericKeyboard);
@@ -153,6 +167,7 @@ extern "C"
         while (true)
         {
             baseWindow.Process ();
+            Rtos::GetInstance ()->DelayInMs (ONE);
         }
 
         vTaskDelete (NULL);

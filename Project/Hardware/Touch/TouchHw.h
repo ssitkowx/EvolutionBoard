@@ -27,8 +27,8 @@ class TouchHw final : public Touch<TouchHw>
             double  Length;
         };
 
-        explicit TouchHw (Coefficients             v_coefficient,
-                          Touch<TouchHw>::Config & v_touchConfig,
+        explicit TouchHw (const Coefficients           v_coefficient,
+                          const Touch<TouchHw>::Config v_touchConfig,
                           SpiTouchHw             & v_spiTouchHw) : Touch<TouchHw> (v_touchConfig),
                                                                    coefficient    (v_coefficient),
                                                                    spiTouchHw     (v_spiTouchHw)
@@ -55,9 +55,9 @@ class TouchHw final : public Touch<TouchHw>
         };
 
         const Coefficients coefficient;
-        SpiTouchHw         & spiTouchHw;
+        SpiTouchHw &       spiTouchHw;
 
-        constexpr uint8_t createXPosCmd (void)
+        uint8_t createXPosCmd (void) const
         {
             uint8_t command = (static_cast<uint8_t>(EControl::eStart) +
                                static_cast<uint8_t>(EControl::eA2)    +
@@ -68,7 +68,7 @@ class TouchHw final : public Touch<TouchHw>
             return command;
         }
 
-        constexpr uint8_t createYPosCmd (void)
+        uint8_t createYPosCmd (void) const
         {
             uint8_t command = (static_cast<uint8_t>(EControl::eStart) +
                                static_cast<uint8_t>(EControl::eA0)    +

@@ -17,7 +17,7 @@ class BaseWindow
     public:
         static constexpr char * MODULE = (char *)"BaseWindow";
  
-        BaseWindow (Display<DisplayHw> & v_display, Keyboard & v_keyboard) : display (v_display), keyboard (v_keyboard) {}
+        constexpr BaseWindow (Display<DisplayHw> & v_display, Keyboard & v_keyboard) : display (v_display), keyboard (v_keyboard) {}
         ~BaseWindow () = default;
 		
 		void Process (void);

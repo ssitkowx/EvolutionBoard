@@ -30,7 +30,7 @@
 class LoggerHw : public Logger
 {
     private:
-        std::string getFontColor (ELogLevel v_eLogLevel)
+        std::string getFontColor (const ELogLevel v_eLogLevel)
         {
             switch (v_eLogLevel)
             {

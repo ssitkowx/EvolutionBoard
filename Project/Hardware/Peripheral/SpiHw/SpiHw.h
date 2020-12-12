@@ -74,26 +74,7 @@ class SpiHw : public Spi<SpiHw>
             memcpy (&data [THIRD_BYTE], v_data, DATA_LEN);
             Send   (&data [FIRST_BYTE], DATA_LEN);
         }
-/*
-        uint32_t lcd_get_id(spi_device_handle_t spi, uint8_t v_cmd)
-        {
-            //get_id cmd
-            //lcd_cmd(spi, 0x04);
-            //lcd_cmd (spi, v_cmd);
 
-            spi_transaction_t t;
-            memset(&t, 0, sizeof(t));
-            t.length=8;
-            t.flags = SPI_TRANS_USE_RXDATA;
-            t.user = (void*)1;
-
-            esp_err_t ret = spi_device_polling_transmit(spi, &t);
-            assert( ret == ESP_OK );
-
-            //return *(uint32_t*)t.rx_data;
-            return *(uint8_t *)t.rx_data;
-        }
-*/
     private:
         spi_device_handle_t * handle;
 };

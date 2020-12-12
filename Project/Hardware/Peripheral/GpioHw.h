@@ -64,7 +64,21 @@ class GpioHw final: public Gpio<GpioHw>
         bool        ReadPinLevel    (const uint16_t v_num);
 
     private:
-        gpio_mode_t getPinMode      (const EPinMode v_eMode);
+        constexpr gpio_mode_t getPinMode (const EPinMode v_eMode)
+        {
+            switch (v_eMode)
+            {
+                case EPinMode::eDisable:       { return GPIO_MODE_DISABLE;         }
+                case EPinMode::eInput:         { return GPIO_MODE_INPUT;           }
+                case EPinMode::eOutput:        { return GPIO_MODE_OUTPUT;          }
+                case EPinMode::eOutputOd:      { return GPIO_MODE_OUTPUT_OD;       }
+                case EPinMode::eInputOutputOd: { return GPIO_MODE_INPUT_OUTPUT_OD; }
+                case EPinMode::eInputOutput:   { return GPIO_MODE_INPUT_OUTPUT;    }
+                default:                       { }
+            }
+
+            return GPIO_MODE_DISABLE;
+        }
 };
 
 ///////////////////////////////////////////////////////////////////////////////
