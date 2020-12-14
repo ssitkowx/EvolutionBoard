@@ -21,7 +21,7 @@ void BitmapHw::Redraw (const uint8_t v_id, const Rectangle::Coordinates & v_coor
         ((Coordinate.Y + Dimension.Height) >= v_coordinates.Y)
        )
     {
-        if (IsButton == true) { SystemEvents::GetInstance ().Add (v_id); }
+        if (IsButton == true) { SystemEvents::GetInstance ().CircBuf.Add (v_id); }
         display.DrawBitmap (*this);
     }
 }

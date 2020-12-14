@@ -12,7 +12,7 @@
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class WeatherMeasureMsgType_t final
+class WeatherMeasureMsgType_t final    // todo convenient in use but uneffective dynamic std::vector and std::string
 {
     public:
         struct

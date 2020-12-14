@@ -113,45 +113,44 @@ extern "C"
 
     void DisplayAndTouchProcess (void * v_params)
     {
-        GpioHw   gpioHw;
-        SpiLcdHw spiLcdHw (gpioHw);
-        ILI9341  ili9341  (spiLcdHw);
+        GpioHw                               gpioHw;
+        SpiLcdHw                             spiLcdHw (gpioHw);
+        ILI9341                              ili9341  (spiLcdHw);
 
-        const DisplayHw::Config_t displayConfig       = { Settings::GetInstance ().Lcd.LinesPerTransfer,    // Dimension.Width,
-                                                          Settings::GetInstance ().Lcd.Width,               // Dimension.Height
-                                                          Settings::GetInstance ().Lcd.Height               // LinesPerTransfer
-                                                        };
+        const DisplayHw::Config_t            displayConfig          = { Settings::GetInstance ().Lcd.LinesPerTransfer,    // Dimension.Width,
+                                                                        Settings::GetInstance ().Lcd.Width,               // Dimension.Height
+                                                                        Settings::GetInstance ().Lcd.Height               // LinesPerTransfer
+                                                                      };
 
-        DisplayHw displayHw (displayConfig, ili9341);
+        DisplayHw                            displayHw (displayConfig, ili9341);
 
-        const Touch<TouchHw>::Config touchConfig      = { TWO,                                              // Histeresis
-                                                          FOUR,                                             // Time.PressedMax, InterruptInSeconds * PressedMax
-                                                          EIGHT                                             // Time.ReleasedMax
-                                                        };
+        const Touch<TouchHw>::Config         touchConfig            = { TWO,                                              // Histeresis
+                                                                        FOUR,                                             // Time.PressedMax, InterruptInSeconds * PressedMax
+                                                                        EIGHT                                             // Time.ReleasedMax
+                                                                      };
 
-        const TouchHw::Coefficients touchCoefficients = { ONE_HUNDRED_TWENTY_EIGHT,                         // Constant
-                                                          TWO,                                              // Width
-                                                          2.68                                              // Length
-                                                        };
+        const TouchHw::Coefficients          touchCoefficients      = { ONE_HUNDRED_TWENTY_EIGHT,                         // Constant
+                                                                        TWO,                                              // Width
+                                                                        2.68                                              // Length
+                                                                      };
 
-        const TimerHw::Config       timerTouchConfig  = { SIXTEEN,                                          // Divider
-                                                          0.01,                                             // InterruptInSec
-                                                          Timer<TimerHw>::ETimer::e0                        // eTimer
-                                                        };
+        const TimerHw::Config                timerTouchConfig       = { SIXTEEN,                                          // Divider
+                                                                        0.01,                                             // InterruptInSec
+                                                                        Timer<TimerHw>::ETimer::e0                        // eTimer
+                                                                      };
 
-        TimerHw timerHw (timerTouchConfig);
+        TimerHw                              timerHw (timerTouchConfig);
+        SpiTouchHw                           spiTouchHw;
+        TouchHw                              touchHw (touchCoefficients, touchConfig, spiTouchHw);
 
-        SpiTouchHw spiTouchHw;
-        TouchHw touchHw (touchCoefficients, touchConfig, spiTouchHw);
+        const NumericKeyboard::Configuration keyboardConfig         = { FIVE,                                             // BitmapSpacing.X
+                                                                        FIVE,                                             // BitmapSpacing.Y
+                                                                        FORTY,                                            // KeyboardStart.X
+                                                                        ONE_HUNDRED_FIFTY                                 // KeyboardStart.Y
+                                                                      };
 
-        const NumericKeyboard::Configuration keyboardConfig = { FIVE,                                       // BitmapSpacing.X
-                                                                FIVE,                                       // BitmapSpacing.Y
-                                                                FORTY,                                      // KeyboardStart.X
-                                                                ONE_HUNDRED_FIFTY                           // KeyboardStart.Y
-                                                              };
-
-        NumericKeyboard      numericKeyboard      (keyboardConfig, displayHw, touchHw);
-        PresentationActivity presentationActivity (displayHw, numericKeyboard);
+        NumericKeyboard                      numericKeyboard      (keyboardConfig, displayHw, touchHw);
+        PresentationActivity                 presentationActivity (displayHw, numericKeyboard);
 
         while (true)
         {

@@ -1,32 +1,68 @@
-#pragma once 
+#pragma once
+
+///////////////////////////////////////////////////////////////////////////////
+/////////////////////////// MACROS/DEFINITIONS ////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+#define SYSTEM_EVENTS_QUEUE_LEN 6
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <queue>
+#include "Utils.h"
 #include <stdint.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class SystemEvents final
+template <class DATA_TYPE, uint16_t LEN>
+class CircularBuffer
 {
-	public:
-        void     Add     (uint16_t v_eventId);
-        bool     IsEmpty (void);
-        uint16_t Remove  (void);
-		
-		static SystemEvents & GetInstance (void)
-		{
-			static SystemEvents instance;
-			return instance;
-		}
-		
-	private:
-	    std::queue <uint16_t> queue;
-	    SystemEvents () = default;
+    public:
+        CircularBuffer () = default;
+        ~CircularBuffer () = default;
+
+        void Add (DATA_TYPE v_data)
+        {
+            buffer [begin++] = v_data;
+            if (begin == LEN) { begin = ZERO; }
+        }
+
+        DATA_TYPE Remove (void)
+        {
+            DATA_TYPE data = buffer [end];
+            buffer [end++] = ZERO;
+
+            if (end == LEN) { end = ZERO; }
+
+            return data;
+        }
+
+        bool IsEmpty (void) { return (begin == end) ? true : false; }
+
+    private:
+        DATA_TYPE begin        = ZERO;
+        DATA_TYPE end          = ZERO;
+        DATA_TYPE buffer [LEN] = { ZERO };
+};
+
+
+class SystemEvents
+{
+    public:
+        CircularBuffer <uint8_t, SYSTEM_EVENTS_QUEUE_LEN> CircBuf;
+
+        static SystemEvents & GetInstance (void)
+        {
+            static SystemEvents instance;
+            return instance;
+        }
+
+    private:
+        SystemEvents () = default;
+        ~SystemEvents () = default;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -14,9 +14,9 @@ void PresentationActivity::Process (void)
 {
     keyboard.Process ();
 
-    if (SystemEvents::GetInstance ().IsEmpty () == false)
+    if (SystemEvents::GetInstance ().CircBuf.IsEmpty () == false)
     {
-        uint16_t eventId = SystemEvents::GetInstance ().Remove ();
+        uint16_t eventId = SystemEvents::GetInstance ().CircBuf.Remove ();
         LOGD (MODULE, "EventId: %d", eventId);
     }
 }

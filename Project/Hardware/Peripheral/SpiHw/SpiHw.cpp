@@ -12,7 +12,7 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-static uint8_t getFlag (SpiHw::EFlag v_flag)
+static uint8_t getFlag (const SpiHw::EFlag v_flag)
 {
     if (v_flag == SpiHw::EFlag::eDummy) { return ZERO; }
     return static_cast<uint8_t> (v_flag);
@@ -25,8 +25,8 @@ void SpiHw::Send (const uint8_t * const v_data, const uint16_t v_len)
     spi_transaction_t transaction = { };
     memset (&transaction, ZERO, sizeof (transaction));
 
-    uint8_t flags = getFlag (static_cast<SpiHw::EFlag>(v_data [FIRST_BYTE]));
-    uint8_t user  = v_data [SECOND_BYTE];
+    const uint8_t flags = getFlag (static_cast<SpiHw::EFlag>(v_data [FIRST_BYTE]));
+    const uint8_t user  = v_data [SECOND_BYTE];
 
     transaction.flags  = flags;
     transaction.user   = reinterpret_cast<void *>(user);
@@ -44,7 +44,7 @@ void SpiHw::Send (const uint8_t * const v_data, const uint16_t v_len)
     }
     else { transaction.tx_buffer = &v_data [THIRD_BYTE]; }
 
-    esp_err_t status = spi_device_polling_transmit (*handle, &transaction);
+    const esp_err_t status = spi_device_polling_transmit (*handle, &transaction);
     assert (status == ESP_OK);
 }
 
@@ -60,7 +60,7 @@ void SpiHw::Send (const uint16_t * const v_data, const uint16_t v_len)
     transaction.length    = v_len * EIGHT_BITS;
     transaction.tx_buffer = &v_data [ZERO];
 
-    esp_err_t status = spi_device_polling_transmit (*handle, &transaction);
+    const esp_err_t status = spi_device_polling_transmit (*handle, &transaction);
     assert (status == ESP_OK);
 }
 
@@ -73,7 +73,7 @@ uint16_t SpiHw::Receive (uint8_t * v_data)
     transaction.user   = reinterpret_cast<void *>(v_data [SECOND_BYTE]);
     transaction.length = v_data [THIRD_BYTE] * EIGHT_BITS;
 
-    esp_err_t status = spi_device_polling_transmit (*handle, &transaction);
+    const esp_err_t status = spi_device_polling_transmit (*handle, &transaction);
     assert (status == ESP_OK);
 
     v_data [FOURTH_BYTE] = transaction.rx_data [FIRST_BYTE];
@@ -82,10 +82,10 @@ uint16_t SpiHw::Receive (uint8_t * v_data)
 
 void SpiHw::SendCommand (const SpiHw::EFlag v_flag, const SpiHw::EMode v_mode, const uint8_t v_cmd)
 {
-    uint8_t cmd [] = { static_cast<uint8_t> (v_flag),
-                       static_cast<uint8_t> (v_mode),
-                       v_cmd
-                     };
+    const uint8_t cmd [] = { static_cast<uint8_t> (v_flag),
+                             static_cast<uint8_t> (v_mode),
+                             v_cmd
+                           };
 
     Send (&cmd [FIRST_BYTE], ONE);
 }

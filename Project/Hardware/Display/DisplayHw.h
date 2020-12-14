@@ -28,7 +28,7 @@ class DisplayHw final : public Display<DisplayHw>
 
     protected:
         void    sendLines  (const Bitmap & v_bitmap);
-
+/*
         // https://www.rapidtables.com/web/color/RGB_Color.html
         // might be unused
         constexpr uint8_t getColor (const EColors v_eColor)
@@ -56,7 +56,7 @@ class DisplayHw final : public Display<DisplayHw>
                 default               : { return 0xFF; }
             };
         }
-
+*/
     private:
         ILI9341 & ili9341;
 };

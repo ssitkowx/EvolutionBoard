@@ -17,7 +17,6 @@ SET (PackageSourcePaths main.c
                         NumericKeyboard/NumericKeyboard.cpp
                         Protocols/HttpClient/HttpClientHw.cpp
                         ../Logic/Settings/Settings.cpp
-                        ../Logic/NoCopyableAndNoMovable.cpp
                         ../Logic/Communication/Json/Json.cpp
                         ../Logic/SystemEvents/SystemEvents.cpp
                         ../Logic/Activities/PresentationActivity.cpp

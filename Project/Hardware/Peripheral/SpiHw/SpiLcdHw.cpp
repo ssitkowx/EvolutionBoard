@@ -22,7 +22,7 @@ spi_device_handle_t SpiLcdHw::handle;
 
 static void beforeTransfer (spi_transaction_t * v_transaction)
 {
-    int dcPin = (int)v_transaction->user;
+    const int dcPin = (int)v_transaction->user;
     gpio_set_level (static_cast<gpio_num_t>(GpioHw::ELcd::eDc), dcPin);
 }
 

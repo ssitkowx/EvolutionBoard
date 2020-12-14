@@ -44,12 +44,12 @@ class SpiHw : public Spi<SpiHw>
             uint8_t Data [DATA_LEN];
         };
 
-        explicit SpiHw         (spi_device_handle_t * v_handle) : handle (v_handle) { }
+        explicit SpiHw       (spi_device_handle_t * v_handle) : handle (v_handle) { }
 
-        void     Send          (const uint8_t  * const v_data, const uint16_t v_len);
-        void     Send          (const uint16_t * const v_data, const uint16_t v_len);
-        uint16_t Receive       (uint8_t        *       v_data);
-        void     SendCommand   (const SpiHw::EFlag     v_flag, const SpiHw::EMode v_mode, const uint8_t v_cmd);
+        void     Send        (const uint8_t  * const v_data, const uint16_t v_len);
+        void     Send        (const uint16_t * const v_data, const uint16_t v_len);
+        uint16_t Receive     (uint8_t        *       v_data);
+        void     SendCommand (const SpiHw::EFlag     v_flag, const SpiHw::EMode v_mode, const uint8_t v_cmd);
 
         template <uint8_t DATA_LEN>
         void ReceiveData (const SpiHw::EFlag v_flag, const SpiHw::EMode v_mode, uint8_t v_data [])
