@@ -17,7 +17,7 @@ void HttpClientHw::Cleanup (void)
 bool HttpClientHw::Init (void)
 {
     esp_http_client_config_t config = { };
-    config.url            = Settings::GetInstance ().WeatherMeasure.Endpoint.c_str ();
+    config.url            = static_cast<std::string>(Settings::GetInstance ().WeatherMeasure.Endpoint).c_str ();
     config.transport_type = HTTP_TRANSPORT_OVER_SSL;
 
     client = esp_http_client_init (&config);
@@ -70,9 +70,9 @@ void HttpClientHw::setMethod (EMethod v_method)
     esp_http_client_set_method (client, static_cast <esp_http_client_method_t> (v_method));
 }
 
-void HttpClientHw::setHeader (std::string v_key, std::string v_value)
+void HttpClientHw::setHeader (std::string_view v_key, std::string_view v_value)
 {
-    esp_http_client_set_header (client, v_key.data (), v_value.c_str ());
+    esp_http_client_set_header (client, static_cast<std::string>(v_key).c_str(), static_cast<std::string>(v_value).c_str());
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -43,19 +43,19 @@ class HttpClient
         HttpClient ();
         virtual ~HttpClient () = default;
 
-        virtual void Cleanup          (void)                                   = 0;
-        virtual bool Init             (void)                                   = 0;
-        virtual int  GetStatusCode    (void)                                   = 0;
-        virtual int  GetContentLength (void)                                   = 0;
-        virtual int  Open             (uint16_t v_len)                         = 0;
-        virtual int  FetchHeaders     (void)                                   = 0;
-        virtual int  Perform          (void)                                   = 0;
-        virtual int  Read             (char * v_payload, uint16_t v_len)       = 0;
-        virtual void SetPostField     (const char * v_body, int v_len)         = 0;
+        virtual void Cleanup          (void)                                             = 0;
+        virtual bool Init             (void)                                             = 0;
+        virtual int  GetStatusCode    (void)                                             = 0;
+        virtual int  GetContentLength (void)                                             = 0;
+        virtual int  Open             (uint16_t v_len)                                   = 0;
+        virtual int  FetchHeaders     (void)                                             = 0;
+        virtual int  Perform          (void)                                             = 0;
+        virtual int  Read             (char * v_payload, uint16_t v_len)                 = 0;
+        virtual void SetPostField     (const char * v_body, int v_len)                   = 0;
         
     protected:
-        virtual void setMethod        (EMethod v_method)                       = 0;
-        virtual void setHeader        (std::string v_key, std::string v_value) = 0;
+        virtual void setMethod        (EMethod v_method)                                 = 0;
+        virtual void setHeader        (std::string_view v_key, std::string_view v_value) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

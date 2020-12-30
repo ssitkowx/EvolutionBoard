@@ -21,6 +21,7 @@ NumericKeyboard::NumericKeyboard (Configuration v_config, Display<DisplayHw> & v
     // register first row
     uint16_t xPos = config.KeyboardStart.X;
     uint16_t yPos = config.KeyboardStart.Y;
+
     BitmapHw & keyNum0UpBitmap = Create <BitmapHw::EId::eKeyNum0Up> (KeyNum0Up, xPos, yPos);
     Create <BitmapHw::EId::eKeyNum0Down> (KeyNum0Down, xPos, yPos);
 
@@ -59,6 +60,7 @@ NumericKeyboard::NumericKeyboard (Configuration v_config, Display<DisplayHw> & v
     xPos += keyNum0UpBitmap.Dimension.Width + config.BitmapSpacing.X;
     BitmapHw & keyNum8UpBitmap = Create <BitmapHw::EId::eKeyNum8Up> (KeyNum8Up, xPos, yPos);
     Create <BitmapHw::EId::eKeyNum8Down> (KeyNum8Down, xPos, yPos);
+
 /*
     // draw background
     xPos -= FOUR * config.BitmapSpacing.X;
@@ -88,8 +90,7 @@ NumericKeyboard::NumericKeyboard (Configuration v_config, Display<DisplayHw> & v
 
 void NumericKeyboard::Process (void)
 {
-    // Need hardware fix, this is working too often
-    Touch<TouchHw>::EState eState = touch.Event ();    // since now its not logic anymore. Move to hardware todo
+    Touch<TouchHw>::EState eState = touch.Event ();
     static Rectangle::Coordinates coordinates;
     if (eState == Touch<TouchHw>::EState::ePressed)
     {
@@ -117,10 +118,7 @@ void NumericKeyboard::Process (void)
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum7Up), coordinates);
         Redraw (static_cast <uint8_t> (BitmapHw::EId::eKeyNum8Up), coordinates);
     }
-    else
-    {
-
-    }
+    else { }
 }
 
 NumericKeyboard::~NumericKeyboard () { unregisterBitmaps (); }

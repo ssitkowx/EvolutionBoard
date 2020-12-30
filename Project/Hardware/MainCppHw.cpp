@@ -90,9 +90,9 @@ extern "C"
         HttpClientHw          httpClientHw;
         WeatherMeasureParser  weatherMeasureParser;
         WeatherMeasureComm    weatherMeasureComm (httpClientHw, weatherMeasureParser);
-        const TimerHw::Config timerWeatherMeasureConfig = { SIXTEEN,                      // Divider
-                                                            TWENTY,                       // InterruptInSec
-                                                            Timer<TimerHw>::ETimer::e1    // eTimer,
+        const TimerHw::Config timerWeatherMeasureConfig = { Divider        : SIXTEEN,
+                                                            InterruptInSec : TWENTY,
+                                                            eTimer         : Timer<TimerHw>::ETimer::e1
                                                           };
 
         TimerHw timerWeatherMeasureHw (timerWeatherMeasureConfig);
@@ -117,36 +117,41 @@ extern "C"
         SpiLcdHw                             spiLcdHw (gpioHw);
         ILI9341                              ili9341  (spiLcdHw);
 
-        const DisplayHw::Config_t            displayConfig          = { Settings::GetInstance ().Lcd.LinesPerTransfer,    // Dimension.Width,
-                                                                        Settings::GetInstance ().Lcd.Width,               // Dimension.Height
-                                                                        Settings::GetInstance ().Lcd.Height               // LinesPerTransfer
+        const DisplayHw::Config_t            displayConfig          = { LinesPerTransfer :   Settings::GetInstance ().Lcd.LinesPerTransfer,
+                                                                        Dimension        : { Settings::GetInstance ().Lcd.Width,
+                                                                                             Settings::GetInstance ().Lcd.Height
+                                                                                           }
                                                                       };
 
         DisplayHw                            displayHw (displayConfig, ili9341);
 
-        const Touch<TouchHw>::Config         touchConfig            = { TWO,                                              // Histeresis
-                                                                        FOUR,                                             // Time.PressedMax, InterruptInSeconds * PressedMax
-                                                                        EIGHT                                             // Time.ReleasedMax
+        const Touch<TouchHw>::Config         touchConfig            = { Histeresis       :   TWO,
+                                                                        Time             : { FOUR,              // PressedMax, InterruptInSeconds * PressedMax
+                                                                                             EIGHT              // ReleasedMax
+                                                                                           }
                                                                       };
 
-        const TouchHw::Coefficients          touchCoefficients      = { ONE_HUNDRED_TWENTY_EIGHT,                         // Constant
-                                                                        TWO,                                              // Width
-                                                                        2.68                                              // Length
+        const TouchHw::Coefficients          touchCoefficients      = { Constant         : ONE_HUNDRED_TWENTY_EIGHT,
+                                                                        Width            : TWO,
+                                                                        Length           : 2.68
                                                                       };
 
-        const TimerHw::Config                timerTouchConfig       = { SIXTEEN,                                          // Divider
-                                                                        0.01,                                             // InterruptInSec
-                                                                        Timer<TimerHw>::ETimer::e0                        // eTimer
+        const TimerHw::Config                timerTouchConfig       = { Divider          : SIXTEEN,
+                                                                        InterruptInSec   : 0.01,
+                                                                        eTimer           : Timer<TimerHw>::ETimer::e0
                                                                       };
 
         TimerHw                              timerHw (timerTouchConfig);
         SpiTouchHw                           spiTouchHw;
         TouchHw                              touchHw (touchCoefficients, touchConfig, spiTouchHw);
 
-        const NumericKeyboard::Configuration keyboardConfig         = { FIVE,                                             // BitmapSpacing.X
-                                                                        FIVE,                                             // BitmapSpacing.Y
-                                                                        FORTY,                                            // KeyboardStart.X
-                                                                        ONE_HUNDRED_FIFTY                                 // KeyboardStart.Y
+        const NumericKeyboard::Configuration keyboardConfig         = { BitmapSpacing    : { FIVE,              // X
+                                                                                             FIVE,              // Y
+                                                                                           },
+                                                                        KeyboardStart    : {
+                                                                                             SEVENTY,           // X
+                                                                                             TWO_HUNDRED_TEN    // Y
+                                                                                           }
                                                                       };
 
         NumericKeyboard                      numericKeyboard      (keyboardConfig, displayHw, touchHw);

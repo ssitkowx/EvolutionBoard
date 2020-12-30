@@ -21,7 +21,8 @@
 
 WiFiHw::WiFiHw ()
 {
-    setStationSettings (Settings::GetInstance ().WiFi.Station.Ssid, Settings::GetInstance ().WiFi.Station.Password);
+    setStationSettings (static_cast <std::string>(Settings::GetInstance ().WiFi.Station.Ssid),
+                        static_cast <std::string>(Settings::GetInstance ().WiFi.Station.Password));
     initStation        ();
     start              ();
 }

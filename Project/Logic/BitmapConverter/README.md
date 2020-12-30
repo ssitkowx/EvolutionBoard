@@ -30,7 +30,7 @@ Before executing the script, you should:
 for example:
 1. go to folder BitmapConverter,
 2. open git bash console,
-3. execute C:\Users\sitko\AppData\Local\Programs\Python\Python38-32\python.exe BitmapConverter.py,
+3. execute C:\\Users\\sitko\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe BitmapConverter.py,
 4. go to the image location to check the generated files.
 
 The script also displays the found bitmaps and the converted files.
