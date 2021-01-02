@@ -47,7 +47,6 @@ void ILI9341::SendLines (const Bitmap & v_bitmap)
 
     sendMemoryWrite      (SpiLcdHw::EFlag::eTxData);
     spiLcdHw.Send        (v_bitmap.Data, v_bitmap.Dimension.Width * v_bitmap.Dimension.Height * sizeof (uint16_t));
-
 }
 
 

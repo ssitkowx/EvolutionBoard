@@ -2,6 +2,7 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include "Font.h"
 #include "Utils.h"
 #include "RtosHw.h"
 #include <stdint.h>
@@ -13,6 +14,7 @@
 #include "Settings.h"
 #include "LoggerHw.h"
 #include "BitmapHw.h"
+#include "Resources.h"
 #include "DisplayHw.h"
 #include "SystemTimeHw.h"
 #include "HttpClientHw.h"
@@ -58,13 +60,13 @@ extern "C"
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eAboveNormal),
                                           BluetoothTaskHandle);
 */
-/*
+
         Rtos::GetInstance ()->TaskCreate (WeatherMeasureProcess,
                                           "WeatherMeasureProcess",
                                           EIGHT_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eBelowHigh),
                                           WeatherMeasureTaskHandle);
-*/
+
         Rtos::GetInstance ()->TaskCreate (DisplayAndTouchProcess,
                                           "DisplayAndTouchProcess",
                                           THIRTY_THOUSAND_BYTES,
@@ -155,7 +157,9 @@ extern "C"
                                                                       };
 
         NumericKeyboard                      numericKeyboard      (keyboardConfig, displayHw, touchHw);
-        PresentationActivity                 presentationActivity (displayHw, numericKeyboard);
+        Font                                 font                 (displayHw);
+        Resources                            resources            (displayHw);
+        PresentationActivity                 presentationActivity (displayHw, numericKeyboard, font, resources);
 
         while (true)
         {

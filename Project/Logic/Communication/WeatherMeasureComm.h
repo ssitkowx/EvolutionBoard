@@ -26,21 +26,14 @@ class WeatherMeasureComm : public Communication<WeatherMeasureComm>
         HttpClient           &    http;
         WeatherMeasureParser &    weatherMeasureParser;
 
-        class Chunk
-        {
-            friend class WeatherMeasureComm;
-            private:
-                char * payload;
-                Chunk  (const uint16_t v_len) { payload = new char [v_len]; }
-                ~Chunk ()                     { delete [] payload;}
-        };
-
         void send     (void) {}
         void receive  (void);
         void clear    (cJSON * v_root, char * v_body);
 
     public:
-        WeatherMeasureComm (HttpClient & v_http, WeatherMeasureParser & v_weatherMeasureParser) : http (v_http), weatherMeasureParser (v_weatherMeasureParser) { }
+        explicit WeatherMeasureComm (HttpClient           & v_http,
+                                     WeatherMeasureParser & v_weatherMeasureParser) : http                 (v_http),
+                                                                                      weatherMeasureParser (v_weatherMeasureParser) { }
         ~WeatherMeasureComm () = default;
 };
 

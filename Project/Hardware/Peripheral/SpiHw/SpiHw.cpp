@@ -58,7 +58,7 @@ void SpiHw::Send (const uint16_t * const v_data, const uint16_t v_len)
     transaction.flags     = ZERO;
     transaction.user      = (void *)SpiHw::EMode::eData;
     transaction.length    = v_len * EIGHT_BITS;
-    transaction.tx_buffer = &v_data [ZERO];
+    transaction.tx_buffer = &v_data [FIRST_BYTE];
 
     const esp_err_t status = spi_device_polling_transmit (*handle, &transaction);
     assert (status == ESP_OK);

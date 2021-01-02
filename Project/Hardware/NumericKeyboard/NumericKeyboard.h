@@ -14,10 +14,34 @@
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class NumericKeyboard : public Keyboard
+class NumericKeyboard final : public Keyboard
 {
     public:
         static constexpr char * MODULE = (char *)"NumericKeyboard";
+
+        enum class EId : uint8_t
+        {
+            eKeyNum0Up,
+            eKeyNum0Down,
+            eKeyNum1Up,
+            eKeyNum1Down,
+            eKeyNum2Up,
+            eKeyNum2Down,
+            eKeyNum3Up,
+            eKeyNum3Down,
+            eKeyNum4Up,
+            eKeyNum4Down,
+            eKeyNum5Up,
+            eKeyNum5Down,
+            eKeyNum6Up,
+            eKeyNum6Down,
+            eKeyNum7Up,
+            eKeyNum7Down,
+            eKeyNum8Up,
+            eKeyNum8Down,
+            eKeyNum9Up,
+            eKeyNum9Down
+        };
 
         struct Configuration
         {
@@ -30,14 +54,21 @@ class NumericKeyboard : public Keyboard
             Rectangle::Coordinates KeyboardStart;
         } config;
 
-        explicit NumericKeyboard (Configuration v_config, Display<DisplayHw> & v_display, Touch<TouchHw> & v_touch);
+        explicit NumericKeyboard (Configuration        v_config,
+                                  Display<DisplayHw> & v_display,
+                                  Touch<TouchHw>     & v_touch);
 
-        template <const BitmapHw::EId ID>
-        BitmapHw & Create (const uint16_t * v_data, const uint16_t v_xPos, const uint16_t v_yPos)
+        void     Process         (void) override;
+
+        ~NumericKeyboard ();
+
+    private:
+        template <const EId ID>
+        BitmapHw & create (const uint16_t * v_data, const uint16_t v_xPos = ZERO, const uint16_t v_yPos = ZERO, bool v_isButton = false)
         {
             static BitmapHw bitmap (display);
             bitmap.Id               = static_cast <uint8_t> (ID);
-            bitmap.IsButton         = true;
+            bitmap.IsButton         = v_isButton;
             bitmap.Coordinate.X     = v_xPos;
             bitmap.Coordinate.Y     = v_yPos;
             bitmap.Dimension.Width  = v_data  [FIRST_BYTE];
@@ -47,11 +78,6 @@ class NumericKeyboard : public Keyboard
             return bitmap;
         }
 
-        void Process (void) override;
-
-        ~NumericKeyboard ();
-
-    private:
         Display<DisplayHw> & display;
         Touch<TouchHw>     & touch;
 };

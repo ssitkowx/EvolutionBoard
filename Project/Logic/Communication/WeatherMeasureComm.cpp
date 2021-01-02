@@ -46,8 +46,8 @@ void WeatherMeasureComm::receive (void)
         return;
     }
 
-    Chunk recvData (recvDataMaxLen);
-    int readLen = http.Read (recvData.payload, recvDataMaxLen);
+    auto payload = std::make_shared <char []> (recvDataMaxLen);
+    int readLen = http.Read (payload.get (), recvDataMaxLen);
     if (readLen < ZERO)
     {
         LOGE (MODULE, "Can't read response.");
@@ -55,7 +55,7 @@ void WeatherMeasureComm::receive (void)
         return;
     }
 
-    root = cJSON_Parse         (recvData.payload);
+    root = cJSON_Parse         (payload.get());
     weatherMeasureParser.Parse (root);
     body = cJSON_Print         (root);
     LOGI                       (MODULE, "Json:                  %s.", body);
