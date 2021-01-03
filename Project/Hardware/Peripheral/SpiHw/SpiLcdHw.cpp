@@ -35,10 +35,10 @@ SpiLcdHw::SpiLcdHw (Gpio<GpioHw> & v_gpio) : SpiHw (&handle), gpio (v_gpio)
     gpio.SetPinDirection (static_cast<uint16_t> (GpioHw::ELcd::eRst), static_cast<uint16_t> (GpioHw::EPinMode::eOutput));
 
     //Reset the display
-    gpio.SetPinLevel  (static_cast<uint16_t> (GpioHw::ELcd::eRst), false);
-    Rtos::GetInstance ()->DelayInMs (ONE_HUNDRED);
-    gpio.SetPinLevel  (static_cast<uint16_t> (GpioHw::ELcd::eRst), true);
-    Rtos::GetInstance ()->DelayInMs (ONE_HUNDRED);
+    gpio.SetPinLevel     (static_cast<uint16_t> (GpioHw::ELcd::eRst), false);
+    Rtos::GetInstance    ()->DelayInMs (ONE_HUNDRED);
+    gpio.SetPinLevel     (static_cast<uint16_t> (GpioHw::ELcd::eRst), true);
+    Rtos::GetInstance    ()->DelayInMs (ONE_HUNDRED);
 
     static spi_bus_config_t busConfig;
     busConfig.miso_io_num       = static_cast<int> (GpioHw::ELcd::eSdi);

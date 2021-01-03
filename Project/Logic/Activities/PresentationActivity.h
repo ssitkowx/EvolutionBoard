@@ -8,8 +8,7 @@
 #include "Font.h"
 #include "Keyboard.h"
 #include "Resources.h"
-#include "DisplayHw.h"
-#include "PresentationActivity.h"
+#include "DraftsmanHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
@@ -20,20 +19,18 @@ class PresentationActivity
     public:
         static constexpr char * MODULE = (char *)"PresentationActivity";
 
-        explicit PresentationActivity (Display<DisplayHw> & v_display,
-                                       Keyboard           & v_keyboard,
-                                       Font               & v_font,
-                                       Resources          & v_resources);
+        explicit PresentationActivity (Draftsman<DraftsmanHw> & v_display,
+                                       Keyboard               & v_keyboard,
+                                       Resources              & v_resources);
 
         ~PresentationActivity () = default;
 		
 		void Process (void);
 
     private:
-        Display<DisplayHw> & display;
-        Keyboard           & keyboard;
-        Font               & font;
-        Resources          & resources;
+		Draftsman<DraftsmanHw> & draftsman;
+        Keyboard               & keyboard;
+        Resources              & resources;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

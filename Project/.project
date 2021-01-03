@@ -24,9 +24,9 @@
 			<location>C:/Users/sitko/.conan/download/Bitmap/Project</location>
 		</link>
 		<link>
-			<name>Logic/Display</name>
+			<name>Logic/Draftsman</name>
 			<type>2</type>
-			<location>C:/Users/sitko/.conan/download/Display/Project</location>
+			<location>C:/Users/sitko/.conan/download/Draftsman/Project</location>
 		</link>
 		<link>
 			<name>Logic/Flash</name>

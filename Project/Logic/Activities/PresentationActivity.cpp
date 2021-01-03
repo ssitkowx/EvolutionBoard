@@ -2,7 +2,9 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "BitmapHw.h"
+#include "Bitmap.h"
+#include "Resources.h"
+#include "DraftsmanHw.h"
 #include "SystemEvents.h"
 #include "PresentationActivity.h"
 
@@ -10,14 +12,14 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-PresentationActivity::PresentationActivity (Display<DisplayHw> & v_display,
-                                            Keyboard           & v_keyboard,
-                                            Font               & v_font,
-                                            Resources          & v_resources) : display   (v_display),
-                                                                                keyboard  (v_keyboard),
-                                                                                font      (v_font),
-                                                                                resources (v_resources)
+PresentationActivity::PresentationActivity (Draftsman<DraftsmanHw> & v_draftsman,
+                                            Keyboard               & v_keyboard,
+                                            Resources              & v_resources) : draftsman (v_draftsman),
+                                                                                    keyboard  (v_keyboard),
+                                                                                    resources (v_resources)
 {
+    Bitmap & bitmap = resources [Resources::EId::eBackground];
+    draftsman.DrawBitmap (bitmap);
     v_keyboard.Redraw ();
 }
 

@@ -28,7 +28,7 @@ class Conan(ConanFile):
                        "SystemTime/1.0@ssitkowx/stable",
                        "Timer/1.0@ssitkowx/stable",
                        "WiFi/1.0@ssitkowx/stable",
-                       "Display/1.0@ssitkowx/stable",
+                       "Draftsman/1.0@ssitkowx/stable",
                        "Utils/1.0@ssitkowx/stable",
                        "Touch/1.0@ssitkowx/stable",
                        "Logger/1.0@ssitkowx/stable",

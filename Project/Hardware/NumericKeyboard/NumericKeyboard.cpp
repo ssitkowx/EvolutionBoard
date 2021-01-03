@@ -3,8 +3,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Utils.h"
+#include "Bitmap.h"
 #include "TouchHw.h"
-#include "BitmapHw.h"
+#include "DraftsmanHw.h"
+#include "SystemEvents.h"
 #include "KeyboardImages.h"
 #include "NumericKeyboard.h"
 
@@ -12,11 +14,11 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-NumericKeyboard::NumericKeyboard (Configuration        v_config,
-                                  Display<DisplayHw> & v_display,
-                                  Touch<TouchHw>     & v_touch) : config  (v_config),
-                                                                  display (v_display),
-                                                                  touch   (v_touch)
+NumericKeyboard::NumericKeyboard (Configuration            v_config,
+                                  Draftsman<DraftsmanHw> & v_draftsman,
+                                  Touch<TouchHw>         & v_touch) : config    (v_config),
+                                                                      draftsman (v_draftsman),
+                                                                      touch     (v_touch)
 {
     LOG (MODULE, "Init.");
 
@@ -24,7 +26,7 @@ NumericKeyboard::NumericKeyboard (Configuration        v_config,
     uint16_t xPos = config.KeyboardStart.X;
     uint16_t yPos = config.KeyboardStart.Y;
 
-    BitmapHw & keyNum0DownBitmap = create <EId::eKeyNum0Down> (KeyNum0Down, xPos, yPos);
+    Bitmap & keyNum0DownBitmap = create <EId::eKeyNum0Down> (KeyNum0Down, xPos, yPos);
     create <EId::eKeyNum0Up> (KeyNum0Up, xPos, yPos);
 
     xPos += keyNum0DownBitmap.Dimension.Width + config.BitmapSpacing.X;
@@ -64,6 +66,8 @@ NumericKeyboard::NumericKeyboard (Configuration        v_config,
     create <EId::eKeyNum8Up>   (KeyNum8Up  , xPos, yPos);
 }
 
+NumericKeyboard::~NumericKeyboard () { unregisterBitmaps (); }
+
 void NumericKeyboard::Process (void)
 {
     static Rectangle::Coordinates coordinates;
@@ -98,7 +102,22 @@ void NumericKeyboard::Process (void)
     else { }
 }
 
-NumericKeyboard::~NumericKeyboard () { unregisterBitmaps (); }
+void NumericKeyboard::Redraw (void)
+{
+    for (auto & bitmap : Bitmaps) { draftsman.DrawBitmap (*bitmap); }
+}
+
+void NumericKeyboard::Redraw (const uint8_t v_id, const Rectangle::Coordinates & v_coordinates)
+{
+    for (auto & bitmap : Bitmaps)
+    {
+        if (Keyboard::Redraw (*bitmap, v_id, v_coordinates) == true)
+        {
+            if (bitmap->IsButton == true) { SystemEvents::GetInstance ().CircBuf.Add (v_id); }
+            draftsman.DrawBitmap (*bitmap);
+        }
+    }
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// END OF FILE ///////////////////////////////////

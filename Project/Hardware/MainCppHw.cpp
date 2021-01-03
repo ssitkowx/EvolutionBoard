@@ -2,7 +2,6 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Font.h"
 #include "Utils.h"
 #include "RtosHw.h"
 #include <stdint.h>
@@ -13,9 +12,8 @@
 #include "TouchHw.h"
 #include "Settings.h"
 #include "LoggerHw.h"
-#include "BitmapHw.h"
 #include "Resources.h"
-#include "DisplayHw.h"
+#include "DraftsmanHw.h"
 #include "SystemTimeHw.h"
 #include "HttpClientHw.h"
 #include "NumericKeyboard.h"
@@ -60,13 +58,13 @@ extern "C"
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eAboveNormal),
                                           BluetoothTaskHandle);
 */
-
+/*
         Rtos::GetInstance ()->TaskCreate (WeatherMeasureProcess,
                                           "WeatherMeasureProcess",
                                           EIGHT_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eBelowHigh),
                                           WeatherMeasureTaskHandle);
-
+*/
         Rtos::GetInstance ()->TaskCreate (DisplayAndTouchProcess,
                                           "DisplayAndTouchProcess",
                                           THIRTY_THOUSAND_BYTES,
@@ -118,14 +116,15 @@ extern "C"
         GpioHw                               gpioHw;
         SpiLcdHw                             spiLcdHw (gpioHw);
         ILI9341                              ili9341  (spiLcdHw);
+        SpiTouchHw                           spiTouchHw;
 
-        const DisplayHw::Config_t            displayConfig          = { LinesPerTransfer :   Settings::GetInstance ().Lcd.LinesPerTransfer,
+        const DraftsmanHw::Config_t          draftsmanConfig        = { LinesPerTransfer :   Settings::GetInstance ().Lcd.LinesPerTransfer,
                                                                         Dimension        : { Settings::GetInstance ().Lcd.Width,
                                                                                              Settings::GetInstance ().Lcd.Height
                                                                                            }
                                                                       };
 
-        DisplayHw                            displayHw (displayConfig, ili9341);
+        DraftsmanHw                          draftsmanHw (draftsmanConfig, ili9341);
 
         const Touch<TouchHw>::Config         touchConfig            = { Histeresis       :   TWO,
                                                                         Time             : { FOUR,              // PressedMax, InterruptInSeconds * PressedMax
@@ -144,7 +143,6 @@ extern "C"
                                                                       };
 
         TimerHw                              timerHw (timerTouchConfig);
-        SpiTouchHw                           spiTouchHw;
         TouchHw                              touchHw (touchCoefficients, touchConfig, spiTouchHw);
 
         const NumericKeyboard::Configuration keyboardConfig         = { BitmapSpacing    : { FIVE,              // X
@@ -156,10 +154,9 @@ extern "C"
                                                                                            }
                                                                       };
 
-        NumericKeyboard                      numericKeyboard      (keyboardConfig, displayHw, touchHw);
-        Font                                 font                 (displayHw);
-        Resources                            resources            (displayHw);
-        PresentationActivity                 presentationActivity (displayHw, numericKeyboard, font, resources);
+        NumericKeyboard                      numericKeyboard      (keyboardConfig, draftsmanHw, touchHw);
+        Resources                            resources;
+        PresentationActivity                 presentationActivity (draftsmanHw, numericKeyboard, resources);
 
         while (true)
         {

@@ -4,8 +4,8 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "BitmapHw.h"
-#include "DisplayHw.h"
+#include "Utils.h"
+#include "Bitmap.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
@@ -14,8 +14,6 @@
 class Font final
 {
     public:
-        explicit Font (Display<DisplayHw> & v_display);
-		
         enum class EId : uint8_t
         {
             eNum0 = '0',
@@ -82,17 +80,23 @@ class Font final
             eZx   = 'z',
         };
 
-        std::array <Bitmap *, TWO_HUNDRED_FIFTY_FIVE> font;
+        constexpr Bitmap & operator[] (EId v_eId)
+        {
+            return *font.at (static_cast<uint8_t>(v_eId));
+        }
+
+        Font ();
+        ~Font () = default;
 
     private:
-	    Display<DisplayHw> & display;
+        std::array <Bitmap *, TWO_HUNDRED_FIFTY_FIVE> font;
 
         template <const EId ID>
         void create (const uint16_t * v_data)
         {
             static_assert (!(static_cast<uint16_t>(ID) > TWO_HUNDRED_FIFTY_FIVE), "Font ID outside boundary: ID > 255");
 
-            static BitmapHw bitmap (display);
+            static Bitmap bitmap;
             bitmap.Id                          = static_cast <uint8_t> (ID);
             bitmap.IsButton                    = false;
             bitmap.Dimension.Width             = v_data  [FIRST_BYTE];

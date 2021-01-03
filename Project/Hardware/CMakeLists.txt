@@ -3,15 +3,14 @@ SET (PackageSourcePaths main.c
                         MainCppHw.cpp
                         Touch/TouchHw.cpp    
                         Resources/Font.cpp    
-                        Bitmap/BitmapHw.cpp
-                        Display/ILI9341.cpp
+                        Draftsman/ILI9341.cpp
                         Networking/WiFiHw.cpp
-                        Display/DisplayHw.cpp
                         Peripheral/RtosHw.cpp
                         Peripheral/GpioHw.cpp
                         Peripheral/FlashHw.cpp
                         Peripheral/TimerHw.cpp
-                        Resources/Resources.cpp 
+                        Resources/Resources.cpp
+                        Draftsman/DraftsmanHw.cpp
                         Peripheral/SpiHw/SpiHw.cpp
                         Peripheral/SystemTimeHw.cpp
                         Peripheral/SpiHw/SpiLcdHw.cpp
@@ -36,9 +35,9 @@ SET (PackageSourcePaths main.c
                         ${PackageIncludePaths}/Utils/Project/Utils.cpp
                         ${PackageIncludePaths}/Bitmap/Project/Bitmap.cpp
                         ${PackageIncludePaths}/Logger/Project/Logger.cpp
-                        ${PackageIncludePaths}/Display/Project/Display.cpp
                         ${PackageIncludePaths}/Keyboard/Project/Keyboard.cpp
                         ${PackageIncludePaths}/Rectangle/Project/Rectangle.cpp
+                        ${PackageIncludePaths}/Draftsman/Project/Draftsman.cpp
                         ${PackageIncludePaths}/SystemTime/Project/SystemTime.cpp
                         ${PackageIncludePaths}/Communication/Project/Communication.cpp
     )
@@ -48,8 +47,7 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              .
                              Touch
                              Logger
-                             Bitmap
-                             Display
+                             Draftsman
                              Resources
                              Peripheral
                              Networking
@@ -77,9 +75,9 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              ${PackageIncludePaths}/Utils/Project
                              ${PackageIncludePaths}/Bitmap/Project
                              ${PackageIncludePaths}/Logger/Project
-                             ${PackageIncludePaths}/Display/Project
                              ${PackageIncludePaths}/Keyboard/Project
                              ${PackageIncludePaths}/Rectangle/Project
+                             ${PackageIncludePaths}/Draftsman/Project
                              ${PackageIncludePaths}/SystemTime/Project
                              ${PackageIncludePaths}/Communication/Project
                              REQUIRES "nvs_flash" "esp_http_client" "json"

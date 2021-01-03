@@ -4,11 +4,12 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include "Utils.h"
+#include "Bitmap.h"
 #include "TouchHw.h"
-#include "BitmapHw.h"
 #include "Keyboard.h"
-#include "DisplayHw.h"
 #include "Rectangle.h"
+#include "DraftsmanHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
@@ -54,19 +55,21 @@ class NumericKeyboard final : public Keyboard
             Rectangle::Coordinates KeyboardStart;
         } config;
 
-        explicit NumericKeyboard (Configuration        v_config,
-                                  Display<DisplayHw> & v_display,
-                                  Touch<TouchHw>     & v_touch);
+        explicit NumericKeyboard (Configuration            v_config,
+                                  Draftsman<DraftsmanHw> & v_draftsman,
+                                  Touch<TouchHw>         & v_touch);
 
         void     Process         (void) override;
+        void     Redraw          (void) override;
+        void     Redraw          (const uint8_t v_id, const Rectangle::Coordinates & v_coordinates);
 
         ~NumericKeyboard ();
 
     private:
         template <const EId ID>
-        BitmapHw & create (const uint16_t * v_data, const uint16_t v_xPos = ZERO, const uint16_t v_yPos = ZERO, bool v_isButton = false)
+        Bitmap & create (const uint16_t * v_data, const uint16_t v_xPos = ZERO, const uint16_t v_yPos = ZERO, bool v_isButton = false)
         {
-            static BitmapHw bitmap (display);
+            static Bitmap bitmap;
             bitmap.Id               = static_cast <uint8_t> (ID);
             bitmap.IsButton         = v_isButton;
             bitmap.Coordinate.X     = v_xPos;
@@ -78,8 +81,8 @@ class NumericKeyboard final : public Keyboard
             return bitmap;
         }
 
-        Display<DisplayHw> & display;
-        Touch<TouchHw>     & touch;
+        Draftsman<DraftsmanHw> & draftsman;
+        Touch<TouchHw>         & touch;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

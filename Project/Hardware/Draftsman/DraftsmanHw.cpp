@@ -4,16 +4,16 @@
 
 #include "Bitmap.h"
 #include "Settings.h"
-#include "DisplayHw.h"
 #include "Rectangle.h"
+#include "DraftsmanHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-bool DisplayHw::DrawBitmap (Bitmap & v_bitmap)
+bool DraftsmanHw::DrawBitmap (Bitmap & v_bitmap)
 {
-    if (Display<DisplayHw>::DrawBitmap (v_bitmap) == false)
+    if (Draftsman<DraftsmanHw>::DrawBitmap (v_bitmap) == false)
     {
         LOGE (MODULE, "Rect out of display: xPos: %d, yPos: %d, Width: %d, Height: %d", v_bitmap.Coordinate.X, v_bitmap.Coordinate.Y, v_bitmap.Dimension.Width, v_bitmap.Dimension.Height);
         return false;
@@ -22,9 +22,14 @@ bool DisplayHw::DrawBitmap (Bitmap & v_bitmap)
     return true;
 }
 
-void DisplayHw::sendLines (const Bitmap & v_bitmap)
+bool DraftsmanHw::DrawText (std::string_view v_text, const Rectangle::Coordinates v_coordinate)
 {
-    ili9341.SendLines (v_bitmap);
+    for (uint8_t asci = ZERO; asci < v_text.size (); asci++)
+    {
+
+    }
+
+    return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

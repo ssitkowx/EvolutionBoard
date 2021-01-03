@@ -4,8 +4,9 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "BitmapHw.h"
-#include "DisplayHw.h"
+#include "Font.h"
+#include "Utils.h"
+#include "Bitmap.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
@@ -20,17 +21,22 @@ class Resources final
             eTest
         };
 
-        std::array <Bitmap *, TWO> resource;
+        Resources ();
+        ~Resources () = default;
 
-        explicit Resources (Display<DisplayHw> & v_display);
+        constexpr Bitmap & operator[] (EId v_eId)
+        {
+            return *resource.at (static_cast<uint8_t>(v_eId));
+        }
 
     private:
-	    Display<DisplayHw> & display;
+        Font                       font;
+        std::array <Bitmap *, TWO> resource;
 
         template <const EId ID>
         void create (const uint16_t * v_data)
         {
-            static BitmapHw bitmap (display);
+            static Bitmap bitmap;
             bitmap.Id                              = static_cast <uint8_t> (ID);
             bitmap.IsButton                        = false;
             bitmap.Dimension.Width                 = v_data  [FIRST_BYTE];
