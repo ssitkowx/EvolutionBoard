@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include "ILI9341.h"
 #include "LoggerHw.h"
+#include "Resources.h"
 #include "Draftsman.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,18 +20,18 @@ class DraftsmanHw final : public Draftsman<DraftsmanHw>
     friend Draftsman<DraftsmanHw>;
 
     public:
-        explicit DraftsmanHw (const Config_t v_config, ILI9341 & v_ili9341) : Draftsman (v_config),
-                                                                              ili9341 (v_ili9341) { LOG (MODULE, "Init."); }
+        explicit DraftsmanHw (const Config_t v_config, ILI9341 & v_ili9341, Resources & v_resources);
+        void     DrawText    (std::string_view v_text, const Rectangle::Coordinates v_coordinate);
+        bool     DrawBitmap  (Bitmap & v_bitmap);
+
         ~DraftsmanHw () = default;
 
-        bool DrawBitmap (Bitmap & v_bitmap);
-        bool DrawText   (std::string_view v_text, const Rectangle::Coordinates v_coordinate);
-
     protected:
-        void sendLines  (const Bitmap & v_bitmap) { ili9341.SendLines (v_bitmap); }
+        void     sendLines   (const Bitmap & v_bitmap) { ili9341.SendLines (v_bitmap); }
 
     private:
-        ILI9341 & ili9341;
+        ILI9341   & ili9341;
+        Resources & resources;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

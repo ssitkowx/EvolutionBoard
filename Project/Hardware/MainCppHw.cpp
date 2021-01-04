@@ -58,18 +58,19 @@ extern "C"
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eAboveNormal),
                                           BluetoothTaskHandle);
 */
-/*
+
         Rtos::GetInstance ()->TaskCreate (WeatherMeasureProcess,
                                           "WeatherMeasureProcess",
                                           EIGHT_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eBelowHigh),
                                           WeatherMeasureTaskHandle);
-*/
+/*
         Rtos::GetInstance ()->TaskCreate (DisplayAndTouchProcess,
                                           "DisplayAndTouchProcess",
                                           THIRTY_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eNormal),
                                           DisplayAndTouchTaskHandle);
+        */
 
     }
 
@@ -124,7 +125,8 @@ extern "C"
                                                                                            }
                                                                       };
 
-        DraftsmanHw                          draftsmanHw (draftsmanConfig, ili9341);
+        Resources                            resources;
+        DraftsmanHw                          draftsmanHw          (draftsmanConfig, ili9341, resources);
 
         const Touch<TouchHw>::Config         touchConfig            = { Histeresis       :   TWO,
                                                                         Time             : { FOUR,              // PressedMax, InterruptInSeconds * PressedMax
@@ -142,8 +144,8 @@ extern "C"
                                                                         eTimer           : Timer<TimerHw>::ETimer::e0
                                                                       };
 
-        TimerHw                              timerHw (timerTouchConfig);
-        TouchHw                              touchHw (touchCoefficients, touchConfig, spiTouchHw);
+        TimerHw                              timerHw              (timerTouchConfig);
+        TouchHw                              touchHw              (touchCoefficients, touchConfig, spiTouchHw);
 
         const NumericKeyboard::Configuration keyboardConfig         = { BitmapSpacing    : { FIVE,              // X
                                                                                              FIVE,              // Y
@@ -155,7 +157,6 @@ extern "C"
                                                                       };
 
         NumericKeyboard                      numericKeyboard      (keyboardConfig, draftsmanHw, touchHw);
-        Resources                            resources;
         PresentationActivity                 presentationActivity (draftsmanHw, numericKeyboard, resources);
 
         while (true)

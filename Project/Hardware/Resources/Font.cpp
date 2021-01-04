@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Font.h"
+#include "LoggerHw.h"
 #include "FontImages.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -11,6 +12,7 @@
 
 Font::Font ()
 {
+    LOG                 (MODULE, "Init.");
     create <EId::eNum0> (Num0);
     create <EId::eNum1> (Num1);
     create <EId::eNum2> (Num2);

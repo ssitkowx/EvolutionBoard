@@ -17,8 +17,8 @@ void HttpClientHw::Cleanup (void)
 bool HttpClientHw::Init (void)
 {
     esp_http_client_config_t config = { };
-    config.url            = static_cast<std::string>(Settings::GetInstance ().WeatherMeasure.Endpoint).c_str ();
-    config.transport_type = HTTP_TRANSPORT_OVER_SSL;
+    config.url                      = static_cast<std::string>(Settings::GetInstance ().WeatherMeasure.Endpoint).c_str ();
+    config.transport_type           = HTTP_TRANSPORT_OVER_SSL;
 
     client = esp_http_client_init (&config);
     if (client == NULL) { return false; }

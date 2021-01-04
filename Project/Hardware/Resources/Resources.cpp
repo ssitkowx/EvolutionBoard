@@ -2,6 +2,7 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include "LoggerHw.h"
 #include "Resources.h"
 #include "background.h"
 
@@ -11,6 +12,7 @@
 
 Resources::Resources ()
 {
+    LOG                       (MODULE, "Init.");
     create <EId::eBackground> (background);
 }
 

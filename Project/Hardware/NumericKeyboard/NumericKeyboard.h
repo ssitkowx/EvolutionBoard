@@ -20,6 +20,28 @@ class NumericKeyboard final : public Keyboard
     public:
         static constexpr char * MODULE = (char *)"NumericKeyboard";
 
+        struct Configuration
+        {
+            struct BitmapSpacings
+            {
+                uint8_t X;
+                uint8_t Y;
+            } BitmapSpacing;
+
+            Rectangle::Coordinates KeyboardStart;
+        } config;
+
+        explicit NumericKeyboard (Configuration            v_config,
+                                  Draftsman<DraftsmanHw> & v_draftsman,
+                                  Touch<TouchHw>         & v_touch);
+
+        void     Process         (void) override;
+        void     Redraw          (void) override;
+        void     Redraw          (const uint8_t v_id, const Rectangle::Coordinates & v_coordinates);
+
+        ~NumericKeyboard ();
+
+    private:
         enum class EId : uint8_t
         {
             eKeyNum0Up,
@@ -44,28 +66,6 @@ class NumericKeyboard final : public Keyboard
             eKeyNum9Down
         };
 
-        struct Configuration
-        {
-            struct BitmapSpacings
-            {
-                uint8_t X;
-                uint8_t Y;
-            } BitmapSpacing;
-
-            Rectangle::Coordinates KeyboardStart;
-        } config;
-
-        explicit NumericKeyboard (Configuration            v_config,
-                                  Draftsman<DraftsmanHw> & v_draftsman,
-                                  Touch<TouchHw>         & v_touch);
-
-        void     Process         (void) override;
-        void     Redraw          (void) override;
-        void     Redraw          (const uint8_t v_id, const Rectangle::Coordinates & v_coordinates);
-
-        ~NumericKeyboard ();
-
-    private:
         template <const EId ID>
         Bitmap & create (const uint16_t * v_data, const uint16_t v_xPos = ZERO, const uint16_t v_yPos = ZERO, bool v_isButton = false)
         {

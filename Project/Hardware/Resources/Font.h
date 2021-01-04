@@ -13,6 +13,8 @@
 
 class Font final
 {
+    static constexpr char * MODULE = (char *)"Font";
+
     public:
         enum class EId : uint8_t
         {
