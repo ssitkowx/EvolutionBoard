@@ -19,7 +19,7 @@ SET (PackageSourcePaths main.c
                         Protocols/HttpClient/HttpClientHw.cpp
                         ../Logic/Settings/Settings.cpp
                         ../Logic/Communication/Json/Json.cpp
-                        ../Logic/SystemEvents/SystemEvents.cpp
+                        ../Logic/SystemEvents/SystemEvents.cpp                        
                         ../Logic/Activities/PresentationActivity.cpp
                         ../Logic/Protocols/HttpClient/HttpClient.cpp
                         ../Logic/Communication/WeatherMeasureComm.cpp
@@ -40,6 +40,7 @@ SET (PackageSourcePaths main.c
                         ${PackageIncludePaths}/Draftsman/Project/Draftsman.cpp
                         ${PackageIncludePaths}/SystemTime/Project/SystemTime.cpp
                         ${PackageIncludePaths}/Communication/Project/Communication.cpp
+                        ${PackageIncludePaths}/CircularBuffer/Project/CircularBuffer.cpp
     )
 
 IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
@@ -80,6 +81,7 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              ${PackageIncludePaths}/Draftsman/Project
                              ${PackageIncludePaths}/SystemTime/Project
                              ${PackageIncludePaths}/Communication/Project
+                             ${PackageIncludePaths}/CircularBuffer/Project
                              REQUIRES "nvs_flash" "esp_http_client" "json"
                        )
                        

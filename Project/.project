@@ -24,6 +24,11 @@
 			<location>C:/Users/sitko/.conan/download/Bitmap/Project</location>
 		</link>
 		<link>
+			<name>Logic/CircularBuffer</name>
+			<type>2</type>
+			<location>C:/Users/sitko/.conan/download/CircularBuffer/Project</location>
+		</link>
+		<link>
 			<name>Logic/Draftsman</name>
 			<type>2</type>
 			<location>C:/Users/sitko/.conan/download/Draftsman/Project</location>
