@@ -20,7 +20,7 @@ PresentationActivity::PresentationActivity (Draftsman<DraftsmanHw> & v_draftsman
 {
     Bitmap & bitmap = resources [Resources::EId::eBackground];
     draftsman.DrawBitmap (bitmap);
-    v_keyboard.Redraw ();
+    v_keyboard.Redraw    ();
 
     draftsman.DrawText ("FONTTest", { 0, 0 });
 }
