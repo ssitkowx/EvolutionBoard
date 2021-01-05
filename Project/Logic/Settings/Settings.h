@@ -28,8 +28,8 @@ class Settings final
 
         struct
         {
-            std::string_view                          Endpoint = "pool.ntp.org";
-            std::pair <std::string, std::string_view> TimeZone = { "TZ", "UTC/GMT" };
+            std::string_view                               Endpoint = "pool.ntp.org";
+            std::pair <std::string_view, std::string_view> TimeZone = { "TZ", "UTC/GMT" };
         } Sntp;
 
         struct
