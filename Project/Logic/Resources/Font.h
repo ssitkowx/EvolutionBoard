@@ -82,13 +82,10 @@ class Font final
             eZx   = 'z',
         };
 
-        constexpr Bitmap & operator[] (EId v_eId)
-        {
-            return *font.at (static_cast<uint8_t>(v_eId));
-        }
-
         Font ();
         ~Font () = default;
+
+        constexpr Bitmap & operator[] (EId v_eId) { return *font.at (static_cast<uint8_t>(v_eId)); }
 
     private:
         std::array <Bitmap *, TWO_HUNDRED_FIFTY_FIVE> font;

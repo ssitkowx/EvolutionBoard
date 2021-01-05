@@ -1,15 +1,13 @@
 SET (PackageIncludePaths "C:/Users/sitko/.conan/download")
 SET (PackageSourcePaths main.c
                         MainCppHw.cpp
-                        Touch/TouchHw.cpp    
-                        Resources/Font.cpp    
+                        Touch/TouchHw.cpp     
                         Draftsman/ILI9341.cpp
                         Networking/WiFiHw.cpp
                         Peripheral/RtosHw.cpp
                         Peripheral/GpioHw.cpp
                         Peripheral/FlashHw.cpp
                         Peripheral/TimerHw.cpp
-                        Resources/Resources.cpp
                         Draftsman/DraftsmanHw.cpp
                         Peripheral/SpiHw/SpiHw.cpp
                         Peripheral/SystemTimeHw.cpp
@@ -17,7 +15,9 @@ SET (PackageSourcePaths main.c
                         Peripheral/SpiHw/SpiTouchHw.cpp
                         NumericKeyboard/NumericKeyboard.cpp
                         Protocols/HttpClient/HttpClientHw.cpp
+                        ../Logic/Resources/Font.cpp
                         ../Logic/Settings/Settings.cpp
+                        ../Logic/Resources/Resources.cpp
                         ../Logic/Communication/Json/Json.cpp
                         ../Logic/SystemEvents/SystemEvents.cpp                        
                         ../Logic/Activities/PresentationActivity.cpp
@@ -49,7 +49,6 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              Touch
                              Logger
                              Draftsman
-                             Resources
                              Peripheral
                              Networking
                              NumericKeyboard
@@ -57,6 +56,7 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              Protocols/HttpClient
                              ../Logic
                              ../Logic/Settings
+                             ../Logic/Resources
                              ../Logic/Activities
                              ../Logic/SystemEvents
                              ../Logic/Communication
