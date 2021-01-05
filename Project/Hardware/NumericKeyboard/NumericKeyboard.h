@@ -17,9 +17,9 @@
 
 class NumericKeyboard final : public Keyboard
 {
-    public:
-        static constexpr char * MODULE = (char *)"NumericKeyboard";
+    static constexpr char * MODULE = (char *)"NumericKeyboard";
 
+    public:
         struct Configuration
         {
             struct BitmapSpacings

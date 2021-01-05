@@ -2,6 +2,7 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <memory>
 #include "Utils.h"
 #include "Settings.h"
 #include "WeatherMeasureParser.h"
@@ -14,50 +15,50 @@ void WeatherMeasureParser::Request (cJSON * v_root)
 {
 	cJSON * type = cJSON_GetObjectItem (v_root, "type");
 	isNodeJsonEmpty ("Request", "type", type);
-	Settings::GetInstance ().WeatherMeasureMsgType.Request.Type.assign (type->valuestring);
+	memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Request.Type.data(), type->valuestring, strlen (type->valuestring));
 
 	cJSON * query = cJSON_GetObjectItem (v_root, "query");
 	isNodeJsonEmpty ("Request", "query", query);
-	Settings::GetInstance ().WeatherMeasureMsgType.Request.Query.assign (query->valuestring);
+	memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Request.Query.data(), query->valuestring, strlen (query->valuestring));
 
 	cJSON * language = cJSON_GetObjectItem (v_root, "language");
 	isNodeJsonEmpty ("Request", "language", language);
-	Settings::GetInstance ().WeatherMeasureMsgType.Request.Language.assign (language->valuestring);
+	memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Request.Language.data(), language->valuestring, strlen (language->valuestring));
 
 	cJSON * unit = cJSON_GetObjectItem (v_root, "unit");
 	isNodeJsonEmpty ("Request", "unit", unit);
-	Settings::GetInstance ().WeatherMeasureMsgType.Request.Unit.assign (unit->valuestring);
+	memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Request.Unit.data(), unit->valuestring, strlen (unit->valuestring));
 }
 
 void WeatherMeasureParser::Location (cJSON * v_root)
 {
 	cJSON * name = cJSON_GetObjectItem (v_root, "name");
     isNodeJsonEmpty ("Location", "name", name);
-    Settings::GetInstance ().WeatherMeasureMsgType.Location.Name.assign (name->valuestring);
+    memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Location.Name.data(), name->valuestring, strlen (name->valuestring));
 
 	cJSON * country = cJSON_GetObjectItem (v_root, "country");
 	isNodeJsonEmpty ("Location", "country", country);
-	Settings::GetInstance ().WeatherMeasureMsgType.Location.Country.assign (country->valuestring);
+	memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Location.Country.data (), country->valuestring, strlen (country->valuestring));
 
 	cJSON * region = cJSON_GetObjectItem (v_root, "region");
 	isNodeJsonEmpty ("Location", "region", region);
-	Settings::GetInstance ().WeatherMeasureMsgType.Location.Region.assign (region->valuestring);
+	memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Location.Region.data (), region->valuestring, strlen (region->valuestring));
 
 	cJSON * lat = cJSON_GetObjectItem (v_root, "lat");
 	isNodeJsonEmpty ("Location", "lat", lat);
-	Settings::GetInstance ().WeatherMeasureMsgType.Location.Lat.assign (lat->valuestring);
+	memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Location.Lat.data (), lat->valuestring, strlen (lat->valuestring));
 
 	cJSON * lon = cJSON_GetObjectItem (v_root, "lon");
 	isNodeJsonEmpty ("Location", "lon", lon);
-	Settings::GetInstance ().WeatherMeasureMsgType.Location.Lon.assign (lon->valuestring);
+	memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Location.Lon.data (), lon->valuestring, strlen (lon->valuestring));
 
 	cJSON * timezoneId = cJSON_GetObjectItem (v_root, "timezone_id");
 	isNodeJsonEmpty ("Location", "timezone_id", timezoneId);
-	Settings::GetInstance ().WeatherMeasureMsgType.Location.TimezonId.assign (timezoneId->valuestring);
+	memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Location.TimezonId.data (), timezoneId->valuestring, strlen (timezoneId->valuestring));
 
 	cJSON * localTime = cJSON_GetObjectItem (v_root, "localtime");
 	isNodeJsonEmpty ("Location", "localtime", localTime);
-	Settings::GetInstance ().WeatherMeasureMsgType.Location.LocalTime.assign (localTime->valuestring);
+	memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Location.LocalTime.data (), localTime->valuestring, strlen (localTime->valuestring));
 
 	cJSON * localTimeEpoch = cJSON_GetObjectItem (v_root, "localtime_epoch");
 	isNodeJsonEmpty ("Location", "localtime_epoch", localTimeEpoch);
@@ -65,14 +66,14 @@ void WeatherMeasureParser::Location (cJSON * v_root)
 
 	cJSON * utcOffset = cJSON_GetObjectItem (v_root, "utc_offset");
 	isNodeJsonEmpty ("Location", "utc_offset", utcOffset);
-	Settings::GetInstance ().WeatherMeasureMsgType.Location.UtcOffset.assign (utcOffset->valuestring);
+	memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Location.UtcOffset.data (), utcOffset->valuestring, strlen (utcOffset->valuestring));
 }
 
 void WeatherMeasureParser::Current (cJSON * v_root)
 {
 	cJSON * observationTime = cJSON_GetObjectItem (v_root, "observation_time");
 	isNodeJsonEmpty ("Current", "observation_time", observationTime);
-	Settings::GetInstance ().WeatherMeasureMsgType.Current.ObservationTime.assign (observationTime->valuestring);
+	memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Current.ObservationTime.data (), observationTime->valuestring, strlen (observationTime->valuestring));
 
 	cJSON * temperature = cJSON_GetObjectItem (v_root, "temperature");
 	isNodeJsonEmpty ("Current", "temperature", temperature);
@@ -86,14 +87,14 @@ void WeatherMeasureParser::Current (cJSON * v_root)
 	for (uint8_t valueNum = ZERO; valueNum < cJSON_GetArraySize (weatherIcons); valueNum++)
 	{
 		cJSON * subitem = cJSON_GetArrayItem  (weatherIcons, valueNum);
-		Settings::GetInstance ().WeatherMeasureMsgType.Current.WeatherIcons.push_back (subitem->valuestring);
+		memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Current.WeatherIcons [valueNum].data (), subitem->valuestring, strlen (subitem->valuestring));
 	}
 
 	cJSON * weatherDescription = cJSON_GetObjectItem (v_root, "weather_descriptions");
 	for (uint8_t valueNum = ZERO; valueNum < cJSON_GetArraySize (weatherDescription); valueNum++)
 	{
 		cJSON * subitem = cJSON_GetArrayItem (weatherDescription, valueNum);
-		Settings::GetInstance ().WeatherMeasureMsgType.Current.WeatherDescriptions.push_back (subitem->valuestring);
+		memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Current.WeatherDescriptions [valueNum].data (), subitem->valuestring, strlen (subitem->valuestring));
 	}
 
 	cJSON * windSpeed = cJSON_GetObjectItem (v_root, "wind_speed");
@@ -106,7 +107,7 @@ void WeatherMeasureParser::Current (cJSON * v_root)
 
 	cJSON * windDir = cJSON_GetObjectItem (v_root, "wind_dir");
 	isNodeJsonEmpty ("Current", "wind_dir", windDir);
-	Settings::GetInstance ().WeatherMeasureMsgType.Current.WindDir.assign (windDir->valuestring);
+	memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Current.WindDir.data (), windDir->valuestring, strlen (windDir->valuestring));
 
 	cJSON * pressure = cJSON_GetObjectItem (v_root, "pressure");
 	isNodeJsonEmpty ("Current", "pressure", pressure);
@@ -138,7 +139,7 @@ void WeatherMeasureParser::Current (cJSON * v_root)
 
 	cJSON * isDay = cJSON_GetObjectItem (v_root, "is_day");
 	isNodeJsonEmpty ("Current", "is_day", isDay);
-	Settings::GetInstance ().WeatherMeasureMsgType.Current.IsDay.assign (isDay->valuestring);
+	memcpy (Settings::GetInstance ().WeatherMeasureMsgType.Current.IsDay.data (), isDay->valuestring, strlen (isDay->valuestring));
 }
 
 void WeatherMeasureParser::Parse (cJSON * v_root)

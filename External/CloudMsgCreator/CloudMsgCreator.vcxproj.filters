@@ -28,6 +28,9 @@
     <Filter Include="Communication\Json">
       <UniqueIdentifier>{0ba4cc7a-1bc5-4bf0-b8e3-2539dd4076de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Settings">
+      <UniqueIdentifier>{d1b9c6eb-e9f2-4656-b486-5d9e904e37f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Project\Logic\Communication\WeatherMeasureParser\WeatherMeasureParser.cpp">
@@ -52,11 +55,14 @@
     <ClCompile Include="LoggerHw\LoggerHw.cpp">
       <Filter>External\Logger</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\..\ESP_IDF\4.0\esp-idf\components\json\cJSON\cJSON.c">
-      <Filter>External\Json</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Project\Logic\Communication\Json\Json.cpp">
       <Filter>Communication\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\..\ESP_IDF\esp-idf\components\json\cJSON\cJSON.c">
+      <Filter>External\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Project\Logic\Settings\Settings.cpp">
+      <Filter>Settings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,11 +87,14 @@
     <ClInclude Include="LoggerHw\LoggerHw.h">
       <Filter>External\Logger</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\ESP_IDF\4.0\esp-idf\components\json\cJSON\cJSON.h">
-      <Filter>External\Json</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Project\Logic\Communication\Json\Json.h">
       <Filter>Communication\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\ESP_IDF\esp-idf\components\json\cJSON\cJSON.h">
+      <Filter>External\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Project\Logic\Settings\Settings.h">
+      <Filter>Settings</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

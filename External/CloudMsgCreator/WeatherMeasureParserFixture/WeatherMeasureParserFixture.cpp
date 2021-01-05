@@ -30,7 +30,8 @@ static const char * const weatherMeasureResp = "{\"request\": {\
                                                        \"https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0006_mist.png\"\
                                                        ] ,\
                                                        \"weather_descriptions\" : [\
-                                                           \"Mist\"\
+                                                           \"Mist\",\
+                                                           \"Sun\"\
                                                        ] ,\
                                                        \"wind_speed\" : 6,\
                                                        \"wind_degree\" : 270,\

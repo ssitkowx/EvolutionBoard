@@ -19,25 +19,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\..\..\ESP_IDF\4.0\esp-idf\components\json\cJSON\cJSON.c" />
+    <ClCompile Include="..\..\..\..\..\..\..\..\ESP_IDF\esp-idf\components\json\cJSON\cJSON.c" />
     <ClCompile Include="..\..\..\..\..\..\.conan\download\LoggerMock\Project\LoggerMock.cpp" />
     <ClCompile Include="..\..\..\..\..\..\.conan\download\Logger\Project\Logger.cpp" />
     <ClCompile Include="..\..\..\..\..\..\.conan\download\Utils\Project\Utils.cpp" />
     <ClCompile Include="..\..\Project\Logic\Communication\Json\Json.cpp" />
     <ClCompile Include="..\..\Project\Logic\Communication\WeatherMeasureMsgType\WeatherMeasureMsgType.cpp" />
     <ClCompile Include="..\..\Project\Logic\Communication\WeatherMeasureParser\WeatherMeasureParser.cpp" />
+    <ClCompile Include="..\..\Project\Logic\Settings\Settings.cpp" />
     <ClCompile Include="LoggerHw\LoggerHw.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WeatherMeasureParserFixture\WeatherMeasureParserFixture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\..\..\ESP_IDF\4.0\esp-idf\components\json\cJSON\cJSON.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\..\ESP_IDF\esp-idf\components\json\cJSON\cJSON.h" />
     <ClInclude Include="..\..\..\..\..\..\.conan\download\LoggerMock\Project\LoggerMock.h" />
     <ClInclude Include="..\..\..\..\..\..\.conan\download\Logger\Project\Logger.h" />
     <ClInclude Include="..\..\..\..\..\..\.conan\download\Utils\Project\Utils.h" />
     <ClInclude Include="..\..\Project\Logic\Communication\Json\Json.h" />
     <ClInclude Include="..\..\Project\Logic\Communication\WeatherMeasureMsgType\WeatherMeasureMsgType.h" />
     <ClInclude Include="..\..\Project\Logic\Communication\WeatherMeasureParser\WeatherMeasureParser.h" />
+    <ClInclude Include="..\..\Project\Logic\Settings\Settings.h" />
     <ClInclude Include="LoggerHw\LoggerHw.h" />
     <ClInclude Include="WeatherMeasureParserFixture\WeatherMeasureParserFixture.h" />
   </ItemGroup>
@@ -99,7 +101,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>LoggerHw;WeatherMeasureParserFixture;$(IDF_PATH)/components/json/cJSON;$(PACKAGES_PATH)/Utils/Project;$(PACKAGES_PATH)/Logger/Project;$(PACKAGES_PATH)/LoggerMock/Project;../../Project/Logic/Communication/Json;../../Project/Logic/Communication/WeatherMeasureParser;../../Project/Logic/Communication/WeatherMeasureMsgType;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>LoggerHw;WeatherMeasureParserFixture;$(IDF_PATH)/components/json/cJSON;$(PACKAGES_PATH)/Utils/Project;$(PACKAGES_PATH)/Logger/Project;$(PACKAGES_PATH)/LoggerMock/Project;../../Project/Logic/Settings;../../Project/Logic/Communication/Json;../../Project/Logic/Communication/WeatherMeasureParser;../../Project/Logic/Communication/WeatherMeasureMsgType;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
