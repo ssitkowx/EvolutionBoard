@@ -16,7 +16,7 @@ void SystemTimeHw::init (void)
 {
     LOG                   (MODULE, "Init.");
     sntp_setoperatingmode (SNTP_OPMODE_POLL);
-    sntp_setservername    (ZERO, static_cast<std::string>(Settings::GetInstance ().Sntp.Endpoint).c_str ());
+    sntp_setservername    (ZERO, Settings::GetInstance ().Sntp.Endpoint.data ());
     sntp_init             ();
 }
 
@@ -29,12 +29,13 @@ std::string SystemTimeHw::getCurrentStringTime (void)
     localtime_r (&timeNow, &timeinfo);
     
     std::string timeNowStr;
-    setenv      (static_cast<std::string>(Settings::GetInstance ().Sntp.TimeZone.first).c_str (), static_cast<std::string>(Settings::GetInstance ().Sntp.TimeZone.second).c_str (), ONE);
+    setenv      (static_cast <std::string>(Settings::GetInstance ().Sntp.TimeZone.first.data ()).c_str (), static_cast <std::string>(Settings::GetInstance ().Sntp.TimeZone.second.data ()).c_str (), ONE);
+    setenv      ("TZ", "UTC/GMT", ONE);
     tzset       ();
     localtime_r (&timeNow, &timeinfo);
     strftime    ((char *)timeNowStr.c_str (), sizeof(timeNowStr), "%c", &timeinfo);
 
-    return timeNowStr;
+    return std::move (timeNowStr);
 }
 
 void SystemTimeHw::Update (void)
@@ -76,7 +77,7 @@ std::string SystemTimeHw::ToStringUTC () const
         stringTime [timeStrLen - TWO] = ':';
     }
 
-    return stringTime;
+    return std::move (stringTime);
 }
 
 std::string SystemTimeHw::ToString (const char * v_format) const
@@ -93,7 +94,7 @@ std::string SystemTimeHw::ToString (const char * v_format) const
     char stringTime [FIFTY] = { };
     strftime (stringTime, sizeof (stringTime), v_format, &now_tm);
 
-    return stringTime;
+    return std::move (stringTime);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

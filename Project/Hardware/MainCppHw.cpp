@@ -58,20 +58,20 @@ extern "C"
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eAboveNormal),
                                           BluetoothTaskHandle);
 */
-/*
+
         Rtos::GetInstance ()->TaskCreate (WeatherMeasureProcess,
                                           "WeatherMeasureProcess",
                                           EIGHT_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eBelowHigh),
                                           WeatherMeasureTaskHandle);
-*/
+/*
         Rtos::GetInstance ()->TaskCreate (DisplayAndTouchProcess,
                                           "DisplayAndTouchProcess",
                                           THIRTY_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eNormal),
                                           DisplayAndTouchTaskHandle);
 
-
+*/
     }
 
     void BluetoothProcess (void * v_params)

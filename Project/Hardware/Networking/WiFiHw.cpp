@@ -123,10 +123,10 @@ void WiFiHw::displayMac (void)
 void WiFiHw::displayNetworkParams (void)
 {
     WiFi::Config::NetworkParams networkParams = getNetworkParams ();
-    LOGI (MODULE, "Got Ip: %s, Mask: %s, Gateway: %s, IPv6: %s.", networkParams.Ipv4.c_str    (),
-                                                                  networkParams.Mask.c_str    (),
-                                                                  networkParams.Gateway.c_str (),
-                                                                  networkParams.Ipv6.c_str    ());
+    LOGI (MODULE, "Got Ip: %s, Mask: %s, Gateway: %s, IPv6: %s.", networkParams.Ipv4.data    (),
+                                                                  networkParams.Mask.data    (),
+                                                                  networkParams.Gateway.data (),
+                                                                  networkParams.Ipv6.data    ());
 }
 
 void WiFiHw::getMac (EMode v_mode, std::array <uint8_t, SIX_BYTES> & v_mac)
@@ -176,15 +176,15 @@ WiFi<WiFiHw>::Config::NetworkParams WiFiHw::getNetworkParams (void)
     ip6_addr_t ipv6 = { };
     if (tcpip_adapter_get_ip6_linklocal (TCPIP_ADAPTER_IF_STA, &ipv6) != ESP_OK) { LOGW (MODULE, "Can't get Ipv6 info."); }
 
-    char ipv6Buff [THIRTY_BYTES] = { };
-    ip6addr_ntoa_r (&ipv6, ipv6Buff, sizeof (ipv6Buff));
+    std::array <char, THIRTY_BYTES> ipv6Buff = { };
+    ip6addr_ntoa_r (&ipv6, ipv6Buff.data(), sizeof (ipv6Buff)/sizeof (char));
 
     auto toString = [] (const IPv4Address & v_address) { return Format ("%u.%u.%u.%u", v_address.Ipv4.bytes [FIRST_BYTE],
                                                                                        v_address.Ipv4.bytes [SECOND_BYTE],
                                                                                        v_address.Ipv4.bytes [THIRD_BYTE],
                                                                                        v_address.Ipv4.bytes [FOURTH_BYTE]); };
 
-    return { toString (ipv4), toString (mask), toString (gw), std::string (ipv6Buff) };
+    return { toString (ipv4), toString (mask), toString (gw), ipv6Buff.data() };
 }
 
 WiFi<WiFiHw>::Modes WiFiHw::getModes (void)
@@ -251,7 +251,7 @@ void WiFiHw::stop (void)
     ESP_ERROR_CHECK (esp_wifi_stop ());
 }
 
-void WiFiHw::setStationSettings (std::string v_ssid, std::string v_password)
+void WiFiHw::setStationSettings (std::string_view v_ssid, std::string_view v_password)
 {
     memset (settings.Station.Ssid    , ZERO              , SSID_LEN);
     memset (settings.Station.Password, ZERO              , PASSWORD_LEN);

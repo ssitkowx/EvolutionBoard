@@ -30,7 +30,7 @@
 class LoggerHw : public Logger
 {
     private:
-        std::string getFontColor (const ELogLevel v_eLogLevel)    // todo replace convenient std::string with something shorter(optimization)
+        constexpr std::string_view getFontColor (const ELogLevel v_eLogLevel)
         {
             switch (v_eLogLevel)
             {
@@ -48,14 +48,13 @@ class LoggerHw : public Logger
 
     public:
         template<typename... ARGS>
-        void Log (const ELogLevel v_eLogLevel, const std::string && v_module, const std::string && v_msg, ARGS &&... v_args)
+        constexpr void Log (const ELogLevel v_eLogLevel, std::string_view v_module, std::string_view v_msg, ARGS &&... v_args)
         {
-            std::string line = Format ("\e[1;30m%s \e[1;%sm%s: %s\n",
-                                       SystemTime::GetInstance ()->ToString ("%F %T").c_str (),
-                                       getFontColor  (v_eLogLevel).data (),
-                                       v_module.data (), v_msg.data ());
+            std::string line = Format ("\e[1;30m%s \e[1;%sm%s: %s\n", SystemTime::GetInstance ()->ToString ("%F %T").data (),
+                                                                      getFontColor  (v_eLogLevel).data (),
+                                                                      v_module.data (), v_msg.data ());
 
-            esp_log_write (static_cast <esp_log_level_t> (v_eLogLevel), v_module.data (), line.c_str (), std::forward <ARGS>(v_args)...);
+            esp_log_write (static_cast <esp_log_level_t> (v_eLogLevel), v_module.data (), line.data (), std::forward <ARGS>(v_args)...);
         }
 };
 

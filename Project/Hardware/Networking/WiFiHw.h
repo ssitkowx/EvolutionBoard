@@ -39,7 +39,7 @@ class WiFiHw final : public WiFi<WiFiHw>
         void                         deinit               (void);
         void                         start                (void);
         void                         stop                 (void);
-        void                         setStationSettings   (std::string v_ssid, std::string v_password);
+        void                         setStationSettings   (std::string_view v_ssid, std::string_view v_password);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -45,8 +45,8 @@ class RtosHw final : public Rtos
         RtosHw ();
         ~RtosHw ();
 
-        bool     GiveSemaphoreFromISR                 (const std::string & v_name)        override;
-        bool     TakeSemaphore                        (const std::string & v_name)        override;
+        bool     GiveSemaphoreFromISR                 (std::string_view v_name)        override;
+        bool     TakeSemaphore                        (std::string_view v_name)        override;
         bool     GiveTouchSemaphoreFromISR            (void);
         bool     GiveMemoryStatisticsSemaphoreFromISR (void);
         bool     GiveWeatherMeasureSemaphoreFromISR   (void);
@@ -54,14 +54,14 @@ class RtosHw final : public Rtos
         bool     TakeMemoryStatisticsSemaphore        (void);
         bool     TakeWeatherMeasureSemaphore          (void);
 
-        void     DelayInMs                            (const uint32_t v_ms)               override { vTaskDelay (v_ms / portTICK_RATE_MS); }
-        uint32_t GetCurrentHeapSize                   (void)                              override { return esp_get_free_heap_size ();     }
-        uint32_t GetCurrentStackSize                  (const std::string & v_name)        override;
-        uint32_t TaskCreate                           (TaskFunctionType    v_taskFuncion,
-                                                       const std::string & v_taskName,
-                                                       const uint32_t      v_stackDepth,
-                                                       const uint32_t      v_priority,
-                                                       TaskHandle          v_taskHandle)  override { return xTaskCreate (v_taskFuncion, v_taskName.c_str (), v_stackDepth, NULL, v_priority, NULL); }
+        void     DelayInMs                            (const uint32_t v_ms)            override { vTaskDelay (v_ms / portTICK_RATE_MS); }
+        uint32_t GetCurrentHeapSize                   (void)                           override { return esp_get_free_heap_size ();     }
+        uint32_t GetCurrentStackSize                  (std::string_view v_name)        override;
+        uint32_t TaskCreate                           (TaskFunctionType v_taskFuncion,
+                                                       std::string_view v_taskName,
+                                                       const uint32_t   v_stackDepth,
+                                                       const uint32_t   v_priority,
+                                                       TaskHandle       v_taskHandle)  override { return xTaskCreate (v_taskFuncion, v_taskName.data(), v_stackDepth, NULL, v_priority, NULL); }
     private:
         enum class ETick : uint32_t
         {

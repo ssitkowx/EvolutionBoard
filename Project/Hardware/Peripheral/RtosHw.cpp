@@ -39,14 +39,14 @@ RtosHw::~RtosHw ()
     LOG (MODULE, "Deinit.");
 }
 
-bool RtosHw::GiveSemaphoreFromISR (const std::string & v_name)
+bool RtosHw::GiveSemaphoreFromISR (std::string_view v_name)
 {
     if (strcmp ("GiveTouchSemaphoreFromISR"           , v_name.data ()) == ZERO) { return GiveTouchSemaphoreFromISR (); }
     if (strcmp ("GiveWeatherMeasureSemaphoreFromISR"  , v_name.data ()) == ZERO) { return GiveWeatherMeasureSemaphoreFromISR (); }
     return false;
 }
 
-bool RtosHw::TakeSemaphore (const std::string & v_name)
+bool RtosHw::TakeSemaphore (std::string_view v_name)
 {
     if (strcmp ("TakeTouchSemaphore"           , v_name.data ()) == ZERO) { return TakeTouchSemaphore (); }
     if (strcmp ("TakeWeatherMeasureSemaphore"  , v_name.data ()) == ZERO) { return TakeWeatherMeasureSemaphore (); }
@@ -75,7 +75,7 @@ bool RtosHw::TakeWeatherMeasureSemaphore (void)
     return (xSemaphoreTake (WeatherMeasureSemaphoreHandle, (TickType_t)ETick::ePortMaxDelay) == pdTRUE) ? true : false;
 }
 
-uint32_t RtosHw::GetCurrentStackSize (const std::string & v_name)
+uint32_t RtosHw::GetCurrentStackSize (std::string_view v_name)
 {
     extern TaskHandle_t BluetoothTaskHandle;
     extern TaskHandle_t WeatherMeasureTaskHandle;

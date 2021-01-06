@@ -28,16 +28,15 @@ class HttpClientHw final : public HttpClient <HttpClientHw>
         bool Init    (void)
         {
             esp_http_client_config_t config = { };
-            config.url                      = static_cast<std::string>(Settings::GetInstance ().WeatherMeasure.Endpoint).c_str ();
+            config.url                      = Settings::GetInstance ().WeatherMeasure.Endpoint.data ();
             config.transport_type           = HTTP_TRANSPORT_OVER_SSL;
 
             client = esp_http_client_init (&config);
             if (client == NULL) { return false; }
 
             setMethod (HttpClient::EMethod::eGet);
-            setHeader (Settings::GetInstance ().WeatherMeasure.Authorization.Key,
-                       Settings::GetInstance ().WeatherMeasure.Authorization.Value);
-            setHeader ("Content-Type", "application/json");
+            setHeader (Settings::GetInstance ().WeatherMeasure.Authorization.Key.data (),
+                       Settings::GetInstance ().WeatherMeasure.Authorization.Value.data ());
             return true;
         }
 
