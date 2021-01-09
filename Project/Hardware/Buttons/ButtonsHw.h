@@ -14,59 +14,37 @@
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class NumericKeyboard final : public Button
+class ButtonsHw final : public Button
 {
-    static constexpr char * MODULE = (char *)"NumericKeyboard";
+    static constexpr char * MODULE = (char *)"ButtonHw";
 
     public:
         struct Configuration
         {
-            struct BitmapSpacings
-            {
-                uint8_t X;
-                uint8_t Y;
-            } BitmapSpacing;
-
-            Bitmap::Coordinates KeyboardStart;
+            Bitmap::Coordinates ButtonStart;
         } config;
 
-        explicit NumericKeyboard (Configuration            v_config,
-                                  Draftsman<DraftsmanHw> & v_draftsman,
-                                  Touch<TouchHw>         & v_touch);
+        explicit ButtonsHw (Configuration            v_config,
+                            Draftsman<DraftsmanHw> & v_draftsman,
+                            Touch<TouchHw>         & v_touch);
 
         void     Process         (void) override;
         void     Redraw          (void) override;
         void     Redraw          (const uint8_t v_id, const Bitmap::Coordinates & v_coordinates);
 
-        ~NumericKeyboard ();
+        ~ButtonsHw ();
 
     private:
         enum class EId : uint8_t
         {
-            eKeyNum0Up,
-            eKeyNum0Down,
-            eKeyNum1Up,
-            eKeyNum1Down,
-            eKeyNum2Up,
-            eKeyNum2Down,
-            eKeyNum3Up,
-            eKeyNum3Down,
-            eKeyNum4Up,
-            eKeyNum4Down,
-            eKeyNum5Up,
-            eKeyNum5Down,
-            eKeyNum6Up,
-            eKeyNum6Down,
-            eKeyNum7Up,
-            eKeyNum7Down,
-            eKeyNum8Up,
-            eKeyNum8Down,
-            eKeyNum9Up,
-            eKeyNum9Down
+            eBleButtonUp,
+            eBleButtonDown,
+            eWeatherButtonUp,
+            eWeatherButtonDown
         };
 
         template <const EId ID>
-        Bitmap & create (const uint16_t * v_data, const uint16_t v_xPos = ZERO, const uint16_t v_yPos = ZERO, bool v_isButton = false)
+        Bitmap & create (const uint16_t * v_data, const uint16_t v_xPos = ZERO, const uint16_t v_yPos = ZERO, bool v_isButton = true)
         {
             static Bitmap bitmap;
             bitmap.Id               = static_cast <uint8_t> (ID);

@@ -1,7 +1,8 @@
 SET (PackageIncludePaths "C:/Users/sitko/.conan/download")
 SET (PackageSourcePaths main.c
                         MainCppHw.cpp
-                        Touch/TouchHw.cpp     
+                        Touch/TouchHw.cpp  
+                        Buttons/ButtonsHw.cpp   
                         Draftsman/ILI9341.cpp
                         Networking/WiFiHw.cpp
                         Peripheral/RtosHw.cpp
@@ -13,7 +14,6 @@ SET (PackageSourcePaths main.c
                         Peripheral/SystemTimeHw.cpp
                         Peripheral/SpiHw/SpiLcdHw.cpp
                         Peripheral/SpiHw/SpiTouchHw.cpp
-                        NumericKeyboard/NumericKeyboard.cpp
                         Protocols/HttpClient/HttpClientHw.cpp
                         ../Logic/Resources/Font.cpp
                         ../Logic/Settings/Settings.cpp
@@ -47,10 +47,10 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              .
                              Touch
                              Logger
+                             Buttons
                              Draftsman
                              Peripheral
                              Networking
-                             NumericKeyboard
                              Peripheral/SpiHw
                              Protocols/HttpClient
                              ../Logic
@@ -64,7 +64,6 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              ../Logic/BitmapConverter/Images
                              ../Logic/Communication/WeatherMeasureParser
                              ../Logic/Communication/WeatherMeasureMsgType
-                             ../Logic/BitmapConverter/Images/KeyboardImages
                              ${PackageIncludePaths}/Spi/Project
                              ${PackageIncludePaths}/WiFi/Project
                              ${PackageIncludePaths}/Gpio/Project

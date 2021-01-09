@@ -21,7 +21,7 @@ PresentationActivity::PresentationActivity (Draftsman<DraftsmanHw> & v_draftsman
     Bitmap & bitmap = resources [Resources::EId::eBackground];
     draftsman.DrawBitmap (bitmap);
     v_button .Redraw     ();
-    draftsman.DrawText   ("FONTTest", { 0, 0 });
+    draftsman.DrawText   ("FONTTes", { 0, 0 });
 }
 
 void PresentationActivity::Process (void)
@@ -30,6 +30,7 @@ void PresentationActivity::Process (void)
     if (SystemEvents::GetInstance ().CircBuf.IsEmpty () == false)
     {
         uint16_t eventId = SystemEvents::GetInstance ().CircBuf.Remove ();
+        //LOGI (MODULE, "Event: %d", eventId);
     }
 }
 

@@ -13,10 +13,10 @@
 #include "Settings.h"
 #include "LoggerHw.h"
 #include "Resources.h"
+#include "ButtonsHw.h"
 #include "DraftsmanHw.h"
 #include "SystemTimeHw.h"
 #include "HttpClientHw.h"
-#include "NumericKeyboard.h"
 #include "WeatherMeasureComm.h"
 #include "PresentationActivity.h"
 #include "WeatherMeasureParser.h"
@@ -147,17 +147,15 @@ extern "C"
         TimerHw                              timerHw              (timerTouchConfig);
         TouchHw                              touchHw              (touchCoefficients, touchConfig, spiTouchHw);
 
-        const NumericKeyboard::Configuration keyboardConfig         = { BitmapSpacing    : { FIVE,              // X
-                                                                                             FIVE,              // Y
-                                                                                           },
-                                                                        KeyboardStart    : {
-                                                                                             SEVENTY,           // X
-                                                                                             TWO_HUNDRED_TEN    // Y
+        const ButtonsHw::Configuration       buttonsConfig          = {
+                                                                         ButtonStart     : {
+                                                                                             FIFTEEN,             // X
+                                                                                             TWO_HUNDRED_SIXTY    // Y
                                                                                            }
                                                                       };
 
-        NumericKeyboard                      numericKeyboard      (keyboardConfig, draftsmanHw, touchHw);
-        PresentationActivity                 presentationActivity (draftsmanHw, numericKeyboard, resources);
+        ButtonsHw                            buttonsHw            (buttonsConfig, draftsmanHw, touchHw);
+        PresentationActivity                 presentationActivity (draftsmanHw, buttonsHw, resources);
 
         while (true)
         {

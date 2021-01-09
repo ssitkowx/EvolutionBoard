@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-class SystemEvents
+class SystemEvents final
 {
     public:
         CircularBuffer <uint8_t, SYSTEM_EVENTS_QUEUE_LEN> CircBuf;

@@ -4,26 +4,10 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "KeyNum0Up.h"
-#include "KeyNum0Down.h"
-#include "KeyNum1Up.h"
-#include "KeyNum1Down.h"
-#include "KeyNum2Up.h"
-#include "KeyNum2Down.h"
-#include "KeyNum3Up.h"
-#include "KeyNum3Down.h"
-#include "KeyNum4Up.h"
-#include "KeyNum4Down.h"
-#include "KeyNum5Up.h"
-#include "KeyNum5Down.h"
-#include "KeyNum6Up.h"
-#include "KeyNum6Down.h"
-#include "KeyNum7Up.h"
-#include "KeyNum7Down.h"
-#include "KeyNum8Up.h"
-#include "KeyNum8Down.h"
-#include "KeyNum9Up.h"
-#include "KeyNum9Down.h"
+#include "Buttons/BleButton/BleButtonUp.h"
+#include "Buttons/BleButton/BleButtonDown.h"
+#include "Buttons/WeatherButton/WeatherButtonUp.h"
+#include "Buttons/WeatherButton/WeatherButtonDown.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// END OF FILE ///////////////////////////////////
