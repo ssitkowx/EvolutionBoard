@@ -32,9 +32,8 @@ class Conan(ConanFile):
                        "Utils/1.0@ssitkowx/stable",
                        "Touch/1.0@ssitkowx/stable",
                        "Logger/1.0@ssitkowx/stable",
-                       "Rectangle/1.0@ssitkowx/stable",
                        "Bitmap/1.0@ssitkowx/stable",
-                       "Keyboard/1.0@ssitkowx/stable",
+                       "Button/1.0@ssitkowx/stable",
                        "Communication/1.0@ssitkowx/stable",
                        "LoggerMock/1.0@ssitkowx/stable",
                        "CircularBuffer/1.0@ssitkowx/stable"

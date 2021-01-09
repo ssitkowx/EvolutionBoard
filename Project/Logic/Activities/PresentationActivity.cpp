@@ -13,21 +13,20 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 PresentationActivity::PresentationActivity (Draftsman<DraftsmanHw> & v_draftsman,
-                                            Keyboard               & v_keyboard,
+                                            Button                 & v_button,
                                             Resources              & v_resources) : draftsman (v_draftsman),
-                                                                                    keyboard  (v_keyboard),
+                                                                                    button    (v_button),
                                                                                     resources (v_resources)
 {
     Bitmap & bitmap = resources [Resources::EId::eBackground];
     draftsman.DrawBitmap (bitmap);
-    v_keyboard.Redraw    ();
-
-    draftsman.DrawText ("FONTTest", { 0, 0 });
+    v_button .Redraw     ();
+    draftsman.DrawText   ("FONTTest", { 0, 0 });
 }
 
 void PresentationActivity::Process (void)
 {
-    keyboard.Process ();
+    button.Process ();
     if (SystemEvents::GetInstance ().CircBuf.IsEmpty () == false)
     {
         uint16_t eventId = SystemEvents::GetInstance ().CircBuf.Remove ();

@@ -70,7 +70,7 @@ NumericKeyboard::~NumericKeyboard () { unregisterBitmaps (); }
 
 void NumericKeyboard::Process (void)
 {
-    static Rectangle::Coordinates coordinates;
+    static Bitmap::Coordinates coordinates;
 
     Touch<TouchHw>::EState eState = touch.Event ();
     if (eState == Touch<TouchHw>::EState::ePressed)
@@ -107,11 +107,11 @@ void NumericKeyboard::Redraw (void)
     for (auto & bitmap : Bitmaps) { draftsman.DrawBitmap (*bitmap); }
 }
 
-void NumericKeyboard::Redraw (const uint8_t v_id, const Rectangle::Coordinates & v_coordinates)
+void NumericKeyboard::Redraw (const uint8_t v_id, const Bitmap::Coordinates & v_coordinates)
 {
     for (auto & bitmap : Bitmaps)
     {
-        if (Keyboard::Redraw (*bitmap, v_id, v_coordinates) == true)
+        if (Button::Redraw (*bitmap, v_id, v_coordinates) == true)
         {
             if (bitmap->IsButton == true) { SystemEvents::GetInstance ().CircBuf.Add (v_id); }
             draftsman.DrawBitmap (*bitmap);

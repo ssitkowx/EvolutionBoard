@@ -24,6 +24,11 @@
 			<location>C:/Users/sitko/.conan/download/Bitmap/Project</location>
 		</link>
 		<link>
+			<name>Logic/Button</name>
+			<type>2</type>
+			<location>C:/Users/sitko/.conan/download/Keyboard/Project</location>
+		</link>
+		<link>
 			<name>Logic/CircularBuffer</name>
 			<type>2</type>
 			<location>C:/Users/sitko/.conan/download/CircularBuffer/Project</location>
@@ -42,11 +47,6 @@
 			<name>Logic/Gpio</name>
 			<type>2</type>
 			<location>C:/Users/sitko/.conan/download/Gpio</location>
-		</link>
-		<link>
-			<name>Logic/Keyboard</name>
-			<type>2</type>
-			<location>C:/Users/sitko/.conan/download/Keyboard/Project</location>
 		</link>
 		<link>
 			<name>Logic/Logger</name>
@@ -89,6 +89,16 @@
 			<location>C:/Users/sitko/.conan/download/WiFi/Project</location>
 		</link>
 		<link>
+			<name>Logic/Button/Button.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Button/Project/Button.cpp</locationURI>
+		</link>
+		<link>
+			<name>Logic/Button/Button.h</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Button/Project/Button.h</locationURI>
+		</link>
+		<link>
 			<name>Logic/Communication/Communication.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Communication/Project/Communication.cpp</locationURI>
@@ -97,16 +107,6 @@
 			<name>Logic/Communication/Communication.h</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Communication/Project/Communication.h</locationURI>
-		</link>
-		<link>
-			<name>Logic/Gpio/Gpio.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Gpio/Project/Gpio.cpp</locationURI>
-		</link>
-		<link>
-			<name>Logic/Gpio/Gpio.h</name>
-			<type>1</type>
-			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Gpio/Project/Gpio.h</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

@@ -35,8 +35,7 @@ SET (PackageSourcePaths main.c
                         ${PackageIncludePaths}/Utils/Project/Utils.cpp
                         ${PackageIncludePaths}/Bitmap/Project/Bitmap.cpp
                         ${PackageIncludePaths}/Logger/Project/Logger.cpp
-                        ${PackageIncludePaths}/Keyboard/Project/Keyboard.cpp
-                        ${PackageIncludePaths}/Rectangle/Project/Rectangle.cpp
+                        ${PackageIncludePaths}/Button/Project/Button.cpp
                         ${PackageIncludePaths}/Draftsman/Project/Draftsman.cpp
                         ${PackageIncludePaths}/SystemTime/Project/SystemTime.cpp
                         ${PackageIncludePaths}/Communication/Project/Communication.cpp
@@ -76,8 +75,7 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              ${PackageIncludePaths}/Utils/Project
                              ${PackageIncludePaths}/Bitmap/Project
                              ${PackageIncludePaths}/Logger/Project
-                             ${PackageIncludePaths}/Keyboard/Project
-                             ${PackageIncludePaths}/Rectangle/Project
+                             ${PackageIncludePaths}/Button/Project
                              ${PackageIncludePaths}/Draftsman/Project
                              ${PackageIncludePaths}/SystemTime/Project
                              ${PackageIncludePaths}/Communication/Project

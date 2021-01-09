@@ -5,7 +5,6 @@
 #include "Font.h"
 #include "Bitmap.h"
 #include "Settings.h"
-#include "Rectangle.h"
 #include "DraftsmanHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,7 +18,7 @@ DraftsmanHw::DraftsmanHw (const Config_t v_config, ILI9341 & v_ili9341, Resource
     LOG (MODULE, "Init.");
 }
 
-void DraftsmanHw::DrawText (std::string_view v_text, const Rectangle::Coordinates v_coordinate)
+void DraftsmanHw::DrawText (std::string_view v_text, const Bitmap::Coordinates v_coordinate)
 {
     if (v_text.size () == 0)
     {

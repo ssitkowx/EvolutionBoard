@@ -37,9 +37,9 @@ class TouchHw final : public Touch<TouchHw>
         ~TouchHw () = default;
 
     protected:
-        Rectangle::Coordinates getCoordinates (void);
-        uint16_t               getPos         (uint8_t v_cmd);
-        bool                   isTouched      (void) { return Rtos::GetInstance ()->TakeSemaphore ("TakeTouchSemaphore"); }
+        Bitmap::Coordinates getCoordinates (void);
+        uint16_t            getPos         (uint8_t v_cmd);
+        bool                isTouched      (void) { return Rtos::GetInstance ()->TakeSemaphore ("TakeTouchSemaphore"); }
 
     private:
         enum class EControl : uint8_t

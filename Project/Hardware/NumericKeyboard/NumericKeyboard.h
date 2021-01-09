@@ -6,16 +6,15 @@
 
 #include "Utils.h"
 #include "Bitmap.h"
+#include "Button.h"
 #include "TouchHw.h"
-#include "Keyboard.h"
-#include "Rectangle.h"
 #include "DraftsmanHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class NumericKeyboard final : public Keyboard
+class NumericKeyboard final : public Button
 {
     static constexpr char * MODULE = (char *)"NumericKeyboard";
 
@@ -28,7 +27,7 @@ class NumericKeyboard final : public Keyboard
                 uint8_t Y;
             } BitmapSpacing;
 
-            Rectangle::Coordinates KeyboardStart;
+            Bitmap::Coordinates KeyboardStart;
         } config;
 
         explicit NumericKeyboard (Configuration            v_config,
@@ -37,7 +36,7 @@ class NumericKeyboard final : public Keyboard
 
         void     Process         (void) override;
         void     Redraw          (void) override;
-        void     Redraw          (const uint8_t v_id, const Rectangle::Coordinates & v_coordinates);
+        void     Redraw          (const uint8_t v_id, const Bitmap::Coordinates & v_coordinates);
 
         ~NumericKeyboard ();
 

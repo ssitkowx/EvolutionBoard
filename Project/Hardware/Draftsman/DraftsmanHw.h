@@ -21,7 +21,7 @@ class DraftsmanHw final : public Draftsman<DraftsmanHw>
 
     public:
         explicit DraftsmanHw (const Config_t v_config, ILI9341 & v_ili9341, Resources & v_resources);
-        void     DrawText    (std::string_view v_text, const Rectangle::Coordinates v_coordinate);
+        void     DrawText    (std::string_view v_text, const Bitmap::Coordinates v_coordinate);
         bool     DrawBitmap  (Bitmap & v_bitmap);
 
         ~DraftsmanHw () = default;

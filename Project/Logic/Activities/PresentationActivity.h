@@ -6,7 +6,7 @@
 
 #include <array>
 #include "Font.h"
-#include "Keyboard.h"
+#include "Button.h"
 #include "Resources.h"
 #include "DraftsmanHw.h"
 
@@ -20,7 +20,7 @@ class PresentationActivity
         static constexpr char * MODULE = (char *)"PresentationActivity";
 
         explicit PresentationActivity (Draftsman<DraftsmanHw> & v_display,
-                                       Keyboard               & v_keyboard,
+                                       Button                 & v_button,
                                        Resources              & v_resources);
 
         ~PresentationActivity () = default;
@@ -29,7 +29,7 @@ class PresentationActivity
 
     private:
 		Draftsman<DraftsmanHw> & draftsman;
-        Keyboard               & keyboard;
+        Button                 & button;
         Resources              & resources;
 };
 
