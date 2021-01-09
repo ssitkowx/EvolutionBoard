@@ -28,9 +28,9 @@ ButtonsHw::ButtonsHw (Configuration v_config,
     uint16_t yPos = config.ButtonStart.Y;
 
     Bitmap & bitmap = create <EId::eBleButtonDown>     (BleButtonDown, xPos, yPos);
-    LOG(MODULE, "Height: %d", bitmap.Dimension.Height);
-    create <EId::eBleButtonUp>       (BleButtonUp  , xPos, yPos);
-
+    LOGD(MODULE, "Height1: %d", bitmap.Dimension.Height);
+    create <EId::eBleButtonUp>       (BleButtonUp, xPos, yPos);
+    LOGD(MODULE, "Height2: %d", bitmap.Dimension.Height);
 
     // maybe should be created later after window switch ? todo
     //create <EId::eWeatherButtonDown> (WeatherButtonDown, xPos, yPos);
