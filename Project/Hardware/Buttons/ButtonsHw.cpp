@@ -25,8 +25,8 @@ ButtonsHw::ButtonsHw (Configuration v_config,
     uint16_t xPos = config.ButtonStart.X;
     uint16_t yPos = config.ButtonStart.Y;
 
-    //create <EId::eBleButtonDown> (BleButtonDown, xPos, yPos);
-    //create <EId::eBleButtonUp>   (BleButtonUp  , xPos, yPos);
+    create <EId::eBleButtonDown> (BleButtonDown, xPos, yPos);
+    create <EId::eBleButtonUp>   (BleButtonUp  , xPos, yPos);
 
     // maybe should be created later after window switch ? todo
     //create <EId::eWeatherButtonDown> (WeatherButtonDown, xPos, yPos);

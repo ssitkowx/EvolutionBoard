@@ -21,24 +21,58 @@ PresentationActivity::PresentationActivity (Draftsman<DraftsmanHw> & v_draftsman
     Bitmap & background = resources [Resources::EId::eBackground];
     draftsman.DrawBitmap (background);
 
-    Bitmap & city         = resources [Resources::EId::eCity];
-    city.Coordinate.X     = TEN;
-    city.Coordinate.Y     = TEN;
+    uint16_t startVariableX  = TEN;
+    uint16_t startVariableY  = TEN;
+    uint16_t startSpaceX     = ONE_HUNDRED_FIFTY;
+
+    Bitmap & city            = resources [Resources::EId::eCity];
+    city.Coordinate.X        = startVariableX;
+    city.Coordinate.Y        = startVariableY;
     draftsman.DrawBitmap (city);
 
-    Bitmap & spaces       = resources [Resources::EId::eSpaces];
-    spaces.Coordinate.X   = city.Coordinate.X + city.Dimension.Width;
-    spaces.Coordinate.Y   = city.Coordinate.Y;
+    Bitmap & spaces          = resources [Resources::EId::eSpaces];
+    spaces.Coordinate.X      = startSpaceX;
+    spaces.Coordinate.Y      = startVariableY;
     draftsman.DrawBitmap (spaces);
 
-    Bitmap & humidity     = resources [Resources::EId::eHumidity];
-    humidity.Coordinate.X = TEN;
-    humidity.Coordinate.Y = city.Coordinate.Y + city.Dimension.Height + FIVE;
+    Bitmap & humidity        = resources [Resources::EId::eHumidity];
+    humidity.Coordinate.X    = startVariableX;
+    humidity.Coordinate.Y    = city.Coordinate.Y + humidity.Dimension.Height + FIVE;
     draftsman.DrawBitmap (humidity);
 
-    spaces                = resources [Resources::EId::eSpaces];
-    spaces.Coordinate.X   = city.Coordinate.X + city.Dimension.Width;
-    spaces.Coordinate.Y   = city.Coordinate.X + city.Dimension.Width;
+    spaces                   = resources [Resources::EId::eSpaces];
+    spaces.Coordinate.X      = startSpaceX;
+    spaces.Coordinate.Y      = humidity.Coordinate.Y;
+    draftsman.DrawBitmap (spaces);
+
+    Bitmap & pressure        = resources [Resources::EId::ePressure];
+    pressure.Coordinate.X    = startVariableX;
+    pressure.Coordinate.Y    = humidity.Coordinate.Y + humidity.Dimension.Height + FIVE;
+    draftsman.DrawBitmap (pressure);
+
+    spaces                   = resources [Resources::EId::eSpaces];
+    spaces.Coordinate.X      = startSpaceX;
+    spaces.Coordinate.Y      = pressure.Coordinate.Y;
+    draftsman.DrawBitmap (spaces);
+
+    Bitmap & windSpeed       = resources [Resources::EId::eWindSpeed];
+    windSpeed.Coordinate.X   = startVariableX;
+    windSpeed.Coordinate.Y   = pressure.Coordinate.Y + pressure.Dimension.Height + FIVE;
+    draftsman.DrawBitmap (windSpeed);
+
+    spaces                   = resources [Resources::EId::eSpaces];
+    spaces.Coordinate.X      = startSpaceX;
+    spaces.Coordinate.Y      = windSpeed.Coordinate.Y;
+    draftsman.DrawBitmap (spaces);
+
+    Bitmap & temperature     = resources [Resources::EId::eTemperature];
+    temperature.Coordinate.X = startVariableX;
+    temperature.Coordinate.Y = windSpeed.Coordinate.Y + windSpeed.Dimension.Height + FIVE;
+    draftsman.DrawBitmap (temperature);
+
+    spaces                   = resources [Resources::EId::eSpaces];
+    spaces.Coordinate.X      = startSpaceX;
+    spaces.Coordinate.Y      = temperature.Coordinate.Y;
     draftsman.DrawBitmap (spaces);
 
     v_button .Redraw     ();
