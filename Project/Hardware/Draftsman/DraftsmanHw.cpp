@@ -20,7 +20,7 @@ DraftsmanHw::DraftsmanHw (const Config_t v_config, ILI9341 & v_ili9341, Resource
 
 void DraftsmanHw::DrawText (std::string_view v_text, const Bitmap::Coordinates v_coordinate)
 {
-    if (v_text.size () == 0)
+    if (v_text.size () == ZERO)
     {
         LOGE (MODULE, "Empty string text.");
         return;
@@ -31,6 +31,7 @@ void DraftsmanHw::DrawText (std::string_view v_text, const Bitmap::Coordinates v
     {
         Bitmap & bitmap     = resources [static_cast <Font::EId>(v_text.at (asciNum))];
         bitmap.Coordinate.X = xPos;
+        bitmap.Coordinate.Y = v_coordinate.Y;
         xPos                += bitmap.Dimension.Width;
         DrawBitmap (bitmap);
     }

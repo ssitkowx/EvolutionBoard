@@ -13,7 +13,7 @@
 Font::Font ()
 {
     LOG                                 (MODULE, "Init.");
-    /*
+
     create <EId::eZero                > (zero);
     create <EId::eOne                 > (one);
     create <EId::eTwo                 > (two);
@@ -106,7 +106,7 @@ Font::Font ()
     create <EId::eRoundLeftBracket    > (roundleftbracket);
     create <EId::eRoundRightBracket   > (roundrightbracket);
     create <EId::eSemicolon           > (semicolon);
-    create <EId:: eSingleQuotation    > (singlequotation);
+    create <EId::eSingleQuotation     > (singlequotation);
     create <EId::eSlash               > (slash);
     create <EId::eSnake               > (snake);
     create <EId::eSpace               > (space);
@@ -114,7 +114,7 @@ Font::Font ()
     create <EId::eSquareRightBracket  > (squarerightbracket);
     create <EId::eTriangleLeftBracket > (triangleleftbracket);
     create <EId::eTriangleRightBracket> (trianglerightbracket);
-    */
+    create <EId::eQuestion            > (question);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

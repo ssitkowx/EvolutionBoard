@@ -110,6 +110,7 @@ class Font final
             eSquareRightBracket   = ']',
             eTriangleLeftBracket  = '<',
             eTriangleRightBracket = '>',
+            eQuestion             = '?'
         };
 
         Font ();

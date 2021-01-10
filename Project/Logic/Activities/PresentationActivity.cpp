@@ -34,6 +34,7 @@ PresentationActivity::PresentationActivity (Draftsman<DraftsmanHw> & v_draftsman
     spaces.Coordinate.X      = startSpaceX;
     spaces.Coordinate.Y      = startVariableY;
     draftsman.DrawBitmap (spaces);
+    draftsman.DrawText   ("?", { spaces.Coordinate.X, spaces.Coordinate.Y });
 
     Bitmap & humidity        = resources [Resources::EId::eHumidity];
     humidity.Coordinate.X    = startVariableX;
@@ -44,6 +45,7 @@ PresentationActivity::PresentationActivity (Draftsman<DraftsmanHw> & v_draftsman
     spaces.Coordinate.X      = startSpaceX;
     spaces.Coordinate.Y      = humidity.Coordinate.Y;
     draftsman.DrawBitmap (spaces);
+    draftsman.DrawText   ("?", { spaces.Coordinate.X, spaces.Coordinate.Y });
 
     Bitmap & pressure        = resources [Resources::EId::ePressure];
     pressure.Coordinate.X    = startVariableX;
@@ -54,6 +56,7 @@ PresentationActivity::PresentationActivity (Draftsman<DraftsmanHw> & v_draftsman
     spaces.Coordinate.X      = startSpaceX;
     spaces.Coordinate.Y      = pressure.Coordinate.Y;
     draftsman.DrawBitmap (spaces);
+    draftsman.DrawText   ("?", { spaces.Coordinate.X, spaces.Coordinate.Y });
 
     Bitmap & windSpeed       = resources [Resources::EId::eWindSpeed];
     windSpeed.Coordinate.X   = startVariableX;
@@ -64,6 +67,7 @@ PresentationActivity::PresentationActivity (Draftsman<DraftsmanHw> & v_draftsman
     spaces.Coordinate.X      = startSpaceX;
     spaces.Coordinate.Y      = windSpeed.Coordinate.Y;
     draftsman.DrawBitmap (spaces);
+    draftsman.DrawText   ("?", { spaces.Coordinate.X, spaces.Coordinate.Y });
 
     Bitmap & temperature     = resources [Resources::EId::eTemperature];
     temperature.Coordinate.X = startVariableX;
@@ -74,9 +78,9 @@ PresentationActivity::PresentationActivity (Draftsman<DraftsmanHw> & v_draftsman
     spaces.Coordinate.X      = startSpaceX;
     spaces.Coordinate.Y      = temperature.Coordinate.Y;
     draftsman.DrawBitmap (spaces);
+    draftsman.DrawText   ("?", { spaces.Coordinate.X, spaces.Coordinate.Y });
 
-    v_button .Redraw     ();
-    //draftsman.DrawText   ("FONTTes", { 0, 0 });
+    v_button.Redraw ();
 }
 
 void PresentationActivity::Process (void)

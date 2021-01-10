@@ -61,6 +61,7 @@
 #include "Font/plus.h"
 #include "Font/px.h"
 #include "Font/Q.h"
+#include "Font/question.h"
 #include "Font/qx.h"
 #include "Font/R.h"
 #include "Font/roundleftbracket.h"
