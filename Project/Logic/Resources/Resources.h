@@ -7,11 +7,12 @@
 #include "Font.h"
 #include "Utils.h"
 #include "Bitmap.h"
+#include "LoggerHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-
+//#include <optional>
 class Resources final
 {
     static constexpr char * MODULE = (char *)"Resources";
@@ -19,15 +20,25 @@ class Resources final
     public:
         enum class EId : uint8_t
         {
+            eCity,
+            eSpaces,
+            eHumidity,
+            ePressure,
+            eWindSpeed,
             eBackground,
-            eTest
+            eTemperature,
         };
 
         Resources ();
         ~Resources () = default;
 
-        constexpr Bitmap & operator[] (EId v_eId)       { return *resource.at (static_cast<uint8_t>(v_eId)); }
-        constexpr Bitmap & operator[] (Font::EId v_eId) { return font [v_eId]; }
+        constexpr Bitmap & operator[] (EId v_eId)       { return *resource [static_cast<uint8_t>(v_eId)]; }
+        constexpr Bitmap & operator[] (Font::EId v_eId)
+        {
+            // todo add std::optional
+            //if (font [v_eId] == nullptr) { LOGE (MODULE, "Font with id: %d is empty", static_cast <uint8_t> (v_eId));
+            return font [v_eId];
+        }
 
     private:
         Font                       font;

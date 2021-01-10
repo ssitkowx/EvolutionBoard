@@ -10,8 +10,6 @@
 #include "SystemEvents.h"
 #include "ButtonsImages.h"
 
-#include "LoggerHw.h"
-
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -27,10 +25,8 @@ ButtonsHw::ButtonsHw (Configuration v_config,
     uint16_t xPos = config.ButtonStart.X;
     uint16_t yPos = config.ButtonStart.Y;
 
-    Bitmap & bitmap = create <EId::eBleButtonDown>     (BleButtonDown, xPos, yPos);
-    LOGD(MODULE, "Height1: %d", bitmap.Dimension.Height);
-    create <EId::eBleButtonUp>       (BleButtonUp, xPos, yPos);
-    LOGD(MODULE, "Height2: %d", bitmap.Dimension.Height);
+    //create <EId::eBleButtonDown> (BleButtonDown, xPos, yPos);
+    //create <EId::eBleButtonUp>   (BleButtonUp  , xPos, yPos);
 
     // maybe should be created later after window switch ? todo
     //create <EId::eWeatherButtonDown> (WeatherButtonDown, xPos, yPos);
@@ -68,7 +64,6 @@ void ButtonsHw::Redraw (const uint8_t v_id, const Bitmap::Coordinates & v_coordi
         if (Button::Redraw (*bitmap, v_id, v_coordinates) == true)
         {
             if (bitmap->IsButton == true) { SystemEvents::GetInstance ().CircBuf.Add (v_id); }
-            LOGD (MODULE, "Cx : %d, Cy: %d, Dw: %d, Dh: %d", bitmap->Coordinate.X, bitmap->Coordinate.Y, bitmap->Dimension.Width, bitmap->Dimension.Height);
             draftsman.DrawBitmap (*bitmap);
         }
     }
