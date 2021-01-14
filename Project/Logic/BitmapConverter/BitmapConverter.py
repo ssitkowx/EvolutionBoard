@@ -58,30 +58,34 @@ class BitmapConverter:
         imageHandle.write ('\n};\n\n')
         imageHandle.write (v_this.fileTail)
         imageHandle.close ()
-    
+        
     def __searchFiles (v_this, v_path, v_extension): 
         filesList = []
-        for root, dirs, files in os.walk (v_path): 
-            for file in files:  
-                if file.endswith (v_extension):
-                    filesList.append (file)
+        for root, dirs, files in os.walk (v_path):
+            for file in files:
+               if file.endswith (v_extension):
+                   filesList.append (root + '\\' + file)
         return filesList
+        
                     
     def ConvertBitmapsToImages (v_this):
         print ('ConvertBitmapsToImages')
 
         for bitmapExtension in v_this.bitmapExtensions:
-            bitmapsNameWithExtension = v_this.__searchFiles (v_this.currentPath + '\\Bitmaps', bitmapExtension)
-            print ('Bitmaps founded: {0}'.format (bitmapsNameWithExtension))
-    
-            for bitmapNameWithExtension in bitmapsNameWithExtension:     
-                bitmapPathWithName = v_this.currentPath + '\\Bitmaps\\' + bitmapNameWithExtension
-                bitmapName         = bitmapNameWithExtension [:-4]
-                imagePathWithName  = v_this.currentPath + '\\Images\\' + bitmapName + v_this.imageExtension
+            bitmaps = v_this.__searchFiles (v_this.currentPath + '\\Bitmaps', bitmapExtension)
+
+            for bitmap in bitmaps:
+                image = bitmap [:-4] + v_this.imageExtension
                 
-                print ('Convert {0} to {1}'.format (bitmapNameWithExtension, bitmapName + v_this.imageExtension))
-                v_this.__createImage (bitmapName, bitmapPathWithName, imagePathWithName)
-                    
+                print ('Convert: \n {0} to \n {1} \n'.format (bitmap, image))
+                v_this.__createImage (v_this.__getBitmapName (bitmap), bitmap, image)
+              
+    def __getBitmapName (v_this, v_bitmapPath):
+        splitedPath            = v_bitmapPath.split ('\\')
+        bitmapNameWihExtension = splitedPath [len (splitedPath) - 1]
+        bitmapNameExtension    = bitmapNameWihExtension [-4:]
+        return bitmapNameWihExtension [:-len (bitmapNameExtension)]
+              
 def main ():
     bitmapConverter = BitmapConverter ()
     bitmapConverter.ConvertBitmapsToImages ()
