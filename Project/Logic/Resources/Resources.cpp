@@ -18,7 +18,6 @@ Resources::Resources ()
     create <EId::eCity>        (City);
     create <EId::eHumidity>    (Humidity);
     create <EId::ePressure>    (Pressure);
-    create <EId::eSpaces>      (Spaces);
     create <EId::eTemperature> (Temperature);
     create <EId::eWindSpeed>   (WindSpeed);
 }

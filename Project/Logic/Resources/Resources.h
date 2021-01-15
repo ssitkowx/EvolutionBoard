@@ -7,12 +7,13 @@
 #include "Font.h"
 #include "Utils.h"
 #include "Bitmap.h"
+#include <optional>
 #include "LoggerHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-//#include <optional>
+
 class Resources final
 {
     static constexpr char * MODULE = (char *)"Resources";
@@ -21,7 +22,6 @@ class Resources final
         enum class EId : uint8_t
         {
             eCity,
-            eSpaces,
             eHumidity,
             ePressure,
             eWindSpeed,

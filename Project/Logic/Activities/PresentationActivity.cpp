@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Bitmap.h"
+#include "Settings.h"
 #include "Resources.h"
 #include "DraftsmanHw.h"
 #include "SystemEvents.h"
@@ -21,64 +22,43 @@ PresentationActivity::PresentationActivity (Draftsman<DraftsmanHw> & v_draftsman
     Bitmap & background = resources [Resources::EId::eBackground];
     draftsman.DrawBitmap (background);
 
-    uint16_t startVariableX  = TEN;
-    uint16_t startVariableY  = TEN;
-    uint16_t startSpaceX     = ONE_HUNDRED_FIFTY;
-
     Bitmap & city            = resources [Resources::EId::eCity];
-    city.Coordinate.X        = startVariableX;
-    city.Coordinate.Y        = startVariableY;
-    draftsman.DrawBitmap (city);
+    uint16_t posX            = startPosX + startMeasureX;
+    uint16_t posY            = startPosY;
+    uint8_t  movementY       = city.Dimension.Height + FIVE;
 
-    Bitmap & spaces          = resources [Resources::EId::eSpaces];
-    spaces.Coordinate.X      = startSpaceX;
-    spaces.Coordinate.Y      = startVariableY;
-    draftsman.DrawBitmap (spaces);
-    draftsman.DrawText   ("?", { spaces.Coordinate.X, spaces.Coordinate.Y });
+    city.Coordinate.X        = startPosX;
+    city.Coordinate.Y        = posY;
+    draftsman.DrawBitmap (city);
+    draftsman.DrawText   (startText, { posX, posY });
+    posY += movementY;
 
     Bitmap & humidity        = resources [Resources::EId::eHumidity];
-    humidity.Coordinate.X    = startVariableX;
-    humidity.Coordinate.Y    = city.Coordinate.Y + humidity.Dimension.Height + FIVE;
+    humidity.Coordinate.X    = startPosX;
+    humidity.Coordinate.Y    = posY;
     draftsman.DrawBitmap (humidity);
-
-    spaces                   = resources [Resources::EId::eSpaces];
-    spaces.Coordinate.X      = startSpaceX;
-    spaces.Coordinate.Y      = humidity.Coordinate.Y;
-    draftsman.DrawBitmap (spaces);
-    draftsman.DrawText   ("?", { spaces.Coordinate.X, spaces.Coordinate.Y });
+    draftsman.DrawText   (startText, { posX, posY });
+    posY += movementY;
 
     Bitmap & pressure        = resources [Resources::EId::ePressure];
-    pressure.Coordinate.X    = startVariableX;
-    pressure.Coordinate.Y    = humidity.Coordinate.Y + humidity.Dimension.Height + FIVE;
+    pressure.Coordinate.X    = startPosX;
+    pressure.Coordinate.Y    = posY;
     draftsman.DrawBitmap (pressure);
-
-    spaces                   = resources [Resources::EId::eSpaces];
-    spaces.Coordinate.X      = startSpaceX;
-    spaces.Coordinate.Y      = pressure.Coordinate.Y;
-    draftsman.DrawBitmap (spaces);
-    draftsman.DrawText   ("?", { spaces.Coordinate.X, spaces.Coordinate.Y });
+    draftsman.DrawText   (startText, { posX, posY });
+    posY += movementY;
 
     Bitmap & windSpeed       = resources [Resources::EId::eWindSpeed];
-    windSpeed.Coordinate.X   = startVariableX;
-    windSpeed.Coordinate.Y   = pressure.Coordinate.Y + pressure.Dimension.Height + FIVE;
+    windSpeed.Coordinate.X   = startPosX;
+    windSpeed.Coordinate.Y   = posY;
     draftsman.DrawBitmap (windSpeed);
-
-    spaces                   = resources [Resources::EId::eSpaces];
-    spaces.Coordinate.X      = startSpaceX;
-    spaces.Coordinate.Y      = windSpeed.Coordinate.Y;
-    draftsman.DrawBitmap (spaces);
-    draftsman.DrawText   ("?", { spaces.Coordinate.X, spaces.Coordinate.Y });
+    draftsman.DrawText   (startText, { posX, posY });
+    posY += movementY;
 
     Bitmap & temperature     = resources [Resources::EId::eTemperature];
-    temperature.Coordinate.X = startVariableX;
-    temperature.Coordinate.Y = windSpeed.Coordinate.Y + windSpeed.Dimension.Height + FIVE;
+    temperature.Coordinate.X = startPosX;
+    temperature.Coordinate.Y = posY;
     draftsman.DrawBitmap (temperature);
-
-    spaces                   = resources [Resources::EId::eSpaces];
-    spaces.Coordinate.X      = startSpaceX;
-    spaces.Coordinate.Y      = temperature.Coordinate.Y;
-    draftsman.DrawBitmap (spaces);
-    draftsman.DrawText   ("?", { spaces.Coordinate.X, spaces.Coordinate.Y });
+    draftsman.DrawText   (startText, { posX, posY });
 
     v_button.Redraw ();
 }
@@ -90,7 +70,31 @@ void PresentationActivity::Process (void)
     {
         uint16_t eventId = SystemEvents::GetInstance ().CircBuf.Remove ();
         //LOGI (MODULE, "Event: %d", eventId);
+        Update ();
     }
+}
+
+void PresentationActivity::Update  (void)
+{
+    Bitmap & city       = resources [Resources::EId::eCity];
+    uint16_t posX       = startPosX + startMeasureX;
+    uint16_t posY       = startPosY;
+    uint8_t  movementY  = city.Dimension.Height + FIVE;
+
+    draftsman.DrawText (spaces                                                                             , {posX, posY});
+    draftsman.DrawText (Settings::GetInstance ().WeatherMeasureMsgType.Location.Country.data ()            , {posX, posY});
+    posY += movementY;
+    draftsman.DrawText (spaces                                                                             , {posX, posY});
+    draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.Humidity)   , {posX, posY});
+    posY += movementY;
+    draftsman.DrawText (spaces                                                                             , {posX, posY});
+    draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.Pressure)   , {posX, posY});
+    posY += movementY;
+    draftsman.DrawText (spaces                                                                             , {posX, posY});
+    draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.WindSpeed)  , {posX, posY});
+    posY += movementY;
+    draftsman.DrawText (spaces                                                                             , {posX, posY});
+    draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.Temperature), {posX, posY});
 }
 
 ///////////////////////////////////////////////////////////////////////////////

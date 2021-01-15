@@ -4,6 +4,7 @@
 
 #include "Font.h"
 #include "Bitmap.h"
+#include <optional>
 #include "Settings.h"
 #include "DraftsmanHw.h"
 
@@ -29,17 +30,23 @@ void DraftsmanHw::DrawText (std::string_view v_text, const Bitmap::Coordinates v
     uint16_t xPos = v_coordinate.X;
     for (uint8_t asciNum = ZERO; asciNum < v_text.size (); asciNum++)
     {
-        Bitmap & bitmap     = resources [static_cast <Font::EId>(v_text.at (asciNum))];
+        Bitmap & bitmap = resources [static_cast <Font::EId>(v_text.at (asciNum))];
+        if (bitmap.Data == nullptr)
+        {
+            LOGW (MODULE, "Char with id: %s not supported.", (char)asciNum);
+            continue;
+        }
+
         bitmap.Coordinate.X = xPos;
         bitmap.Coordinate.Y = v_coordinate.Y;
-        xPos                += bitmap.Dimension.Width;
+        xPos               += bitmap.Dimension.Width;
         DrawBitmap (bitmap);
     }
 }
 
 bool DraftsmanHw::DrawBitmap (Bitmap & v_bitmap)
 {
-    if (Draftsman<DraftsmanHw>::DrawBitmap (v_bitmap) == false)
+    if (Draftsman::DrawBitmap (v_bitmap) == false)
     {
         LOGE (MODULE, "Rect out of display: id: %d, xPos: %d, yPos: %d, Width: %d, Height: %d.", v_bitmap.Id,
                                                                                                  v_bitmap.Coordinate.X,

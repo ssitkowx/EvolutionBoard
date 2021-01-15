@@ -67,7 +67,7 @@ extern "C"
 */
         Rtos::GetInstance ()->TaskCreate (DisplayAndTouchProcess,
                                           "DisplayAndTouchProcess",
-                                          THIRTY_THOUSAND_BYTES,
+                                          FIVE_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eNormal),
                                           DisplayAndTouchTaskHandle);
 

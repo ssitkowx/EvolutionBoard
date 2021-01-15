@@ -10,7 +10,7 @@
 //////////////////////////////// VARIABLES ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-static const uint16_t trianglerigthbracket [] = 
+static const uint16_t trianglerightbracket [] = 
 { 
     0x000a, 0x0014, 
     0x2e10, 0x2e10, 0x0d10, 0x2d10, 0x2d10, 0x2d10, 0x2d10, 0x2d10, 0x2e10, 0x2e10, 0x2e10, 0x0d08, 0x2d10, 0x4d10, 0x2d10, 0x4d10, 
