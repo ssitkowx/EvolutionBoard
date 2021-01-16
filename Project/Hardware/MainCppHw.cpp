@@ -70,15 +70,13 @@ extern "C"
                                           FIVE_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eNormal),
                                           DisplayAndTouchTaskHandle);
-
-
     }
 
     void BluetoothProcess (void * v_params)
     {
         while (true)
         {
-
+            Rtos::GetInstance ()->DelayInMs (TEN);
         }
 
         vTaskDelete (NULL);
@@ -103,7 +101,7 @@ extern "C"
             if (Rtos::GetInstance ()->TakeSemaphore ("TakeWeatherMeasureSemaphore") == true)
             {
                 weatherMeasureComm.Process ();
-                Rtos::GetInstance ()->DelayInMs (ONE_HUNDRED);
+                Rtos::GetInstance ()->DelayInMs (TEN);
             }
         }
 
@@ -148,7 +146,7 @@ extern "C"
         TouchHw                              touchHw              (touchCoefficients, touchConfig, spiTouchHw);
 
         const ButtonsHw::Configuration       buttonsConfig          = {
-                                                                         ButtonStart     : {
+                                                                         Coordinate      : {
                                                                                              FIFTEEN,             // X
                                                                                              TWO_HUNDRED_SIXTY    // Y
                                                                                            }
@@ -160,7 +158,7 @@ extern "C"
         while (true)
         {
             presentationActivity.Process ();
-            Rtos::GetInstance ()->DelayInMs (ONE);
+            Rtos::GetInstance ()->DelayInMs (TEN);
         }
 
         vTaskDelete (NULL);

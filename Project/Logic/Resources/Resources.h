@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// INCLUDES /////////////////////////////////////
@@ -32,8 +32,8 @@ class Resources final
         Resources ();
         ~Resources () = default;
 
-        constexpr Bitmap & operator[] (EId v_eId)       { return *resource.at (static_cast<uint8_t>(v_eId)); }
         constexpr Bitmap & operator[] (Font::EId v_eId) { return font [v_eId]; }
+        constexpr Bitmap & operator[] (EId v_eId)       { return *resource.at (static_cast<uint8_t>(v_eId)); }
 
     private:
         Font                       font;

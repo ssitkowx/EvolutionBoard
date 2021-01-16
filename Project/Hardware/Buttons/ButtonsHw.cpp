@@ -22,8 +22,8 @@ ButtonsHw::ButtonsHw (Configuration v_config,
 {
     LOG (MODULE, "Init.");
 
-    uint16_t xPos = config.ButtonStart.X;
-    uint16_t yPos = config.ButtonStart.Y;
+    uint16_t xPos = config.Coordinate.X;
+    uint16_t yPos = config.Coordinate.Y;
 
     create <EId::eBleButtonDown> (BleButtonDown, xPos, yPos);
     create <EId::eBleButtonUp>   (BleButtonUp  , xPos, yPos);

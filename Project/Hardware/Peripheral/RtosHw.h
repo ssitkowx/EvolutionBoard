@@ -45,13 +45,11 @@ class RtosHw final : public Rtos
         RtosHw ();
         ~RtosHw ();
 
-        bool     GiveSemaphoreFromISR                 (std::string_view v_name)        override;
-        bool     TakeSemaphore                        (std::string_view v_name)        override;
+        bool     TakeSemaphore                        (const std::string_view v_name) override;
+        bool     GiveSemaphoreFromISR                 (const std::string_view v_name) override;
         bool     GiveTouchSemaphoreFromISR            (void);
-        bool     GiveMemoryStatisticsSemaphoreFromISR (void);
         bool     GiveWeatherMeasureSemaphoreFromISR   (void);
         bool     TakeTouchSemaphore                   (void);
-        bool     TakeMemoryStatisticsSemaphore        (void);
         bool     TakeWeatherMeasureSemaphore          (void);
 
         void     DelayInMs                            (const uint32_t v_ms)            override { vTaskDelay (v_ms / portTICK_RATE_MS); }

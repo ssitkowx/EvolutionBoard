@@ -13,7 +13,6 @@
 
 SemaphoreHandle_t TouchSemaphoreHandle;
 SemaphoreHandle_t WeatherMeasureSemaphoreHandle;
-QueueHandle_t     WeatherMeasureQueueHandle;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -28,10 +27,6 @@ RtosHw::RtosHw ()
 
     WeatherMeasureSemaphoreHandle = xSemaphoreCreateBinary ();
     if (WeatherMeasureSemaphoreHandle == NULL) { LOGE (MODULE, "Could't allocate WeatherMeasureSemaphoreHandle."); }
-
-    WeatherMeasureQueueHandle = xQueueCreate (THREE, sizeof (uint8_t));
-    if (WeatherMeasureQueueHandle == NULL) { LOGE (MODULE, "Could't allocate WeatherMeasureQueueHandle."); }
-
 }
 
 RtosHw::~RtosHw ()
@@ -39,17 +34,17 @@ RtosHw::~RtosHw ()
     LOG (MODULE, "Deinit.");
 }
 
-bool RtosHw::GiveSemaphoreFromISR (std::string_view v_name)
-{
-    if (strcmp ("GiveTouchSemaphoreFromISR"           , v_name.data ()) == ZERO) { return GiveTouchSemaphoreFromISR (); }
-    if (strcmp ("GiveWeatherMeasureSemaphoreFromISR"  , v_name.data ()) == ZERO) { return GiveWeatherMeasureSemaphoreFromISR (); }
-    return false;
-}
-
 bool RtosHw::TakeSemaphore (std::string_view v_name)
 {
     if (strcmp ("TakeTouchSemaphore"           , v_name.data ()) == ZERO) { return TakeTouchSemaphore (); }
     if (strcmp ("TakeWeatherMeasureSemaphore"  , v_name.data ()) == ZERO) { return TakeWeatherMeasureSemaphore (); }
+    return false;
+}
+
+bool RtosHw::GiveSemaphoreFromISR (std::string_view v_name)
+{
+    if (strcmp ("GiveTouchSemaphoreFromISR"           , v_name.data ()) == ZERO) { return GiveTouchSemaphoreFromISR (); }
+    if (strcmp ("GiveWeatherMeasureSemaphoreFromISR"  , v_name.data ()) == ZERO) { return GiveWeatherMeasureSemaphoreFromISR (); }
     return false;
 }
 

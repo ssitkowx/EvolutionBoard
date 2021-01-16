@@ -78,7 +78,7 @@ class Font final
             eVx                   = 'v',
             eWx                   = 'w',
             eXx                   = 'x',
-            eYx                   = 'x',
+            eYx                   = 'y',
             eZx                   = 'z',
 
             eAmpersand            = '&',

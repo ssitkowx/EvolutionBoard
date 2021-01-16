@@ -21,16 +21,16 @@ class ButtonsHw final : public Button
     public:
         struct Configuration
         {
-            Bitmap::Coordinates ButtonStart;
+            Bitmap::Coordinates Coordinate;
         } config;
 
         explicit ButtonsHw (Configuration            v_config,
                             Draftsman<DraftsmanHw> & v_draftsman,
                             Touch<TouchHw>         & v_touch);
 
-        void     Process         (void) override;
-        void     Redraw          (void) override;
-        void     Redraw          (const uint8_t v_id, const Bitmap::Coordinates & v_coordinates);
+        void     Process   (void) override;
+        void     Redraw    (void) override;
+        void     Redraw    (const uint8_t v_id, const Bitmap::Coordinates & v_coordinates);
 
         ~ButtonsHw ();
 

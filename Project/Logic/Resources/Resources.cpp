@@ -5,7 +5,6 @@
 #include "LoggerHw.h"
 #include "Resources.h"
 #include "background.h"
-#include "VariablesImages.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -15,11 +14,6 @@ Resources::Resources ()
 {
     LOG                        (MODULE, "Init.");
     create <EId::eBackground>  (background);
-    create <EId::eCity>        (City);
-    create <EId::eHumidity>    (Humidity);
-    create <EId::ePressure>    (Pressure);
-    create <EId::eTemperature> (Temperature);
-    create <EId::eWindSpeed>   (WindSpeed);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

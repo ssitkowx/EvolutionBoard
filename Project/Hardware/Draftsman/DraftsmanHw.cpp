@@ -2,7 +2,6 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Font.h"
 #include "Bitmap.h"
 #include <optional>
 #include "Settings.h"
@@ -31,12 +30,6 @@ void DraftsmanHw::DrawText (std::string_view v_text, const Bitmap::Coordinates v
     for (uint8_t asciNum = ZERO; asciNum < v_text.size (); asciNum++)
     {
         Bitmap & bitmap = resources [static_cast <Font::EId>(v_text.at (asciNum))];
-        if (bitmap.Data == nullptr)
-        {
-            LOGW (MODULE, "Char with id: %s not supported.", (char)asciNum);
-            continue;
-        }
-
         bitmap.Coordinate.X = xPos;
         bitmap.Coordinate.Y = v_coordinate.Y;
         xPos               += bitmap.Dimension.Width;
