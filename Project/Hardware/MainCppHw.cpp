@@ -58,13 +58,13 @@ extern "C"
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eAboveNormal),
                                           BluetoothTaskHandle);
 */
-/*
+
         Rtos::GetInstance ()->TaskCreate (WeatherMeasureProcess,
                                           "WeatherMeasureProcess",
                                           EIGHT_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eBelowHigh),
                                           WeatherMeasureTaskHandle);
-*/
+
         Rtos::GetInstance ()->TaskCreate (DisplayAndTouchProcess,
                                           "DisplayAndTouchProcess",
                                           FIVE_THOUSAND_BYTES,
@@ -123,12 +123,13 @@ extern "C"
                                                                                            }
                                                                       };
 
-        Resources                            resources;
-        DraftsmanHw                          draftsmanHw          (draftsmanConfig, ili9341, resources);
+        Font                                 font;
+        Resources                            resources            (font);
+        DraftsmanHw                          draftsmanHw          (draftsmanConfig, ili9341, font);
 
         const Touch<TouchHw>::Config         touchConfig            = { Histeresis       :   TWO,
-                                                                        Time             : { FOUR,              // PressedMax, InterruptInSeconds * PressedMax
-                                                                                             EIGHT              // ReleasedMax
+                                                                        Time             : { FOUR,               // PressedMax, InterruptInSeconds * PressedMax
+                                                                                             EIGHT               // ReleasedMax
                                                                                            }
                                                                       };
 
@@ -142,7 +143,7 @@ extern "C"
                                                                         eTimer           : Timer<TimerHw>::ETimer::e0
                                                                       };
 
-        TimerHw                              timerHw              (timerTouchConfig);
+        TimerHw                              timerTouchHw         (timerTouchConfig);
         TouchHw                              touchHw              (touchCoefficients, touchConfig, spiTouchHw);
 
         const ButtonsHw::Configuration       buttonsConfig          = {

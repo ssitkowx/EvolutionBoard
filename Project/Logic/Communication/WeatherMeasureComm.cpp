@@ -64,6 +64,8 @@ void WeatherMeasureComm::receive (void)
     LOGV                       (MODULE, "Stack size:            %u.", Rtos::GetInstance ()->GetCurrentStackSize ("WeatherMeasureComm"));
     LOGV                       (MODULE, "Heap size:             %u.", Rtos::GetInstance ()->GetCurrentHeapSize ());
     clear                      (root, body);
+
+    Rtos::GetInstance ()->GiveSemaphore ("GiveWeatherMeasureUpdateSemaphore");
 }
 
 void WeatherMeasureComm::clear (cJSON * v_root, char * v_body)

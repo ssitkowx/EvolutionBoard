@@ -25,31 +25,31 @@ PresentationActivity::PresentationActivity (Draftsman<DraftsmanHw> & v_draftsman
     Bitmap & background = resources [Resources::EId::eBackground];
     draftsman.DrawBitmap (background);
 
-    Bitmap & letter          = resources [Font::EId::eA];
-    uint16_t posX            = startPosX + startMeasureX;
-    uint16_t posY            = startPosY;
-    uint8_t  movementY       = letter.Dimension.Height + FIVE;
+    Bitmap & letter    = resources [Font::EId::eA];
+    uint16_t posX      = startPosX + startMeasureX;
+    uint16_t posY      = startPosY;
+    uint8_t  movementY = letter.Dimension.Height + FIVE;
 
-    draftsman.DrawText   ("City:"       , { startPosX, posY });
-    draftsman.DrawText   (startText     , { posX     , posY });
+    draftsman.DrawText ("City:"       , { startPosX, posY });
+    draftsman.DrawText (startText     , { posX     , posY });
     posY += movementY;
 
-    draftsman.DrawText   ("Humidity:"   , { startPosX, posY });
-    draftsman.DrawText   (startText     , { posX     , posY });
+    draftsman.DrawText ("Humidity:"   , { startPosX, posY });
+    draftsman.DrawText (startText     , { posX     , posY });
     posY += movementY;
 
-    draftsman.DrawText   ("Pressure:"   , { startPosX, posY });
-    draftsman.DrawText   (startText     , { posX     , posY });
+    draftsman.DrawText ("Pressure:"   , { startPosX, posY });
+    draftsman.DrawText (startText     , { posX     , posY });
     posY += movementY;
 
-    draftsman.DrawText   ("Wind speed:" , { startPosX, posY });
-    draftsman.DrawText   (startText     , { posX     , posY });
+    draftsman.DrawText ("Wind speed:" , { startPosX, posY });
+    draftsman.DrawText (startText     , { posX     , posY });
     posY += movementY;
 
-    draftsman.DrawText   ("Temperature:", { startPosX, posY });
-    draftsman.DrawText   (startText     , { posX, posY });
+    draftsman.DrawText ("Temperature:", { startPosX, posY });
+    draftsman.DrawText (startText     , { posX, posY });
 
-    v_button.Redraw ();
+    v_button.Redraw    ();
 }
 
 void PresentationActivity::Process (void)
@@ -61,7 +61,7 @@ void PresentationActivity::Process (void)
         LOGI (MODULE, "Event: %d", eventId);
     }
 
-    Update ();
+    if (Rtos::GetInstance ()->TakeSemaphore ("TakeWeatherMeasureUpdateSemaphore") == true) { Update (); }
 }
 
 void PresentationActivity::Update  (void)

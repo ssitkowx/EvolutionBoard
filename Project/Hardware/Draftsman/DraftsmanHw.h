@@ -20,7 +20,7 @@ class DraftsmanHw final : public Draftsman<DraftsmanHw>
     friend Draftsman<DraftsmanHw>;
 
     public:
-        explicit DraftsmanHw (const Config_t v_config, ILI9341 & v_ili9341, Resources & v_resources);
+        explicit DraftsmanHw (const Config_t v_config, ILI9341 & v_ili9341, Font & v_font);
         void     DrawText    (std::string_view v_text, const Bitmap::Coordinates v_coordinate);
         bool     DrawBitmap  (Bitmap & v_bitmap);
 
@@ -30,8 +30,8 @@ class DraftsmanHw final : public Draftsman<DraftsmanHw>
         void     sendLines   (const Bitmap & v_bitmap) { ili9341.SendLines (v_bitmap); }
 
     private:
-        ILI9341   & ili9341;
-        Resources & resources;
+        ILI9341 & ili9341;
+        Font    & font;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -11,9 +11,9 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-DraftsmanHw::DraftsmanHw (const Config_t v_config, ILI9341 & v_ili9341, Resources & v_resources) : Draftsman (v_config),
-                                                                                                   ili9341   (v_ili9341),
-                                                                                                   resources (v_resources)
+DraftsmanHw::DraftsmanHw (const Config_t v_config, ILI9341 & v_ili9341, Font & v_font) : Draftsman (v_config),
+                                                                                         ili9341   (v_ili9341),
+                                                                                         font      (v_font)
 {
     LOG (MODULE, "Init.");
 }
@@ -29,7 +29,7 @@ void DraftsmanHw::DrawText (std::string_view v_text, const Bitmap::Coordinates v
     uint16_t xPos = v_coordinate.X;
     for (uint8_t asciNum = ZERO; asciNum < v_text.size (); asciNum++)
     {
-        Bitmap & bitmap = resources [static_cast <Font::EId>(v_text.at (asciNum))];
+        Bitmap & bitmap     = font [static_cast <Font::EId>(v_text.at (asciNum))];
         bitmap.Coordinate.X = xPos;
         bitmap.Coordinate.Y = v_coordinate.Y;
         xPos               += bitmap.Dimension.Width;

@@ -29,15 +29,15 @@ class Resources final
             eTemperature,
         };
 
-        Resources ();
+        Resources (Font & v_font);
         ~Resources () = default;
 
         constexpr Bitmap & operator[] (Font::EId v_eId) { return font [v_eId]; }
         constexpr Bitmap & operator[] (EId v_eId)       { return *resource.at (static_cast<uint8_t>(v_eId)); }
 
     private:
-        Font                       font;
-        std::array <Bitmap *, TEN> resource;
+        Font                       & font;
+        std::array <Bitmap *, TEN>   resource;
 
         template <const EId ID>
         void create (const uint16_t * v_data)

@@ -14,7 +14,7 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-ButtonsHw::ButtonsHw (Configuration v_config,
+ButtonsHw::ButtonsHw (Configuration            v_config,
                       Draftsman<DraftsmanHw> & v_draftsman,
                       Touch<TouchHw>         & v_touch) : config    (v_config),
                                                           draftsman (v_draftsman),
