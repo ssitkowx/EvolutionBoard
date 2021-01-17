@@ -59,6 +59,12 @@ void SystemTimeHw::Update (void)
             isTimeSynchronized = true;
             LOGI (MODULE, "SNTP server time synchronization succeeded.");
         }
+
+        if (retry == (retryMax - ONE))
+        {
+            LOGI (MODULE, "Restart after exceeding the maximum number of time synchronization attempts.");
+            esp_restart ();
+        }
     }
 }
 

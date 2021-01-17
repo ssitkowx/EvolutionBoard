@@ -6,7 +6,7 @@
 
 #include <array>
 #include "Font.h"
-#include "Button.h"
+#include "ButtonsHw.h"
 #include "Resources.h"
 #include "DraftsmanHw.h"
 
@@ -20,7 +20,7 @@ class PresentationActivity
         static constexpr char * MODULE = (char *)"PresentationActivity";
 
         explicit PresentationActivity (Draftsman<DraftsmanHw> & v_display,
-                                       Button                 & v_button,
+                                       Button<ButtonsHw>      & v_button,
                                        Resources              & v_resources);
 
         ~PresentationActivity () = default;
@@ -30,7 +30,7 @@ class PresentationActivity
 
     private:
 		Draftsman<DraftsmanHw> & draftsman;
-        Button                 & button;
+        Button   <ButtonsHw>   & button;
         Resources              & resources;
 
         static constexpr         std::string_view startText = "  ?  ";

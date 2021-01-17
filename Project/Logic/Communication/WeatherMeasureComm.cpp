@@ -17,6 +17,15 @@
 
 void WeatherMeasureComm::receive (void)
 {
+    static bool isMeasureUpdated = false;    // todo
+    if (isMeasureUpdated == true)
+    {
+        LOGD (MODULE, "Measurement already updated");
+        return;
+    }
+
+    isMeasureUpdated = true;
+
     if (WiFi<WiFiHw>::IsOnline () == false)
     {
         LOGW (MODULE, "Offline.");
@@ -65,7 +74,7 @@ void WeatherMeasureComm::receive (void)
     LOGV                       (MODULE, "Heap size:             %u.", Rtos::GetInstance ()->GetCurrentHeapSize ());
     clear                      (root, body);
 
-    Rtos::GetInstance ()->GiveSemaphore ("GiveWeatherMeasureUpdateSemaphore");
+    Rtos::GetInstance ()->SetBitsEventGroup ("WeatherMeasureAndButtonsUpdatesEventGroupHandle", Rtos::EEventGroup::eSecond);
 }
 
 void WeatherMeasureComm::clear (cJSON * v_root, char * v_body)

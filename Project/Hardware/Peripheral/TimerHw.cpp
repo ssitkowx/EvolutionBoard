@@ -19,7 +19,7 @@ void IRAM_ATTR timerIsr (void * v_params)
     {
         TIMERG0.int_clr_timers.t0                  = ONE;
         TIMERG0.hw_timer [TIMER_0].config.alarm_en = ONE;
-        Rtos::GetInstance()->GiveSemaphoreFromISR ("GiveTouchSemaphoreFromISR");
+        Rtos::GetInstance ()->SetBitsEventGroup ("WeatherMeasureAndButtonsUpdatesEventGroupHandle", Rtos::EEventGroup::eFirst);
     }
     else if ((TIMERG0.int_st_timers.val & BIT (TIMER_1)) && TIMER_1 == TIMER_1)
     {

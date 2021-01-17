@@ -14,7 +14,7 @@
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class ButtonsHw final : public Button
+class ButtonsHw final : public Button <ButtonsHw>
 {
     static constexpr char * MODULE = (char *)"ButtonHw";
 
@@ -28,8 +28,8 @@ class ButtonsHw final : public Button
                             Draftsman<DraftsmanHw> & v_draftsman,
                             Touch<TouchHw>         & v_touch);
 
-        void     Process   (void) override;
-        void     Redraw    (void) override;
+        void     Process   (void);
+        void     Redraw    (void);
         void     Redraw    (const uint8_t v_id, const Bitmap::Coordinates & v_coordinates);
 
         ~ButtonsHw ();

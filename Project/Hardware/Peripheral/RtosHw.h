@@ -45,17 +45,18 @@ class RtosHw final : public Rtos
         RtosHw ();
         ~RtosHw ();
 
-        bool     TakeSemaphore                        (const std::string_view v_name) override;
-        bool     GiveSemaphore                        (const std::string_view v_name) override;
-        bool     GiveSemaphoreFromISR                 (const std::string_view v_name) override;
-        bool     GiveWeatherMeasureUpdateSemaphore    (void);
-        bool     GiveTouchSemaphoreFromISR            (void);
-        bool     GiveWeatherMeasureSemaphoreFromISR   (void);
-        bool     TakeTouchSemaphore                   (void);
-        bool     TakeWeatherMeasureSemaphore          (void);
-        bool     TakeWeatherMeasureUpdateSemaphore    (void);
-
         void     DelayInMs                            (const uint32_t v_ms)            override { vTaskDelay (v_ms / portTICK_RATE_MS); }
+        bool     TakeSemaphore                        (std::string_view v_name)        override;
+        bool     GiveSemaphoreFromISR                 (std::string_view v_name)        override;
+        bool     GiveWeatherMeasureSemaphoreFromISR   (void);
+        bool     TakeWeatherMeasureSemaphore          (void);
+        void     SetBitsEventGroup                    (std::string_view v_name,
+                                                       const EEventGroup v_eBit)       override;
+        void     SetBitsEventGroupFromISR             (std::string_view v_name,
+                                                       const EEventGroup v_eBit)       override;
+        void     ClearBitsEventGroup                  (std::string_view v_name,
+                                                       const EEventGroup v_eBit)       override;
+        uint32_t WaitBitsEventGroup                   (std::string_view v_name)        override;
         uint32_t GetCurrentHeapSize                   (void)                           override { return esp_get_free_heap_size ();     }
         uint32_t GetCurrentStackSize                  (std::string_view v_name)        override;
         uint32_t TaskCreate                           (TaskFunctionType v_taskFuncion,

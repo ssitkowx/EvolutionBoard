@@ -70,6 +70,7 @@ extern "C"
                                           FIVE_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eNormal),
                                           DisplayAndTouchTaskHandle);
+
     }
 
     void BluetoothProcess (void * v_params)
@@ -156,9 +157,25 @@ extern "C"
         ButtonsHw                            buttonsHw            (buttonsConfig, draftsmanHw, touchHw);
         PresentationActivity                 presentationActivity (draftsmanHw, buttonsHw, resources);
 
+        const uint32_t touchEvent                                   = static_cast <uint32_t> (Rtos::EEventGroup::eFirst);
+        const uint32_t weatherMeasureEvent                          = static_cast <uint32_t> (Rtos::EEventGroup::eSecond);
+
         while (true)
         {
-            presentationActivity.Process ();
+            const uint32_t event  = Rtos::GetInstance ()->WaitBitsEventGroup ("WeatherMeasureAndButtonsUpdatesEventGroupHandle");
+            if ((event & touchEvent) != ZERO)
+            {
+                presentationActivity.Process ();
+                Rtos::GetInstance ()->ClearBitsEventGroup ("WeatherMeasureAndButtonsUpdatesEventGroupHandle", Rtos::EEventGroup::eFirst);
+            }
+
+            if ((event & weatherMeasureEvent) != ZERO)
+            {
+                LOGI                        (MODULE, "Display update");
+                presentationActivity.Update ();
+                Rtos::GetInstance           ()->ClearBitsEventGroup ("WeatherMeasureAndButtonsUpdatesEventGroupHandle", Rtos::EEventGroup::eSecond);
+            }
+
             Rtos::GetInstance ()->DelayInMs (TEN);
         }
 

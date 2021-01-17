@@ -15,7 +15,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 PresentationActivity::PresentationActivity (Draftsman<DraftsmanHw> & v_draftsman,
-                                            Button                 & v_button,
+                                            Button   <ButtonsHw>   & v_button,
                                             Resources              & v_resources) : draftsman (v_draftsman),
                                                                                     button    (v_button),
                                                                                     resources (v_resources)
@@ -59,9 +59,8 @@ void PresentationActivity::Process (void)
     {
         uint16_t eventId = SystemEvents::GetInstance ().CircBuf.Remove ();
         LOGI (MODULE, "Event: %d", eventId);
+        // todo switchig activity ?
     }
-
-    if (Rtos::GetInstance ()->TakeSemaphore ("TakeWeatherMeasureUpdateSemaphore") == true) { Update (); }
 }
 
 void PresentationActivity::Update  (void)
@@ -71,20 +70,20 @@ void PresentationActivity::Update  (void)
     uint16_t posY      = startPosY;
     uint8_t  movementY = letter.Dimension.Height + FIVE;
 
-    draftsman.DrawText (spaces                                                                             , {posX, posY});
-    draftsman.DrawText (Settings::GetInstance ().WeatherMeasureMsgType.Location.Country.data ()            , {posX, posY});
+    draftsman.DrawText (spaces                                                                              , {posX, posY});
+    draftsman.DrawText (Settings::GetInstance                 ().WeatherMeasureMsgType.Location.Name.data (), {posX, posY});
     posY += movementY;
-    draftsman.DrawText (spaces                                                                             , {posX, posY});
-    draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.Humidity)   , {posX, posY});
+    draftsman.DrawText (spaces                                                                              , {posX, posY});
+    draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.Humidity)    , {posX, posY});
     posY += movementY;
-    draftsman.DrawText (spaces                                                                             , {posX, posY});
-    draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.Pressure)   , {posX, posY});
+    draftsman.DrawText (spaces                                                                              , {posX, posY});
+    draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.Pressure)    , {posX, posY});
     posY += movementY;
-    draftsman.DrawText (spaces                                                                             , {posX, posY});
-    draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.WindSpeed)  , {posX, posY});
+    draftsman.DrawText (spaces                                                                              , {posX, posY});
+    draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.WindSpeed)   , {posX, posY});
     posY += movementY;
-    draftsman.DrawText (spaces                                                                             , {posX, posY});
-    draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.Temperature), {posX, posY});
+    draftsman.DrawText (spaces                                                                              , {posX, posY});
+    draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.Temperature) , {posX, posY});
 }
 
 ///////////////////////////////////////////////////////////////////////////////
