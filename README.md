@@ -1,19 +1,28 @@
 # EvolutionBoard
 
 # I. Description:
-The project is used to show several capabilities of the ESP32 WROVER.
-An example implementation is shown:
-- time synchronization from the network (WiFi),
-- downloading weather data from the cloud (WiFi + JOSN, POSTMAN),
-- displaying weather data on the display (ILI9341, 2.8 '', SPI, 8bit 320x240) in real time,
-- button operation using the Arduino touch.
-- heap and stack busy display,
-- tests with gmock and gtest.
+The project was created to show selected capabilities of the ESP32-WROVER module.
+The device shows the weather data on the display.
 
-The device works under RTOS control.
+Equipment used:
+- Display (240 x 320 with ILI9341 driver)) with Arduino Touch (Both using SPI and GPIO), 
+- Time synchronization with the network and downloading weather data (WiFi, HTTPS),
+- Free RTOS control (Semaphores and Event Groups),
+- View heap and stack display.
+
+Design pattern used:
+- Abstract Factory, 
+- Template Method, 
+- Strategy, 
+- CRTP, 
+- Observer, 
+- Singleton.
+
+Tests:
+The individual libraries as well as the entire project are tested with gtest and gmock (white-box approach).
 
 P.S
-Device functionalities are incomplete yet(under development).
+All still under development.
 
 # II. Assumptions & Structure:
 Same as in AtollicTemplate project.
