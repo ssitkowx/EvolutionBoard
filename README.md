@@ -8,9 +8,9 @@ Functionalities used:
 - Display (240 x 320 with ILI9341 driver)) with Arduino Touch (GPIO, SPI), 
 - Time synchronization with the network (WiFi, SNTP),
 - Downloading weather data (WiFi, HTTP),
-- Free RTOS control (Semaphores, Event Groups),
+- Free RTOS control (Semaphores, Event Groups, tasks),
 - Heap and stack display,
-- Bitmap converter (PYTHON).
+- Bitmap converter (Python).
 
 Design pattern used:
 - Abstract Factory, 
