@@ -7,18 +7,17 @@
 #include <stdint.h>
 #include "GpioHw.h"
 #include "WiFiHw.h"
+#include "Action.h"
 #include "ILI9341.h"
 #include "FLashHw.h"
 #include "TouchHw.h"
 #include "Settings.h"
 #include "LoggerHw.h"
 #include "Resources.h"
-#include "ButtonsHw.h"
 #include "DraftsmanHw.h"
 #include "SystemTimeHw.h"
 #include "HttpClientHw.h"
 #include "WeatherMeasureComm.h"
-#include "PresentationActivity.h"
 #include "WeatherMeasureParser.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -67,10 +66,9 @@ extern "C"
 
         Rtos::GetInstance ()->TaskCreate (DisplayAndTouchProcess,
                                           "DisplayAndTouchProcess",
-                                          FIVE_THOUSAND_BYTES,
+                                          EIGHT_THOUSAND_BYTES,
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eNormal),
                                           DisplayAndTouchTaskHandle);
-
     }
 
     void BluetoothProcess (void * v_params)
@@ -102,7 +100,6 @@ extern "C"
             if (Rtos::GetInstance ()->TakeSemaphore ("TakeWeatherMeasureSemaphore") == true)
             {
                 weatherMeasureComm.Process ();
-                Rtos::GetInstance ()->DelayInMs (TEN);
             }
         }
 
@@ -146,36 +143,11 @@ extern "C"
 
         TimerHw                              timerTouchHw         (timerTouchConfig);
         TouchHw                              touchHw              (touchCoefficients, touchConfig, spiTouchHw);
-
-        const ButtonsHw::Configuration       buttonsConfig          = {
-                                                                         Coordinate      : {
-                                                                                             FIFTEEN,             // X
-                                                                                             TWO_HUNDRED_SIXTY    // Y
-                                                                                           }
-                                                                      };
-
-        ButtonsHw                            buttonsHw            (buttonsConfig, draftsmanHw, touchHw);
-        PresentationActivity                 presentationActivity (draftsmanHw, buttonsHw, resources);
-
-        const uint32_t touchEvent                                   = static_cast <uint32_t> (Rtos::EEventGroup::eFirst);
-        const uint32_t weatherMeasureEvent                          = static_cast <uint32_t> (Rtos::EEventGroup::eSecond);
+        Action                               action               (touchHw, draftsmanHw, resources);
 
         while (true)
         {
-            const uint32_t event  = Rtos::GetInstance ()->WaitBitsEventGroup ("WeatherMeasureAndButtonsUpdatesEventGroupHandle");
-            if ((event & touchEvent) != ZERO)
-            {
-                presentationActivity.Process ();
-                Rtos::GetInstance ()->ClearBitsEventGroup ("WeatherMeasureAndButtonsUpdatesEventGroupHandle", Rtos::EEventGroup::eFirst);
-            }
-
-            if ((event & weatherMeasureEvent) != ZERO)
-            {
-                LOGI                        (MODULE, "Display update");
-                presentationActivity.Update ();
-                Rtos::GetInstance           ()->ClearBitsEventGroup ("WeatherMeasureAndButtonsUpdatesEventGroupHandle", Rtos::EEventGroup::eSecond);
-            }
-
+            action.Process ();
             Rtos::GetInstance ()->DelayInMs (TEN);
         }
 

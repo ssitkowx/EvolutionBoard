@@ -2,18 +2,25 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "LoggerHw.h"
-#include "Resources.h"
-//#include "background.h"
+#include "Rtos.h"
+#include "Widget.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-Resources::Resources (Font & v_font) : font (v_font)
+void Widget::Draw (void) { draftsman.DrawBitmap (*this); }
+void Widget::Draw (const uint16_t v_id, const Bitmap::Coordinates & v_coordinates)
 {
-    LOG                        (MODULE, "Init.");
-    //create <EId::eBackground>  (background);
+    if (( Id           == v_id)                               &&
+        ( Coordinate.X <= v_coordinates.X)                    &&
+        ((Coordinate.X + Dimension.Width) >= v_coordinates.X) &&
+        ( Coordinate.Y <= v_coordinates.Y)                    &&
+        ((Coordinate.Y + Dimension.Height) >= v_coordinates.Y)
+        )
+    {
+        draftsman.DrawBitmap (*this);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

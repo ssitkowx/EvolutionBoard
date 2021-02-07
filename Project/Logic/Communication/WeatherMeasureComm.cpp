@@ -17,7 +17,7 @@
 
 void WeatherMeasureComm::receive (void)
 {
-    static bool isMeasureUpdated = false;    // todo
+    static bool isMeasureUpdated = false;
     if (isMeasureUpdated == true)
     {
         LOGD (MODULE, "Measurement already updated");
@@ -74,7 +74,7 @@ void WeatherMeasureComm::receive (void)
     LOGV                       (MODULE, "Heap size:             %u.", Rtos::GetInstance ()->GetCurrentHeapSize ());
     clear                      (root, body);
 
-    Rtos::GetInstance ()->SetBitsEventGroup ("WeatherMeasureAndButtonsUpdatesEventGroupHandle", Rtos::EEventGroup::eSecond);
+    Rtos::GetInstance ()->SetBitsEventGroup ("WeatherMeasureUpdated");
 }
 
 void WeatherMeasureComm::clear (cJSON * v_root, char * v_body)

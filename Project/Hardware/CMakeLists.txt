@@ -1,8 +1,9 @@
 SET (PackageIncludePaths "C:/Users/sitko/.conan/download")
 SET (PackageSourcePaths main.c
                         MainCppHw.cpp
-                        Touch/TouchHw.cpp  
-                        Buttons/ButtonsHw.cpp   
+                        Touch/TouchHw.cpp
+                        Action/Action.cpp
+                        Widgets/Widget.cpp
                         Draftsman/ILI9341.cpp
                         Networking/WiFiHw.cpp
                         Peripheral/RtosHw.cpp
@@ -12,15 +13,16 @@ SET (PackageSourcePaths main.c
                         Draftsman/DraftsmanHw.cpp
                         Peripheral/SpiHw/SpiHw.cpp
                         Peripheral/SystemTimeHw.cpp
+                        Activity/ActivityWeather.cpp
                         Peripheral/SpiHw/SpiLcdHw.cpp
+                        Activity/ActivityBluetooth.cpp
                         Peripheral/SpiHw/SpiTouchHw.cpp
-                        Protocols/HttpClient/HttpClientHw.cpp
+                        Protocols/HttpClient/HttpClientHw.cpp         
                         ../Logic/Resources/Font.cpp
+                        ../Logic/Activity/Activity.cpp
                         ../Logic/Settings/Settings.cpp
                         ../Logic/Resources/Resources.cpp
-                        ../Logic/Communication/Json/Json.cpp
-                        ../Logic/SystemEvents/SystemEvents.cpp                        
-                        ../Logic/Activities/PresentationActivity.cpp
+                        ../Logic/Communication/Json/Json.cpp                      
                         ../Logic/Protocols/HttpClient/HttpClient.cpp
                         ../Logic/Communication/WeatherMeasureComm.cpp
                         ../Logic/Communication/WeatherMeasureParser/WeatherMeasureParser.cpp
@@ -35,7 +37,6 @@ SET (PackageSourcePaths main.c
                         ${PackageIncludePaths}/Utils/Project/Utils.cpp
                         ${PackageIncludePaths}/Bitmap/Project/Bitmap.cpp
                         ${PackageIncludePaths}/Logger/Project/Logger.cpp
-                        ${PackageIncludePaths}/Button/Project/Button.cpp
                         ${PackageIncludePaths}/Draftsman/Project/Draftsman.cpp
                         ${PackageIncludePaths}/SystemTime/Project/SystemTime.cpp
                         ${PackageIncludePaths}/Communication/Project/Communication.cpp
@@ -47,7 +48,9 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              .
                              Touch
                              Logger
-                             Buttons
+                             Action
+                             Widgets
+                             Activity
                              Draftsman
                              Peripheral
                              Networking
@@ -55,9 +58,8 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              Protocols/HttpClient
                              ../Logic
                              ../Logic/Settings
+                             ../Logic/Activity
                              ../Logic/Resources
-                             ../Logic/Activities
-                             ../Logic/SystemEvents
                              ../Logic/Communication
                              ../Logic/Communication/Json
                              ../Logic/Protocols/HttpClient
@@ -74,7 +76,6 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              ${PackageIncludePaths}/Utils/Project
                              ${PackageIncludePaths}/Bitmap/Project
                              ${PackageIncludePaths}/Logger/Project
-                             ${PackageIncludePaths}/Button/Project
                              ${PackageIncludePaths}/Draftsman/Project
                              ${PackageIncludePaths}/SystemTime/Project
                              ${PackageIncludePaths}/Communication/Project

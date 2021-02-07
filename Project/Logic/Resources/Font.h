@@ -128,7 +128,6 @@ class Font final
 
             static Bitmap bitmap;
             bitmap.Id                          = static_cast <uint8_t> (ID);
-            bitmap.IsButton                    = false;
             bitmap.Dimension.Width             = v_data  [FIRST_BYTE];
             bitmap.Dimension.Height            = v_data  [SECOND_BYTE];
             bitmap.Data                        = &v_data [THIRD_BYTE];

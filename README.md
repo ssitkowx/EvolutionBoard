@@ -5,7 +5,7 @@ The project was created to show selected capabilities of the ESP32-WROVER module
 The device shows the weather data on the display.
 
 Functionalities used:
-- Display (240 x 320 with ILI9341 driver)) with Arduino Touch (GPIO, SPI), 
+- Display (240 x 320 with ILI9341 driver)) with Arduino Touch (GPIO, SPI, Timer), 
 - Time synchronization with the network (WiFi, SNTP),
 - Downloading weather data (WiFi, HTTP),
 - Free RTOS control (Semaphores, Event Groups, tasks),
@@ -15,10 +15,12 @@ Functionalities used:
 Design pattern used:
 - Abstract Factory, 
 - Template Method, 
-- Strategy, 
 - CRTP, 
 - Observer, 
-- Singleton.
+- Singleton,
+- Factory method,
+- Command
+- Builder.
 
 Tests:
 The individual libraries as well as the entire project are tested with gtest and gmock (white-box approach).

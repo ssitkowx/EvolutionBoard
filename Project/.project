@@ -24,16 +24,6 @@
 			<location>C:/Users/sitko/.conan/download/Bitmap/Project</location>
 		</link>
 		<link>
-			<name>Logic/Button</name>
-			<type>2</type>
-			<location>C:/Users/sitko/.conan/download/Keyboard/Project</location>
-		</link>
-		<link>
-			<name>Logic/CircularBuffer</name>
-			<type>2</type>
-			<location>C:/Users/sitko/.conan/download/CircularBuffer/Project</location>
-		</link>
-		<link>
 			<name>Logic/Draftsman</name>
 			<type>2</type>
 			<location>C:/Users/sitko/.conan/download/Draftsman/Project</location>
@@ -87,16 +77,6 @@
 			<name>Logic/WiFi</name>
 			<type>2</type>
 			<location>C:/Users/sitko/.conan/download/WiFi/Project</location>
-		</link>
-		<link>
-			<name>Logic/Button/Button.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Button/Project/Button.cpp</locationURI>
-		</link>
-		<link>
-			<name>Logic/Button/Button.h</name>
-			<type>1</type>
-			<locationURI>PARENT-5-PROJECT_LOC/.conan/download/Button/Project/Button.h</locationURI>
 		</link>
 		<link>
 			<name>Logic/Communication/Communication.cpp</name>

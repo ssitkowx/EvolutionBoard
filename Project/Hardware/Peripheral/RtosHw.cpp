@@ -13,7 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 SemaphoreHandle_t  WeatherMeasureSemaphoreHandle;
-EventGroupHandle_t WeatherMeasureAndButtonsUpdatesEventGroupHandle;
+EventGroupHandle_t SystemEventGroupHandle;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -23,11 +23,11 @@ RtosHw::RtosHw ()
 {
     LOG (MODULE, "Init.");
 
+    SystemEventGroupHandle = xEventGroupCreate ();
+    if (SystemEventGroupHandle == NULL) { LOGE (MODULE, "Could't allocate SystemEventGroupHandle."); }
+
     WeatherMeasureSemaphoreHandle = xSemaphoreCreateBinary ();
     if (WeatherMeasureSemaphoreHandle == NULL) { LOGE (MODULE, "Could't allocate WeatherMeasureSemaphoreHandle."); }
-
-    WeatherMeasureAndButtonsUpdatesEventGroupHandle = xEventGroupCreate ();
-    if (WeatherMeasureAndButtonsUpdatesEventGroupHandle == NULL) { LOGE (MODULE, "Could't allocate WeatherMeasureAndButtonsUpdatesEventGroupHandle."); }
 }
 
 RtosHw::~RtosHw ()
@@ -37,65 +37,43 @@ RtosHw::~RtosHw ()
 
 bool RtosHw::TakeSemaphore (std::string_view v_name)
 {
-    if (strcmp ("TakeWeatherMeasureSemaphore", v_name.data ()) == ZERO) { return TakeWeatherMeasureSemaphore (); }
+
+    if (strcmp ("TakeWeatherMeasureSemaphore", v_name.data ()) == ZERO) { return (xSemaphoreTake (WeatherMeasureSemaphoreHandle, (TickType_t)ETick::ePortMaxDelay) == pdTRUE) ? true : false; }
     return false;
 }
 
 bool RtosHw::GiveSemaphoreFromISR (std::string_view v_name)
 {
-    if (strcmp ("GiveWeatherMeasureSemaphoreFromISR", v_name.data ()) == ZERO) { return GiveWeatherMeasureSemaphoreFromISR (); }
+    static BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    if (strcmp ("GiveWeatherMeasureSemaphoreFromISR", v_name.data ()) == ZERO) { return (xSemaphoreGiveFromISR (WeatherMeasureSemaphoreHandle, &xHigherPriorityTaskWoken) == pdTRUE) ? true : false; }
     return false;
 }
 
-bool RtosHw::GiveWeatherMeasureSemaphoreFromISR (void)
+void RtosHw::SetBitsEventGroup (std::string_view v_name)
 {
-    static BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-    return (xSemaphoreGiveFromISR (WeatherMeasureSemaphoreHandle, &xHigherPriorityTaskWoken) == pdTRUE) ? true : false;
+    if      (strcmp ("SwitchToWeatherActivity"  , v_name.data ()) == ZERO) { xEventGroupSetBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eSwitchToWeatherActivity  )); }
+    else if (strcmp ("SwitchToBluetoothActivity", v_name.data ()) == ZERO) { xEventGroupSetBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eSwitchToBluetoothActivity)); }
+    else if (strcmp ("WeatherMeasureUpdated"    , v_name.data ()) == ZERO) { xEventGroupSetBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eWeatherMeasureUpdated    )); }
+    else if (strcmp ("BluetoothDataUpdated"     , v_name.data ()) == ZERO) { xEventGroupSetBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eBluetoothDataUpdated     )); }
 }
 
-bool RtosHw::TakeWeatherMeasureSemaphore (void)
+void RtosHw::ClearBitsEventGroup (std::string_view v_name)
 {
-    return (xSemaphoreTake (WeatherMeasureSemaphoreHandle, (TickType_t)ETick::ePortMaxDelay) == pdTRUE) ? true : false;
+    if      (strcmp ("SwitchToWeatherActivity"  , v_name.data ()) == ZERO) { xEventGroupClearBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eSwitchToWeatherActivity  )); }
+    else if (strcmp ("SwitchToBluetoothActivity", v_name.data ()) == ZERO) { xEventGroupClearBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eSwitchToBluetoothActivity)); }
+    else if (strcmp ("WeatherMeasureUpdated"    , v_name.data ()) == ZERO) { xEventGroupClearBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eWeatherMeasureUpdated    )); }
+    else if (strcmp ("BluetoothDataUpdated"     , v_name.data ()) == ZERO) { xEventGroupClearBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eBluetoothDataUpdated     )); }
 }
 
-void RtosHw::SetBitsEventGroup (std::string_view v_name, const EEventGroup v_eBit)
+uint32_t RtosHw::WaitBitsEventGroup (void)
 {
-    if (strcmp ("WeatherMeasureAndButtonsUpdatesEventGroupHandle", v_name.data ()) == ZERO)
-    {
-        xEventGroupSetBits (WeatherMeasureAndButtonsUpdatesEventGroupHandle, static_cast <uint32_t>(v_eBit));
-    }
-}
-
-void RtosHw::SetBitsEventGroupFromISR (std::string_view v_name, const EEventGroup v_eBit)
-{
-    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-    if (strcmp ("WeatherMeasureAndButtonsUpdatesEventGroupHandle", v_name.data ()) == ZERO)
-    {
-        xEventGroupSetBitsFromISR (WeatherMeasureAndButtonsUpdatesEventGroupHandle, static_cast <uint32_t>(v_eBit), &xHigherPriorityTaskWoken);
-    }
-}
-
-void RtosHw::ClearBitsEventGroup (std::string_view v_name, const EEventGroup v_eBit)
-{
-    if (strcmp ("WeatherMeasureAndButtonsUpdatesEventGroupHandle", v_name.data ()) == ZERO)
-    {
-        xEventGroupClearBits (WeatherMeasureAndButtonsUpdatesEventGroupHandle, static_cast <uint32_t>(v_eBit));
-    }
-}
-
-uint32_t RtosHw::WaitBitsEventGroup (std::string_view v_name)
-{
-    EventBits_t maskBits = ZERO;
-    if (strcmp ("WeatherMeasureAndButtonsUpdatesEventGroupHandle", v_name.data ()) == ZERO)
-    {
-        maskBits = xEventGroupWaitBits (WeatherMeasureAndButtonsUpdatesEventGroupHandle,
-                                        static_cast <uint32_t>(EEventGroup::eFirst) |
-                                        static_cast <uint32_t>(EEventGroup::eSecond),
-                                        pdFALSE,
-                                        pdFALSE,
-                                        (TickType_t)ETick::ePortMaxDelay);
-    }
-
+    EventBits_t maskBits = xEventGroupWaitBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eSwitchToWeatherActivity  ) |
+                                                                        static_cast <uint32_t>(EEventId::eSwitchToBluetoothActivity) |
+                                                                        static_cast <uint32_t>(EEventId::eWeatherMeasureUpdated    ) |
+                                                                        static_cast <uint32_t>(EEventId::eBluetoothDataUpdated     ),
+                                                                        pdFALSE,
+                                                                        pdFALSE,
+                                                                        (TickType_t)ETick::ePortMinDelay);
     return maskBits;
 }
 
