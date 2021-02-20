@@ -42,23 +42,12 @@ class RtosHw final : public Rtos
             eMax           = ESP_TASK_PRIO_MAX,
         };
 
-        enum class EEventId : uint32_t
-        {
-            eSwitchToWeatherActivity   = 0x0001,
-            eSwitchToBluetoothActivity = 0x0002,
-            eWeatherMeasureUpdated     = 0x0004,
-            eBluetoothDataUpdated      = 0x0008,
-        };
-
         RtosHw ();
         ~RtosHw ();
 
         void     DelayInMs                (const uint32_t v_ms)           override { vTaskDelay (v_ms / portTICK_RATE_MS); }
         bool     TakeSemaphore            (std::string_view v_name)       override;
         bool     GiveSemaphoreFromISR     (std::string_view v_name)       override;
-        void     SetBitsEventGroup        (std::string_view v_name)       override;
-        void     ClearBitsEventGroup      (std::string_view v_name)       override;
-        uint32_t WaitBitsEventGroup       (void)                          override;
         uint32_t GetCurrentHeapSize       (void)                          override { return esp_get_free_heap_size ();     }
         uint32_t GetCurrentStackSize      (std::string_view v_name)       override;
         uint32_t TaskCreate               (TaskFunctionType v_taskFuncion,

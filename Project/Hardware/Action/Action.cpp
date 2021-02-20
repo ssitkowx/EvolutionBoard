@@ -4,6 +4,8 @@
 
 #include "RtosHw.h"
 #include "Action.h"
+#include "ActionId.h"
+#include "SystemEvents.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -16,35 +18,39 @@ Action::Action (Touch <TouchHw>        & v_touch,
                                                         weatherActivity   (v_touch, v_draftsman, v_resources),
                                                         bluetoothActivity (v_touch, v_draftsman, v_resources)
 {
-    Rtos::GetInstance ()->SetBitsEventGroup ("SwitchToWeatherActivity");
+    SystemEvents::GetInstance ().CircBuf.Add ((uint8_t)(EActionId::eBackButtonUp));
 }
 
 void Action::Process (void)
 {
-    const uint32_t event  = Rtos::GetInstance ()->WaitBitsEventGroup ();
-    if ((event & (uint32_t)RtosHw::EEventId::eSwitchToWeatherActivity) != ZERO)
+    if (SystemEvents::GetInstance ().CircBuf.IsEmpty () == false)
     {
-        currentActivity = &weatherActivity;
-        currentActivity->Start ();
-        currentActivity->Update ();
-        Rtos::GetInstance ()->ClearBitsEventGroup ("SwitchToWeatherActivity");
-    }
-    else if ((event & (uint32_t)RtosHw::EEventId::eSwitchToBluetoothActivity) != ZERO)
-    {
-        currentActivity = &bluetoothActivity;
-        currentActivity->Start ();
-        currentActivity->Update ();
-        Rtos::GetInstance ()->ClearBitsEventGroup ("SwitchToBluetoothActivity");
-    }
-    else if ((event & (uint32_t)RtosHw::EEventId::eWeatherMeasureUpdated) != ZERO)
-    {
-        currentActivity->Update ();
-        Rtos::GetInstance ()->ClearBitsEventGroup ("WeatherMeasureUpdated");
-    }
-    else if ((event & (uint32_t)RtosHw::EEventId::eBluetoothDataUpdated) != ZERO)
-    {
-        currentActivity->Update ();
-        Rtos::GetInstance ()->ClearBitsEventGroup ("BluetoothDataUpdated");
+        uint16_t eventId = SystemEvents::GetInstance ().CircBuf.Remove ();
+        switch (eventId)
+        {
+            case (uint16_t)EActionId::eBackButtonUp:
+            {
+                currentActivity = &weatherActivity;
+                currentActivity->Start ();
+                break;
+            }
+            case (uint16_t)EActionId::eBleButtonUp:
+            {
+                currentActivity = &bluetoothActivity;
+                currentActivity->Start ();
+                break;
+            }
+            case (uint16_t)EActionId::eSendButtonUp:
+            {
+                break;
+            }
+            case (uint16_t)EActionId::eBleUpdated:
+            case (uint16_t)EActionId::eWeatherUpdated:
+            {
+                currentActivity->Update ();
+                break;
+            }
+        }
     }
 
     currentActivity->Process ();

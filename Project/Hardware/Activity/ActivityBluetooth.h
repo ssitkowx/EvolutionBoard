@@ -21,15 +21,19 @@ class ActivityBluetooth final : public Activity
         Touch<TouchHw> & touch;
         Resources      & resources;
         Widget           background;
-        Widget           buttonDown;
-        Widget           buttonUp;
+        Widget           sendButtonDown;
+        Widget           sendButtonUp;
+        Widget           backButtonDown;
+        Widget           backButtonUp;
         Widget           edit;
 
     public:
         explicit ActivityBluetooth (Touch<TouchHw> & v_touch, Draftsman<DraftsmanHw> & v_draftsman, Resources & v_resources);
         ~ActivityBluetooth () { Unsubscribe (); }
 
-        void Process (void);
+        void Process (void) override;
+        void Start   (void);
+        void Update  (void);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

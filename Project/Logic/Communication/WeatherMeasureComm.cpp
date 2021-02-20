@@ -7,8 +7,10 @@
 #include "cJSON.h"
 #include "WiFiHw.h"
 #include <stdint.h>
+#include "ActionId.h"
 #include "LoggerHw.h"
 #include "SystemTime.h"
+#include "SystemEvents.h"
 #include "WeatherMeasureComm.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,7 +19,8 @@
 
 void WeatherMeasureComm::receive (void)
 {
-    static bool isMeasureUpdated = false;
+    //static bool isMeasureUpdated = false;
+    static bool isMeasureUpdated = true;    // todo temp
     if (isMeasureUpdated == true)
     {
         LOGD (MODULE, "Measurement already updated");
@@ -74,7 +77,7 @@ void WeatherMeasureComm::receive (void)
     LOGV                       (MODULE, "Heap size:             %u.", Rtos::GetInstance ()->GetCurrentHeapSize ());
     clear                      (root, body);
 
-    Rtos::GetInstance ()->SetBitsEventGroup ("WeatherMeasureUpdated");
+    SystemEvents::GetInstance ().CircBuf.Add ((uint8_t)EActionId::eWeatherUpdated);
 }
 
 void WeatherMeasureComm::clear (cJSON * v_root, char * v_body)

@@ -12,8 +12,7 @@
 //////////////////////////////// VARIABLES ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-SemaphoreHandle_t  WeatherMeasureSemaphoreHandle;
-EventGroupHandle_t SystemEventGroupHandle;
+SemaphoreHandle_t WeatherMeasureSemaphoreHandle;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
@@ -23,17 +22,11 @@ RtosHw::RtosHw ()
 {
     LOG (MODULE, "Init.");
 
-    SystemEventGroupHandle = xEventGroupCreate ();
-    if (SystemEventGroupHandle == NULL) { LOGE (MODULE, "Could't allocate SystemEventGroupHandle."); }
-
     WeatherMeasureSemaphoreHandle = xSemaphoreCreateBinary ();
     if (WeatherMeasureSemaphoreHandle == NULL) { LOGE (MODULE, "Could't allocate WeatherMeasureSemaphoreHandle."); }
 }
 
-RtosHw::~RtosHw ()
-{
-    LOG (MODULE, "Deinit.");
-}
+RtosHw::~RtosHw () { LOG (MODULE, "Deinit."); }
 
 bool RtosHw::TakeSemaphore (std::string_view v_name)
 {
@@ -47,34 +40,6 @@ bool RtosHw::GiveSemaphoreFromISR (std::string_view v_name)
     static BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     if (strcmp ("GiveWeatherMeasureSemaphoreFromISR", v_name.data ()) == ZERO) { return (xSemaphoreGiveFromISR (WeatherMeasureSemaphoreHandle, &xHigherPriorityTaskWoken) == pdTRUE) ? true : false; }
     return false;
-}
-
-void RtosHw::SetBitsEventGroup (std::string_view v_name)
-{
-    if      (strcmp ("SwitchToWeatherActivity"  , v_name.data ()) == ZERO) { xEventGroupSetBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eSwitchToWeatherActivity  )); }
-    else if (strcmp ("SwitchToBluetoothActivity", v_name.data ()) == ZERO) { xEventGroupSetBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eSwitchToBluetoothActivity)); }
-    else if (strcmp ("WeatherMeasureUpdated"    , v_name.data ()) == ZERO) { xEventGroupSetBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eWeatherMeasureUpdated    )); }
-    else if (strcmp ("BluetoothDataUpdated"     , v_name.data ()) == ZERO) { xEventGroupSetBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eBluetoothDataUpdated     )); }
-}
-
-void RtosHw::ClearBitsEventGroup (std::string_view v_name)
-{
-    if      (strcmp ("SwitchToWeatherActivity"  , v_name.data ()) == ZERO) { xEventGroupClearBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eSwitchToWeatherActivity  )); }
-    else if (strcmp ("SwitchToBluetoothActivity", v_name.data ()) == ZERO) { xEventGroupClearBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eSwitchToBluetoothActivity)); }
-    else if (strcmp ("WeatherMeasureUpdated"    , v_name.data ()) == ZERO) { xEventGroupClearBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eWeatherMeasureUpdated    )); }
-    else if (strcmp ("BluetoothDataUpdated"     , v_name.data ()) == ZERO) { xEventGroupClearBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eBluetoothDataUpdated     )); }
-}
-
-uint32_t RtosHw::WaitBitsEventGroup (void)
-{
-    EventBits_t maskBits = xEventGroupWaitBits (SystemEventGroupHandle, static_cast <uint32_t>(EEventId::eSwitchToWeatherActivity  ) |
-                                                                        static_cast <uint32_t>(EEventId::eSwitchToBluetoothActivity) |
-                                                                        static_cast <uint32_t>(EEventId::eWeatherMeasureUpdated    ) |
-                                                                        static_cast <uint32_t>(EEventId::eBluetoothDataUpdated     ),
-                                                                        pdFALSE,
-                                                                        pdFALSE,
-                                                                        (TickType_t)ETick::ePortMinDelay);
-    return maskBits;
 }
 
 uint32_t RtosHw::GetCurrentStackSize (std::string_view v_name)

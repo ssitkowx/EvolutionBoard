@@ -3,26 +3,29 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Rtos.h"
-#include "Widget.h"
-#include "SystemEvents.h"
+#include "Resources.h"
+#include "WidgetEdit.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-void Widget::Draw (void) { draftsman.DrawBitmap (*this); }
-void Widget::Draw (const uint16_t v_id, const Bitmap::Coordinates & v_coordinates)
+void WidgetEdit::Draw (const uint16_t v_id, const Bitmap::Coordinates & v_coordinates)
 {
-    if (( Id           == v_id)                               &&
-        ( Coordinate.X <= v_coordinates.X)                    &&
-        ((Coordinate.X + Dimension.Width) >= v_coordinates.X) &&
-        ( Coordinate.Y <= v_coordinates.Y)                    &&
-        ((Coordinate.Y + Dimension.Height) >= v_coordinates.Y)
-        )
-    {
-        if (IsUpdatable == true) { SystemEvents::GetInstance ().CircBuf.Add (v_id); }
-        draftsman.DrawBitmap (*this);
-    }
+	Widget::Draw (v_id, v_coordinates);
+
+    //Coordinate.X;
+    //Coordinate.Y;
+    //Dimension.Width;
+    //Dimension.Height;
+
+    //Bitmap & letter = resources [Font::EId::eA];
+    //uint16_t xPos   = Coordinate.X;
+    //uint16_t yPos   = Coordinate.Y;
+    //uint8_t  movementY = letter.Dimension.Height + FIVE;
+
+
+	//draftsman.DrawText (text, { xPos, yPos });
 }
 
 ///////////////////////////////////////////////////////////////////////////////

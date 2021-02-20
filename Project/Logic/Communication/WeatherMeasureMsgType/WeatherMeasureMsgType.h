@@ -27,7 +27,7 @@ class WeatherMeasureMsgType_t final
 
 	    struct
 	    {
-	        std::array <char, TEN_BYTES>                            Name = { "Unknown" };
+	        std::array <char, TEN_BYTES>                            Name = { "    " };
 	        std::array <char, TEN_BYTES>                            Country;
 	        std::array <char, TEN_BYTES>                            Region;
 	        std::array <char, TEN_BYTES>                            Lat;

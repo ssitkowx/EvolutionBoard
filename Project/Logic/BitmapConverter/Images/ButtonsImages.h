@@ -4,10 +4,12 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Buttons/BleButton/BleButtonUp.h"
-#include "Buttons/BleButton/BleButtonDown.h"
-#include "Buttons/WeatherButton/WeatherButtonUp.h"
-#include "Buttons/WeatherButton/WeatherButtonDown.h"
+#include "Buttons/Ble/BleButtonUp.h"
+#include "Buttons/Ble/BleButtonDown.h"
+#include "Buttons/Send/SendButtonUp.h"
+#include "Buttons/Send/SendButtonDown.h"
+#include "Buttons/Back/BackButtonUp.h"
+#include "Buttons/Back/BackButtonDown.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// END OF FILE ///////////////////////////////////

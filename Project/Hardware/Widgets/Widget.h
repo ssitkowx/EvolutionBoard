@@ -34,8 +34,8 @@ class Widget : public Bitmap
             Data             = &v_data [THIRD_BYTE];
         }
 
-        void Draw (void);
-        void Draw (const uint16_t v_id, const Bitmap::Coordinates & v_coordinates);
+        void         Draw (void);
+        virtual void Draw (const uint16_t v_id, const Bitmap::Coordinates & v_coordinates);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

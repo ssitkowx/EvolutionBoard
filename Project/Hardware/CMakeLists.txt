@@ -10,6 +10,7 @@ SET (PackageSourcePaths main.c
                         Peripheral/GpioHw.cpp
                         Peripheral/FlashHw.cpp
                         Peripheral/TimerHw.cpp
+                        Widgets/WidgetEdit.cpp
                         Draftsman/DraftsmanHw.cpp
                         Peripheral/SpiHw/SpiHw.cpp
                         Peripheral/SystemTimeHw.cpp
@@ -57,9 +58,11 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              Peripheral/SpiHw
                              Protocols/HttpClient
                              ../Logic
+                             ../Logic/Action
                              ../Logic/Settings
                              ../Logic/Activity
                              ../Logic/Resources
+                             ../Logic/SystemEvents
                              ../Logic/Communication
                              ../Logic/Communication/Json
                              ../Logic/Protocols/HttpClient
