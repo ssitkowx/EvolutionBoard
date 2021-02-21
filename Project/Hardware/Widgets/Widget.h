@@ -14,7 +14,7 @@
 
 class Widget : public Bitmap
 {
-    private:
+    protected:
         Draftsman<DraftsmanHw> & draftsman;
 
     public:

@@ -6,7 +6,6 @@
 #include "ActionId.h"
 #include "Resources.h"
 #include "ButtonsImages.h"
-#include "WeatherImages.h"
 #include "ActivityWeather.h"
 #include "WeatherBackground.h"
 
@@ -63,11 +62,10 @@ void ActivityWeather::Start (void)
 
 void ActivityWeather::Update (void)
 {
-    Activity::Update ();
-    uint16_t xLeftPos   = TEN;
-    uint8_t  xMiddlePos = xLeftPos   + EIGHTY;
-    uint16_t xRightPos  = xMiddlePos + EIGHTY;
-    uint16_t yPos       = ONE_HUNDRED_FIFTEEN;
+    const uint16_t xLeftPos   = TEN;
+    const uint8_t  xMiddlePos = xLeftPos   + EIGHTY;
+    const uint16_t xRightPos  = xMiddlePos + EIGHTY;
+    uint16_t       yPos       = ONE_HUNDRED_FIFTEEN;
 
     // City
     draftsman.DrawText (spaces                                                                             , { xLeftPos  , yPos });
@@ -94,6 +92,8 @@ void ActivityWeather::Update (void)
     // Pressure
     draftsman.DrawText (spaces                                                                             , { xRightPos , yPos });
     draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.Pressure)   , { xRightPos , yPos });
+
+    Activity::Update ();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

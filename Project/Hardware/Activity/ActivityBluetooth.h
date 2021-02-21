@@ -4,9 +4,11 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include "Utils.h"
 #include "Widget.h"
 #include "TouchHw.h"
 #include "Activity.h"
+#include "WidgetEdit.h"
 #include "DraftsmanHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -25,7 +27,7 @@ class ActivityBluetooth final : public Activity
         Widget           sendButtonUp;
         Widget           backButtonDown;
         Widget           backButtonUp;
-        Widget           edit;
+        WidgetEdit       edit;
 
     public:
         explicit ActivityBluetooth (Touch<TouchHw> & v_touch, Draftsman<DraftsmanHw> & v_draftsman, Resources & v_resources);

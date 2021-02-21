@@ -50,6 +50,7 @@ Font::Font ()
     create <EId::eY                   > (Y);
     create <EId::eZ                   > (Z);
     create <EId::eP                   > (P);
+    create <EId::eQ                   > (Q);
     create <EId::eR                   > (R);
     create <EId::eS                   > (S);
     create <EId::eT                   > (T);
@@ -70,6 +71,7 @@ Font::Font ()
     create <EId::eNx                  > (nx);
     create <EId::eOx                  > (ox);
     create <EId::ePx                  > (px);
+    create <EId::eQx                  > (qx);
     create <EId::eRx                  > (rx);
     create <EId::eSx                  > (sx);
     create <EId::eTx                  > (tx);

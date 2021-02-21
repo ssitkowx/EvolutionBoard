@@ -4,22 +4,31 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <array>
+#include "Rtos.h"
+#include "Edit.h"
 #include "Utils.h"
 #include "Widget.h"
+#include "ActionId.h"
+#include "Resources.h"
 #include "DraftsmanHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class WidgetEdit : public Widget
+class WidgetEdit final : public Widget
 {
+    static constexpr char * MODULE = (char *)"WidgetEdit";
+
     private:
-		std::string              text;
+        Resources & resources;
 
     public:
-        explicit WidgetEdit (Draftsman<DraftsmanHw> & v_draftsman) : Widget (v_draftsman) { }
-        void     Draw       (const uint16_t v_id, const Bitmap::Coordinates & v_coordinates) override;
+        std::string Text;
+
+        explicit WidgetEdit (Draftsman<DraftsmanHw> & v_draftsman, Resources & v_resources) : Widget (v_draftsman), resources (v_resources) { }
+        void Draw (void);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Rtos.h"
+#include "Edit.h"
 #include "ActionId.h"
 #include "ButtonsImages.h"
 #include "BleBackground.h"
@@ -21,25 +22,26 @@ ActivityBluetooth::ActivityBluetooth (Touch<TouchHw>         & v_touch,
                                                                               sendButtonUp   (v_draftsman),
                                                                               backButtonDown (v_draftsman),
                                                                               backButtonUp   (v_draftsman),
-                                                                              edit           (v_draftsman)
+                                                                              edit           (v_draftsman, v_resources)
 {
     LOG (MODULE, "Init.");
 
-    uint16_t xPos = SIXTY;
+    uint16_t xPos = ZERO;
     uint16_t yPos = TWO_HUNDRED_SIXTY;
 
-    background    .Create <static_cast <uint16_t>(EActionId::eBleBackground )> (BleBackground, ZERO, ZERO);
-    sendButtonDown.Create <static_cast <uint16_t>(EActionId::eSendButtonDown)> (SendButtonDown, xPos, yPos - 100, true);
-    sendButtonUp  .Create <static_cast <uint16_t>(EActionId::eSendButtonUp  )> (SendButtonUp  , xPos, yPos - 100, true);
-    backButtonDown.Create <static_cast <uint16_t>(EActionId::eBackButtonDown)> (BackButtonDown, xPos, yPos, true);
-    backButtonUp  .Create <static_cast <uint16_t>(EActionId::eBackButtonUp  )> (BackButtonUp  , xPos, yPos, true);
+    background    .Create <static_cast <uint16_t>(EActionId::eBleBackground )> (BleBackground , ZERO  , ZERO);
+    edit          .Create <static_cast <uint16_t>(EActionId::eDefault       )> (Edit          , TWENTY, FORTY                              , true);
+    sendButtonDown.Create <static_cast <uint16_t>(EActionId::eSendButtonDown)> (SendButtonDown, xPos  , yPos                               , true);
+    sendButtonUp  .Create <static_cast <uint16_t>(EActionId::eSendButtonUp  )> (SendButtonUp  , xPos  , yPos                               , true);
+    backButtonDown.Create <static_cast <uint16_t>(EActionId::eBackButtonDown)> (BackButtonDown, xPos + sendButtonDown.Dimension.Width, yPos, true);
+    backButtonUp  .Create <static_cast <uint16_t>(EActionId::eBackButtonUp  )> (BackButtonUp  , xPos + sendButtonDown.Dimension.Width, yPos, true);
 
     Subscribe (background);
+    Subscribe (edit);
     Subscribe (sendButtonDown);
     Subscribe (sendButtonUp);
     Subscribe (backButtonDown);
     Subscribe (backButtonUp);
-    Subscribe (edit);
 }
 
 void ActivityBluetooth::Process (void)
@@ -69,7 +71,7 @@ void ActivityBluetooth::Start (void)
 
 void ActivityBluetooth::Update (void)
 {
-
+    edit.Draw ();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
