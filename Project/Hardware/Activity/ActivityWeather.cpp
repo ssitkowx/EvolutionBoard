@@ -45,22 +45,22 @@ void ActivityWeather::Process (void)
     if (eState == Touch<TouchHw>::EState::ePressed)
     {
         coordinates = touch.GetCoordinates ();
-        bleButtonDown.Draw (static_cast <uint8_t> (EActionId::eBleButtonDown), coordinates);
+        bleButtonDown.Draw (static_cast <uint16_t>(EActionId::eBleButtonDown), coordinates);
     }
     else if (eState == Touch<TouchHw>::EState::eReleased)
     {
-        bleButtonUp.Draw (static_cast <uint8_t>  (EActionId::eBleButtonUp), coordinates);
+        bleButtonUp.Draw (static_cast <uint16_t>(EActionId::eBleButtonUp), coordinates);
     }
     else { }
 }
 
-void ActivityWeather::Start (void)
+void ActivityWeather::Start (uint16_t v_actionId)
 {
     Activity::Start ();
-    Update ();
+    Update          (v_actionId);
 }
 
-void ActivityWeather::Update (void)
+void ActivityWeather::Update (uint16_t v_actionId)
 {
     const uint16_t xLeftPos   = TEN;
     const uint8_t  xMiddlePos = xLeftPos   + EIGHTY;

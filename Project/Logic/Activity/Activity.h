@@ -21,8 +21,8 @@ class Activity
         virtual ~Activity () = default;
 
         virtual void Process     (void) = 0;
-        virtual void Start       (void);
-        virtual void Update      (void);
+        virtual void Start       (uint16_t v_actionId = 0);
+        virtual void Update      (uint16_t v_actionId = 0);
         void         Subscribe   (Widget & v_widget) { widgets.emplace_back (v_widget);                   }
         void         Unsubscribe (void)              { while (!widgets.empty ()) { widgets.pop_back (); } }
 };

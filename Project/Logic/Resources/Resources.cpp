@@ -12,8 +12,7 @@
 
 Resources::Resources (Font & v_font) : font (v_font)
 {
-    LOG                        (MODULE, "Init.");
-    //create <EId::eBackground>  (background);
+    LOG (MODULE, "Init.");
 }
 
 ///////////////////////////////////////////////////////////////////////////////

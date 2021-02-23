@@ -4,12 +4,20 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Buttons/Ble/BleButtonUp.h"
-#include "Buttons/Ble/BleButtonDown.h"
-#include "Buttons/Send/SendButtonUp.h"
-#include "Buttons/Send/SendButtonDown.h"
-#include "Buttons/Back/BackButtonUp.h"
-#include "Buttons/Back/BackButtonDown.h"
+#include "Buttons/BleButtonUp.h"
+#include "Buttons/BleButtonDown.h"
+#include "Buttons/AButtonUp.h"
+#include "Buttons/AButtonDown.h"
+#include "Buttons/BButtonUp.h"
+#include "Buttons/BButtonDown.h"
+#include "Buttons/SButtonUp.h"
+#include "Buttons/SButtonDown.h"
+#include "Buttons/RButtonUp.h"
+#include "Buttons/RButtonDown.h"
+#include "Buttons/XButtonUp.h"
+#include "Buttons/XButtonDown.h"
+#include "Buttons/ZButtonUp.h"
+#include "Buttons/ZButtonDown.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// END OF FILE ///////////////////////////////////

@@ -18,7 +18,7 @@ Action::Action (Touch <TouchHw>        & v_touch,
                                                         weatherActivity   (v_touch, v_draftsman, v_resources),
                                                         bluetoothActivity (v_touch, v_draftsman, v_resources)
 {
-    SystemEvents::GetInstance ().CircBuf.Add ((uint8_t)(EActionId::eBackButtonUp));
+    SystemEvents::GetInstance ().CircBuf.Add ((uint8_t)(EActionId::eBButtonUp));
 }
 
 void Action::Process (void)
@@ -28,26 +28,30 @@ void Action::Process (void)
         uint16_t eventId = SystemEvents::GetInstance ().CircBuf.Remove ();
         switch (eventId)
         {
-            case (uint16_t)EActionId::eBackButtonUp:
+            case static_cast<uint16_t>(EActionId::eBButtonUp):
             {
                 currentActivity = &weatherActivity;
                 currentActivity->Start ();
                 break;
             }
-            case (uint16_t)EActionId::eBleButtonUp:
+            case static_cast<uint16_t>(EActionId::eBleButtonUp):
             {
                 currentActivity = &bluetoothActivity;
                 currentActivity->Start ();
                 break;
             }
-            case (uint16_t)EActionId::eSendButtonUp:
+            case static_cast<uint16_t>(EActionId::eSButtonUp):
             {
                 break;
             }
-            case (uint16_t)EActionId::eBleUpdated:
-            case (uint16_t)EActionId::eWeatherUpdated:
+            case static_cast<uint16_t>(EActionId::eRButtonDown):
+            case static_cast<uint16_t>(EActionId::eAButtonDown):
+            case static_cast<uint16_t>(EActionId::eXButtonDown):
+            case static_cast<uint16_t>(EActionId::eZButtonDown):
+            case static_cast<uint16_t>(EActionId::eBleUpdated):
+            case static_cast<uint16_t>(EActionId::eWeatherUpdated):
             {
-                currentActivity->Update ();
+                currentActivity->Update (eventId);
                 break;
             }
         }

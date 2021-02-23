@@ -44,7 +44,7 @@ Font::Font ()
     create <EId::eS                   > (S);
     create <EId::eT                   > (T);
     create <EId::eU                   > (U);
-    create <EId::eV                   > (K);
+    create <EId::eV                   > (V);
     create <EId::eW                   > (W);
     create <EId::eX                   > (X);
     create <EId::eY                   > (Y);
@@ -74,9 +74,8 @@ Font::Font ()
     create <EId::eQx                  > (qx);
     create <EId::eRx                  > (rx);
     create <EId::eSx                  > (sx);
-    create <EId::eTx                  > (tx);
     create <EId::eUx                  > (ux);
-    create <EId::eVx                  > (kx);
+    create <EId::eVx                  > (vx);
     create <EId::eWx                  > (wx);
     create <EId::eXx                  > (xx);
     create <EId::eYx                  > (yx);

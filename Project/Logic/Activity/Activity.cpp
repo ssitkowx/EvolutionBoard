@@ -8,7 +8,7 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-void Activity::Start (void)
+void Activity::Start (uint16_t v_actionId)
 {
     for (auto & widget : widgets)
     {
@@ -16,7 +16,7 @@ void Activity::Start (void)
     }
 }
 
-void Activity::Update (void)
+void Activity::Update (uint16_t v_actionId)
 {
     for (auto & widget : widgets)
     {
