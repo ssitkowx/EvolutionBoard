@@ -19,8 +19,8 @@
 
 void WeatherMeasureComm::receive (void)
 {
-    //static bool isMeasureUpdated = false;
-    static bool isMeasureUpdated = true;    // todo temp
+    static bool isMeasureUpdated = false;
+    //static bool isMeasureUpdated = true;    // todo temp
     if (isMeasureUpdated == true)
     {
         LOGD (MODULE, "Measurement already updated");
