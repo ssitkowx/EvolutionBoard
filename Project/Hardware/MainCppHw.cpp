@@ -8,9 +8,9 @@
 #include "GpioHw.h"
 #include "WiFiHw.h"
 #include "Action.h"
-#include "ILI9341.h"
 #include "FLashHw.h"
 #include "TouchHw.h"
+#include "SpiLcdHw.h"
 #include "Settings.h"
 #include "LoggerHw.h"
 #include "Resources.h"
@@ -88,9 +88,9 @@ extern "C"
         HttpClientHw          httpClientHw;
         WeatherMeasureParser  weatherMeasureParser;
         WeatherMeasureComm    weatherMeasureComm (httpClientHw, weatherMeasureParser);
-        const TimerHw::Config timerWeatherMeasureConfig = { Divider        : SIXTEEN,
-                                                            InterruptInSec : TWENTY,
-                                                            eTimer         : Timer<TimerHw>::ETimer::e1
+        const TimerHw::Config timerWeatherMeasureConfig = { .Divider        = SIXTEEN,
+                                                            .InterruptInSec = TWENTY,
+                                                            .eTimer         = Timer<TimerHw>::ETimer::e1
                                                           };
 
         TimerHw timerWeatherMeasureHw (timerWeatherMeasureConfig);
@@ -111,39 +111,38 @@ extern "C"
     void DisplayAndTouchProcess (void * v_params)
     {
         GpioHw                               gpioHw;
-        SpiLcdHw                             spiLcdHw (gpioHw);
-        ILI9341                              ili9341  (spiLcdHw);
+        SpiLcdHw                             spiLcdHw            (gpioHw);
         SpiTouchHw                           spiTouchHw;
 
-        const DraftsmanHw::Config_t          draftsmanConfig        = { LinesPerTransfer :   Settings::GetInstance ().Lcd.LinesPerTransfer,
-                                                                        Dimension        : { Settings::GetInstance ().Lcd.Width,
-                                                                                             Settings::GetInstance ().Lcd.Height
-                                                                                           }
-                                                                      };
+        const DraftsmanHw::Config_t          draftsmanConfig   = { .LinesPerTransfer = Settings::GetInstance ().Lcd.LinesPerTransfer,
+                                                                   .Dimension        = { Settings::GetInstance ().Lcd.Width,
+                                                                                         Settings::GetInstance ().Lcd.Height
+                                                                                       }
+                                                                 };
 
         Font                                 font;
-        Resources                            resources            (font);
-        DraftsmanHw                          draftsmanHw          (draftsmanConfig, ili9341, font);
+        Resources                            resources           (font);
+        DraftsmanHw                          draftsmanHw         (draftsmanConfig, spiLcdHw, font);
 
-        const Touch<TouchHw>::Config         touchConfig            = { Histeresis       :   TWO,
-                                                                        Time             : { FOUR,               // PressedMax, InterruptInSeconds * PressedMax
-                                                                                             EIGHT               // ReleasedMax
-                                                                                           }
-                                                                      };
+        const Touch<TouchHw>::Config         touchConfig       = { .Histeresis       =   TWO,
+                                                                   .Time             = { FOUR,               // PressedMax, InterruptInSeconds * PressedMax
+                                                                                         EIGHT               // ReleasedMax
+                                                                                       }
+                                                                 };
 
-        const TouchHw::Coefficients          touchCoefficients      = { Constant         : ONE_HUNDRED_TWENTY_EIGHT,
-                                                                        Width            : TWO,
-                                                                        Length           : 2.68
-                                                                      };
+        const TouchHw::Coefficients          touchCoefficients = { .Constant         = ONE_HUNDRED_TWENTY_EIGHT,
+                                                                   .Width            = TWO,
+                                                                   .Length           = 2.68
+                                                                 };
 
-        const TimerHw::Config                timerTouchConfig       = { Divider          : SIXTEEN,
-                                                                        InterruptInSec   : 0.01,
-                                                                        eTimer           : Timer<TimerHw>::ETimer::e0
-                                                                      };
+        const TimerHw::Config                timerTouchConfig  = { .Divider          = SIXTEEN,
+                                                                   .InterruptInSec   = 0.01,
+                                                                   .eTimer           = Timer<TimerHw>::ETimer::e0
+                                                                 };
 
-        TimerHw                              timerTouchHw         (timerTouchConfig);
-        TouchHw                              touchHw              (touchCoefficients, touchConfig, spiTouchHw);
-        Action                               action               (touchHw, draftsmanHw, resources);
+        TimerHw                              timerTouchHw        (timerTouchConfig);
+        TouchHw                              touchHw             (touchCoefficients, touchConfig, spiTouchHw);
+        Action                               action              (touchHw, draftsmanHw, resources);
 
         while (true)
         {

@@ -4,6 +4,7 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <array>
 #include "Font.h"
 #include "Utils.h"
 #include "Bitmap.h"
@@ -32,15 +33,15 @@ class Resources final
         Resources (Font & v_font);
         ~Resources () = default;
 
-        constexpr Bitmap & operator[] (Font::EId v_eId) { return font [v_eId]; }
-        constexpr Bitmap & operator[] (EId v_eId)       { return *resource.at (static_cast<uint8_t>(v_eId)); }
+        constexpr Bitmap & operator[] (const Font::EId v_eId) { return font [v_eId]; }
+        constexpr Bitmap & operator[] (const EId v_eId)       { return *resource.at (static_cast<const uint8_t>(v_eId)); }
 
     private:
         Font                       & font;
         std::array <Bitmap *, TEN>   resource;
 
         template <const EId ID>
-        void create (const uint16_t * v_data)
+        void create (const uint16_t * const v_data)
         {
             static Bitmap bitmap;
             bitmap.Id                              = static_cast <uint8_t> (ID);

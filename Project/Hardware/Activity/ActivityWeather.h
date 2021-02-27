@@ -7,6 +7,7 @@
 #include "Widget.h"
 #include "TouchHw.h"
 #include "Activity.h"
+#include "Resources.h"
 #include "DraftsmanHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -18,7 +19,7 @@ class ActivityWeather final : public Activity
     static constexpr char * MODULE = (char *)"WeatherActivity";
 
     private:
-        static constexpr std::string_view spaces        = "               ";
+        static constexpr std::string_view spaces = "               ";
         Touch<TouchHw>         &          touch;
         Draftsman<DraftsmanHw> &          draftsman;
         Resources              &          resources;
@@ -30,9 +31,9 @@ class ActivityWeather final : public Activity
         explicit ActivityWeather (Touch<TouchHw> & v_touch, Draftsman<DraftsmanHw> & v_draftsman, Resources & v_resources);
         ~ActivityWeather () { Unsubscribe (); }
 
-        void Process (void)                override;
-        void Start   (uint16_t v_actionId) override;
-        void Update  (uint16_t v_actionId) override;
+        void Process (void)                      override;
+        void Start   (const uint16_t v_actionId) override;
+        void Update  (const uint16_t v_actionId) override;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

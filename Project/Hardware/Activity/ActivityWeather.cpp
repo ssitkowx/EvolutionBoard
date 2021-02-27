@@ -54,13 +54,13 @@ void ActivityWeather::Process (void)
     else { }
 }
 
-void ActivityWeather::Start (uint16_t v_actionId)
+void ActivityWeather::Start (const uint16_t v_actionId)
 {
     Activity::Start ();
     Update          (v_actionId);
 }
 
-void ActivityWeather::Update (uint16_t v_actionId)
+void ActivityWeather::Update (const uint16_t v_actionId)
 {
     const uint16_t xLeftPos   = TEN;
     const uint8_t  xMiddlePos = xLeftPos   + EIGHTY;

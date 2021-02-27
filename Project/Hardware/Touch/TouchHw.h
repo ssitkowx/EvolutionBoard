@@ -29,9 +29,9 @@ class TouchHw final : public Touch<TouchHw>
 
         explicit TouchHw (const Coefficients           v_coefficient,
                           const Touch<TouchHw>::Config v_touchConfig,
-                          SpiTouchHw &                 v_spiTouchHw) : Touch<TouchHw> (v_touchConfig),
-                                                                       coefficient    (v_coefficient),
-                                                                       spiTouchHw     (v_spiTouchHw)
+                          SpiHw &                      v_spiHw) : Touch<TouchHw> (v_touchConfig),
+                                                                  coefficient    (v_coefficient),
+                                                                  spiHw          (v_spiHw)
         {  }
 
         ~TouchHw () = default;
@@ -55,7 +55,7 @@ class TouchHw final : public Touch<TouchHw>
         };
 
         const Coefficients coefficient;
-        SpiTouchHw &       spiTouchHw;
+        SpiHw &            spiHw;
 
         uint8_t createXPosCmd (void) const
         {

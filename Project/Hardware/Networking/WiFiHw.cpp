@@ -138,7 +138,7 @@ void WiFiHw::getMac (EMode v_mode, std::array <uint8_t, SIX_BYTES> & v_mac)
 			esp_wifi_get_mac (WIFI_IF_STA, v_mac.data ());
             break;
         }
-        case EMode::eAp:
+        case EMode::eApp:
         {
 			esp_wifi_get_mac (ESP_IF_WIFI_AP, v_mac.data ());
             break;

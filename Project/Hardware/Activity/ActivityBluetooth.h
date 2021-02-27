@@ -41,9 +41,9 @@ class ActivityBluetooth final : public Activity
         explicit ActivityBluetooth (Touch<TouchHw> & v_touch, Draftsman<DraftsmanHw> & v_draftsman, Resources & v_resources);
         ~ActivityBluetooth () { Unsubscribe (); }
 
-        void Process (void)                override;
-        void Start   (uint16_t v_actionId) override;
-        void Update  (uint16_t v_actionId) override;
+        void Process (void)                      override;
+        void Start   (const uint16_t v_actionId) override;
+        void Update  (const uint16_t v_actionId) override;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -4,6 +4,7 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <array>
 #include "Utils.h"
 #include "Bitmap.h"
 
@@ -116,13 +117,13 @@ class Font final
         Font ();
         ~Font () = default;
 
-        constexpr Bitmap & operator[] (EId v_eId) { return *font.at (static_cast<uint8_t>(v_eId)); }
+        constexpr Bitmap & operator[] (const EId v_eId) { return *font.at (static_cast<const uint8_t>(v_eId)); }
 
     private:
         std::array <Bitmap *, TWO_HUNDRED_FIFTY_FIVE> font;
 
         template <const EId ID>
-        void create (const uint16_t * v_data)
+        void create (const uint16_t * const v_data)
         {
             static_assert (!(static_cast<uint16_t>(ID) > TWO_HUNDRED_FIFTY_FIVE), "Font ID outside boundary: ID > 255");
 

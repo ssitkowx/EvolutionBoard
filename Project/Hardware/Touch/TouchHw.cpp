@@ -23,9 +23,9 @@ uint16_t TouchHw::getPos (uint8_t v_cmd)
     SpiHw::Msg <ONE_BYTE> msg;
     msg.Cmd = v_cmd;
 
-    memset                           (msg.Data, ZERO, ONE_BYTE);
-    spiTouchHw.SendCommand           (SpiHw::EFlag::eDummy , SpiHw::EMode::eCmd , msg.Cmd);
-    spiTouchHw.ReceiveData<ONE_BYTE> (SpiHw::EFlag::eRxData, SpiHw::EMode::eData, msg.Data);
+    memset                      (msg.Data, ZERO, ONE_BYTE);
+    spiHw.SendCommand           (SpiHw::EFlag::eDummy , SpiHw::EMode::eCmd , msg.Cmd);
+    spiHw.ReceiveData<ONE_BYTE> (SpiHw::EFlag::eRxData, SpiHw::EMode::eData, msg.Data);
     return msg.Data [FIRST_BYTE];
 }
 

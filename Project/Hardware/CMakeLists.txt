@@ -8,6 +8,7 @@ SET (PackageSourcePaths main.c
                         Networking/WiFiHw.cpp
                         Peripheral/RtosHw.cpp
                         Peripheral/GpioHw.cpp
+                        Activity/Activity.cpp
                         Peripheral/FlashHw.cpp
                         Peripheral/TimerHw.cpp
                         Widgets/WidgetEdit.cpp
@@ -18,14 +19,13 @@ SET (PackageSourcePaths main.c
                         Peripheral/SpiHw/SpiLcdHw.cpp
                         Activity/ActivityBluetooth.cpp
                         Peripheral/SpiHw/SpiTouchHw.cpp
-                        Protocols/HttpClient/HttpClientHw.cpp         
+                        Communication/WeatherMeasureComm.cpp 
+                        Protocols/HttpClient/HttpClientHw.cpp        
                         ../Logic/Resources/Font.cpp
-                        ../Logic/Activity/Activity.cpp
                         ../Logic/Settings/Settings.cpp
                         ../Logic/Resources/Resources.cpp
                         ../Logic/Communication/Json/Json.cpp                      
                         ../Logic/Protocols/HttpClient/HttpClient.cpp
-                        ../Logic/Communication/WeatherMeasureComm.cpp
                         ../Logic/Communication/WeatherMeasureParser/WeatherMeasureParser.cpp
                         ../Logic/Communication/WeatherMeasureMsgType/WeatherMeasureMsgType.cpp
                         ${PackageIncludePaths}/Spi/Project/Spi.cpp
@@ -55,15 +55,14 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              Draftsman
                              Peripheral
                              Networking
+                             Communication
                              Peripheral/SpiHw
                              Protocols/HttpClient
                              ../Logic
                              ../Logic/Action
                              ../Logic/Settings
-                             ../Logic/Activity
                              ../Logic/Resources
                              ../Logic/SystemEvents
-                             ../Logic/Communication
                              ../Logic/Communication/Json
                              ../Logic/Protocols/HttpClient
                              ../Logic/BitmapConverter/Images

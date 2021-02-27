@@ -4,8 +4,8 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include "SpiHw.h"
 #include "Bitmap.h"
-#include "SpiLcdHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// CLASSES/STRUCTURES ////////////////////////////////
@@ -16,11 +16,11 @@ class ILI9341
     static constexpr char * MODULE = (char *)"ILI9341";
 
     public:
-        explicit ILI9341 (SpiLcdHw & v_spiLcdHw);
-        void     SendLines                   (const Bitmap & v_bitmap);
+        explicit ILI9341   (SpiHw & v_spiHw);
+        void     SendLines (const Bitmap & v_bitmap);
 
     private:
-        SpiLcdHw & spiLcdHw;
+        SpiHw & spiHw;
 
         void     sendSoftwareReset           (void);
         uint8_t  receiveDisplayPixelFormat   (void);

@@ -27,6 +27,7 @@ class WiFiHw final : public WiFi<WiFiHw>
     protected:
         static esp_err_t             onWiFiEvent          (void * v_ctx, system_event_t * v_event);
         void                         startStation         (void);
+        void                         startApp             (void);
     
     private:
         static void                  displayMac           (void);

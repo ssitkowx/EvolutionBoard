@@ -46,19 +46,19 @@ class HttpClient
 
         HttpClient () : eStatusCode (EStatusCode::eNotFound) { }
 
-        void Cleanup          (void)                                             { derivedType.Cleanup                 ();                 }
-        bool Init             (void)                                             { return derivedType.Init             ();                 }
-        int  GetStatusCode    (void)                                             { return derivedType.GetStatusCode    ();                 }
-        int  GetContentLength (void)                                             { return derivedType.GetContentLength ();                 }
-        int  Open             (uint16_t v_len)                                   { return derivedType.Open             (v_len);            }
-        int  FetchHeaders     (void)                                             { return derivedType.FetchHeaders     ();                 }
-        int  Perform          (void)                                             { return derivedType.Perform          ();                 }
-        int  Read             (char * v_payload, uint16_t v_len)                 { return derivedType.Read             (v_payload, v_len); }
-        void SetPostField     (const char * v_body, int v_len)                   { derivedType.SetPostField            (v_body, v_len);    }
+        void Cleanup          (void)                                               { derivedType.Cleanup                 ();                 }
+        bool Init             (void)                                               { return derivedType.Init             ();                 }
+        int  GetStatusCode    (void)                                               { return derivedType.GetStatusCode    ();                 }
+        int  GetContentLength (void)                                               { return derivedType.GetContentLength ();                 }
+        int  Open             (const uint16_t v_len)                               { return derivedType.Open             (v_len);            }
+        int  FetchHeaders     (void)                                               { return derivedType.FetchHeaders     ();                 }
+        int  Perform          (void)                                               { return derivedType.Perform          ();                 }
+        int  Read             (const char * const v_payload, const uint16_t v_len) { return derivedType.Read             (v_payload, v_len); }
+        void SetPostField     (const char * const v_body   , const int v_len)      { derivedType.SetPostField            (v_body, v_len);    }
         
     protected:
-        void setMethod        (EMethod v_method)                                 { derivedType.setMethod               (v_method);         }
-        void setHeader        (std::string_view v_key, std::string_view v_value) { derivedType.setHeader               (v_key, v_value);   }
+        void setMethod        (const EMethod v_method)                             { derivedType.setMethod               (v_method);         }
+        void setHeader        (std::string_view v_key, std::string_view v_value)   { derivedType.setHeader               (v_key, v_value);   }
 
     private:
         ~HttpClient () = default;

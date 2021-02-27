@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Project">
+      <UniqueIdentifier>{798bae4e-f8a2-44b8-b77a-b276de0119b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware">
+      <UniqueIdentifier>{17d16938-c453-4c33-805f-cb9fd8cbcdbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic">
+      <UniqueIdentifier>{319bfde0-9acc-45dd-af2a-02d96147fb5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Communication">
+      <UniqueIdentifier>{2a05048e-9019-4c38-89e8-b95484e56caf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Draftsman">
+      <UniqueIdentifier>{9677a9de-61b2-4fbc-8fe3-d1bf30b6de16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\WiFi">
+      <UniqueIdentifier>{4bfe2098-e505-4c3f-9367-ae29d7feacf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Touch">
+      <UniqueIdentifier>{39ef26e1-a75f-4453-b30d-d287189accfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\SystemTime">
+      <UniqueIdentifier>{4587c5c5-9ba2-457c-abde-7e15ecb4fffb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Bitmap">
+      <UniqueIdentifier>{6891abd2-2746-4369-bdd2-e0c3a731bb42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\CircularBuffer">
+      <UniqueIdentifier>{bde6aec3-66ef-4069-b55d-8e9cf18b789c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Communication">
+      <UniqueIdentifier>{93c782d6-9906-4247-aa82-46c74ecd7c82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Draftsman">
+      <UniqueIdentifier>{d1010fa6-c15a-4d41-bdf0-b9caecc26b99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Flash">
+      <UniqueIdentifier>{8a21cb90-bba6-4653-8499-d6044f55b428}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Gpio">
+      <UniqueIdentifier>{ecdb8d1f-0186-4ce2-bae5-3fd7bd76cbda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Logger">
+      <UniqueIdentifier>{0be0cf54-4bb6-4fe4-9489-2d00ef04e29f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\LoggerMock">
+      <UniqueIdentifier>{69ed58e2-4a10-4945-a7b0-0a607ca2d2a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Rtos">
+      <UniqueIdentifier>{60764298-9330-4fa1-9954-a031f537683c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Spi">
+      <UniqueIdentifier>{a01dab1b-10b2-4134-8144-2e4c5bdd9a61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\SystemTime">
+      <UniqueIdentifier>{e3bc8c32-22f7-4680-82d6-a8ed2749a4cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Timer">
+      <UniqueIdentifier>{43c112c8-3738-4931-a4a7-0c5d88aba839}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Touch">
+      <UniqueIdentifier>{a6817807-310e-4e05-bf26-cbb2e7e7faec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Utils">
+      <UniqueIdentifier>{d13e1153-1f00-4b28-8327-911d4f5956af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\WiFi">
+      <UniqueIdentifier>{a996dedf-b40e-443f-bbdb-d8357d6eaba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Action">
+      <UniqueIdentifier>{961738d4-b2b1-4eee-a607-a447316b7cd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Communication\Json">
+      <UniqueIdentifier>{1b421fe4-7513-4695-9d6e-25819f95df94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Communication\WeatherMeasureMsgType">
+      <UniqueIdentifier>{34f1f731-b2e3-415a-b2b5-86262800f25a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Communication\WeatherMeasureParser">
+      <UniqueIdentifier>{6ecd7bff-2563-4784-ad21-fc35ba6cbf81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Protocols">
+      <UniqueIdentifier>{dfe3f32d-69cf-4f50-b638-10834f97d531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Protocols\HttpClient">
+      <UniqueIdentifier>{12f2679a-8d1e-4430-8294-94b61ce20d1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Resources">
+      <UniqueIdentifier>{cc43ad30-1076-4c63-8da5-5c0307742de9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\Settings">
+      <UniqueIdentifier>{9a5667e2-c6fc-4b3c-9125-407413887163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\SystemEvents">
+      <UniqueIdentifier>{52b45dae-2327-4c84-9328-7e300462a385}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{3432d95a-7395-4e23-a816-ac827c1d55ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\Libs">
+      <UniqueIdentifier>{0f5bbd41-3a1e-4c6d-a7cb-5efd1e4bbf31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Flash">
+      <UniqueIdentifier>{5dd30f05-56a2-493d-84bf-5aeb73d88092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Gpio">
+      <UniqueIdentifier>{a195cbc2-0dec-4eb9-be22-7db964757d73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\HttpClient">
+      <UniqueIdentifier>{8c4ef2c0-1e0a-4db1-a591-28fad4205805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Rtos">
+      <UniqueIdentifier>{3f740256-0217-4396-aef9-3021e21ae11b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Action">
+      <UniqueIdentifier>{0531dc98-4445-4679-bd06-38da77316697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Logger">
+      <UniqueIdentifier>{dc7e5699-f352-4c3d-ad00-94d1b84fee0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Timer">
+      <UniqueIdentifier>{88849e47-aea0-4ce7-b224-45f7807823d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Peripheral">
+      <UniqueIdentifier>{8c17a91e-1c17-4ef0-86ab-feedf6b58781}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Peripheral\SpiHw">
+      <UniqueIdentifier>{1447d4bf-84ca-41d2-becd-e1c4e4c286c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Activity">
+      <UniqueIdentifier>{6b76db5d-f8d2-4861-830a-8aa69f7f33e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\BitmapConverter">
+      <UniqueIdentifier>{87bfc459-eb33-41f1-bd6d-3a39ebdf704b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Logic\BitmapConverter\Buttons">
+      <UniqueIdentifier>{54de7345-e24e-4430-bb08-9d9d66e358b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Widget">
+      <UniqueIdentifier>{9f3162fe-4741-42a6-a051-737396708cbf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock-all.cc" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest-all.cc" />
+    <ClCompile Include="main.cxx" />
+    <ClCompile Include="..\..\..\..\..\.conan\download\Bitmap\Project\Bitmap.cpp">
+      <Filter>Project\Logic\Bitmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\CircularBuffer\Project\CircularBuffer.cpp">
+      <Filter>Project\Logic\CircularBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\Communication\Project\Communication.cpp">
+      <Filter>Project\Logic\Communication</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\Draftsman\Project\Draftsman.cpp">
+      <Filter>Project\Logic\Draftsman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\Flash\Project\Flash.cpp">
+      <Filter>Project\Logic\Flash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\Gpio\Project\Gpio.cpp">
+      <Filter>Project\Logic\Gpio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\Logger\Project\Logger.cpp">
+      <Filter>Project\Logic\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\LoggerMock\Project\LoggerMock.cpp">
+      <Filter>Project\Logic\LoggerMock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\WiFi\Project\WiFi.cpp">
+      <Filter>Project\Logic\WiFi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\Utils\Project\Utils.cpp">
+      <Filter>Project\Logic\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\Touch\Project\Touch.cpp">
+      <Filter>Project\Logic\Touch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\Timer\Project\Timer.cpp">
+      <Filter>Project\Logic\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\SystemTime\Project\SystemTime.cpp">
+      <Filter>Project\Logic\SystemTime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\Spi\Project\Spi.cpp">
+      <Filter>Project\Logic\Spi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\Rtos\Project\Rtos.cpp">
+      <Filter>Project\Logic\Rtos</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Project\Logic\Communication\WeatherMeasureMsgType\WeatherMeasureMsgType.cpp">
+      <Filter>Project\Logic\Communication\WeatherMeasureMsgType</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Project\Logic\Communication\WeatherMeasureParser\WeatherMeasureParser.cpp">
+      <Filter>Project\Logic\Communication\WeatherMeasureParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Project\Logic\Communication\Json\Json.cpp">
+      <Filter>Project\Logic\Communication\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Project\Logic\Protocols\HttpClient\HttpClient.cpp">
+      <Filter>Project\Logic\Protocols\HttpClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Project\Logic\Resources\Font.cpp">
+      <Filter>Project\Logic\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Project\Logic\Resources\Resources.cpp">
+      <Filter>Project\Logic\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Project\Logic\Settings\Settings.cpp">
+      <Filter>Project\Logic\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\ESP_IDF\esp-idf\components\json\cJSON\cJSON.c">
+      <Filter>External\Libs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Project\Hardware\Action\Action.cpp">
+      <Filter>Project\Hardware\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Project\Hardware\Activity\Activity.cpp">
+      <Filter>Project\Hardware\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Project\Hardware\Activity\ActivityBluetooth.cpp">
+      <Filter>Project\Hardware\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Project\Hardware\Activity\ActivityWeather.cpp">
+      <Filter>Project\Hardware\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Project\Hardware\Widgets\Widget.cpp">
+      <Filter>Project\Hardware\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Project\Hardware\Widgets\WidgetEdit.cpp">
+      <Filter>Project\Hardware\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\Hardware\MainCppHw.cpp">
+      <Filter>Project\Hardware</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Bitmap\Project\Bitmap.h">
+      <Filter>Project\Logic\Bitmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\CircularBuffer\Project\CircularBuffer.h">
+      <Filter>Project\Logic\CircularBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Communication\Project\Communication.h">
+      <Filter>Project\Logic\Communication</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Draftsman\Project\Draftsman.h">
+      <Filter>Project\Logic\Draftsman</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Flash\Project\Flash.h">
+      <Filter>Project\Logic\Flash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Gpio\Project\Gpio.h">
+      <Filter>Project\Logic\Gpio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Logger\Project\Logger.h">
+      <Filter>Project\Logic\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\LoggerMock\Project\LoggerMock.h">
+      <Filter>Project\Logic\LoggerMock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\WiFi\Project\WiFi.h">
+      <Filter>Project\Logic\WiFi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Utils\Project\Utils.h">
+      <Filter>Project\Logic\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Touch\Project\Touch.h">
+      <Filter>Project\Logic\Touch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Timer\Project\Timer.h">
+      <Filter>Project\Logic\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\SystemTime\Project\SystemTime.h">
+      <Filter>Project\Logic\SystemTime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Spi\Project\Spi.h">
+      <Filter>Project\Logic\Spi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Rtos\Project\Rtos.h">
+      <Filter>Project\Logic\Rtos</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\Action\ActionId.h">
+      <Filter>Project\Logic\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\Communication\WeatherMeasureMsgType\WeatherMeasureMsgType.h">
+      <Filter>Project\Logic\Communication\WeatherMeasureMsgType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\Communication\WeatherMeasureParser\WeatherMeasureParser.h">
+      <Filter>Project\Logic\Communication\WeatherMeasureParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\Communication\Json\Json.h">
+      <Filter>Project\Logic\Communication\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\Protocols\HttpClient\HttpClient.h">
+      <Filter>Project\Logic\Protocols\HttpClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\Resources\Font.h">
+      <Filter>Project\Logic\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\Resources\Resources.h">
+      <Filter>Project\Logic\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\Settings\Settings.h">
+      <Filter>Project\Logic\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\SystemEvents\SystemEvents.h">
+      <Filter>Project\Logic\SystemEvents</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\ESP_IDF\esp-idf\components\json\cJSON\cJSON.h">
+      <Filter>External\Libs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Hardware\Action\Action.h">
+      <Filter>Project\Hardware\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\Logger\LoggerHw.h">
+      <Filter>Project\Hardware\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\Communication\WeatherMeasureComm.h">
+      <Filter>Project\Hardware\Communication</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\Draftsman\DraftsmanHw.h">
+      <Filter>Project\Hardware\Draftsman</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\Flash\FlashHw.h">
+      <Filter>Project\Hardware\Flash</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\Gpio\GpioHw.h">
+      <Filter>Project\Hardware\Gpio</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\HttpClient\HttpClientHw.h">
+      <Filter>Project\Hardware\HttpClient</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\Rtos\RtosHw.h">
+      <Filter>Project\Hardware\Rtos</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\SystemTime\SystemTimeHw.h">
+      <Filter>Project\Hardware\SystemTime</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\Timer\TimerHw.h">
+      <Filter>Project\Hardware\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\Touch\TouchHw.h">
+      <Filter>Project\Hardware\Touch</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\WiFi\WiFiHw.h">
+      <Filter>Project\Hardware\WiFi</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\Peripheral\SpiHw\SpiHw.h">
+      <Filter>Project\Hardware\Peripheral\SpiHw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Hardware\Activity\Activity.h">
+      <Filter>Project\Hardware\Activity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Hardware\Activity\ActivityBluetooth.h">
+      <Filter>Project\Hardware\Activity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Hardware\Activity\ActivityWeather.h">
+      <Filter>Project\Hardware\Activity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Buttons\AButtonDown.h">
+      <Filter>Project\Logic\BitmapConverter\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Buttons\AButtonUp.h">
+      <Filter>Project\Logic\BitmapConverter\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Buttons\BButtonDown.h">
+      <Filter>Project\Logic\BitmapConverter\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Buttons\BButtonUp.h">
+      <Filter>Project\Logic\BitmapConverter\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Buttons\BleButtonDown.h">
+      <Filter>Project\Logic\BitmapConverter\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Buttons\BleButtonUp.h">
+      <Filter>Project\Logic\BitmapConverter\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Buttons\RButtonDown.h">
+      <Filter>Project\Logic\BitmapConverter\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Buttons\RButtonUp.h">
+      <Filter>Project\Logic\BitmapConverter\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Buttons\SButtonDown.h">
+      <Filter>Project\Logic\BitmapConverter\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Buttons\SButtonUp.h">
+      <Filter>Project\Logic\BitmapConverter\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Buttons\XButtonDown.h">
+      <Filter>Project\Logic\BitmapConverter\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Buttons\XButtonUp.h">
+      <Filter>Project\Logic\BitmapConverter\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Buttons\ZButtonDown.h">
+      <Filter>Project\Logic\BitmapConverter\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Buttons\ZButtonUp.h">
+      <Filter>Project\Logic\BitmapConverter\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\BleBackground.h">
+      <Filter>Project\Logic\BitmapConverter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\ButtonsImages.h">
+      <Filter>Project\Logic\BitmapConverter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\Edit.h">
+      <Filter>Project\Logic\BitmapConverter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\FontImages.h">
+      <Filter>Project\Logic\BitmapConverter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Logic\BitmapConverter\Images\WeatherBackground.h">
+      <Filter>Project\Logic\BitmapConverter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Hardware\Widgets\Widget.h">
+      <Filter>Project\Hardware\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Hardware\Widgets\WidgetEdit.h">
+      <Filter>Project\Hardware\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\Peripheral\SpiLcdHw.h">
+      <Filter>Project\Hardware\Peripheral\SpiHw</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\Peripheral\SpiTouchHw.h">
+      <Filter>Project\Hardware\Peripheral\SpiHw</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\MainCppHw.h">
+      <Filter>Project\Hardware</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

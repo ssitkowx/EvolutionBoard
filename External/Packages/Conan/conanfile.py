@@ -10,7 +10,7 @@ class Conan(ConanFile):
     license         = "freeware"
     repoUrl         = "https://github.com/ssitkowx"
     url             = repoUrl + '/' + name + '.git'
-    description     = "The project is used to test the capabilities of a 320 x 240 color LCD display with a touch panel and WiFi internet access"
+    description     = "The project was created to show selected capabilities of the ESP32-WROVER module"
     settings        = "os", "compiler", "build_type", "arch"
     options         = {"shared": [True, False]}
     default_options = "shared=False"
@@ -33,7 +33,6 @@ class Conan(ConanFile):
                        "Touch/1.0@ssitkowx/stable",
                        "Logger/1.0@ssitkowx/stable",
                        "Bitmap/1.0@ssitkowx/stable",
-                       "Button/1.0@ssitkowx/stable",
                        "Communication/1.0@ssitkowx/stable",
                        "LoggerMock/1.0@ssitkowx/stable",
                        "CircularBuffer/1.0@ssitkowx/stable"

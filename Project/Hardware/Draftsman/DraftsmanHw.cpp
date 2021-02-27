@@ -13,9 +13,9 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-DraftsmanHw::DraftsmanHw (const Config_t v_config, ILI9341 & v_ili9341, Font & v_font) : Draftsman (v_config),
-                                                                                         ili9341   (v_ili9341),
-                                                                                         font      (v_font)
+DraftsmanHw::DraftsmanHw (const Config_t v_config, SpiHw & v_spi, Font & v_font) : Draftsman (v_config),
+                                                                                   ili9341   (v_spi),
+                                                                                   font      (v_font)
 {
     LOG (MODULE, "Init.");
 }

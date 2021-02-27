@@ -99,13 +99,13 @@ void ActivityBluetooth::Process (void)
     else { }
 }
 
-void ActivityBluetooth::Start (uint16_t v_actionId)
+void ActivityBluetooth::Start (const uint16_t v_actionId)
 {
     Activity::Start ();
     Update          (v_actionId);
 }
 
-void ActivityBluetooth::Update (uint16_t v_actionId)
+void ActivityBluetooth::Update (const uint16_t v_actionId)
 {
     switch (v_actionId)
     {
