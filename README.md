@@ -50,3 +50,4 @@ Project:
 - Remove '--no-site-packages' from idf_tool.py:
   - from: subprocess.check_call([sys.executable, '-m', 'virtualenv', '--no-site-packages', idf_python_env_path],
   - to:   subprocess.check_call([sys.executable, '-m', 'virtualenv', idf_python_env_path],
+  - In Tests folder replace packaged folder with packages.7z. Bug in gmock 1.8.1 should be fixed in higher versions.
