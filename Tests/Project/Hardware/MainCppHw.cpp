@@ -2,19 +2,34 @@
 //////////////////////////////// INCLUDES /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "LoggerHw.h"
+#include <thread>
+#include "Utils.h"
+#include <stdint.h>
+#include "Action.h"
+#include "RtosHw.h"
+#include "GpioHw.h"
+#include "WiFiHw.h"
+#include "TimerHw.h"
+#include "FlashHw.h"
+#include "TouchHw.h"
+#include "SpiLcdHw.h"
+#include "Settings.h"
 #include "MainCppHw.h"
-#include "gmock/gmock.h"
-#include "gtest/gtest.h"
-
+#include "Resources.h"
+#include "LoggerHw.h"
+#include "SpiTouchHw.h"
+#include "DraftsmanHw.h"
+#include "SystemTimeHw.h"
+#include "HttpClientHw.h"
+#include "WeatherMeasureComm.h"
+#include "WeatherMeasureParser.h"
+//
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-TEST_F (MainCppHwFixture, MainCppHw)
+MainCppHw::MainCppHw ()
 {
-    LOGW (MODULE, "MainCppHw");
-
     static SystemTimeHw systemTimeHw;
     SET_SYSTEM_TIME_INST (&systemTimeHw);
 
@@ -22,38 +37,81 @@ TEST_F (MainCppHwFixture, MainCppHw)
     SET_RTOS_INST (&rtosHw);
 
     FlashHw flashHw;
-    /*
-    WiFi::Mode.StaConnected = true;
-    Settings::GetInstance ().MicorTigWelderMsg.Filter.AcceptMeasureNumber = ONE;
-    Settings::GetInstance ().System.Time.Previous = 1582138800000;
-    Settings::GetInstance ().System.Time.Current = 1582097045000;
+}
 
-    ON_CALL (oMicorTigWelderCommMock, IsMeasureEnabled ()).WillByDefault (Return (true));
-    ON_CALL (oHttpClientMock, Init ()).WillByDefault (Return (true));
-    ON_CALL (oHttpClientMock, Perform ()).WillByDefault (Return (ZERO));
-    EXPECT_CALL (oCanMock, Receive (_)).WillRepeatedly (Return (false));
-    EXPECT_CALL (oRtosMock, TakeAzureDataUpdateSemaphore ()).WillRepeatedly (Return (false));
+void MainCppHw::BluetoothProcess (void)
+{
+     while (isThreadInProgress == true)
+     {
+         std::this_thread::sleep_for (std::chrono::milliseconds (TEN));
+     }
 
-    InSequence sequence;
-    for (auto & canMsgRespMeasureNum : CanMsgRespMeasure)
+     LOGE (MODULE, "bluetoothProcess() Deleted.");
+}
+
+void MainCppHw::WeatherMeasureProcess (void)
+{
+    WiFiHw                wifiHw;
+    HttpClientHw          httpClientHw;
+    WeatherMeasureParser  weatherMeasureParser;
+    WeatherMeasureComm    weatherMeasureComm (httpClientHw, weatherMeasureParser);
+    const TimerHw::Config timerWeatherMeasureConfig = { .Divider = SIXTEEN,
+                                                        .InterruptInSec = TWENTY,
+                                                        .eTimer = Timer<TimerHw>::ETimer::e1
+                                                      };
+
+    TimerHw timerWeatherMeasureHw (timerWeatherMeasureConfig);
+
+    while (isThreadInProgress == true)
     {
-        EXPECT_CALL (oCanMock, Receive (_)).WillOnce (DoAll (SetCanResponse <ZERO> (canMsgRespMeasureNum.second ()),
-                                                      Return (true)));
+        if (Rtos::GetInstance ()->TakeSemaphore ("TakeWeatherMeasureSemaphore") == true)
+        {
+            weatherMeasureComm.Process ();
+        }
     }
 
-    EXPECT_CALL (oRtosMock, TakeAzureDataUpdateSemaphore ()).WillOnce (Return (true));
-    */
-    std::shared_ptr<std::thread> bluetoothThread       (new std::thread (&MainCppHwFixture::BluetoothProcess      , this));
-    std::shared_ptr<std::thread> watherMeasureThread   (new std::thread (&MainCppHwFixture::WeatherMeasureProcess , this));
-    std::shared_ptr<std::thread> displayAndTouchThread (new std::thread (&MainCppHwFixture::DisplayAndTouchProcess, this));
+    LOGE (MODULE, "weatherMeasureProcess() Deleted.");
+}
 
-    BluetoothCommThread       = std::move (bluetoothThread);
-    WatherMeasureCommThread   = std::move (watherMeasureThread);
-    DisplayAndTouchCommThread = std::move (displayAndTouchThread);
+void MainCppHw::DisplayAndTouchProcess ()
+{
+    GpioHw                       gpioHw;
+    SpiLcdHw                     spiLcdHw (gpioHw);
+    SpiTouchHw                   spiTouchHw;
 
-    BluetoothCommThread      ->join ();
-    WatherMeasureCommThread  ->join ();
-    DisplayAndTouchCommThread->join ();
+    const DraftsmanHw::Config_t  draftsmanConfig = { .LinesPerTransfer = Settings::GetInstance ().Lcd.LinesPerTransfer,
+                                                     .Dimension        = { Settings::GetInstance ().Lcd.Width,
+                                                                           Settings::GetInstance ().Lcd.Height
+                                                                         }
+                                                   };
+
+    Font                         font;
+    Resources                    resources (font);
+    DraftsmanHw                  draftsmanHw (draftsmanConfig);
+
+    const Touch<TouchHw>::Config touchConfig = { .Histeresis = TWO,
+                                                 .Time       = { FOUR,               // PressedMax, InterruptInSeconds * PressedMax
+                                                                 EIGHT               // ReleasedMax
+                                                 }
+                                               };
+
+
+    const TimerHw::Config        timerTouchConfig = { .Divider = SIXTEEN,
+                                                      .InterruptInSec = 0.01,
+                                                      .eTimer = Timer<TimerHw>::ETimer::e0
+                                                    };
+
+    TimerHw                      timerTouchHw (timerTouchConfig);
+    TouchHw                      touchHw (touchConfig);
+    Action                       action (touchHw, draftsmanHw, resources);
+
+    while (isThreadInProgress == true)
+    {
+        action.Process ();
+        std::this_thread::sleep_for (std::chrono::milliseconds (ONE));
+    }
+
+    LOGE (MODULE, "displayAndTouchProcess() Deleted.");
 }
 
 ///////////////////////////////////////////////////////////////////////////////

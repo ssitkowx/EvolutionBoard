@@ -164,6 +164,7 @@
     <ClCompile Include="..\Project\Logic\Resources\Resources.cpp" />
     <ClCompile Include="..\Project\Logic\Settings\Settings.cpp" />
     <ClCompile Include="main.cxx" />
+    <ClCompile Include="Project\Hardware\MainCppFixtureHw.cpp" />
     <ClCompile Include="Project\Hardware\MainCppHw.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +229,7 @@
     <ClInclude Include="..\Project\Logic\SystemEvents\SystemEvents.h" />
     <ClInclude Include="Project\Hardware\Communication\WeatherMeasureComm.h" />
     <ClInclude Include="Project\Hardware\HttpClient\HttpClientHw.h" />
+    <ClInclude Include="Project\Hardware\MainCppFixtureHw.h" />
     <ClInclude Include="Project\Hardware\MainCppHw.h" />
     <ClInclude Include="Project\Hardware\Peripheral\SpiLcdHw.h" />
     <ClInclude Include="Project\Hardware\Peripheral\SpiTouchHw.h" />

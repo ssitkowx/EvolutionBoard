@@ -234,6 +234,9 @@
     <ClCompile Include="..\..\..\..\..\.conan\download\LoggerHw\Project\LoggerHw.cpp">
       <Filter>Project\Hardware\Logger</Filter>
     </ClCompile>
+    <ClCompile Include="Project\Hardware\MainCppFixtureHw.cpp">
+      <Filter>Project\Hardware</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\.conan\download\Bitmap\Project\Bitmap.h">
@@ -427,6 +430,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\.conan\download\Spi\Tests\SpiHw.h">
       <Filter>Project\Hardware\Peripheral\SpiHw</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\MainCppFixtureHw.h">
+      <Filter>Project\Hardware</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
