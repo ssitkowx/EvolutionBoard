@@ -24,7 +24,7 @@ class Action
         ActivityBluetooth        bluetoothActivity;
 
     public:
-        Action (Touch <TouchHw> & v_touch, Draftsman<DraftsmanHw> & v_draftsman, Resources & v_resources);
+        Action (Touch<TouchHw> & v_touch, Draftsman<DraftsmanHw> & v_draftsman, Resources & v_resources);
         ~Action () = default;
 
         void Process (void);

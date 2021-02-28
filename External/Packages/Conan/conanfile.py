@@ -33,8 +33,8 @@ class Conan(ConanFile):
                        "Touch/1.0@ssitkowx/stable",
                        "Logger/1.0@ssitkowx/stable",
                        "Bitmap/1.0@ssitkowx/stable",
+                       "LoggerHw/1.0@ssitkowx/stable",
                        "Communication/1.0@ssitkowx/stable",
-                       "LoggerMock/1.0@ssitkowx/stable",
                        "CircularBuffer/1.0@ssitkowx/stable"
                       ]
 

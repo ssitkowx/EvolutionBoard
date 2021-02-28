@@ -13,18 +13,6 @@
     <Filter Include="Project\Hardware\Communication">
       <UniqueIdentifier>{2a05048e-9019-4c38-89e8-b95484e56caf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project\Hardware\Draftsman">
-      <UniqueIdentifier>{9677a9de-61b2-4fbc-8fe3-d1bf30b6de16}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project\Hardware\WiFi">
-      <UniqueIdentifier>{4bfe2098-e505-4c3f-9367-ae29d7feacf1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project\Hardware\Touch">
-      <UniqueIdentifier>{39ef26e1-a75f-4453-b30d-d287189accfa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project\Hardware\SystemTime">
-      <UniqueIdentifier>{4587c5c5-9ba2-457c-abde-7e15ecb4fffb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Project\Logic\Bitmap">
       <UniqueIdentifier>{6891abd2-2746-4369-bdd2-e0c3a731bb42}</UniqueIdentifier>
     </Filter>
@@ -45,9 +33,6 @@
     </Filter>
     <Filter Include="Project\Logic\Logger">
       <UniqueIdentifier>{0be0cf54-4bb6-4fe4-9489-2d00ef04e29f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project\Logic\LoggerMock">
-      <UniqueIdentifier>{69ed58e2-4a10-4945-a7b0-0a607ca2d2a3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Project\Logic\Rtos">
       <UniqueIdentifier>{60764298-9330-4fa1-9954-a031f537683c}</UniqueIdentifier>
@@ -103,26 +88,8 @@
     <Filter Include="External\Libs">
       <UniqueIdentifier>{0f5bbd41-3a1e-4c6d-a7cb-5efd1e4bbf31}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project\Hardware\Flash">
-      <UniqueIdentifier>{5dd30f05-56a2-493d-84bf-5aeb73d88092}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project\Hardware\Gpio">
-      <UniqueIdentifier>{a195cbc2-0dec-4eb9-be22-7db964757d73}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project\Hardware\HttpClient">
-      <UniqueIdentifier>{8c4ef2c0-1e0a-4db1-a591-28fad4205805}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project\Hardware\Rtos">
-      <UniqueIdentifier>{3f740256-0217-4396-aef9-3021e21ae11b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Project\Hardware\Action">
       <UniqueIdentifier>{0531dc98-4445-4679-bd06-38da77316697}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project\Hardware\Logger">
-      <UniqueIdentifier>{dc7e5699-f352-4c3d-ad00-94d1b84fee0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project\Hardware\Timer">
-      <UniqueIdentifier>{88849e47-aea0-4ce7-b224-45f7807823d3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Project\Hardware\Peripheral">
       <UniqueIdentifier>{8c17a91e-1c17-4ef0-86ab-feedf6b58781}</UniqueIdentifier>
@@ -141,6 +108,36 @@
     </Filter>
     <Filter Include="Project\Hardware\Widget">
       <UniqueIdentifier>{9f3162fe-4741-42a6-a051-737396708cbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\HttpClient">
+      <UniqueIdentifier>{f736ee85-149a-4663-8a66-6fe6dce5055f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Rtos">
+      <UniqueIdentifier>{fd58f682-4eae-45d1-9517-0206fca00328}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Gpio">
+      <UniqueIdentifier>{871cb923-6cca-452f-8086-8d73f26447c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\WiFi">
+      <UniqueIdentifier>{de95550c-275e-4b47-840f-7f942257a548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Timer">
+      <UniqueIdentifier>{5f805de7-c803-4df6-9aab-df178a036641}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Flash">
+      <UniqueIdentifier>{35bd3622-bda8-468e-8346-366fecfa862a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Touch">
+      <UniqueIdentifier>{31a33c9f-f1ae-455d-bc82-a243bdad1e30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Logger">
+      <UniqueIdentifier>{a332284e-b8cd-4e90-a52a-e82ab116e6b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Draftsman">
+      <UniqueIdentifier>{dbca6387-8601-422b-8537-01ada2d3d3d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\SystemTime">
+      <UniqueIdentifier>{31d9c76a-41f3-4c36-a795-217d98d58476}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -167,9 +164,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\.conan\download\Logger\Project\Logger.cpp">
       <Filter>Project\Logic\Logger</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\.conan\download\LoggerMock\Project\LoggerMock.cpp">
-      <Filter>Project\Logic\LoggerMock</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\.conan\download\WiFi\Project\WiFi.cpp">
       <Filter>Project\Logic\WiFi</Filter>
@@ -237,6 +231,9 @@
     <ClCompile Include="Project\Hardware\MainCppHw.cpp">
       <Filter>Project\Hardware</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\.conan\download\LoggerHw\Project\LoggerHw.cpp">
+      <Filter>Project\Hardware\Logger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\.conan\download\Bitmap\Project\Bitmap.h">
@@ -259,9 +256,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\.conan\download\Logger\Project\Logger.h">
       <Filter>Project\Logic\Logger</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\.conan\download\LoggerMock\Project\LoggerMock.h">
-      <Filter>Project\Logic\LoggerMock</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\.conan\download\WiFi\Project\WiFi.h">
       <Filter>Project\Logic\WiFi</Filter>
@@ -317,41 +311,8 @@
     <ClInclude Include="..\Project\Hardware\Action\Action.h">
       <Filter>Project\Hardware\Action</Filter>
     </ClInclude>
-    <ClInclude Include="Project\Hardware\Logger\LoggerHw.h">
-      <Filter>Project\Hardware\Logger</Filter>
-    </ClInclude>
     <ClInclude Include="Project\Hardware\Communication\WeatherMeasureComm.h">
       <Filter>Project\Hardware\Communication</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Hardware\Draftsman\DraftsmanHw.h">
-      <Filter>Project\Hardware\Draftsman</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Hardware\Flash\FlashHw.h">
-      <Filter>Project\Hardware\Flash</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Hardware\Gpio\GpioHw.h">
-      <Filter>Project\Hardware\Gpio</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Hardware\HttpClient\HttpClientHw.h">
-      <Filter>Project\Hardware\HttpClient</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Hardware\Rtos\RtosHw.h">
-      <Filter>Project\Hardware\Rtos</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Hardware\SystemTime\SystemTimeHw.h">
-      <Filter>Project\Hardware\SystemTime</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Hardware\Timer\TimerHw.h">
-      <Filter>Project\Hardware\Timer</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Hardware\Touch\TouchHw.h">
-      <Filter>Project\Hardware\Touch</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Hardware\WiFi\WiFiHw.h">
-      <Filter>Project\Hardware\WiFi</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Hardware\Peripheral\SpiHw\SpiHw.h">
-      <Filter>Project\Hardware\Peripheral\SpiHw</Filter>
     </ClInclude>
     <ClInclude Include="..\Project\Hardware\Activity\Activity.h">
       <Filter>Project\Hardware\Activity</Filter>
@@ -433,6 +394,39 @@
     </ClInclude>
     <ClInclude Include="Project\Hardware\MainCppHw.h">
       <Filter>Project\Hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\HttpClient\HttpClientHw.h">
+      <Filter>Project\Hardware\HttpClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Gpio\Tests\GpioHw.h">
+      <Filter>Project\Hardware\Gpio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Flash\Tests\FlashHw.h">
+      <Filter>Project\Hardware\Flash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\LoggerHw\Project\LoggerHw.h">
+      <Filter>Project\Hardware\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Draftsman\Tests\DraftsmanHw.h">
+      <Filter>Project\Hardware\Draftsman</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\SystemTime\Tests\SystemTimeHw.h">
+      <Filter>Project\Hardware\SystemTime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Touch\Tests\TouchHw.h">
+      <Filter>Project\Hardware\Touch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Timer\Tests\TimerHw.h">
+      <Filter>Project\Hardware\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\WiFi\Tests\WiFiHw.h">
+      <Filter>Project\Hardware\WiFi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Rtos\Tests\RtosHw.h">
+      <Filter>Project\Hardware\Rtos</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\.conan\download\Spi\Tests\SpiHw.h">
+      <Filter>Project\Hardware\Peripheral\SpiHw</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

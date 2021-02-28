@@ -76,8 +76,8 @@ void ActivityBluetooth::Process (void)
 {
     static Bitmap::Coordinates coordinates;
 
-    Touch<TouchHw>::EState eState = touch.Event ();
-    if (eState == Touch<TouchHw>::EState::ePressed)
+    TouchHw::EState eState = touch.Event ();
+    if (eState == TouchHw::EState::ePressed)
     {
         coordinates = touch.GetCoordinates ();
         aButtonDown.Draw (static_cast <uint16_t> (EActionId::eAButtonDown), coordinates);
@@ -87,7 +87,7 @@ void ActivityBluetooth::Process (void)
         xButtonDown.Draw (static_cast <uint16_t> (EActionId::eXButtonDown), coordinates);
         zButtonDown.Draw (static_cast <uint16_t> (EActionId::eZButtonDown), coordinates);
     }
-    else if (eState == Touch<TouchHw>::EState::eReleased)
+    else if (eState == TouchHw::EState::eReleased)
     {
         aButtonUp.Draw (static_cast <uint16_t> (EActionId::eAButtonUp), coordinates);
         bButtonUp.Draw (static_cast <uint16_t> (EActionId::eBButtonUp), coordinates);

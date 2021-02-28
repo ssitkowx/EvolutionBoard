@@ -94,7 +94,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(IDF_PATH)/components/json/cJSON;../Project/Logic;../Project/Logic/Action;../Project/Logic/Settings;../Project/Logic/Resources;../Project/Logic/SystemEvents;../Project/Logic/Protocols/HttpClient;../Project/Logic/Communication/Json;../Project/Logic/BitmapConverter/Images;../Project/Logic/BitmapConverter/Images/Buttons;../Project/Logic/Communication/WeatherMeasureParser;../Project/Logic/Communication/WeatherMeasureMsgType;../Project/Hardware/Action;../Project/Hardware/Activity;../Project/Hardware/Widgets;Project/Hardware/Rtos;Project/Hardware/Gpio;Project/Hardware/WiFi;Project/Hardware/Flash;Project/Hardware/Timer;Project/Hardware/Touch;Project/Hardware/Logger;Project/Hardware/Peripheral;Project/Hardware/HttpClient;Project/Hardware/Draftsman;Project/Hardware/SystemTime;Project/Hardware/Communication;Project/Hardware/Peripheral/SpiHw;$(PackageIncludePaths)/Spi/Project;$(PackageIncludePaths)/Utils/Project;$(PackageIncludePaths)/WiFi/Project;$(PackageIncludePaths)/Gpio/Project;$(PackageIncludePaths)/Rtos/Project;$(PackageIncludePaths)/Flash/Project;$(PackageIncludePaths)/Timer/Project;$(PackageIncludePaths)/Touch/Project;$(PackageIncludePaths)/Bitmap/Project;$(PackageIncludePaths)/Logger/Project;$(PackageIncludePaths)/Draftsman/Project;$(PackageIncludePaths)/SystemTime/Project;$(PackageIncludePaths)/LoggerMock/Project;$(PackageIncludePaths)/CircularBuffer/Project;$(PackageIncludePaths)/Communication/Project;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(IDF_PATH)/components/json/cJSON;../Project/Logic;../Project/Logic/Action;../Project/Logic/Settings;../Project/Logic/Resources;../Project/Logic/SystemEvents;../Project/Logic/Protocols/HttpClient;../Project/Logic/Communication/Json;../Project/Logic/BitmapConverter/Images;../Project/Logic/BitmapConverter/Images/Buttons;../Project/Logic/Communication/WeatherMeasureParser;../Project/Logic/Communication/WeatherMeasureMsgType;../Project/Hardware/Action;../Project/Hardware/Activity;../Project/Hardware/Widgets;Project/Hardware/Peripheral;Project/Hardware/HttpClient;Project/Hardware/Communication;Project/Hardware/Peripheral/SpiHw;$(PackageIncludePaths)/Spi/Project;$(PackageIncludePaths)/Utils/Project;$(PackageIncludePaths)/WiFi/Project;$(PackageIncludePaths)/Gpio/Project;$(PackageIncludePaths)/Rtos/Project;$(PackageIncludePaths)/Flash/Project;$(PackageIncludePaths)/Timer/Project;$(PackageIncludePaths)/Touch/Project;$(PackageIncludePaths)/Bitmap/Project;$(PackageIncludePaths)/Logger/Project;$(PackageIncludePaths)/Draftsman/Project;$(PackageIncludePaths)/LoggerHw/Project;$(PackageIncludePaths)/SystemTime/Project;$(PackageIncludePaths)/CircularBuffer/Project;$(PackageIncludePaths)/Communication/Project;$(PackageIncludePaths)/Spi/Tests;$(PackageIncludePaths)/Utils/Tests;$(PackageIncludePaths)/WiFi/Tests;$(PackageIncludePaths)/Gpio/Tests;$(PackageIncludePaths)/Rtos/Tests;$(PackageIncludePaths)/Flash/Tests;$(PackageIncludePaths)/Timer/Tests;$(PackageIncludePaths)/Touch/Tests;$(PackageIncludePaths)/Bitmap/Tests;$(PackageIncludePaths)/Draftsman/Tests;$(PackageIncludePaths)/SystemTime/Tests;$(PackageIncludePaths)/Communication/Tests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
@@ -141,7 +141,7 @@
     <ClCompile Include="..\..\..\..\..\.conan\download\Draftsman\Project\Draftsman.cpp" />
     <ClCompile Include="..\..\..\..\..\.conan\download\Flash\Project\Flash.cpp" />
     <ClCompile Include="..\..\..\..\..\.conan\download\Gpio\Project\Gpio.cpp" />
-    <ClCompile Include="..\..\..\..\..\.conan\download\LoggerMock\Project\LoggerMock.cpp" />
+    <ClCompile Include="..\..\..\..\..\.conan\download\LoggerHw\Project\LoggerHw.cpp" />
     <ClCompile Include="..\..\..\..\..\.conan\download\Logger\Project\Logger.cpp" />
     <ClCompile Include="..\..\..\..\..\.conan\download\Rtos\Project\Rtos.cpp" />
     <ClCompile Include="..\..\..\..\..\.conan\download\Spi\Project\Spi.cpp" />
@@ -172,17 +172,26 @@
     <ClInclude Include="..\..\..\..\..\.conan\download\CircularBuffer\Project\CircularBuffer.h" />
     <ClInclude Include="..\..\..\..\..\.conan\download\Communication\Project\Communication.h" />
     <ClInclude Include="..\..\..\..\..\.conan\download\Draftsman\Project\Draftsman.h" />
+    <ClInclude Include="..\..\..\..\..\.conan\download\Draftsman\Tests\DraftsmanHw.h" />
     <ClInclude Include="..\..\..\..\..\.conan\download\Flash\Project\Flash.h" />
+    <ClInclude Include="..\..\..\..\..\.conan\download\Flash\Tests\FlashHw.h" />
     <ClInclude Include="..\..\..\..\..\.conan\download\Gpio\Project\Gpio.h" />
-    <ClInclude Include="..\..\..\..\..\.conan\download\LoggerMock\Project\LoggerMock.h" />
+    <ClInclude Include="..\..\..\..\..\.conan\download\Gpio\Tests\GpioHw.h" />
+    <ClInclude Include="..\..\..\..\..\.conan\download\LoggerHw\Project\LoggerHw.h" />
     <ClInclude Include="..\..\..\..\..\.conan\download\Logger\Project\Logger.h" />
     <ClInclude Include="..\..\..\..\..\.conan\download\Rtos\Project\Rtos.h" />
+    <ClInclude Include="..\..\..\..\..\.conan\download\Rtos\Tests\RtosHw.h" />
     <ClInclude Include="..\..\..\..\..\.conan\download\Spi\Project\Spi.h" />
+    <ClInclude Include="..\..\..\..\..\.conan\download\Spi\Tests\SpiHw.h" />
     <ClInclude Include="..\..\..\..\..\.conan\download\SystemTime\Project\SystemTime.h" />
+    <ClInclude Include="..\..\..\..\..\.conan\download\SystemTime\Tests\SystemTimeHw.h" />
     <ClInclude Include="..\..\..\..\..\.conan\download\Timer\Project\Timer.h" />
+    <ClInclude Include="..\..\..\..\..\.conan\download\Timer\Tests\TimerHw.h" />
     <ClInclude Include="..\..\..\..\..\.conan\download\Touch\Project\Touch.h" />
+    <ClInclude Include="..\..\..\..\..\.conan\download\Touch\Tests\TouchHw.h" />
     <ClInclude Include="..\..\..\..\..\.conan\download\Utils\Project\Utils.h" />
     <ClInclude Include="..\..\..\..\..\.conan\download\WiFi\Project\WiFi.h" />
+    <ClInclude Include="..\..\..\..\..\.conan\download\WiFi\Tests\WiFiHw.h" />
     <ClInclude Include="..\Project\Hardware\Action\Action.h" />
     <ClInclude Include="..\Project\Hardware\Activity\Activity.h" />
     <ClInclude Include="..\Project\Hardware\Activity\ActivityBluetooth.h" />
@@ -218,20 +227,10 @@
     <ClInclude Include="..\Project\Logic\Settings\Settings.h" />
     <ClInclude Include="..\Project\Logic\SystemEvents\SystemEvents.h" />
     <ClInclude Include="Project\Hardware\Communication\WeatherMeasureComm.h" />
-    <ClInclude Include="Project\Hardware\Draftsman\DraftsmanHw.h" />
-    <ClInclude Include="Project\Hardware\Flash\FlashHw.h" />
-    <ClInclude Include="Project\Hardware\Gpio\GpioHw.h" />
     <ClInclude Include="Project\Hardware\HttpClient\HttpClientHw.h" />
-    <ClInclude Include="Project\Hardware\Logger\LoggerHw.h" />
     <ClInclude Include="Project\Hardware\MainCppHw.h" />
-    <ClInclude Include="Project\Hardware\Peripheral\SpiHw\SpiHw.h" />
     <ClInclude Include="Project\Hardware\Peripheral\SpiLcdHw.h" />
     <ClInclude Include="Project\Hardware\Peripheral\SpiTouchHw.h" />
-    <ClInclude Include="Project\Hardware\Rtos\RtosHw.h" />
-    <ClInclude Include="Project\Hardware\SystemTime\SystemTimeHw.h" />
-    <ClInclude Include="Project\Hardware\Timer\TimerHw.h" />
-    <ClInclude Include="Project\Hardware\Touch\TouchHw.h" />
-    <ClInclude Include="Project\Hardware\WiFi\WiFiHw.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
