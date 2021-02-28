@@ -17,7 +17,7 @@
 #include "SpiLcdHw.h"
 #include "Settings.h"
 #include "Resources.h"
-#include "LoggerMock.h"
+#include "LoggerHw.h"
 #include "SpiTouchHw.h"
 #include "DraftsmanHw.h"
 #include "SystemTimeHw.h"
@@ -93,7 +93,7 @@ class MainCppHwFixture : public ::testing::Test
 
             Font                         font;
             Resources                    resources (font);
-            DraftsmanHw                  draftsmanHw (draftsmanConfig, spiLcdHw, font);
+            DraftsmanHw                  draftsmanHw (draftsmanConfig);
 
             const Touch<TouchHw>::Config touchConfig = { .Histeresis = TWO,
                                                          .Time       = { FOUR,               // PressedMax, InterruptInSeconds * PressedMax
@@ -101,10 +101,6 @@ class MainCppHwFixture : public ::testing::Test
                                                                        }
                                                        };
 
-            const TouchHw::Coefficients  touchCoefficients = { .Constant = ONE_HUNDRED_TWENTY_EIGHT,
-                                                               .Width    = TWO,
-                                                               .Length   = 2.68
-                                                             };
 
             const TimerHw::Config        timerTouchConfig = { .Divider        = SIXTEEN,
                                                               .InterruptInSec = 0.01,
@@ -112,7 +108,7 @@ class MainCppHwFixture : public ::testing::Test
                                                             };
 
             TimerHw                      timerTouchHw (timerTouchConfig);
-            TouchHw                      touchHw      (touchCoefficients, touchConfig, spiTouchHw);
+            TouchHw                      touchHw      (touchConfig);
             Action                       action       (touchHw, draftsmanHw, resources);
 
             while (IsThreadInProgress == true)
