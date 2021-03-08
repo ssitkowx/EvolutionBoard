@@ -20,7 +20,8 @@ Design pattern used:
 - Singleton,
 - Factory method,
 - Command
-- Builder.
+- Builder,
+- RAII.
 
 Tests:
 The individual libraries as well as the entire project are tested with gtest and gmock (white-box approach).
