@@ -45,6 +45,7 @@ class RtosHw final : public Rtos
         RtosHw ();
         ~RtosHw ();
 
+        void     TaskDelete               (void)                          override { vTaskDelete (NULL);                   }
         void     DelayInMs                (const uint32_t v_ms)           override { vTaskDelay (v_ms / portTICK_RATE_MS); }
         bool     TakeSemaphore            (std::string_view v_name)       override;
         bool     GiveSemaphoreFromISR     (std::string_view v_name)       override;
@@ -54,7 +55,7 @@ class RtosHw final : public Rtos
                                            std::string_view v_taskName,
                                            const uint32_t   v_stackDepth,
                                            const uint32_t   v_priority,
-                                           TaskHandle       v_taskHandle) override { return xTaskCreate (v_taskFuncion, v_taskName.data(), v_stackDepth, NULL, v_priority, NULL); }
+                                           TaskHandle       v_taskHandle) override { return xTaskCreate (v_taskFuncion, v_taskName.data(), v_stackDepth, NULL, v_priority, &v_taskHandle); }
     private:
         enum class ETick : uint32_t
         {

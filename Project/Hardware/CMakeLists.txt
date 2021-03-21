@@ -1,5 +1,6 @@
 SET (PackageIncludePaths "C:/Users/sitko/.conan/download")
 SET (PackageSourcePaths main.c
+                        Tasks.cpp
                         MainCppHw.cpp
                         Touch/TouchHw.cpp
                         Action/Action.cpp

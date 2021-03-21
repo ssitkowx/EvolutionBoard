@@ -94,7 +94,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(IDF_PATH)/components/json/cJSON;../Project/Logic;../Project/Logic/Action;../Project/Logic/Settings;../Project/Logic/Resources;../Project/Logic/SystemEvents;../Project/Logic/Protocols/HttpClient;../Project/Logic/Communication/Json;../Project/Logic/BitmapConverter/Images;../Project/Logic/BitmapConverter/Images/Buttons;../Project/Logic/Communication/WeatherMeasureParser;../Project/Logic/Communication/WeatherMeasureMsgType;../Project/Hardware/Action;../Project/Hardware/Activity;../Project/Hardware/Widgets;Project/Hardware/Peripheral;Project/Hardware/HttpClient;Project/Hardware/Communication;Project/Hardware/Peripheral/SpiHw;$(PackageIncludePaths)/Spi/Project;$(PackageIncludePaths)/Utils/Project;$(PackageIncludePaths)/WiFi/Project;$(PackageIncludePaths)/Gpio/Project;$(PackageIncludePaths)/Rtos/Project;$(PackageIncludePaths)/Flash/Project;$(PackageIncludePaths)/Timer/Project;$(PackageIncludePaths)/Touch/Project;$(PackageIncludePaths)/Bitmap/Project;$(PackageIncludePaths)/Logger/Project;$(PackageIncludePaths)/Draftsman/Project;$(PackageIncludePaths)/LoggerHw/Project;$(PackageIncludePaths)/SystemTime/Project;$(PackageIncludePaths)/CircularBuffer/Project;$(PackageIncludePaths)/Communication/Project;$(PackageIncludePaths)/Spi/Tests;$(PackageIncludePaths)/Utils/Tests;$(PackageIncludePaths)/WiFi/Tests;$(PackageIncludePaths)/Gpio/Tests;$(PackageIncludePaths)/Rtos/Tests;$(PackageIncludePaths)/Flash/Tests;$(PackageIncludePaths)/Timer/Tests;$(PackageIncludePaths)/Touch/Tests;$(PackageIncludePaths)/Bitmap/Tests;$(PackageIncludePaths)/Draftsman/Tests;$(PackageIncludePaths)/SystemTime/Tests;$(PackageIncludePaths)/Communication/Tests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(IDF_PATH)/components/json/cJSON;../Project/Logic;../Project/Logic/Action;../Project/Logic/Settings;../Project/Logic/Resources;../Project/Logic/SystemEvents;../Project/Logic/Protocols/HttpClient;../Project/Logic/Communication/Json;../Project/Logic/BitmapConverter/Images;../Project/Logic/BitmapConverter/Images/Buttons;../Project/Logic/Communication/WeatherMeasureParser;../Project/Logic/Communication/WeatherMeasureMsgType;../Project/Hardware;../Project/Hardware/Action;../Project/Hardware/Activity;../Project/Hardware/Widgets;Project/Hardware/Peripheral;Project/Hardware/HttpClient;Project/Hardware/Communication;Project/Hardware/Peripheral/SpiHw;$(PackageIncludePaths)/Spi/Project;$(PackageIncludePaths)/Utils/Project;$(PackageIncludePaths)/WiFi/Project;$(PackageIncludePaths)/Gpio/Project;$(PackageIncludePaths)/Rtos/Project;$(PackageIncludePaths)/Flash/Project;$(PackageIncludePaths)/Timer/Project;$(PackageIncludePaths)/Touch/Project;$(PackageIncludePaths)/Bitmap/Project;$(PackageIncludePaths)/Logger/Project;$(PackageIncludePaths)/Draftsman/Project;$(PackageIncludePaths)/LoggerHw/Project;$(PackageIncludePaths)/SystemTime/Project;$(PackageIncludePaths)/CircularBuffer/Project;$(PackageIncludePaths)/Communication/Project;$(PackageIncludePaths)/Spi/Tests;$(PackageIncludePaths)/Utils/Tests;$(PackageIncludePaths)/WiFi/Tests;$(PackageIncludePaths)/Gpio/Tests;$(PackageIncludePaths)/Rtos/Tests;$(PackageIncludePaths)/Flash/Tests;$(PackageIncludePaths)/Timer/Tests;$(PackageIncludePaths)/Touch/Tests;$(PackageIncludePaths)/Bitmap/Tests;$(PackageIncludePaths)/Draftsman/Tests;$(PackageIncludePaths)/SystemTime/Tests;$(PackageIncludePaths)/Communication/Tests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
@@ -154,6 +154,7 @@
     <ClCompile Include="..\Project\Hardware\Activity\Activity.cpp" />
     <ClCompile Include="..\Project\Hardware\Activity\ActivityBluetooth.cpp" />
     <ClCompile Include="..\Project\Hardware\Activity\ActivityWeather.cpp" />
+    <ClCompile Include="..\Project\Hardware\Tasks.cpp" />
     <ClCompile Include="..\Project\Hardware\Widgets\Widget.cpp" />
     <ClCompile Include="..\Project\Hardware\Widgets\WidgetEdit.cpp" />
     <ClCompile Include="..\Project\Logic\Communication\Json\Json.cpp" />
@@ -164,7 +165,6 @@
     <ClCompile Include="..\Project\Logic\Resources\Resources.cpp" />
     <ClCompile Include="..\Project\Logic\Settings\Settings.cpp" />
     <ClCompile Include="main.cxx" />
-    <ClCompile Include="Project\Hardware\MainCppFixtureHw.cpp" />
     <ClCompile Include="Project\Hardware\MainCppHw.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +197,7 @@
     <ClInclude Include="..\Project\Hardware\Activity\Activity.h" />
     <ClInclude Include="..\Project\Hardware\Activity\ActivityBluetooth.h" />
     <ClInclude Include="..\Project\Hardware\Activity\ActivityWeather.h" />
+    <ClInclude Include="..\Project\Hardware\Tasks.h" />
     <ClInclude Include="..\Project\Hardware\Widgets\Widget.h" />
     <ClInclude Include="..\Project\Hardware\Widgets\WidgetEdit.h" />
     <ClInclude Include="..\Project\Logic\Action\ActionId.h" />
@@ -229,7 +230,6 @@
     <ClInclude Include="..\Project\Logic\SystemEvents\SystemEvents.h" />
     <ClInclude Include="Project\Hardware\Communication\WeatherMeasureComm.h" />
     <ClInclude Include="Project\Hardware\HttpClient\HttpClientHw.h" />
-    <ClInclude Include="Project\Hardware\MainCppFixtureHw.h" />
     <ClInclude Include="Project\Hardware\MainCppHw.h" />
     <ClInclude Include="Project\Hardware\Peripheral\SpiLcdHw.h" />
     <ClInclude Include="Project\Hardware\Peripheral\SpiTouchHw.h" />

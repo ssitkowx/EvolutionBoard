@@ -228,13 +228,13 @@
     <ClCompile Include="..\Project\Hardware\Widgets\WidgetEdit.cpp">
       <Filter>Project\Hardware\Widget</Filter>
     </ClCompile>
-    <ClCompile Include="Project\Hardware\MainCppHw.cpp">
-      <Filter>Project\Hardware</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\.conan\download\LoggerHw\Project\LoggerHw.cpp">
       <Filter>Project\Hardware\Logger</Filter>
     </ClCompile>
-    <ClCompile Include="Project\Hardware\MainCppFixtureHw.cpp">
+    <ClCompile Include="..\Project\Hardware\Tasks.cpp">
+      <Filter>Project\Hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\Hardware\MainCppHw.cpp">
       <Filter>Project\Hardware</Filter>
     </ClCompile>
   </ItemGroup>
@@ -395,9 +395,6 @@
     <ClInclude Include="Project\Hardware\Peripheral\SpiTouchHw.h">
       <Filter>Project\Hardware\Peripheral\SpiHw</Filter>
     </ClInclude>
-    <ClInclude Include="Project\Hardware\MainCppHw.h">
-      <Filter>Project\Hardware</Filter>
-    </ClInclude>
     <ClInclude Include="Project\Hardware\HttpClient\HttpClientHw.h">
       <Filter>Project\Hardware\HttpClient</Filter>
     </ClInclude>
@@ -431,7 +428,10 @@
     <ClInclude Include="..\..\..\..\..\.conan\download\Spi\Tests\SpiHw.h">
       <Filter>Project\Hardware\Peripheral\SpiHw</Filter>
     </ClInclude>
-    <ClInclude Include="Project\Hardware\MainCppFixtureHw.h">
+    <ClInclude Include="..\Project\Hardware\Tasks.h">
+      <Filter>Project\Hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\MainCppHw.h">
       <Filter>Project\Hardware</Filter>
     </ClInclude>
   </ItemGroup>

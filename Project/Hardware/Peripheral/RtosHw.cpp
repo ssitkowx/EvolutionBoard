@@ -30,7 +30,6 @@ RtosHw::~RtosHw () { LOG (MODULE, "Deinit."); }
 
 bool RtosHw::TakeSemaphore (std::string_view v_name)
 {
-
     if (strcmp ("TakeWeatherMeasureSemaphore", v_name.data ()) == ZERO) { return (xSemaphoreTake (WeatherMeasureSemaphoreHandle, (TickType_t)ETick::ePortMaxDelay) == pdTRUE) ? true : false; }
     return false;
 }
