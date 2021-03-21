@@ -13,12 +13,12 @@
 
 class MainCppHw final
 {
-    public:
-        static constexpr char *      MODULE = (char *)"MainCppHw";
-        std::shared_ptr<std::thread> BluetoothCommThread;
-        std::shared_ptr<std::thread> WatherMeasureCommThread;
-        std::shared_ptr<std::thread> DisplayAndTouchCommThread;
+    private:
+        std::shared_ptr<std::thread> bluetoothCommThread;
+        std::shared_ptr<std::thread> watherMeasureCommThread;
+        std::shared_ptr<std::thread> displayAndTouchCommThread;
 
+    public:
         MainCppHw () { Init (); }
         ~MainCppHw () = default;
 
@@ -28,13 +28,13 @@ class MainCppHw final
             std::shared_ptr<std::thread> watherMeasureThread   (new std::thread (WeatherMeasureProcess , this));
             std::shared_ptr<std::thread> displayAndTouchThread (new std::thread (DisplayAndTouchProcess, this));
 
-            BluetoothCommThread       = std::move (bluetoothThread);
-            WatherMeasureCommThread   = std::move (watherMeasureThread);
-            DisplayAndTouchCommThread = std::move (displayAndTouchThread);
+            bluetoothCommThread       = std::move (bluetoothThread);
+            watherMeasureCommThread   = std::move (watherMeasureThread);
+            displayAndTouchCommThread = std::move (displayAndTouchThread);
 
-            BluetoothCommThread      ->join ();
-            WatherMeasureCommThread  ->join ();
-            DisplayAndTouchCommThread->join ();
+            bluetoothCommThread      ->join ();
+            watherMeasureCommThread  ->join ();
+            displayAndTouchCommThread->join ();
         }
 };
 
