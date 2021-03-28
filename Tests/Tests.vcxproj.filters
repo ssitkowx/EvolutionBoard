@@ -10,9 +10,6 @@
     <Filter Include="Project\Logic">
       <UniqueIdentifier>{319bfde0-9acc-45dd-af2a-02d96147fb5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project\Hardware\Communication">
-      <UniqueIdentifier>{2a05048e-9019-4c38-89e8-b95484e56caf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Project\Logic\Bitmap">
       <UniqueIdentifier>{6891abd2-2746-4369-bdd2-e0c3a731bb42}</UniqueIdentifier>
     </Filter>
@@ -139,6 +136,15 @@
     <Filter Include="Project\Hardware\SystemTime">
       <UniqueIdentifier>{31d9c76a-41f3-4c36-a795-217d98d58476}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Logic\WeatherMeasure">
+      <UniqueIdentifier>{547130ce-dd76-41b6-b730-a83ef5105805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Tasks">
+      <UniqueIdentifier>{3f1f97b7-6496-4abb-bb6f-b4034ea448df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Hardware\Communication">
+      <UniqueIdentifier>{6a5c01e5-79d5-4142-822e-4c8d4a652f17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock-all.cc" />
@@ -231,12 +237,16 @@
     <ClCompile Include="..\..\..\..\..\.conan\download\LoggerHw\Project\LoggerHw.cpp">
       <Filter>Project\Hardware\Logger</Filter>
     </ClCompile>
-    <ClCompile Include="..\Project\Hardware\Tasks.cpp">
-      <Filter>Project\Hardware</Filter>
+    <ClCompile Include="Project\Logic\WeatherMeasure\WeatherMeasureFixture.cxx">
+      <Filter>Project\Logic\WeatherMeasure</Filter>
     </ClCompile>
-    <ClCompile Include="Project\Hardware\MainCppHw.cpp">
-      <Filter>Project\Hardware</Filter>
+    <ClCompile Include="..\Project\Hardware\Communication\WeatherMeasureComm.cpp">
+      <Filter>Project\Hardware\Communication</Filter>
     </ClCompile>
+    <ClCompile Include="Project\Hardware\Tasks\Tasks.cpp">
+      <Filter>Project\Hardware\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Project\Hardware\MainCppHw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\.conan\download\Bitmap\Project\Bitmap.h">
@@ -313,9 +323,6 @@
     </ClInclude>
     <ClInclude Include="..\Project\Hardware\Action\Action.h">
       <Filter>Project\Hardware\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Hardware\Communication\WeatherMeasureComm.h">
-      <Filter>Project\Hardware\Communication</Filter>
     </ClInclude>
     <ClInclude Include="..\Project\Hardware\Activity\Activity.h">
       <Filter>Project\Hardware\Activity</Filter>
@@ -428,12 +435,19 @@
     <ClInclude Include="..\..\..\..\..\.conan\download\Spi\Tests\SpiHw.h">
       <Filter>Project\Hardware\Peripheral\SpiHw</Filter>
     </ClInclude>
-    <ClInclude Include="..\Project\Hardware\Tasks.h">
-      <Filter>Project\Hardware</Filter>
+    <ClInclude Include="Project\Logic\WeatherMeasure\WeatherMeasureFixture.hxx">
+      <Filter>Project\Logic\WeatherMeasure</Filter>
     </ClInclude>
-    <ClInclude Include="Project\Hardware\MainCppHw.h">
-      <Filter>Project\Hardware</Filter>
+    <ClInclude Include="Project\Logic\Fixture.hxx">
+      <Filter>Project\Logic</Filter>
     </ClInclude>
+    <ClInclude Include="..\Project\Hardware\Communication\WeatherMeasureComm.h">
+      <Filter>Project\Hardware\Communication</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Hardware\Tasks\Tasks.h">
+      <Filter>Project\Hardware\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project\Hardware\MainCppHw.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
