@@ -49,7 +49,7 @@ class WeatherMeasureMsgType_t final
 		    uint16_t                                                WindDegree;
 		    std::array <char, TWO_BYTES>                            WindDir;
 		    uint16_t                                                Pressure;
-		    int8_t                                                  Precip;
+		    double                                                  Precip;
 		    uint8_t                                                 Humidity;
 		    uint8_t                                                 CloudCover;
 		    uint8_t                                                 FeelsLike;

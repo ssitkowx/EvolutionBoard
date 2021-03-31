@@ -1,7 +1,7 @@
 SET (PackageIncludePaths "C:/Users/sitko/.conan/download")
 SET (PackageSourcePaths main.c
-                        Tasks.cpp
                         MainCppHw.cpp
+                        Tasks/Tasks.cpp
                         Touch/TouchHw.cpp
                         Action/Action.cpp
                         Widgets/Widget.cpp
@@ -48,6 +48,7 @@ SET (PackageSourcePaths main.c
 IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              INCLUDE_DIRS
                              .
+                             Tasks
                              Touch
                              Logger
                              Action
@@ -86,4 +87,5 @@ IDF_COMPONENT_REGISTER (SRCS ${PackageSourcePaths}
                              REQUIRES "nvs_flash" "esp_http_client" "json"
                        )
                        
-COMPONENT_COMPILE_OPTIONS(-std=c++17)
+SET_PROPERTY (TARGET ${COMPONENT_TARGET} PROPERTY CXX_STANDARD 17)
+SET_PROPERTY (TARGET ${COMPONENT_TARGET} PROPERTY C_STANDARD   11)

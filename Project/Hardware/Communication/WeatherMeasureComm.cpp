@@ -58,8 +58,8 @@ void WeatherMeasureComm::receive (void)
         return;
     }
 
-    Chunk recvData (recvDataMaxLen);
-    int readLen = http.Read (recvData.payload, recvDataMaxLen);
+    Chunk recvData (contentLen);
+    int readLen = http.Read (recvData.payload, contentLen);
     if (readLen < ZERO)
     {
         LOGE (MODULE, "Can't read response.");

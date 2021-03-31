@@ -24,7 +24,7 @@ class TimerHw final : public Timer<TimerHw>
             ETimer eTimer;
         };
 
-        TimerHw  (const Config v_config);
+        explicit TimerHw  (const Config v_config);
         ~TimerHw ();
 
         void     Start          (void);
@@ -45,7 +45,7 @@ class TimerHw final : public Timer<TimerHw>
         timer_idx_t   number;
         timer_group_t group;
 
-        void    setTimerConfig  (Timer<TimerHw>::ETimer v_eTimerNum);
+        void     setTimerConfig  (Timer<TimerHw>::ETimer v_eTimerNum);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

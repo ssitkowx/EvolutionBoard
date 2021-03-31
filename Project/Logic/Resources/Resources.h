@@ -30,7 +30,7 @@ class Resources final
             eTemperature,
         };
 
-        Resources (Font & v_font);
+        explicit Resources (Font & v_font);
         ~Resources () = default;
 
         constexpr Bitmap & operator[] (const Font::EId v_eId) { return font [v_eId]; }

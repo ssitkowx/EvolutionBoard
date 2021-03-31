@@ -8,7 +8,6 @@
 #include <stdint.h>
 #include "Settings.h"
 #include "HttpClient.h"
-#include "HttpClientHw.h"
 #include "esp_http_client.h"
 
 ///////////////////////////////////////////////////////////////////////////////

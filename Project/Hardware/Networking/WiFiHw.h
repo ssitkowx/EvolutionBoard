@@ -17,6 +17,7 @@
 class WiFiHw final : public WiFi<WiFiHw>
 {
     static constexpr char * MODULE = (char *)"WiFiHw";
+    friend WiFi<WiFiHw>;
 
     public:
         WiFiHw ();

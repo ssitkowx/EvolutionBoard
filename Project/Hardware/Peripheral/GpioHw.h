@@ -56,8 +56,8 @@ class GpioHw final: public Gpio<GpioHw>
             eHigh             = GPIO_INTR_HIGH_LEVEL
         };
 
-        GpioHw  ();
-        ~GpioHw ();
+        GpioHw ();
+       ~GpioHw ();
 
         void        SetPinLevel     (const uint16_t v_num, const bool v_state);
         void        SetPinDirection (const uint16_t v_num, const uint16_t v_mode);

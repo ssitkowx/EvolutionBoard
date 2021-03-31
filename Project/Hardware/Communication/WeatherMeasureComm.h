@@ -20,13 +20,12 @@ class WeatherMeasureComm : public Communication<WeatherMeasureComm>
     friend Communication<WeatherMeasureComm>;
 
     private:
-        static constexpr uint16_t   recvDataMaxLen = EIGHT_HUNDRED;
         char                      * body           = NULL;
         cJSON                     * root           = NULL;
         HttpClient<HttpClientHw>  & http;
         WeatherMeasureParser      & weatherMeasureParser;
 
-        void send     (void) {}
+        void send     (void) { }
         void receive  (void);
         void clear    (cJSON * v_root, char * v_body);
 

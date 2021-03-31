@@ -12,7 +12,7 @@
 
 Font::Font ()
 {
-    LOG                                 (MODULE, "Init.");
+    LOG (MODULE, "Init.");
 
     create <EId::eZero                > (zero);
     create <EId::eOne                 > (one);

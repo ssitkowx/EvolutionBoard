@@ -31,6 +31,7 @@ void IRAM_ATTR timerIsr (void * v_params)
 
 TimerHw::TimerHw  (const Config v_config) : config (v_config)
 {
+    LOG            (MODULE, "Init.");
     setTimerConfig (config.eTimer);
     init           ();
     Start          ();

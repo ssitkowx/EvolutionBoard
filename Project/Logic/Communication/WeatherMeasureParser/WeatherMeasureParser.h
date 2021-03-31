@@ -15,6 +15,9 @@ class WeatherMeasureParser : protected Json
     static constexpr char * const MODULE = (char *)"WeatherMeasureParser";
 
     public:
+        WeatherMeasureParser () = default;
+       ~WeatherMeasureParser () = default;
+
         void Parse (cJSON * v_root);
 
     private:

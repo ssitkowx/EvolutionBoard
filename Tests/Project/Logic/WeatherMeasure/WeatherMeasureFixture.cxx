@@ -67,27 +67,27 @@ TEST_F (WeatherMeasureFixture, DownloadAndCompareWeatherData)
 {
     LOGW                        (MODULE, "DownloadAndCompareWeatherData");
 
-    EXPECT_CALL                 (RtosHw      , DelayInMs           (_))                                                     .Times          (AnyNumber ());
-    EXPECT_CALL                 (RtosHw      , TaskDelete          ())                                                      .Times          (THREE);
-    EXPECT_CALL                 (RtosHw      , GetCurrentHeapSize  ())                                                      .Times          (AnyNumber ());
-    EXPECT_CALL                 (RtosHw      , GetCurrentStackSize (_))                                                     .Times          (AnyNumber ());
-    EXPECT_CALL                 (DraftsmanHw , DrawText            (_, _))                                                  .Times          (AnyNumber ());
-    EXPECT_CALL                 (DraftsmanHw , sendLines           (_))                                                     .Times          (AnyNumber ());
-    EXPECT_CALL                 (HttpClientHw, Cleanup             ())                                                      .Times          (AnyNumber ());
-    EXPECT_CALL                 (HttpClientHw, GetStatusCode       ())                                                      .Times          (AnyNumber ());
-    EXPECT_CALL                 (TouchHw     , isTouched           ())                                                      .Times          (AnyNumber ());
+    EXPECT_CALL                 (rtosHw      , DelayInMs           (_))                                                     .Times          (AnyNumber ());
+    EXPECT_CALL                 (rtosHw      , TaskDelete          ())                                                      .Times          (THREE);
+    EXPECT_CALL                 (rtosHw      , GetCurrentHeapSize  ())                                                      .Times          (AnyNumber ());
+    EXPECT_CALL                 (rtosHw      , GetCurrentStackSize (_))                                                     .Times          (AnyNumber ());
+    EXPECT_CALL                 (draftsmanHw , DrawText            (_, _))                                                  .Times          (AnyNumber ());
+    EXPECT_CALL                 (draftsmanHw , sendLines           (_))                                                     .Times          (AnyNumber ());
+    EXPECT_CALL                 (httpClientHw, Cleanup             ())                                                      .Times          (AnyNumber ());
+    EXPECT_CALL                 (httpClientHw, GetStatusCode       ())                                                      .Times          (AnyNumber ());
+    EXPECT_CALL                 (touchHw     , isTouched           ())                                                      .Times          (AnyNumber ());
 
     WiFiHw::Mode.StaConnected = true;
     WeatherMeasureComm.SetState (WeatherMeasureComm::EState::eReceive);
-    EXPECT_CALL                 (RtosHw      , TakeSemaphore (static_cast<std::string_view>("TakeWeatherMeasureSemaphore"))).WillOnce       (Return    (true))
+    EXPECT_CALL                 (rtosHw      , TakeSemaphore (static_cast<std::string_view>("TakeWeatherMeasureSemaphore"))).WillOnce       (Return    (true))
                                                                                                                             .WillRepeatedly (Return    (false));
-    EXPECT_CALL                 (HttpClientHw, Init                ())                                                      .WillOnce       (Return    (true))
+    EXPECT_CALL                 (httpClientHw, Init                ())                                                      .WillOnce       (Return    (true))
                                                                                                                             .WillRepeatedly (Return    (false));
-    EXPECT_CALL                 (HttpClientHw, Open                (ZERO))                                                  .WillOnce       (Return    (ZERO))
+    EXPECT_CALL                 (httpClientHw, Open                (ZERO))                                                  .WillOnce       (Return    (ZERO))
                                                                                                                             .WillRepeatedly (Return    (ZERO));
-    EXPECT_CALL                 (HttpClientHw, FetchHeaders        ())                                                      .WillOnce       (Return    (weatherMeasureResp.size ()))
+    EXPECT_CALL                 (httpClientHw, FetchHeaders        ())                                                      .WillOnce       (Return    (weatherMeasureResp.size ()))
                                                                                                                             .WillRepeatedly (Return    (ZERO));
-    EXPECT_CALL                 (HttpClientHw, Read                (_, _))                                                  .WillOnce       (DoAll     (SetCloudResponse <ZERO> (weatherMeasureResp.data(), weatherMeasureResp.size ()), Return (weatherMeasureResp.size ())));
+    EXPECT_CALL                 (httpClientHw, Read                (_, _))                                                  .WillOnce       (DoAll     (SetCloudResponse <ZERO> (weatherMeasureResp.data(), weatherMeasureResp.size ()), Return (weatherMeasureResp.size ())));
     EXPECT_CALL                 (*this, IsThreadInProgress         ())                                                      .WillOnce       (Return    (true))
                                                                                                                             .WillOnce       (Return    (true))
                                                                                                                             .WillOnce       (Return    (true))

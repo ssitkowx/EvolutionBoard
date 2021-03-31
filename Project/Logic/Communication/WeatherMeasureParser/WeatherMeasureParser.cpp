@@ -115,7 +115,7 @@ void WeatherMeasureParser::Current (cJSON * v_root)
 
 	cJSON * precip = cJSON_GetObjectItem (v_root, "precip");
 	isNodeJsonEmpty ("Current", "precip", precip);
-	Settings::GetInstance ().WeatherMeasureMsgType.Current.Precip = precip->valueint;
+	Settings::GetInstance ().WeatherMeasureMsgType.Current.Precip = precip->valuedouble;
 
 	cJSON * humidity = cJSON_GetObjectItem (v_root, "humidity");
 	isNodeJsonEmpty ("Current", "humidity", humidity);

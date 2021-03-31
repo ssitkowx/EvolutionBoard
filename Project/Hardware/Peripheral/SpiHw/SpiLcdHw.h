@@ -16,7 +16,7 @@ class SpiLcdHw final: public SpiHw
     static constexpr char * MODULE = (char *)"SpiLcdHw";
 
     public:
-        SpiLcdHw (Gpio<GpioHw> & v_gpio);
+        explicit SpiLcdHw (Gpio<GpioHw> & v_gpio);
 
     private:
         static spi_device_handle_t handle;
