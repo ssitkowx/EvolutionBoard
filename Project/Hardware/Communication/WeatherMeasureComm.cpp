@@ -19,8 +19,9 @@
 
 void WeatherMeasureComm::receive (void)
 {
+/*
+    // todo debug
     static bool isMeasureUpdated = false;
-    //static bool isMeasureUpdated = true;    // todo temp
     if (isMeasureUpdated == true)
     {
         LOGD (MODULE, "Measurement already updated");
@@ -28,6 +29,7 @@ void WeatherMeasureComm::receive (void)
     }
 
     isMeasureUpdated = true;
+*/
 
     if (WiFi<WiFiHw>::IsOnline () == false)
     {
@@ -77,7 +79,7 @@ void WeatherMeasureComm::receive (void)
     LOGV                       (MODULE, "Heap size:             %u.", Rtos::GetInstance ()->GetCurrentHeapSize ());
     clear                      (root, body);
 
-    SystemEvents::GetInstance ().CircBuf.Add ((uint8_t)EActionId::eWeatherUpdated);
+    SystemEvents::GetInstance  ().CircBuf.Push ((uint8_t)EActionId::eWeatherUpdated);
 }
 
 void WeatherMeasureComm::clear (cJSON * v_root, char * v_body)

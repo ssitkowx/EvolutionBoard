@@ -21,6 +21,7 @@
 #include "DraftsmanHw.h"
 #include "SystemTimeHw.h"
 #include "HttpClientHw.h"
+#include "SystemEvents.h"
 #include "WeatherMeasureComm.h"
 #include "WeatherMeasureParser.h"
 

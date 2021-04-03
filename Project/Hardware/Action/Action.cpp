@@ -18,14 +18,14 @@ Action::Action (Touch <TouchHw>        & v_touch,
                                                         weatherActivity   (v_touch, v_draftsman, v_resources),
                                                         bluetoothActivity (v_touch, v_draftsman, v_resources)
 {
-    SystemEvents::GetInstance ().CircBuf.Add ((uint8_t)(EActionId::eBButtonUp));
+    SystemEvents::GetInstance ().CircBuf.Push ((uint8_t)(EActionId::eBButtonUp));
 }
 
 void Action::Process (void)
 {
     if (SystemEvents::GetInstance ().CircBuf.IsEmpty () == false)
     {
-        uint16_t eventId = SystemEvents::GetInstance ().CircBuf.Remove ();
+        uint16_t eventId = SystemEvents::GetInstance ().CircBuf.Pop ();
         switch (eventId)
         {
             case static_cast<uint16_t>(EActionId::eBButtonUp):

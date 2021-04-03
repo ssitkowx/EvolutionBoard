@@ -24,8 +24,8 @@ class WeatherMeasureFixture : public ::testing::Test, public Tasks
         void TestBody () override { }
 
     protected:
-        void SetUp    () override { }
-        void TearDown () override { }
+        void SetUp    () override {  }
+        void TearDown () override { SystemEvents::GetInstance ().CircBuf.Reset (); }
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -19,7 +19,6 @@ class ActivityWeather final : public Activity
     static constexpr char * MODULE = (char *)"WeatherActivity";
 
     private:
-        static constexpr std::string_view spaces = "               ";
         Touch<TouchHw>         &          touch;
         Draftsman<DraftsmanHw> &          draftsman;
         Resources              &          resources;
@@ -28,6 +27,8 @@ class ActivityWeather final : public Activity
         Widget                            bleButtonDown;
 
     public:
+        static constexpr std::string_view Spaces = "               ";
+
         explicit ActivityWeather (Touch<TouchHw> & v_touch, Draftsman<DraftsmanHw> & v_draftsman, Resources & v_resources);
         ~ActivityWeather () { Unsubscribe (); }
 

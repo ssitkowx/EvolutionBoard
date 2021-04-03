@@ -20,7 +20,7 @@ void Widget::Draw (const uint16_t v_id, const Bitmap::Coordinates & v_coordinate
         ((Coordinate.Y + Dimension.Height) >= v_coordinates.Y)
         )
     {
-        if (IsUpdatable == true) { SystemEvents::GetInstance ().CircBuf.Add (v_id); }
+        if (IsUpdatable == true) { SystemEvents::GetInstance ().CircBuf.Push (v_id); }
         draftsman.DrawBitmap (*this);
     }
 }

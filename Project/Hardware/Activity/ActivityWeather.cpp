@@ -68,29 +68,29 @@ void ActivityWeather::Update (const uint16_t v_actionId)
     uint16_t       yPos       = ONE_HUNDRED_FIFTEEN;
 
     // City
-    draftsman.DrawText (spaces                                                                             , { xLeftPos  , yPos });
+    draftsman.DrawText (Spaces                                                                             , { xLeftPos  , yPos });
     draftsman.DrawText (Settings::GetInstance ().WeatherMeasureMsgType.Location.Name.data ()               , { xLeftPos  , yPos });
 
     // Humidity
-    draftsman.DrawText (spaces                                                                             , { xMiddlePos, yPos });
+    draftsman.DrawText (Spaces                                                                             , { xMiddlePos, yPos });
     draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.Humidity)   , { xMiddlePos, yPos });
 
     // Cloud cover
-    draftsman.DrawText (spaces                                                                             , { xRightPos , yPos });
+    draftsman.DrawText (Spaces                                                                             , { xRightPos , yPos });
     draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.CloudCover) , { xRightPos , yPos });
 
     yPos += ONE_HUNDRED_TEN;
 
     // Wind Speed
-    draftsman.DrawText (spaces                                                                             , { xLeftPos  , yPos });
+    draftsman.DrawText (Spaces                                                                             , { xLeftPos  , yPos });
     draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.WindSpeed)  , { xLeftPos  , yPos });
 
     // Temperature
-    draftsman.DrawText (spaces                                                                             , { xMiddlePos, yPos });
+    draftsman.DrawText (Spaces                                                                             , { xMiddlePos, yPos });
     draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.Temperature), { xMiddlePos, yPos });
 
     // Pressure
-    draftsman.DrawText (spaces                                                                             , { xRightPos , yPos });
+    draftsman.DrawText (Spaces                                                                             , { xRightPos , yPos });
     draftsman.DrawText (std::to_string (Settings::GetInstance ().WeatherMeasureMsgType.Current.Pressure)   , { xRightPos , yPos });
 
     Activity::Update ();

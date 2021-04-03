@@ -235,7 +235,6 @@
     <ClInclude Include="Project\Hardware\Peripheral\SpiLcdHw.h" />
     <ClInclude Include="Project\Hardware\Peripheral\SpiTouchHw.h" />
     <ClInclude Include="Project\Hardware\Tasks\Tasks.h" />
-    <ClInclude Include="Project\Logic\Fixture.hxx" />
     <ClInclude Include="Project\Logic\WeatherMeasure\WeatherMeasureFixture.hxx" />
   </ItemGroup>
   <ItemGroup>
