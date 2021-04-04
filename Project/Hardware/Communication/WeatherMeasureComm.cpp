@@ -52,16 +52,26 @@ void WeatherMeasureComm::receive (void)
         return;
     }
 
-    int contentLen = http.FetchHeaders ();
-    if (contentLen < ZERO)
+    int fetchHeadersLen = http.FetchHeaders ();
+    if (fetchHeadersLen < ZERO)
     {
-        LOGE (MODULE, "Can't fetch headers or contentLen over limit. ContentLen: %d.", contentLen);
+        LOGE (MODULE, "Can't fetch headersLen");
         http.Cleanup ();
         return;
     }
 
-    Chunk recvData (contentLen);
-    int readLen = http.Read (recvData.payload, contentLen);
+/*
+    int contentLen = http.GetContentLength ();
+    if (contentLen < ZERO)
+    {
+        LOGE (MODULE, "Can't get contentLen");
+        http.Cleanup ();
+        return;
+    }
+*/
+
+    Chunk recvData (ContentLen);
+    int readLen = http.Read (recvData.payload, ContentLen);
     if (readLen < ZERO)
     {
         LOGE (MODULE, "Can't read response.");

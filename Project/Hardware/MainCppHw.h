@@ -34,9 +34,6 @@ class MainCppHw
     static constexpr char * MODULE = (char *)"MainCppHw";
     protected:
         FlashHw                      flashHw;
-        RtosHw                       rtosHw;
-        SystemTimeHw                 systemTimeHw;
-
         WiFiHw                       wifiHw;
         HttpClientHw                 httpClientHw;
         WeatherMeasureParser         weatherMeasureParser;

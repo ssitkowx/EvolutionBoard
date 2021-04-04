@@ -77,7 +77,8 @@ TEST_F (WeatherMeasureFixture, DownloadAndParseWeatherData)
     EXPECT_CALL (httpClientHw, GetStatusCode       ())                                                      .Times          (AnyNumber ());
     EXPECT_CALL (touchHw     , isTouched           ())                                                      .Times          (AnyNumber ());
 
-    WiFiHw::Mode.StaConnected = true;
+    WiFiHw::Mode.StaConnected     = true;
+    WeatherMeasureComm.ContentLen = weatherMeasureResp.size ();
     WeatherMeasureComm.SetState (WeatherMeasureComm::EState::eReceive);
 
     EXPECT_CALL (rtosHw      , TakeSemaphore (static_cast<std::string_view>("TakeWeatherMeasureSemaphore"))).WillOnce       (Return    (true))
@@ -86,17 +87,16 @@ TEST_F (WeatherMeasureFixture, DownloadAndParseWeatherData)
                                                                                                             .WillRepeatedly (Return    (false));
     EXPECT_CALL (httpClientHw, Open                (ZERO))                                                  .WillOnce       (Return    (ZERO))
                                                                                                             .WillRepeatedly (Return    (ZERO));
-    EXPECT_CALL (httpClientHw, FetchHeaders        ())                                                      .WillOnce       (Return    (weatherMeasureResp.size ()))
-                                                                                                            .WillRepeatedly (Return    (ZERO));
+    //EXPECT_CALL (httpClientHw, GetContentLength    ())                                                      .WillOnce       (Return    (weatherMeasureResp.size ()));
+    EXPECT_CALL (httpClientHw, FetchHeaders        ())                                                      .WillOnce       (Return    (ZERO));
     EXPECT_CALL (httpClientHw, Read                (_, _))                                                  .WillOnce       (DoAll     (SetCloudResponse <ZERO> (weatherMeasureResp.data(), weatherMeasureResp.size ()), Return (weatherMeasureResp.size ())));
 
     ::testing::InSequence queue;
-
     EXPECT_CALL (*this, IsThreadInProgress         ())                                                      .Times          (TEN)
                                                                                                             .WillRepeatedly (Return    (true));                                                                                                                 
     EXPECT_CALL (*this, IsThreadInProgress         ())                                                      .WillRepeatedly (Return    (false));
 
-    Process     ();
+    Process                                        ();
 
     EXPECT_STREQ (Settings::GetInstance ().WeatherMeasureMsgType.Request.Type                               .data (), "City"            );
     EXPECT_STREQ (Settings::GetInstance ().WeatherMeasureMsgType.Request.Query                              .data (), "Warsaw, Poland"  );
@@ -142,7 +142,8 @@ TEST_F (WeatherMeasureFixture, DownloadAndRedrawActivityWeather)
     EXPECT_CALL (httpClientHw, GetStatusCode       ())                                                            .Times          (AnyNumber ());
     EXPECT_CALL (touchHw     , isTouched           ())                                                            .Times          (AnyNumber ());
 
-    WiFiHw::Mode.StaConnected = true;
+    WiFiHw::Mode.StaConnected     = true;
+    WeatherMeasureComm.ContentLen = weatherMeasureResp.size ();
     WeatherMeasureComm.SetState (WeatherMeasureComm::EState::eReceive);
     EXPECT_CALL (rtosHw      , TakeSemaphore       (static_cast<std::string_view>("TakeWeatherMeasureSemaphore"))).WillOnce       (Return    (true))
                                                                                                                   .WillRepeatedly (Return    (false));
@@ -150,8 +151,8 @@ TEST_F (WeatherMeasureFixture, DownloadAndRedrawActivityWeather)
                                                                                                                   .WillRepeatedly (Return    (false));
     EXPECT_CALL (httpClientHw, Open                (ZERO))                                                        .WillOnce       (Return    (ZERO))
                                                                                                                   .WillRepeatedly (Return    (ZERO));
-    EXPECT_CALL (httpClientHw, FetchHeaders        ())                                                            .WillOnce       (Return    (weatherMeasureResp.size ()))
-                                                                                                                  .WillRepeatedly (Return    (ZERO));
+    //EXPECT_CALL (httpClientHw, GetContentLength    ())                                                            .WillOnce       (Return    (weatherMeasureResp.size ()));
+    EXPECT_CALL (httpClientHw, FetchHeaders        ())                                                            .WillOnce       (Return    (ZERO));
     EXPECT_CALL (httpClientHw, Read                (_, _))                                                        .WillOnce       (DoAll     (SetCloudResponse <ZERO> (weatherMeasureResp.data(), weatherMeasureResp.size ()), Return (weatherMeasureResp.size ())));
 
 
@@ -171,7 +172,7 @@ TEST_F (WeatherMeasureFixture, DownloadAndRedrawActivityWeather)
                                                                                                                   .WillRepeatedly (Return    (true));
     EXPECT_CALL (*this, IsThreadInProgress        ())                                                             .WillRepeatedly (Return    (false));
     
-    Process     ();
+    Process                                       ();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

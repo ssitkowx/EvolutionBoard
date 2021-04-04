@@ -20,8 +20,8 @@ class WeatherMeasureComm : public Communication<WeatherMeasureComm>
     friend Communication<WeatherMeasureComm>;
 
     private:
-        char                      * body           = NULL;
-        cJSON                     * root           = NULL;
+        char                      * body       = NULL;
+        cJSON                     * root       = NULL;
         HttpClient<HttpClientHw>  & http;
         WeatherMeasureParser      & weatherMeasureParser;
 
@@ -30,6 +30,8 @@ class WeatherMeasureComm : public Communication<WeatherMeasureComm>
         void clear    (cJSON * v_root, char * v_body);
 
     public:
+        uint16_t ContentLen = EIGHT_HUNDRED;    // workaround
+
         class Chunk
         {
             friend class WeatherMeasureComm;

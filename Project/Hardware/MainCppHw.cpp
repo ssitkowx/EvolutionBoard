@@ -16,12 +16,7 @@ MainCppHw::MainCppHw () : timerWeatherMeasureHw (timerWeatherMeasureConfig),
                           touchHw               (touchCoefficients, touchConfig, spiTouchHw),
                           Action                (touchHw, draftsmanHw, resources) ,
                           WeatherMeasureComm    (httpClientHw, weatherMeasureParser)
-{ 
-    LOG (MODULE, "Init.");
-
-    SET_RTOS_INST(&rtosHw);
-    SET_SYSTEM_TIME_INST(&systemTimeHw);
-}
+{ }
 
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// END OF FILE ///////////////////////////////////

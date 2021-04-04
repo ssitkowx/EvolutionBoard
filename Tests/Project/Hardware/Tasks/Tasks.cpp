@@ -8,6 +8,21 @@
 //////////////////////////////// FUNCTIONS ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+void Tasks::Process (void)
+{
+    std::unique_ptr<std::thread> bluetoothThread       (new std::thread ([this] { BluetoothProcess       (NULL); }));
+    std::unique_ptr<std::thread> watherMeasureThread   (new std::thread ([this] { WeatherMeasureProcess  (NULL); }));
+    std::unique_ptr<std::thread> displayAndTouchThread (new std::thread ([this] { DisplayAndTouchProcess (NULL); }));
+
+    bluetoothCommThread       = std::move (bluetoothThread);
+    watherMeasureCommThread   = std::move (watherMeasureThread);
+    displayAndTouchCommThread = std::move (displayAndTouchThread);
+
+    bluetoothCommThread      ->join ();
+    watherMeasureCommThread  ->join ();
+    displayAndTouchCommThread->join ();
+}
+
 void Tasks::BluetoothProcess (void * v_params)
 {
     while (IsThreadInProgress ())
@@ -44,21 +59,6 @@ void Tasks::DisplayAndTouchProcess (void * v_params)
 
     Rtos::GetInstance ()->TaskDelete ();
     LOGE              (MODULE, "DisplayAndTouchProcess() Deleted.");
-}
-
-void Tasks::Process (void)
-{
-    std::unique_ptr<std::thread> bluetoothThread       (new std::thread ([this] { BluetoothProcess       (NULL); }));
-    std::unique_ptr<std::thread> watherMeasureThread   (new std::thread ([this] { WeatherMeasureProcess  (NULL); }));
-    std::unique_ptr<std::thread> displayAndTouchThread (new std::thread ([this] { DisplayAndTouchProcess (NULL); }));
-
-    bluetoothCommThread       = std::move (bluetoothThread);
-    watherMeasureCommThread   = std::move (watherMeasureThread);
-    displayAndTouchCommThread = std::move (displayAndTouchThread);
-
-    bluetoothCommThread      ->join ();
-    watherMeasureCommThread  ->join ();
-    displayAndTouchCommThread->join ();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

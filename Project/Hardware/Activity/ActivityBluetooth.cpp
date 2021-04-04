@@ -32,8 +32,6 @@ ActivityBluetooth::ActivityBluetooth (Touch<TouchHw>         & v_touch,
                                                                               zButtonUp   (v_draftsman),
                                                                               edit        (v_draftsman, v_resources)
 {
-    LOG (MODULE, "Init.");
-
     uint16_t xPos = FORTY_FIVE;
     uint16_t yPos = TWO_HUNDRED;
 

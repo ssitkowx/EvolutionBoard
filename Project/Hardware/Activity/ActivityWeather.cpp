@@ -23,8 +23,6 @@ ActivityWeather::ActivityWeather (Touch<TouchHw>         & v_touch,
                                                                           bleButtonDown   (v_draftsman)
 
 {
-    LOG (MODULE, "Init.");
-
     uint16_t xPos = SIXTY;
     uint16_t yPos = TWO_HUNDRED_SIXTY;
 

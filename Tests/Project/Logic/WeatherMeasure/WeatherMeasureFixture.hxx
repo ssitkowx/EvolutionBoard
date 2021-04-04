@@ -24,7 +24,14 @@ class WeatherMeasureFixture : public ::testing::Test, public Tasks
         void TestBody () override { }
 
     protected:
-        void SetUp    () override {  }
+        SystemTimeHw systemTimeHw;
+        RtosHw       rtosHw;
+
+        void SetUp    () override 
+        {
+            SET_SYSTEM_TIME_INST (&systemTimeHw);
+            SET_RTOS_INST        (&rtosHw);
+        }
         void TearDown () override { SystemEvents::GetInstance ().CircBuf.Reset (); }
 };
 

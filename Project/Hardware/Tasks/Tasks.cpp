@@ -3,7 +3,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Tasks.h"
-#include "RtosHw.h"
 #include "MainCppHw.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -11,6 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 static constexpr char * MODULE = (char *)"Tasks";
+static class Tasks    * gTasks;
 
 TaskHandle_t BluetoothTaskHandle;
 TaskHandle_t WeatherMeasureTaskHandle;
@@ -24,18 +24,25 @@ class Tasks final : public MainCppHw
 {
     static constexpr char * MODULE = (char *)"Tasks";
     public:
-        Tasks () { LOG (MODULE, "Init."); }
+        Tasks () = default;
        ~Tasks () = default;
 
        bool IsThreadInProgress (void) { return true; }
 };
 
-static class Tasks tasks;
-
 extern "C"
 {
     void Process (void)
     {
+        static SystemTimeHw systemTimeHw;
+        SET_SYSTEM_TIME_INST(&systemTimeHw);
+
+        static RtosHw rtosHw;
+        SET_RTOS_INST(&rtosHw);
+
+        static Tasks tasks;
+        gTasks = &tasks;
+
         Rtos::GetInstance ()->TaskCreate (BluetoothProcess,
                                           "BluetoothProcess",
                                           THIRTY_THOUSAND_BYTES,
@@ -54,7 +61,9 @@ extern "C"
                                           static_cast <uint32_t> (RtosHw::EThreadPriority::eNormal),
                                           DisplayAndTouchTaskHandle);
     }
+
 }
+
 void BluetoothProcess (void * v_params)
 {
     while (true)
@@ -72,7 +81,8 @@ void WeatherMeasureProcess (void * v_params)
     {
         if (Rtos::GetInstance ()->TakeSemaphore ("TakeWeatherMeasureSemaphore") == true)
         {
-            //tasks.WeatherMeasureComm.Process ();
+            gTasks->WeatherMeasureComm.Process ();
+            Rtos::GetInstance ()->DelayInMs (ONE);
         }
     }
 
@@ -85,7 +95,7 @@ void DisplayAndTouchProcess (void * v_params)
 {
     while (true)
     {
-        //tasks.Action.Process ();
+        gTasks->Action.Process ();
         Rtos::GetInstance ()->DelayInMs (TEN);
     }
 

@@ -12,8 +12,6 @@
 
 Font::Font ()
 {
-    LOG (MODULE, "Init.");
-
     create <EId::eZero                > (zero);
     create <EId::eOne                 > (one);
     create <EId::eTwo                 > (two);

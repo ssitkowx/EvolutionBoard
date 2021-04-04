@@ -33,9 +33,7 @@ class TouchHw final : public Touch<TouchHw>
                           SpiHw &                      v_spiHw) : Touch<TouchHw> (v_touchConfig),
                                                                   coefficient    (v_coefficient),
                                                                   spiHw          (v_spiHw)
-        {
-            LOG (MODULE, "Init.");
-        }
+        {  }
 
         ~TouchHw () = default;
 
